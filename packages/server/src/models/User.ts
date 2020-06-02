@@ -1,5 +1,6 @@
-import { Model, DataTypes, Sequelize } from "sequelize";
-/*import {
+import {
+  Model,
+  DataTypes,
   HasManyGetAssociationsMixin,
   HasManyAddAssociationMixin,
   HasManyHasAssociationMixin,
@@ -7,8 +8,11 @@ import { Model, DataTypes, Sequelize } from "sequelize";
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
 } from "sequelize";
-import { New } from "./New"; */
 import sequelize from "./index";
+import { Post } from "./Post";
+import { Comment } from "./Comment";
+import { Subreddit } from "./Subreddit";
+import { User_Subreddit } from "./User_Subreddit";
 
 export class User extends Model {
   public id!: string;
@@ -17,17 +21,24 @@ export class User extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  /*public getNews!: HasManyGetAssociationsMixin<New>;
-  public addNew!: HasManyAddAssociationMixin<New, number>;
-  public hasNew!: HasManyHasAssociationMixin<New, number>;
-  public countNews!: HasManyCountAssociationsMixin;
-  public createNew!: HasManyCreateAssociationMixin<New>;
+  public getPosts!: HasManyGetAssociationsMixin<Post>;
+  public addPost!: HasManyAddAssociationMixin<Post, number>;
+  public hasPost!: HasManyHasAssociationMixin<Post, number>;
+  public countPosts!: HasManyCountAssociationsMixin;
+  public createPost!: HasManyCreateAssociationMixin<Post>;
+  public readonly posts?: Post[];
 
-  public readonly news?: New[];
+  public getComments!: HasManyGetAssociationsMixin<Comment>;
+  public addComment!: HasManyAddAssociationMixin<Comment, number>;
+  public hasCOmment!: HasManyHasAssociationMixin<Comment, number>;
+  public countComments!: HasManyCountAssociationsMixin;
+  public createComment!: HasManyCreateAssociationMixin<Comment>;
+  public readonly comments?: Comment[];
 
   public static associations: {
-    news: Association<User, New>;
-  }; */
+    posts: Association<User, Post>;
+    comments: Association<User, Comment>;
+  };
 }
 
 User.init(
@@ -43,12 +54,10 @@ User.init(
   },
   {
     tableName: "users",
-    sequelize: sequelize,
+    sequelize,
   }
 );
 
-/*User.hasMany(New, {
-  sourceKey: "id",
-  foreignKey: "ownerId",
-  as: "news",
-}); */
+User.hasMany(Post, { sourceKey: "id" });
+User.hasMany(Comment, { sourceKey: "id" });
+User.belongsToMany(Subreddit, { through: User_Subreddit });
