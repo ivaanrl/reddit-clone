@@ -4,8 +4,10 @@ import { User } from "../models/User";
 import LocalSt from "passport-local";
 import { compare, hash } from "bcrypt";
 import { v4 as uuid } from "uuid";
+import { authResponseMessages } from "../controllers/responseMessages/auth";
 
 const SALT_ROUNDS = 10;
+const { username_taken, invalid_combination } = authResponseMessages;
 
 passport.serializeUser((user: string, cb) => {
   cb(null, user);
@@ -18,9 +20,10 @@ passport.deserializeUser(async (id: string, cb) => {
         id,
       },
     });
-    console.log("deserialize");
-
-    cb(null, user);
+    cb(null, {
+      id: user?.id,
+      username: user?.username,
+    });
   } catch (e) {
     console.log(e);
     cb(null, null);
@@ -30,11 +33,16 @@ passport.deserializeUser(async (id: string, cb) => {
 passport.use(
   "local-signin",
   new LocalSt.Strategy(async (username: string, password: string, done) => {
-    const user = await User.findOne({
-      where: {
-        username,
-      },
-    });
+    let user;
+    try {
+      user = await User.findOne({
+        where: {
+          username,
+        },
+      });
+    } catch (error) {
+      return done(null, null);
+    }
 
     let match: boolean = false;
     if (user) {
@@ -44,7 +52,7 @@ passport.use(
     if (match) {
       return done(null, user?.id);
     } else {
-      return done(null, null);
+      return done(null, invalid_combination);
     }
   })
 );
@@ -52,7 +60,19 @@ passport.use(
 passport.use(
   "local-signup",
   new LocalSt.Strategy(async (username: string, password: string, done) => {
-    const hashedPassword = hash(password, SALT_ROUNDS);
+    try {
+      const existingUser = await User.findOne({
+        where: {
+          username,
+        },
+      });
+
+      if (existingUser) {
+        return done(null, username_taken);
+      }
+    } catch (error) {}
+
+    const hashedPassword = await hash(password, SALT_ROUNDS);
     const id = uuid();
     let user;
     try {
@@ -63,9 +83,9 @@ passport.use(
       });
     } catch (err) {
       console.log(err);
-      return done(null, err);
+      return done(null, null);
     }
 
-    return done(null, user);
+    return done(null, user.id);
   })
 );
