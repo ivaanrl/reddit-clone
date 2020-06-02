@@ -1,5 +1,5 @@
 export const devKeys = {
-  cookieSecret: "DevelopementCookieSecret",
+  cookieSecret: "ThisIsYourDevCookieSecret",
 };
 
 export const devDbCredentials = {
