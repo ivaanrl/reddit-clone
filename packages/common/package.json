@@ -1,0 +1,12 @@
+{
+  "name": "@reddit-clone/common",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "rimraf ./dist && tsc"
+  },
+  "devDependencies": {
+    "typescript": "^3.9.3"
+  }
+}
