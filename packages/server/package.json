@@ -3,15 +3,31 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "jest": {
+    "rootDir": "./src",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
   "scripts": {
     "start": "ts-node-dev --respawn src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test jest --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@reddit-clone/common": "1.0.0",
+    "@supercharge/strings": "^1.8.0",
     "bcrypt": "^4.0.1",
     "connect-pg-simple": "^6.1.0",
     "cors": "^2.8.5",
@@ -26,6 +42,7 @@
     "uuid": "^8.1.0"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/bcrypt": "^3.0.0",
     "@types/connect-pg-simple": "^4.2.0",
     "@types/cors": "^2.8.6",
@@ -39,9 +56,14 @@
     "@types/request": "^2.48.5",
     "@types/request-promise": "^4.1.46",
     "@types/sequelize": "^4.28.9",
+    "@types/supertest": "^2.0.9",
     "@types/uuid": "^8.0.0",
     "@types/validator": "^13.0.0",
+    "axios": "^0.19.2",
+    "cross-env": "^7.0.2",
     "sequelize-cli": "^5.5.1",
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.1.0",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.9.2"
   }

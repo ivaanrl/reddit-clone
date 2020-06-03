@@ -41,7 +41,6 @@ class LoginController {
   @post("/signup")
   @use(passport.authenticate("local-signup"))
   signinUser(req: Request, res: Response) {
-    console.log(req.user);
     if (req.user == null) {
       return res.status(501).json({ success: false, message: "Server error" });
     }
