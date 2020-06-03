@@ -3,13 +3,21 @@ $themes: (
     color-background: #dae0e6,
     color-card: #ffffff,
     color-line: #ccc,
+    text-main: #1c1c1c,
+    text-muted: #787c7e,
+    text-flair: #1a1a1b,
   ),
   dark: (
     color-background: #030303,
     color-card: #1a1a1b,
     color-line: #343536,
+    text-main: #d7dadc,
+    text-muted: #818384,
+    text-flair: #ffffff,
   ),
 );
+
+$highlight-color: #ff4500;
 
 @mixin theme-aware($key, $color) {
   @each $theme-name, $theme-color in $themes {
