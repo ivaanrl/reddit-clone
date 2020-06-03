@@ -1,3 +1,2 @@
-const allActions = {};
-
-export default allActions;
+export const allActions = {};
+export * from "./types";

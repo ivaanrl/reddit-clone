@@ -1,8 +1,13 @@
 import React from "react";
 import "./App.scss";
+import NavbarConnector from "./modules/navbar/NavbarConnector";
 
-function App() {
-  return <div className="App"></div>;
-}
+const App = () => {
+  return (
+    <div>
+      <NavbarConnector />
+    </div>
+  );
+};
 
 export default App;

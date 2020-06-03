@@ -8,8 +8,7 @@ import createSagaMiddleware from "redux-saga";
 import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { BrowserRouter } from "react-router-dom";
-import { rootSaga } from "@reddit-clone/controller";
-import { rootReducer } from "@reddit-clone/controller";
+import { rootReducer, rootSaga } from "@reddit-clone/controller";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
