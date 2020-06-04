@@ -57,7 +57,11 @@
   padding: 10px;
   border: 1px solid;
   @include theme-aware("border-color", "color-line");
-  @include theme-aware("background-color", "color-card");
+  @include theme-aware("background-color", "input-background");
+}
+
+.navbar-search-input:hover {
+  @include theme-aware("border-color", "text-main");
 }
 
 .navbar-right {
@@ -99,6 +103,22 @@
   @include theme-aware("border-color", "color-line");
 }
 
+.navbar-userinfo-container-active {
+  @extend .navbar-userinfo-container;
+  border-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  @include theme-aware("border-color", "color-line");
+  @include theme-aware("border-bottom-color", "color-card");
+  &:hover {
+    border-radius: 5px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    @include theme-aware("border-color", "color-line");
+    @include theme-aware("border-bottom-color", "color-card");
+  }
+}
+
 .navbar-username-karma-container {
   height: 34px;
   display: flex;
@@ -136,10 +156,15 @@
 
 .navbar-userinfo-popover {
   border: 1px solid;
-  width: 275px;
+  width: 215px;
+  box-sizing: border-box;
+  padding: 2px;
   display: flex;
   flex-direction: column;
   border-radius: 4px;
+  border-top: none;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
   @include theme-aware("border-color", "color-line");
   @include theme-aware("color", "text-main");
   @include theme-aware("background-color", "color-card");
@@ -165,8 +190,21 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
-  padding: 10px 16px 10px 16px;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  padding: 10px 16px 10px 10px;
+  width: 100%;
+  &:hover {
+    cursor: pointer;
+    @include theme-aware("color", "highlight-selection-text-color");
+    @include theme-aware("background-color", "highlight-selection");
+  }
+}
+
+.nightmode:hover {
+  cursor: pointer;
+  @include theme-aware("color", "highlight-selection-text-color");
+  @include theme-aware("background-color", "highlight-selection");
 }
 
 .navbar-userinfo-popover .icon {

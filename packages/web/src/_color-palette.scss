@@ -6,6 +6,9 @@ $themes: (
     text-main: #1c1c1c,
     text-muted: #787c7e,
     text-flair: #1a1a1b,
+    input-background: #ffffff,
+    highlight-selection: #0079d3,
+    highlight-selection-text-color: #ffffff,
   ),
   dark: (
     color-background: #030303,
@@ -14,6 +17,9 @@ $themes: (
     text-main: #d7dadc,
     text-muted: #818384,
     text-flair: #ffffff,
+    input-background: #272729,
+    highlight-selection: #d7dadc,
+    highlight-selection-text-color: #1a1a1b,
   ),
 );
 
