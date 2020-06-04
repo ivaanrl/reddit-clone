@@ -5,7 +5,7 @@ import Switch from "react-switch";
 import OutsideAlerter from "../../../shared/outsideAlerter";
 
 interface Props {
-  search: (searchValue: string) => null;
+  search: (searchValue: string) => string | null;
 }
 
 const NavbarView = (props: Props) => {
@@ -35,7 +35,8 @@ const NavbarView = (props: Props) => {
       },
     ],
   });
-  const { search } = props;
+  //const { search } = props;
+
   const [theme, setTheme] = useState("light");
 
   const handleThemeChange = () => {

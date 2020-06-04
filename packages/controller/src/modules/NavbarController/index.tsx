@@ -1,15 +1,12 @@
-import React from "react";
-
-interface NavbarControllerProps {
+interface Props {
   children: (data: {
-    search: (searchValue: string) => null;
+    search: (searchValue: string) => string | null;
   }) => JSX.Element | null;
 }
 
-export const NavbarController = (props: NavbarControllerProps) => {
+export const NavbarController = (props: Props) => {
   const search = (searchValue: string) => {
-    console.log(searchValue);
-    return null;
+    return "this is my response";
   };
 
   return props.children({ search });
