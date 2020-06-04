@@ -102,7 +102,20 @@ const NavbarView = (props: Props) => {
             </svg>
           </a>
         </div>
-        <div className="navbar-subreddit-dropdown">Subreddit dropdown</div>
+        <div className="navbar-subreddit-dropdown">
+          <div className="text">Subreddit dropdown</div>
+          <svg
+            className="navbar-userinfo-popover-arrow"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              className="prevent-reopen-userinfo"
+              fill="#818384"
+              d="M14.17,9.35,10,13.53,5.83,9.35a.5.5,0,0,1,.35-.85h7.64a.5.5,0,0,1,.35.85"
+            ></path>
+          </svg>
+        </div>
       </div>
       <div className="navbar-search">
         <input className="navbar-search-input" placeholder="Search"></input>

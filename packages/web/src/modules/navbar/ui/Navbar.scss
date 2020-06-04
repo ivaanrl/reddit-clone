@@ -1,4 +1,5 @@
 @import "../../../index.scss";
+@import "../../../mquery";
 
 .navbar-container {
   display: flex;
@@ -37,17 +38,38 @@
 .navbar-logo-svg-text {
   height: 18px;
   width: 57px;
+  display: none;
+  @include mquery(1100) {
+    display: inline-block;
+  }
 }
 
 .navbar-subreddit-dropdown {
   @include theme-aware("color", "text-flair");
-}
-
-.navbar-search {
-  flex-basis: 45%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-around;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.navbar-subreddit-dropdown .text {
+  display: none;
+  @include mquery(995) {
+    display: inline-block;
+  }
+}
+
+.navbar-search {
+  flex-basis: 55%;
+  @include mquery(600) {
+    flex-basis: 45%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 .navbar-search-input {
@@ -58,24 +80,43 @@
   border: 1px solid;
   @include theme-aware("border-color", "color-line");
   @include theme-aware("background-color", "input-background");
+  &:hover {
+    @include theme-aware("border-color", "text-main");
+  }
 }
 
-.navbar-search-input:hover {
-  @include theme-aware("border-color", "text-main");
+.navbar-search .navbar-svg-link {
+  display: none;
+  @include mquery(790) {
+    display: inline-block;
+  }
+}
+
+.navbar-search .navbar-separator {
+  display: none;
+  @include mquery(790) {
+    display: inline-block;
+  }
 }
 
 .navbar-right {
   display: flex;
   flex-direction: row;
   align-items: center;
-  flex-basis: 25%;
+  flex-basis: 5%;
+  @include mquery(600) {
+    flex-basis: 25%;
+  }
 }
 
 .navbar-right-icons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 32px;
+  display: none;
+  @include mquery(600) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 32px;
+  }
 }
 
 .navbar-userinfo-container {
@@ -89,18 +130,22 @@
   flex-direction: row;
   align-items: center;
   max-height: 34px;
-  max-width: 215px;
   flex-basis: 70%;
   padding: 2px;
+  max-width: 50px;
   border: 1px solid;
   @include theme-aware("border-color", "color-card");
   @include theme-aware("color", "text-main");
-}
 
-.navbar-userinfo-container:hover {
-  cursor: pointer;
-  border-radius: 5px;
-  @include theme-aware("border-color", "color-line");
+  @include mquery(1200) {
+    max-width: 215px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    border-radius: 5px;
+    @include theme-aware("border-color", "color-line");
+  }
 }
 
 .navbar-userinfo-container-active {
@@ -129,14 +174,21 @@
 .navbar-username {
   font-size: 12px;
   @include theme-aware("color", "text-main");
+  display: none;
+  @include mquery(1200) {
+    display: inline-block;
+  }
 }
 
 .navbar-karma {
   font-size: 12px;
   @include theme-aware("color", "text-muted");
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  display: none;
+  @include mquery(1200) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 .navbar-svg-highlighted {
@@ -228,9 +280,11 @@
 .navbar-userinfo-popover-arrow {
   height: 20px;
   width: 20px;
-  position: absolute;
-  right: 0;
-  margin-right: 20px;
+  @include mquery(1200) {
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+  }
 }
 
 .navbar-separator {
