@@ -62,6 +62,11 @@
   }
 }
 
+.navbar-subreddits-dropdown-popover-arrow {
+  height: 20px;
+  width: 20px;
+}
+
 .navbar-search {
   flex-basis: 55%;
   @include mquery(600) {
