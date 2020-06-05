@@ -179,7 +179,7 @@ const SignupFormView = (props: Props) => {
     }
 
     //Handle final submit
-    const signUpReponse = submit(values);
+    const signUpReponse = await submit(values);
     console.log(signUpReponse);
     handleNextStep();
   };

@@ -12,6 +12,19 @@
   border: 1px solid;
   @include theme-aware("border-color", "color-line");
   @include theme-aware("background-color", "color-card");
+
+  .navbar-button-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  .navbar-button-container button {
+    padding: 3px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
 }
 
 .navbar-left {
@@ -150,6 +163,21 @@
     cursor: pointer;
     border-radius: 5px;
     @include theme-aware("border-color", "color-line");
+  }
+}
+
+.navbar-userinfo-container-small {
+  @extend .navbar-userinfo-container;
+
+  @include mquery(1200) {
+    max-width: 50px;
+  }
+
+  .navbar-userinfo-popover-arrow {
+    @include mquery(1200) {
+      position: relative;
+      margin: 0;
+    }
   }
 }
 

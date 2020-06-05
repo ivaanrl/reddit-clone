@@ -3,12 +3,16 @@ import { usePopper } from "react-popper";
 import "./Navbar.scss";
 import Switch from "react-switch";
 import OutsideAlerter from "../../../shared/outsideAlerter";
+import { useSelector } from "react-redux";
+import { State } from "@reddit-clone/controller";
 
 interface Props {
   search: (searchValue: string) => string | null;
 }
 
 const NavbarView = (props: Props) => {
+  const user = useSelector((state: State) => state.auth);
+
   const [svgColor, setSvgColor] = useState("#FFFFFF");
   const [redditLogoColor, setRedditLogoColor] = useState("#D7DADC");
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
@@ -25,7 +29,7 @@ const NavbarView = (props: Props) => {
   const [
     navbarUserInfoContainerClass,
     setNavbarUserInfoContainerClass,
-  ] = useState("navbar-userinfo-container prevent-reopen-userinfo");
+  ] = useState("");
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     modifiers: [
@@ -35,7 +39,6 @@ const NavbarView = (props: Props) => {
       },
     ],
   });
-  //const { search } = props;
 
   const [theme, setTheme] = useState("light");
 
@@ -59,14 +62,26 @@ const NavbarView = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    popoverOpen
+    user.userid
       ? setNavbarUserInfoContainerClass(
-          "navbar-userinfo-container-active prevent-reopen-userinfo"
+          "navbar-userinfo-container prevent-reopen-userinfo"
         )
       : setNavbarUserInfoContainerClass(
-          "navbar-userinfo-container prevent-reopen-userinfo"
+          "navbar-userinfo-container-small prevent-reopen-userinfo"
         );
-  }, [popoverOpen]);
+  }, [navbarUserInfoContainerClass, user]);
+
+  useEffect(() => {
+    if (user.userid) {
+      popoverOpen
+        ? setNavbarUserInfoContainerClass(
+            "navbar-userinfo-container-active prevent-reopen-userinfo"
+          )
+        : setNavbarUserInfoContainerClass(
+            "navbar-userinfo-container prevent-reopen-userinfo"
+          );
+    }
+  }, [popoverOpen, user]);
 
   return (
     <div className="navbar-container">
@@ -119,65 +134,78 @@ const NavbarView = (props: Props) => {
       </div>
       <div className="navbar-search">
         <input className="navbar-search-input" placeholder="Search"></input>
-        <a className="navbar-svg-link" href="/">
-          <svg
-            fill={svgColor}
-            className="navbar-svg"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon points="12.5 3.5 20 3.5 20 11 17.5 8.5 11.25 14.75 7.5 11 2.5 16 0 13.5 7.5 6 11.25 9.75 15 6"></polygon>
-          </svg>
-        </a>
-        <a className="navbar-svg-link" href="/">
-          <svg
-            className="navbar-svg"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fill={svgColor}
-              d="M1.25,17.5V7.5h5v10Zm11.25,0h-5V5H5l5-5,5,5H12.5Zm1.25,0v-5h5v5Z"
-            ></path>
-          </svg>
-        </a>
-        <div className="navbar-separator" />
+        {user.userid ? (
+          <>
+            <a className="navbar-svg-link" href="/">
+              <svg
+                fill={svgColor}
+                className="navbar-svg"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <polygon points="12.5 3.5 20 3.5 20 11 17.5 8.5 11.25 14.75 7.5 11 2.5 16 0 13.5 7.5 6 11.25 9.75 15 6"></polygon>
+              </svg>
+            </a>
+            <a className="navbar-svg-link" href="/">
+              <svg
+                className="navbar-svg"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill={svgColor}
+                  d="M1.25,17.5V7.5h5v10Zm11.25,0h-5V5H5l5-5,5,5H12.5Zm1.25,0v-5h5v5Z"
+                ></path>
+              </svg>
+            </a>
+            <div className="navbar-separator" />
+          </>
+        ) : null}
       </div>
+
       <div className="navbar-right">
-        <div className="navbar-right-icons">
-          <div className="navbar-messages">
-            <a className="navbar-svg-link" href="/">
-              <svg
-                className="navbar-svg"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill={svgColor}
-                  d="M7.79,9.16,2.48,3.85A2.49,2.49,0,0,1,3.75,3.5h12.5a2.49,2.49,0,0,1,1.27.35L12.21,9.16A3.13,3.13,0,0,1,7.79,9.16Z"
-                ></path>
-                <path
-                  fill={svgColor}
-                  d="M13.09,10.31,18.4,5a2.47,2.47,0,0,1,.35,1.27v7.5a2.5,2.5,0,0,1-2.5,2.5H3.75a2.5,2.5,0,0,1-2.5-2.5V6.27A2.47,2.47,0,0,1,1.6,5l5.31,5.31a4.37,4.37,0,0,0,6.18,0Z"
-                ></path>
-              </svg>
-            </a>
+        {user.userid ? (
+          <div className="navbar-right-icons">
+            <div className="navbar-messages">
+              <a className="navbar-svg-link" href="/">
+                <svg
+                  className="navbar-svg"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill={svgColor}
+                    d="M7.79,9.16,2.48,3.85A2.49,2.49,0,0,1,3.75,3.5h12.5a2.49,2.49,0,0,1,1.27.35L12.21,9.16A3.13,3.13,0,0,1,7.79,9.16Z"
+                  ></path>
+                  <path
+                    fill={svgColor}
+                    d="M13.09,10.31,18.4,5a2.47,2.47,0,0,1,.35,1.27v7.5a2.5,2.5,0,0,1-2.5,2.5H3.75a2.5,2.5,0,0,1-2.5-2.5V6.27A2.47,2.47,0,0,1,1.6,5l5.31,5.31a4.37,4.37,0,0,0,6.18,0Z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+            <div className="navbar-create-post">
+              <a className="navbar-svg-link" href="/">
+                <svg
+                  className="navbar-svg"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill={svgColor}
+                    d="M5,15a1,1,0,0,1-1-1V11.17a1,1,0,0,1,.29-.7l8.09-8.09a1,1,0,0,1,1.41,0l2.83,2.83a1,1,0,0,1,0,1.41L8.54,14.71a1,1,0,0,1-.71.29Zm12,1a1,1,0,0,1,0,2H3a1,1,0,0,1,0-2Z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
           </div>
-          <div className="navbar-create-post">
-            <a className="navbar-svg-link" href="/">
-              <svg
-                className="navbar-svg"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fill={svgColor}
-                  d="M5,15a1,1,0,0,1-1-1V11.17a1,1,0,0,1,.29-.7l8.09-8.09a1,1,0,0,1,1.41,0l2.83,2.83a1,1,0,0,1,0,1.41L8.54,14.71a1,1,0,0,1-.71.29Zm12,1a1,1,0,0,1,0,2H3a1,1,0,0,1,0-2Z"
-                ></path>
-              </svg>
-            </a>
+        ) : null}
+        {user.userid ? null : (
+          <div className="navbar-button-container">
+            <button className="signin-button button">SIGN IN</button>
+            <button className="signup-button button">SIGN UP</button>
           </div>
-        </div>
+        )}
         <div
           className={navbarUserInfoContainerClass}
           ref={setReferenceElement}
@@ -252,25 +280,27 @@ const NavbarView = (props: Props) => {
               ></path>
             </g>
           </svg>
-          <div className="navbar-username-karma-container prevent-reopen-userinfo">
-            <div className="navbar-username prevent-reopen-userinfo">
-              username
+          {user.userid ? (
+            <div className="navbar-username-karma-container prevent-reopen-userinfo">
+              <div className="navbar-username prevent-reopen-userinfo">
+                username
+              </div>
+              <div className="navbar-karma prevent-reopen-userinfo">
+                <svg
+                  className="navbar-svg-highlighted prevent-reopen-userinfo"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    className="prevent-reopen-userinfo"
+                    fill="#ff4500"
+                    d="M3.37,2.75a5.9,5.9,0,0,1,5.49,3.7.62.62,0,0,1-.29.79A3.16,3.16,0,0,0,7.24,8.57a.63.63,0,0,1-.79.29,5.89,5.89,0,0,1-3.7-5.49A.62.62,0,0,1,3.37,2.75Zm8.06,4.49a.63.63,0,0,1-.29-.79,5.89,5.89,0,0,1,5.49-3.7.61.61,0,0,1,.62.6v0a5.89,5.89,0,0,1-3.7,5.49.62.62,0,0,1-.79-.29A3.16,3.16,0,0,0,11.43,7.24Zm2.12,3.9a5.89,5.89,0,0,1,3.7,5.49.62.62,0,0,1-.62.62h0a5.89,5.89,0,0,1-5.49-3.7.63.63,0,0,1,.29-.79,3.16,3.16,0,0,0,1.33-1.33A.62.62,0,0,1,13.55,11.14Zm-5,1.62a.62.62,0,0,1,.29.79,5.89,5.89,0,0,1-5.49,3.7.62.62,0,0,1-.62-.62h0a5.9,5.9,0,0,1,3.7-5.49.62.62,0,0,1,.79.29,3.1,3.1,0,0,0,1.35,1.33ZM10,5.93A7.23,7.23,0,0,0,7.51,2.82,5,5,0,0,1,9.68.09a.61.61,0,0,1,.64,0,5,5,0,0,1,2.17,2.73A7.23,7.23,0,0,0,10,5.93Zm9.91,3.75a.61.61,0,0,1,0,.64,5,5,0,0,1-2.73,2.17A7.23,7.23,0,0,0,14.07,10a7.36,7.36,0,0,0,3.11-2.49A5,5,0,0,1,19.91,9.68ZM10,14.07a7.18,7.18,0,0,0,2.5,3.11,5,5,0,0,1-2.18,2.73.61.61,0,0,1-.64,0,5,5,0,0,1-2.17-2.73A7.23,7.23,0,0,0,10,14.07ZM5.93,10a7.23,7.23,0,0,0-3.11,2.49A5,5,0,0,1,.09,10.32a.61.61,0,0,1,0-.64A5,5,0,0,1,2.82,7.51,7.23,7.23,0,0,0,5.93,10Z"
+                  ></path>
+                </svg>
+                3.6k karma
+              </div>
             </div>
-            <div className="navbar-karma prevent-reopen-userinfo">
-              <svg
-                className="navbar-svg-highlighted prevent-reopen-userinfo"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  className="prevent-reopen-userinfo"
-                  fill="#ff4500"
-                  d="M3.37,2.75a5.9,5.9,0,0,1,5.49,3.7.62.62,0,0,1-.29.79A3.16,3.16,0,0,0,7.24,8.57a.63.63,0,0,1-.79.29,5.89,5.89,0,0,1-3.7-5.49A.62.62,0,0,1,3.37,2.75Zm8.06,4.49a.63.63,0,0,1-.29-.79,5.89,5.89,0,0,1,5.49-3.7.61.61,0,0,1,.62.6v0a5.89,5.89,0,0,1-3.7,5.49.62.62,0,0,1-.79-.29A3.16,3.16,0,0,0,11.43,7.24Zm2.12,3.9a5.89,5.89,0,0,1,3.7,5.49.62.62,0,0,1-.62.62h0a5.89,5.89,0,0,1-5.49-3.7.63.63,0,0,1,.29-.79,3.16,3.16,0,0,0,1.33-1.33A.62.62,0,0,1,13.55,11.14Zm-5,1.62a.62.62,0,0,1,.29.79,5.89,5.89,0,0,1-5.49,3.7.62.62,0,0,1-.62-.62h0a5.9,5.9,0,0,1,3.7-5.49.62.62,0,0,1,.79.29,3.1,3.1,0,0,0,1.35,1.33ZM10,5.93A7.23,7.23,0,0,0,7.51,2.82,5,5,0,0,1,9.68.09a.61.61,0,0,1,.64,0,5,5,0,0,1,2.17,2.73A7.23,7.23,0,0,0,10,5.93Zm9.91,3.75a.61.61,0,0,1,0,.64,5,5,0,0,1-2.73,2.17A7.23,7.23,0,0,0,14.07,10a7.36,7.36,0,0,0,3.11-2.49A5,5,0,0,1,19.91,9.68ZM10,14.07a7.18,7.18,0,0,0,2.5,3.11,5,5,0,0,1-2.18,2.73.61.61,0,0,1-.64,0,5,5,0,0,1-2.17-2.73A7.23,7.23,0,0,0,10,14.07ZM5.93,10a7.23,7.23,0,0,0-3.11,2.49A5,5,0,0,1,.09,10.32a.61.61,0,0,1,0-.64A5,5,0,0,1,2.82,7.51,7.23,7.23,0,0,0,5.93,10Z"
-                ></path>
-              </svg>
-              3.6k karma
-            </div>
-          </div>
+          ) : null}
           <svg
             className="navbar-userinfo-popover-arrow prevent-reopen-userinfo"
             viewBox="0 0 20 20"

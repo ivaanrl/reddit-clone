@@ -1,9 +1,17 @@
 import { BaseAction, ActionTypes } from "../actions";
 
-export type authReducerState = {};
+export type authReducerState = {
+  userid: string;
+  username: string;
+  karma: number;
+};
 
 export const authReducer = (
-  state: authReducerState = {},
+  state: authReducerState = {
+    userid: "",
+    username: "",
+    karma: 0,
+  },
   action: BaseAction
 ) => {
   switch (action.type) {
