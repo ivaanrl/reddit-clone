@@ -1,0 +1,230 @@
+@import "../../../color-palette";
+
+.form-backdrop {
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.signupform-container {
+  z-index: 200;
+  height: 650px;
+  width: 850px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.signupform-container .step-0 {
+  padding: 24px;
+}
+
+.signupform-image-container {
+  width: 132px;
+  height: 650px;
+  background-image: url("https://www.redditstatic.com/accountmanager/bbb584033aa89e39bad69436c504c9bd.png");
+}
+
+.description {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  color: map-get($map: map-get($map: $themes, $key: dark), $key: color-card);
+  margin-bottom: 10px;
+}
+
+.input-container {
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+}
+
+.agreement {
+  font-size: 12px;
+  color: map-get($map: map-get($map: $themes, $key: dark), $key: color-card);
+}
+
+.submit-button {
+  background-color: map-get(
+    $map: map-get($map: $themes, $key: light),
+    $key: highlight-selection
+  );
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  height: 35px;
+  width: 155px;
+  min-width: 155px;
+  border: none;
+  font-weight: 600;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  &:hover {
+    background-color: map-get(
+      $map: map-get($map: $themes, $key: light),
+      $key: highlight-selection-hover
+    );
+  }
+}
+
+.already-reddit {
+  font-size: 12px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+.login-link {
+  text-decoration: none;
+  font-weight: 600;
+  color: map-get(
+    $map: map-get($map: $themes, $key: light),
+    $key: highlight-selection
+  );
+}
+
+.input-container input {
+  padding: 22px 22px 10px 12px;
+  border: 1px solid;
+  border-color: map-get(
+    $map: map-get($map: $themes, $key: light),
+    $key: color-line
+  );
+  border-radius: 4px;
+  margin-bottom: 5px;
+  &:focus {
+    outline: none !important;
+    border: 1px solid;
+    border-color: map-get(
+      $map: map-get($map: $themes, $key: light),
+      $key: highlight-selection
+    );
+  }
+}
+
+.input-error {
+  outline: none !important;
+  border: 1px solid;
+  border-color: $error !important;
+}
+
+.error-message {
+  font-size: 12px;
+  color: $error;
+  margin-bottom: 15px;
+}
+
+.spacer {
+  height: 29px;
+  width: 1px;
+}
+
+/**************PAGE 2 *******************************/
+.separator {
+  height: 1px;
+  width: 100%;
+  background-color: map-get(
+    $map: map-get($map: $themes, $key: light),
+    $key: color-line
+  );
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.username-password-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.username-password-container input {
+  padding: 22px 22px 10px 12px;
+  width: 100%;
+  font-weight: 400;
+  line-height: 21px;
+  border: 1px solid;
+  border-color: map-get(
+    $map: map-get($map: $themes, $key: light),
+    $key: color-line
+  );
+  border-radius: 4px;
+  margin-bottom: 5px;
+  &:focus {
+    outline: none !important;
+    border: 1px solid;
+    border-color: map-get(
+      $map: map-get($map: $themes, $key: light),
+      $key: highlight-selection
+    );
+  }
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  padding-top: 0;
+  padding-bottom: 15px;
+}
+
+.back-button {
+  @extend .submit-button;
+  height: initial;
+  width: 32px;
+  min-width: 0;
+  background-color: #ffffff;
+  color: map-get($map: map-get($map: $themes, $key: dark), $key: color-card);
+  &:hover {
+    background-color: #ffffff;
+    color: map-get(
+      $map: map-get($map: $themes, $key: light),
+      $key: highlight-selection-hover
+    );
+  }
+}
+
+.username-password-container .description {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-bottom: 12px;
+}
+
+.description .title {
+  padding: 24px;
+  padding-bottom: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.description .text {
+  padding: 24px;
+  padding-top: 12px;
+  padding-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.inputs-container {
+  padding: 24px;
+  padding-top: 0;
+  flex-basis: 100%;
+  width: 350px;
+}

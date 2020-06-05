@@ -1,9 +1,14 @@
 import * as Yup from "yup";
 
-export const validationSchema = Yup.object({
-  email: Yup.string()
-    .email()
-    .required("Required // Check correct error on reddit"),
-  username: Yup.string().max(20, "<20. Check correct error on reddit"),
-  password: Yup.string().required("check pasword error on reddit"),
+export const emailValidationSchema = Yup.object().shape({
+  email: Yup.string().email().required("Email is required"),
+});
+
+export const usernamePasswordValidationSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(3, "Username must be between 3 and 20 characters")
+    .max(20, "Username must be between 3 and 20 characters"),
+  password: Yup.string().required(
+    "Password must be at least 6 characters long"
+  ),
 });

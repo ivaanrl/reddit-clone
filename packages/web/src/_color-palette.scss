@@ -8,6 +8,7 @@ $themes: (
     text-flair: #1a1a1b,
     input-background: #ffffff,
     highlight-selection: #0079d3,
+    highlight-selection-hover: #3394dc,
     highlight-selection-text-color: #ffffff,
   ),
   dark: (
@@ -24,7 +25,7 @@ $themes: (
 );
 
 $highlight-color: #ff4500;
-
+$error: #ea0027;
 @mixin theme-aware($key, $color) {
   @each $theme-name, $theme-color in $themes {
     .theme-#{$theme-name} & {
