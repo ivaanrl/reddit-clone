@@ -1,12 +1,16 @@
 {
   "name": "@reddit-clone/common",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/index.js",
   "license": "MIT",
   "scripts": {
     "build": "rimraf ./dist && tsc"
   },
   "devDependencies": {
+    "@types/yup": "^0.29.2",
     "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "yup": "^0.29.1"
   }
 }
