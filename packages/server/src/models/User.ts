@@ -18,6 +18,7 @@ export class User extends Model {
   public id!: string;
   public username!: string;
   public password!: string;
+  public email!: string;
   public karma!: number;
 
   public readonly createdAt!: Date;
