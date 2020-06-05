@@ -1,7 +1,11 @@
 import React from "react";
+import superagent from "superagent";
 
 interface Props {
-  submit: (values: any) => null;
+  submit: (values: {
+    username: string;
+    password: string;
+  }) => Promise<superagent.Response>;
 }
 
 const SigninFormView = (props: Props) => {

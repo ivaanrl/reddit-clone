@@ -3,17 +3,12 @@ import { usePopper } from "react-popper";
 import "./Navbar.scss";
 import Switch from "react-switch";
 import OutsideAlerter from "../../../shared/outsideAlerter";
-import { useDispatch } from "react-redux";
-import { allActions } from "@reddit-clone/controller";
 
 interface Props {
   search: (searchValue: string) => string | null;
 }
 
 const NavbarView = (props: Props) => {
-  const dispatch = useDispatch();
-  dispatch(allActions.signinUser("hola"));
-
   const [svgColor, setSvgColor] = useState("#FFFFFF");
   const [redditLogoColor, setRedditLogoColor] = useState("#D7DADC");
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(

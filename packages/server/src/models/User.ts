@@ -58,6 +58,10 @@ User.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    email: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
     karma: {
       type: DataTypes.INTEGER,
       allowNull: false,

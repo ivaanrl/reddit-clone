@@ -5,9 +5,14 @@ import {
   emailValidationSchema,
   usernamePasswordValidationSchema,
 } from "@reddit-clone/common";
+import superagent from "superagent";
 
 interface Props {
-  submit: (values: any) => null;
+  submit: (values: {
+    email: string;
+    username: string;
+    password: string;
+  }) => Promise<superagent.Response>;
 }
 
 export const EmailForm = (props: {
@@ -165,7 +170,7 @@ const SignupFormView = (props: Props) => {
     setStep(step - 1);
   };
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     const { setSubmitting } = formik;
     if (!isSecondStep()) {
       setSubmitting(false);
@@ -174,7 +179,8 @@ const SignupFormView = (props: Props) => {
     }
 
     //Handle final submit
-    submit(values);
+    const signUpReponse = submit(values);
+    console.log(signUpReponse);
     handleNextStep();
   };
 

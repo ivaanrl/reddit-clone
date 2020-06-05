@@ -59,33 +59,39 @@ passport.use(
 
 passport.use(
   "local-signup",
-  new LocalSt.Strategy(async (username: string, password: string, done) => {
-    try {
-      const existingUser = await User.findOne({
-        where: {
+  new LocalSt.Strategy(
+    {
+      passReqToCallback: true,
+    },
+    async (req: any, username: string, password: string, done) => {
+      try {
+        const existingUser = await User.findOne({
+          where: {
+            username,
+          },
+        });
+
+        if (existingUser) {
+          return done(null, username_taken);
+        }
+      } catch (error) {}
+
+      const hashedPassword = await hash(password, SALT_ROUNDS);
+      const id = uuid();
+      let user;
+      try {
+        user = await User.create({
+          id,
           username,
-        },
-      });
-
-      if (existingUser) {
-        return done(null, username_taken);
+          password: hashedPassword,
+          email: req.body.email,
+        });
+      } catch (err) {
+        console.log(err);
+        return done(null, null);
       }
-    } catch (error) {}
 
-    const hashedPassword = await hash(password, SALT_ROUNDS);
-    const id = uuid();
-    let user;
-    try {
-      user = await User.create({
-        id,
-        username,
-        password: hashedPassword,
-      });
-    } catch (err) {
-      console.log(err);
-      return done(null, null);
+      return done(null, user.id);
     }
-
-    return done(null, user.id);
-  })
+  )
 );
