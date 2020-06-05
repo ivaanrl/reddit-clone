@@ -18,6 +18,7 @@ export class User extends Model {
   public id!: string;
   public username!: string;
   public password!: string;
+  public karma!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -55,6 +56,11 @@ User.init(
     password: {
       type: DataTypes.TEXT,
       allowNull: false,
+    },
+    karma: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
     },
   },
   {
