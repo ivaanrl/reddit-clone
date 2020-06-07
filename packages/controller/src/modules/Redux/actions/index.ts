@@ -3,8 +3,9 @@ import {
   signupUser,
   signinUserCompletedAction,
   signupUserCompletedAction,
-  signipUserFailed,
+  signinUserFailed,
   signupUserFailed,
+  signoutUser,
 } from "./auth";
 
 export const allActions = {
@@ -12,8 +13,9 @@ export const allActions = {
   signupUser,
   signinUserCompletedAction,
   signupUserCompletedAction,
-  signipUserFailed,
+  signinUserFailed,
   signupUserFailed,
+  signoutUser,
 };
 
 export * from "./types";

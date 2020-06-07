@@ -33,28 +33,54 @@ class LoginController {
       });
     }
 
+    const { username, email, karma } = req.user as {
+      userid: string;
+      username: string;
+      email: string;
+      karma: number;
+    };
+
     return res.status(201).json({
       success: true,
       message: successful_login,
-      user: req.user,
+      user: {
+        username,
+        email,
+        karma,
+      },
     });
   }
 
   @post("/signup")
   @use(passport.authenticate("local-signup"))
   signupUser(req: Request, res: Response) {
+    console.log("signup");
     if (req.user == null) {
       return res.status(501).json({ success: false, message: "Server error" });
     }
 
     if (req.user == username_taken) {
+      console.log("username taken");
       return res.status(401).json({ success: false, message: username_taken });
     }
+
+    const { username, email, karma } = req.user as {
+      userid: string;
+      username: string;
+      email: string;
+      karma: number;
+    };
+
+    console.log(req.user);
 
     return res.status(201).json({
       success: true,
       message: user_created_successfully,
-      user: req.user,
+      user: {
+        username,
+        email,
+        karma,
+      },
     });
   }
 
@@ -65,7 +91,6 @@ class LoginController {
 
   @post("/checkEmail")
   async checkEmail(req: Request, res: Response) {
-    console.log(req.body);
     try {
       const existingUser = await (async () => {
         return await User.findOne({

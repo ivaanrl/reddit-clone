@@ -24,8 +24,9 @@ const EmailForm = (props: {
   handleChange: (
     eventOrPath: string | React.ChangeEvent<any>
   ) => void | ((eventOrTextValue: string | React.ChangeEvent<any>) => void);
+  handleBlur: (eventOrString: any) => void | ((e: any) => void);
 }) => {
-  const { errors, touched, handleChange } = props;
+  const { errors, touched, handleChange, handleBlur } = props;
 
   return (
     <div className="input-container">
@@ -40,6 +41,7 @@ const EmailForm = (props: {
         onChange={handleChange}
         placeholder="EMAIL"
         className={errors.email ? "input-error" : ""}
+        onBlur={handleBlur}
       />
       {(errors.email && touched.email) || touched.email ? (
         <div className="error-message">{errors.email}</div>
@@ -80,8 +82,9 @@ const UsernamePasswordForm = (props: {
     eventOrPath: string | React.ChangeEvent<any>
   ) => void | ((eventOrTextValue: string | React.ChangeEvent<any>) => void);
   handlePrevStep: () => void;
+  handleBlur: (eventOrString: any) => void | ((e: any) => void);
 }) => {
-  const { errors, touched, handleChange, handlePrevStep } = props;
+  const { errors, touched, handleChange, handlePrevStep, handleBlur } = props;
   return (
     <div className="username-password-container">
       <div className="description">
@@ -101,6 +104,7 @@ const UsernamePasswordForm = (props: {
           onChange={handleChange}
           placeholder="CHOOSE A USERNAME"
           className={errors.username ? "input-error" : ""}
+          onBlur={handleBlur}
         />
         {(errors.username && touched.username) || touched.username ? (
           <div className="error-message">{errors.username}</div>
@@ -115,6 +119,7 @@ const UsernamePasswordForm = (props: {
           onChange={handleChange}
           placeholder="PASSWORD"
           className={errors.password ? "input-error" : ""}
+          onBlur={handleBlur}
         />
         {(errors.password && touched.password) || touched.password ? (
           <div className="error-message">{errors.password}</div>
@@ -176,10 +181,14 @@ const SignupFormView = (props: Props) => {
   };
 
   useEffect(() => {
-    if (user.error) {
+    if (user.error?.message) {
       formik.setErrors({
         username: user.error.message,
       });
+    } else {
+      if (user.userid) {
+        closeForm();
+      }
     }
   }, [user]);
 
@@ -211,13 +220,7 @@ const SignupFormView = (props: Props) => {
 
     dispatch(allActions.signupUser(formik.values));
 
-    //only until I implement recommended subreddits after sign up
-    if (step === 1) {
-      if (!user.error) {
-        closeForm();
-      }
-    }
-    //handleNextStep is not part fo things to erase.
+    //need to implement recommended subreddits after sign up
     //handleNextStep();
   };
 
@@ -245,6 +248,7 @@ const SignupFormView = (props: Props) => {
             touched={formik.touched}
             handleChange={formik.handleChange}
             handlePrevStep={handlePrevStep}
+            handleBlur={formik.handleBlur}
           />
         </form>
         <button className="close-container" onClick={closeForm}>

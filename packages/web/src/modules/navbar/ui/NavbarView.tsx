@@ -3,15 +3,17 @@ import { usePopper } from "react-popper";
 import "./Navbar.scss";
 import Switch from "react-switch";
 import OutsideAlerter from "../../../shared/outsideAlerter";
-import { useSelector } from "react-redux";
-import { State } from "@reddit-clone/controller";
+import { useSelector, useDispatch } from "react-redux";
+import { State, allActions } from "@reddit-clone/controller";
 import SignupFormConnector from "../../signupForm/SignupFormConnector";
+import SigninFormConnector from "../../signinForm/SigninFormConnector";
 
 interface Props {
   search: (searchValue: string) => string | null;
 }
 
 const NavbarView = (props: Props) => {
+  const dispatch = useDispatch();
   const user = useSelector((state: State) => state.auth);
 
   const [svgColor, setSvgColor] = useState("#FFFFFF");
@@ -64,8 +66,6 @@ const NavbarView = (props: Props) => {
 
   useEffect(() => {
     if (user.userid) {
-      console.log(navbarUserInfoContainerClass);
-      console.log(popoverOpen);
       popoverOpen
         ? setNavbarUserInfoContainerClass(
             "navbar-userinfo-container-active prevent-reopen-userinfo"
@@ -88,6 +88,21 @@ const NavbarView = (props: Props) => {
 
   const closeSignupForm = () => {
     setShowSignupForm(false);
+  };
+
+  const [showSigninForm, setShowSigninForm] = useState<boolean>(false);
+
+  const handleOpenSigninForm = () => {
+    setShowSigninForm(true);
+  };
+
+  const closeSigninForm = () => {
+    setShowSigninForm(false);
+  };
+
+  const handleLogout = () => {
+    dispatch(allActions.signoutUser());
+    setPopoverOpen(false);
   };
 
   return (
@@ -210,7 +225,9 @@ const NavbarView = (props: Props) => {
           ) : null}
           {user.userid ? null : (
             <div className="navbar-button-container">
-              <button className="signin-button">SIGN IN</button>
+              <button className="signin-button" onClick={handleOpenSigninForm}>
+                SIGN IN
+              </button>
               <button className="signup-button " onClick={handleOpenSignupForm}>
                 SIGN UP
               </button>
@@ -396,7 +413,7 @@ const NavbarView = (props: Props) => {
                 </div>
                 <div className="more-stuff"></div>
                 <div className="navbar-horizontal-separator" />
-                <div className="logout section">
+                <div className="logout section" onClick={handleLogout}>
                   <div className="text-with-icon">
                     <svg
                       className="icon"
@@ -418,6 +435,9 @@ const NavbarView = (props: Props) => {
       </div>
       {showSignupForm ? (
         <SignupFormConnector closeForm={closeSignupForm} />
+      ) : null}
+      {showSigninForm ? (
+        <SigninFormConnector closeForm={closeSigninForm} />
       ) : null}
     </React.Fragment>
   );

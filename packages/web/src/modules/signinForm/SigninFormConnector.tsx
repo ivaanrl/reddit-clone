@@ -2,10 +2,14 @@ import React from "react";
 import { SigninController } from "@reddit-clone/controller";
 import SigninFormView from "./ui/SigninFormView";
 
-const SigninFormConnector = () => {
+interface Props {
+  closeForm: () => void;
+}
+
+const SigninFormConnector = (props: Props) => {
   return (
     <SigninController>
-      {({ submit }) => <SigninFormView submit={submit} />}
+      {() => <SigninFormView closeForm={props.closeForm} />}
     </SigninController>
   );
 };

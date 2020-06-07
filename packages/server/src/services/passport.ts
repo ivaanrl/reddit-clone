@@ -5,6 +5,7 @@ import LocalSt from "passport-local";
 import { compare, hash } from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { authResponseMessages } from "../controllers/responseMessages/auth";
+import { Op } from "sequelize";
 
 const SALT_ROUNDS = 10;
 const { username_taken, invalid_combination } = authResponseMessages;
@@ -52,7 +53,12 @@ passport.use(
     }
 
     if (match) {
-      return done(null, user?.id);
+      return done(null, {
+        userid: user?.id,
+        username: user?.username,
+        email: user?.email,
+        karma: user?.karma,
+      });
     } else {
       return done(null, invalid_combination);
     }
@@ -66,18 +72,24 @@ passport.use(
       passReqToCallback: true,
     },
     async (req: any, username: string, password: string, done) => {
-      console.log(req.body);
       try {
         const existingUser = await User.findOne({
           where: {
-            username,
+            [Op.or]: [
+              {
+                username,
+              },
+              { email: req.body.email },
+            ],
           },
         });
 
         if (existingUser) {
           return done(null, username_taken);
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
 
       const hashedPassword = await hash(password, SALT_ROUNDS);
       const id = uuid();
