@@ -3,25 +3,22 @@ import { APIUrl } from "../../requestInfo";
 
 interface Props {
   children: (data: {
-    submit: (values: {
-      email: string;
-      username: string;
-      password: string;
-    }) => Promise<superagent.Response>;
+    checkEmailAvailability: (email: string) => Promise<superagent.Response>;
   }) => JSX.Element | null;
 }
 
 export const SignupController = (props: Props) => {
-  const submit = async (values: {
-    email: string;
-    username: string;
-    password: string;
-  }) => {
-    const signupResponse = await superagent
-      .post(APIUrl + "/auth/signup")
-      .send(values);
-    return signupResponse;
+  const checkEmailAvailability = async (email: string) => {
+    let response;
+    try {
+      response = await superagent
+        .post(APIUrl + "/auth/checkEmail")
+        .send({ email });
+    } catch (error) {
+      response = error.response;
+    }
+    return response;
   };
 
-  return props.children({ submit });
+  return props.children({ checkEmailAvailability });
 };

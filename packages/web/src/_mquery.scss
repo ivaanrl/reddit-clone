@@ -24,7 +24,7 @@
       @content;
     }
   } @else if $size == 640 {
-    @media (min-width: 640) {
+    @media (min-width: 640px) {
       @content;
     }
   } @else if $size == 600 {

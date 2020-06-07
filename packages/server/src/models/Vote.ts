@@ -1,8 +1,5 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "./index";
-import { User } from "./User";
-import { Post } from "./Post";
-import { Comment } from "./Comment";
 
 export class Vote extends Model {
   public id!: number;

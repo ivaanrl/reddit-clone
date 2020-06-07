@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./SignupForm.scss";
 import { useFormik, FormikErrors, FormikTouched } from "formik";
 import {
@@ -6,16 +6,15 @@ import {
   usernamePasswordValidationSchema,
 } from "@reddit-clone/common";
 import superagent from "superagent";
+import { useDispatch, useSelector } from "react-redux";
+import { allActions, State } from "@reddit-clone/controller";
 
 interface Props {
-  submit: (values: {
-    email: string;
-    username: string;
-    password: string;
-  }) => Promise<superagent.Response>;
+  checkEmailAvailability: (email: string) => Promise<superagent.Response>;
+  closeForm: () => void;
 }
 
-export const EmailForm = (props: {
+const EmailForm = (props: {
   errors: FormikErrors<{
     email: string;
   }>;
@@ -142,7 +141,11 @@ UsernamePasswordForm.label = "username&Password";
 UsernamePasswordForm.validationSchema = usernamePasswordValidationSchema;
 
 const ChooseSubredditForm = () => {
-  return <div></div>;
+  return (
+    <div>
+      <button>FOR NOW, CLOSE FORM.</button>
+    </div>
+  );
 };
 ChooseSubredditForm.label = "chooseSubreddit";
 ChooseSubredditForm.validationSchema = {};
@@ -150,7 +153,9 @@ ChooseSubredditForm.validationSchema = {};
 const steps = [EmailForm, UsernamePasswordForm, ChooseSubredditForm];
 
 const SignupFormView = (props: Props) => {
-  const { submit } = props;
+  const { closeForm, checkEmailAvailability } = props;
+  const dispatch = useDispatch();
+  const user = useSelector((state: State) => state.auth);
 
   const [step, setStep] = useState<number>(0);
 
@@ -170,18 +175,50 @@ const SignupFormView = (props: Props) => {
     setStep(step - 1);
   };
 
+  useEffect(() => {
+    if (user.error) {
+      formik.setErrors({
+        username: user.error.message,
+      });
+    }
+  }, [user]);
+
   const handleSubmit = async (values: any) => {
     const { setSubmitting } = formik;
     if (!isSecondStep()) {
       setSubmitting(false);
+      if (step == 0) {
+        const isEmailAvailable = await checkEmailAvailability(
+          formik.values.email
+        );
+        if (isEmailAvailable.status == 201) {
+          if (isEmailAvailable.body) {
+            handleNextStep();
+            return;
+          } else {
+            formik.setErrors({
+              email: "An account with that email address already exists",
+            });
+            return;
+          }
+        } else {
+          //redirect to server error page
+        }
+      }
       handleNextStep();
       return;
     }
 
-    //Handle final submit
-    const signUpReponse = await submit(values);
-    console.log(signUpReponse);
-    handleNextStep();
+    dispatch(allActions.signupUser(formik.values));
+
+    //only until I implement recommended subreddits after sign up
+    if (step === 1) {
+      if (!user.error) {
+        closeForm();
+      }
+    }
+    //handleNextStep is not part fo things to erase.
+    //handleNextStep();
   };
 
   const CurrentStep = steps[step];
@@ -210,6 +247,9 @@ const SignupFormView = (props: Props) => {
             handlePrevStep={handlePrevStep}
           />
         </form>
+        <button className="close-container" onClick={closeForm}>
+          X
+        </button>
       </div>
     </div>
   );

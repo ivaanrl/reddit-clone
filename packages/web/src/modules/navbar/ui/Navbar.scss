@@ -18,12 +18,46 @@
     flex-direction: row;
     flex-wrap: nowrap;
   }
+}
 
-  .navbar-button-container button {
-    padding: 3px 16px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
+.navbar-button-container button {
+  padding: 10px 16px;
+  max-height: 32px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 4px;
+  display: none;
+  @include mquery(600) {
+    display: inline-block;
+    min-width: 87px;
+  }
+
+  @include mquery(1100) {
+    display: inline-block;
+    min-width: 120px !important;
+  }
+  cursor: pointer;
+}
+
+.navbar-container .signin-button {
+  margin-right: 6px;
+  @include theme-aware("background-color", "color-card");
+  @include theme-aware("color", "highlight-selection");
+  @include theme-aware("border-color", "highlight-selection");
+
+  &:hover {
+    @include theme-aware("color", "highlight-selection-hover");
+    @include theme-aware("border-color", "highlight-selection-hover");
+  }
+}
+
+.navbar-container .signup-button {
+  @include theme-aware("background-color", "highlight-selection");
+  @include theme-aware("border-color", "highlight-selection");
+  @include theme-aware("color", "color-card");
+  &:hover {
+    @include theme-aware("background-color", "highlight-selection-hover");
   }
 }
 

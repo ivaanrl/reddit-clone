@@ -11,7 +11,6 @@ import {
 import sequelize from "./index";
 import { Post } from "./Post";
 import { User } from "./User";
-import { User_Subreddit } from "./User_Subreddit";
 
 export class Subreddit extends Model {
   public id!: number;

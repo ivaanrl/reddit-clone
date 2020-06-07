@@ -2,10 +2,19 @@ import React from "react";
 import { SignupController } from "@reddit-clone/controller";
 import SignupFormView from "./ui/SignupFormView";
 
-const SignupFormConnector = () => {
+interface Props {
+  closeForm: () => void;
+}
+
+const SignupFormConnector = ({ closeForm }: Props) => {
   return (
     <SignupController>
-      {({ submit }) => <SignupFormView submit={submit} />}
+      {({ checkEmailAvailability }) => (
+        <SignupFormView
+          checkEmailAvailability={checkEmailAvailability}
+          closeForm={closeForm}
+        />
+      )}
     </SignupController>
   );
 };

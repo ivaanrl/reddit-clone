@@ -8,7 +8,7 @@ export const usernamePasswordValidationSchema = Yup.object().shape({
   username: Yup.string()
     .min(3, "Username must be between 3 and 20 characters")
     .max(20, "Username must be between 3 and 20 characters"),
-  password: Yup.string().required(
-    "Password must be at least 6 characters long"
-  ),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters long")
+    .required("Password is required"),
 });

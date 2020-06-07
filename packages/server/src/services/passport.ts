@@ -23,6 +23,8 @@ passport.deserializeUser(async (id: string, cb) => {
     cb(null, {
       id: user?.id,
       username: user?.username,
+      karma: user?.karma,
+      email: user?.email,
     });
   } catch (e) {
     console.log(e);
@@ -64,6 +66,7 @@ passport.use(
       passReqToCallback: true,
     },
     async (req: any, username: string, password: string, done) => {
+      console.log(req.body);
       try {
         const existingUser = await User.findOne({
           where: {
@@ -91,7 +94,12 @@ passport.use(
         return done(null, null);
       }
 
-      return done(null, user.id);
+      return done(null, {
+        userid: user.id,
+        username: user.username,
+        email: user.email,
+        karma: user.karma,
+      });
     }
   )
 );
