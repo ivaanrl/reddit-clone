@@ -8,15 +8,30 @@ import {
   waitForElement,
 } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
+import { useSelector, useDispatch, Provider } from "react-redux";
+import { State, rootReducer, allActions } from "@reddit-clone/controller";
+import { createStore, combineReducers } from "redux";
+import { Selectors } from "../selectors/selectors";
+
+const mockSelector = jest.fn();
+
+jest.mock("react-redux", () => ({
+  useSelector: () => mockSelector,
+  useDispatch: () => jest.fn(),
+}));
 
 describe("Navbar UI is properly displayed", () => {
   beforeEach(() => {
     render(<NavbarConnector />);
   });
 
-  test("displays username", () => {
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
+  test("doesn't display username if not logged in", () => {
     const username = "username";
-    expect(screen.queryByText(username)).not.toBe(null);
+    expect(screen.queryByText(username)).toBe(null);
   });
 
   test("displays subreddit dropdown", () => {
@@ -24,9 +39,9 @@ describe("Navbar UI is properly displayed", () => {
     expect(screen.getByText(subredditDropdown)).not.toBe(null);
   });
 
-  test("display karma", () => {
+  test("doesn't display karma if not logged in", () => {
     const karmaText = /karma/;
-    expect(screen.getByText(karmaText)).not.toBe(null);
+    expect(screen.queryByText(karmaText)).toBe(null);
   });
 
   test("display search input", () => {
@@ -41,11 +56,11 @@ describe("userinfo popover behaves correctly", () => {
   });
 
   test("displays correctly on parent element click", async () => {
-    const karmaText = /karma/;
-    const title = "MY STUFF";
+    const divTitle = "popover-div";
+    const title = /VIEW OPTIONS/;
 
     await act(async () => {
-      fireEvent.click(screen.getByText(karmaText));
+      fireEvent.click(screen.getByTestId(divTitle));
       await waitForElement(() => screen.getByText(title));
     });
 
@@ -53,15 +68,45 @@ describe("userinfo popover behaves correctly", () => {
   });
 
   test("is not shown after click outside", async () => {
-    const karmaText = /karma/;
-    const title = "MY STUFF";
+    const divTitle = "popover-div";
+    const title = /VIEW OPTIONS/;
 
     await act(async () => {
-      fireEvent.click(screen.getByText(karmaText));
+      fireEvent.click(screen.getByTestId(divTitle));
       await waitForElement(() => screen.getByText(title));
-      fireEvent.click(screen.getByText(karmaText));
+      fireEvent.click(screen.getByTitle(divTitle));
     });
 
     expect(screen.queryByText(title)).toBe(null);
+  });
+});
+
+describe("user can open login form", () => {
+  beforeEach(() => {
+    render(<NavbarConnector />);
+  });
+
+  it("opens signup form", async () => {
+    const signupFormButtonText = /NEXT/;
+    const openSignupButtonText = /SIGN UP/;
+    await act(async () => {
+      fireEvent.click(screen.getByText(openSignupButtonText));
+      await waitForElement(() => screen.getByText(signupFormButtonText));
+    });
+
+    expect(screen.getByText(signupFormButtonText)).not.toBe(null);
+  });
+
+  it("closes signup form", async () => {
+    const openSignupButtonText = /SIGN UP/;
+    const closeFormButtonText = "X";
+
+    await act(async () => {
+      fireEvent.click(screen.getByText(openSignupButtonText));
+      await waitForElement(() => screen.getByText(closeFormButtonText));
+      fireEvent.click(screen.getByText(closeFormButtonText));
+    });
+
+    expect(screen.queryByText(closeFormButtonText)).toBe(null);
   });
 });

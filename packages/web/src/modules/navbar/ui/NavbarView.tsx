@@ -65,7 +65,7 @@ const NavbarView = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    if (user.userid) {
+    if (user.username) {
       popoverOpen
         ? setNavbarUserInfoContainerClass(
             "navbar-userinfo-container-active prevent-reopen-userinfo"
@@ -157,7 +157,7 @@ const NavbarView = (props: Props) => {
         </div>
         <div className="navbar-search">
           <input className="navbar-search-input" placeholder="Search"></input>
-          {user.userid ? (
+          {user.username ? (
             <>
               <a className="navbar-svg-link" href="/">
                 <svg
@@ -187,7 +187,7 @@ const NavbarView = (props: Props) => {
         </div>
 
         <div className="navbar-right">
-          {user.userid ? (
+          {user.username ? (
             <div className="navbar-right-icons">
               <div className="navbar-messages">
                 <a className="navbar-svg-link" href="/">
@@ -223,7 +223,7 @@ const NavbarView = (props: Props) => {
               </div>
             </div>
           ) : null}
-          {user.userid ? null : (
+          {user.username ? null : (
             <div className="navbar-button-container">
               <button className="signin-button" onClick={handleOpenSigninForm}>
                 SIGN IN
@@ -237,12 +237,14 @@ const NavbarView = (props: Props) => {
             className={navbarUserInfoContainerClass}
             ref={setReferenceElement}
             onClick={togglePopover}
+            data-testid="popover-div"
           >
             <svg
               className="navbar-userpic prevent-reopen-userinfo"
               viewBox="0 0 320 320"
               xmlns="http://www.w3.org/2000/svg"
             >
+              <title>popover-div</title>
               <g fill="inherit" className="prevent-reopen-userinfo">
                 <path
                   fill={svgColor}
@@ -307,7 +309,7 @@ const NavbarView = (props: Props) => {
                 ></path>
               </g>
             </svg>
-            {user.userid ? (
+            {user.username ? (
               <div className="navbar-username-karma-container prevent-reopen-userinfo">
                 <div className="navbar-username prevent-reopen-userinfo">
                   {user.username}
@@ -351,7 +353,7 @@ const NavbarView = (props: Props) => {
                 {...attributes.popper}
                 className="navbar-userinfo-popover"
               >
-                {user.userid ? (
+                {user.username ? (
                   <div className="my-stuff section">
                     <div className="title">MY STUFF</div>
                     <div className="my-profile text-with-icon">

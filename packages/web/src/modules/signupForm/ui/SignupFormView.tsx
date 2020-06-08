@@ -180,27 +180,15 @@ const SignupFormView = (props: Props) => {
     setStep(step - 1);
   };
 
-  useEffect(() => {
-    if (user.error?.message) {
-      formik.setErrors({
-        username: user.error.message,
-      });
-    } else {
-      if (user.userid) {
-        closeForm();
-      }
-    }
-  }, [user]);
-
   const handleSubmit = async (values: any) => {
     const { setSubmitting } = formik;
     if (!isSecondStep()) {
       setSubmitting(false);
-      if (step == 0) {
+      if (step === 0) {
         const isEmailAvailable = await checkEmailAvailability(
           formik.values.email
         );
-        if (isEmailAvailable.status == 201) {
+        if (isEmailAvailable.status === 201) {
           if (isEmailAvailable.body) {
             handleNextStep();
             return;
@@ -237,6 +225,18 @@ const SignupFormView = (props: Props) => {
     },
     validationSchema,
   });
+
+  useEffect(() => {
+    if (user.error?.message) {
+      formik.setErrors({
+        username: user.error.message,
+      });
+    } else {
+      if (user.username) {
+        closeForm();
+      }
+    }
+  }, [user, closeForm, formik]);
 
   return (
     <div className="form-backdrop">

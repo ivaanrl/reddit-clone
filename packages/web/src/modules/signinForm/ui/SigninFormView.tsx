@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./SigninForm.scss";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,11 +35,11 @@ const SigninFormView = (props: Props) => {
         password: user.error.message,
       });
     } else {
-      if (user.userid) {
+      if (user.username) {
         closeForm();
       }
     }
-  }, [user]);
+  }, [user, closeForm, formik]);
 
   const handleSubmit = async (values: {
     username: string;
