@@ -8,10 +8,6 @@ import {
   waitForElement,
 } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
-import { useSelector, useDispatch, Provider } from "react-redux";
-import { State, rootReducer, allActions } from "@reddit-clone/controller";
-import { createStore, combineReducers } from "redux";
-import { Selectors } from "../selectors/selectors";
 
 const mockSelector = jest.fn();
 

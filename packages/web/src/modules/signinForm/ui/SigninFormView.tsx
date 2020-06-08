@@ -66,6 +66,7 @@ const SigninFormView = (props: Props) => {
                 type="text"
                 name="username"
                 id="username"
+                alt="username input"
                 placeholder="USERNAME"
                 onChange={handleChange}
                 value={values.username}
@@ -81,6 +82,7 @@ const SigninFormView = (props: Props) => {
                 type="password"
                 name="password"
                 id="password"
+                alt="password input"
                 placeholder="PASSWORD"
                 onChange={handleChange}
                 value={values.password}
