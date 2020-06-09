@@ -14,10 +14,18 @@
 }
 
 .create-community-form {
+  position: relative;
   width: 510px;
-  @include theme-aware("background-color", "color-background");
+  @include theme-aware("background-color", "color-card");
   z-index: 1100;
   height: fit-content;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.create-community-form-title {
+  margin-bottom: 25px;
+  @include theme-aware("color", "text-main");
 }
 
 .create-community-form-input-container {
@@ -25,8 +33,112 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  width: 100%;
 
   small {
     margin: 0;
+    @include theme-aware("color", "text-muted");
+    font-size: 12px;
+    font-weight: 400;
   }
+
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+  }
+
+  label {
+    @include theme-aware("color", "text-main");
+    margin-bottom: 5px;
+  }
+
+  textarea {
+    box-sizing: border-box;
+    padding: 15px;
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
+.react-select {
+  width: 100%;
+  cursor: pointer;
+}
+
+.checkbox-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 50px;
+  @include theme-aware("color", "text-main");
+  input {
+    width: fit-content;
+  }
+
+  label {
+    flex-basis: 100%;
+    margin-bottom: 5px;
+  }
+}
+
+.adult-title {
+  @include theme-aware("color", "text-main");
+  margin-bottom: 5px;
+}
+
+.create-community-form-button-container {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 10px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  @include theme-aware("background-color", "color-line");
+  button {
+    width: initial;
+  }
+
+  .cancel-button {
+    margin-right: 20px;
+  }
+}
+
+.react-select-container {
+  width: 100%;
+}
+
+.react-select__value-container {
+  @include theme-aware("background-color", "color-card");
+  color: black;
+}
+
+.react-select__indicators {
+  @include theme-aware("background-color", "color-card");
+}
+
+.react-select__menu {
+  @include theme-aware("color", "text-main");
+}
+
+.react-select__menu-list {
+  @include theme-aware("background-color", "color-card");
+}
+
+.react-select__option {
+  &:hover {
+    @include theme-aware("background-color", "highlight-selection");
+    @include theme-aware("color", "highlight-selection-text-color");
+  }
+}
+
+.react-select__option--is-focused {
+  @include theme-aware("background-color", "highlight-selection");
+  @include theme-aware("color", "highlight-selection-text-color");
 }
