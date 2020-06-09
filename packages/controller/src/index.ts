@@ -3,3 +3,7 @@ export * from "./modules/NavbarController";
 export * from "./modules/HomepageController";
 export * from "./modules/SigninController";
 export * from "./modules/SignupController";
+export * from "./modules/CreatePostCommunityController";
+export * from "./modules/SidebarController";
+export * from "./modules/PostPreviewController";
+export * from "./modules/CreateCommunityController";

@@ -225,10 +225,16 @@ const NavbarView = (props: Props) => {
           ) : null}
           {user.username ? null : (
             <div className="navbar-button-container">
-              <button className="signin-button" onClick={handleOpenSigninForm}>
+              <button
+                className="signin-button navbar-button"
+                onClick={handleOpenSigninForm}
+              >
                 SIGN IN
               </button>
-              <button className="signup-button " onClick={handleOpenSignupForm}>
+              <button
+                className="signup-button navbar-button"
+                onClick={handleOpenSignupForm}
+              >
                 SIGN UP
               </button>
             </div>

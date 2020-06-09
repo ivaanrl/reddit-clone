@@ -1,0 +1,32 @@
+@import "../../../../../../color-palette";
+
+.create-community-form-contaiener {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-community-form {
+  width: 510px;
+  @include theme-aware("background-color", "color-background");
+  z-index: 1100;
+  height: fit-content;
+}
+
+.create-community-form-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  small {
+    margin: 0;
+  }
+}

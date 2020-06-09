@@ -18,15 +18,10 @@
     flex-direction: row;
     flex-wrap: nowrap;
   }
+  z-index: 200;
 }
 
-.navbar-button-container button {
-  padding: 10px 16px;
-  max-height: 32px;
-  font-size: 12px;
-  font-weight: 700;
-  border: 1px solid;
-  border-radius: 4px;
+.navbar-button {
   display: none;
   @include mquery(600) {
     display: inline-block;
@@ -37,9 +32,7 @@
     display: inline-block;
     min-width: 120px !important;
   }
-  cursor: pointer;
 }
-
 .navbar-container .signin-button {
   margin-right: 6px;
   @include theme-aware("background-color", "color-card");
@@ -274,6 +267,7 @@
 }
 
 .navbar-userinfo-popover {
+  z-index: 200;
   border: 1px solid;
   width: 215px;
   box-sizing: border-box;

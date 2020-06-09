@@ -1,0 +1,36 @@
+@import "./color-palette";
+
+button {
+  padding: 10px 16px;
+  max-height: 32px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 4px;
+  cursor: pointer;
+  &:focus {
+    outline: 0;
+  }
+}
+
+.sidebar-main-button {
+  @include theme-aware("background-color", "color-card");
+  @include theme-aware("border-color", "highlight-selection");
+  @include theme-aware("color", "highlight-selection");
+
+  &:hover {
+    @include theme-aware("color", "highlight-selection-hover");
+    @include theme-aware("border-color", "highlight-selection-hover");
+  }
+  width: 100%;
+}
+
+.sidebar-secondary-button {
+  @include theme-aware("background-color", "highlight-selection");
+  @include theme-aware("border-color", "highlight-selection");
+  @include theme-aware("color", "input-background");
+  &:hover {
+    @include theme-aware("background-color", "highlight-selection-hover");
+  }
+  width: 100%;
+}
