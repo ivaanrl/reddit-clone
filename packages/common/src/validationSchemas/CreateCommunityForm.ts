@@ -8,6 +8,7 @@ export const createCommunityFormValidationSchema = Yup.object().shape({
   description: Yup.string()
     .min(15, "Description must be between 15 and 500 characters")
     .max(500, "Description must be between 15 and 500 characters"),
-  communityTopics: Yup.array().required(),
-  communityType: Yup.string().required(),
+  communityTopics: Yup.array()
+    .of(Yup.string())
+    .required("You must select between 1 and 25 topics for your community"),
 });

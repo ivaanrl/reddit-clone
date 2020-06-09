@@ -6,14 +6,20 @@ import {
   createCommunityFormValidationSchema,
 } from "@reddit-clone/common";
 import Select from "react-select";
+import superagent from "superagent";
 
 interface Props {
-  submit: (values: any) => void;
+  submit: (values: {
+    name: string;
+    communityTopics: string[];
+    description: string;
+    adultContent: boolean;
+  }) => Promise<superagent.Response>;
   closeForm: () => void;
 }
 
 const CreateCommunityView = (props: Props) => {
-  const { closeForm } = props;
+  const { closeForm, submit } = props;
 
   const formik = useFormik({
     initialValues: {
@@ -24,7 +30,14 @@ const CreateCommunityView = (props: Props) => {
     },
     validationSchema: createCommunityFormValidationSchema,
     onSubmit: (values) => {
-      handleSubmit(values);
+      handleSubmit(
+        values as {
+          name: string;
+          communityTopics: any;
+          description: string;
+          adultContent: boolean;
+        }
+      );
     },
     validateOnBlur: true,
   });
@@ -38,7 +51,16 @@ const CreateCommunityView = (props: Props) => {
     setFieldValue,
   } = formik;
 
-  const handleSubmit = (values: any) => {};
+  const handleSubmit = async (values: {
+    name: string;
+    communityTopics: string[];
+    description: string;
+    adultContent: boolean;
+  }) => {
+    console.log("submit");
+    const res = await submit(values);
+    console.log(res);
+  };
 
   const handleModalClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -58,12 +80,12 @@ const CreateCommunityView = (props: Props) => {
         values.push(option.value);
       });
       setFieldValue(name, values);
+      //formik.setErrors({ name: "" });
     } else {
-      setFieldValue(name, "");
+      setFieldValue(name, [""]);
     }
   };
 
-  console.log(formik.values);
   return (
     <div
       className="create-community-form-contaiener"
@@ -164,7 +186,12 @@ const CreateCommunityView = (props: Props) => {
           </div>
         </div>
         <div className="create-community-form-button-container">
-          <button className="sidebar-main-button cancel-button">CANCEL</button>
+          <button
+            className="sidebar-main-button cancel-button"
+            onClick={closeForm}
+          >
+            CANCEL
+          </button>
           <button className="sidebar-secondary-button" type="submit">
             CREATE COMMUNITY
           </button>

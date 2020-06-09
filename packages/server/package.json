@@ -28,6 +28,8 @@
   "dependencies": {
     "@reddit-clone/common": "1.0.1",
     "@supercharge/strings": "^1.8.0",
+    "@types/bluebird": "^3.5.32",
+    "@types/validator": "^13.0.0",
     "bcrypt": "^4.0.1",
     "connect-pg-simple": "^6.1.0",
     "cors": "^2.8.5",

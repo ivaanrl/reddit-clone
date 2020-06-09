@@ -19,14 +19,17 @@ class LoginController {
   @use(passport.authenticate("local-signin"))
   signinUser(req: Request, res: Response) {
     if (req.user == null) {
+      req.logOut();
       return res.status(501).json({ success: false, message: server_error });
     }
 
     if (req.user == username_taken) {
+      req.logOut();
       return res.status(401).json({ success: false, message: username_taken });
     }
 
     if (req.user == invalid_combination) {
+      req.logOut();
       return res.status(401).json({
         success: false,
         message: invalid_combination,
@@ -56,11 +59,12 @@ class LoginController {
   signupUser(req: Request, res: Response) {
     console.log("signup");
     if (req.user == null) {
+      req.logOut();
       return res.status(501).json({ success: false, message: "Server error" });
     }
 
     if (req.user == username_taken) {
-      console.log("username taken");
+      req.logOut();
       return res.status(401).json({ success: false, message: username_taken });
     }
 

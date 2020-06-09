@@ -14,24 +14,34 @@ passport.serializeUser((user: string, cb) => {
   cb(null, user);
 });
 
-passport.deserializeUser(async (id: string, cb) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        id,
-      },
-    });
-    cb(null, {
-      id: user?.id,
-      username: user?.username,
-      karma: user?.karma,
-      email: user?.email,
-    });
-  } catch (e) {
-    console.log(e);
-    cb(null, null);
+passport.deserializeUser(
+  async (
+    serializedUser: {
+      userid: string;
+      email: string;
+      karma: number;
+      username: string;
+    },
+    cb
+  ) => {
+    try {
+      const user = await User.findOne({
+        where: {
+          id: serializedUser.userid,
+        },
+      });
+      cb(null, {
+        id: user?.id,
+        username: user?.username,
+        karma: user?.karma,
+        email: user?.email,
+      });
+    } catch (e) {
+      console.log(e);
+      cb(null, null);
+    }
   }
-});
+);
 
 passport.use(
   "local-signin",
@@ -52,7 +62,10 @@ passport.use(
       match = await compare(password, user.password);
     }
 
+    console.log(match);
+
     if (match) {
+      console.log("should serialize now");
       return done(null, {
         userid: user?.id,
         username: user?.username,

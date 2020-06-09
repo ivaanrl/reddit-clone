@@ -4,8 +4,11 @@ import passport from "passport";
 import session from "express-session";
 import { keys } from "../config/keys";
 import "./controllers/LoginController";
+import "./controllers/SubredditController";
 import { AppRouter } from "./AppRouter";
 import sequelize from "./models/index";
+import cpg from "connect-pg-simple";
+import { Pool } from "pg";
 
 export const startServer = async () => {
   const app = express();
@@ -28,8 +31,15 @@ export const startServer = async () => {
 
   app.use(express.json());
 
+  const pool = new Pool({
+    user: "ivanrl",
+    password: "73442332",
+    database: "reddit",
+  });
+
   app.use(
     session({
+      store: new (cpg(session))({ pool }),
       secret: cookieSecret,
       resave: false,
       saveUninitialized: false,

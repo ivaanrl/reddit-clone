@@ -1,5 +1,4 @@
 import { ActionTypes } from "./types";
-import { stringify } from "querystring";
 
 export const signinUser = (user: { username: string; password: string }) => ({
   type: ActionTypes.SIGNIN_USER,

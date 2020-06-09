@@ -73,7 +73,11 @@ export const signinRequest = (userInfo: {
 }) => {
   let response;
   try {
-    response = superagent.post(APIUrl + "/auth/signin").send(userInfo);
+    response = superagent
+      .agent()
+      .withCredentials()
+      .post(APIUrl + "/auth/signin")
+      .send(userInfo);
   } catch (error) {
     response = error.response;
   }
@@ -87,7 +91,11 @@ export const signupRequest = (userInfo: {
 }) => {
   let response;
   try {
-    response = superagent.post(APIUrl + "/auth/signup").send(userInfo);
+    response = superagent
+      .agent()
+      .withCredentials()
+      .post(APIUrl + "/auth/signup")
+      .send(userInfo);
   } catch (error) {
     response = error.response;
   }
