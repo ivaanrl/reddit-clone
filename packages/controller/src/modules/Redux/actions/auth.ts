@@ -54,6 +54,10 @@ export const signupUserFailed = (error: {
 
 export const signoutUser = () => ({
   type: ActionTypes.SIGN_OUT_USER,
+});
+
+export const signoutUserCompletedAction = () => ({
+  type: ActionTypes.SIGN_OUT_USER_COMPLETED,
   payload: {
     email: "",
     username: "",

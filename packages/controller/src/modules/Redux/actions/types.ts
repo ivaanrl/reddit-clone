@@ -7,6 +7,7 @@ export const ActionTypes = {
   SIGNUP_USER_FAILED: "[5] SIGN UP USER FAILED",
   SIGNIN_USER_FAILED: "[6] SIGN IN USER FAILED",
   SIGN_OUT_USER: "[7] SIGN OUT USER",
+  SIGN_OUT_USER_COMPLETED: "[8] COMPLETE SIGN OUT USER",
 };
 
 export interface BaseAction {

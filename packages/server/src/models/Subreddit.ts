@@ -58,6 +58,7 @@ Subreddit.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     topics: {
       type: DataTypes.ARRAY(DataTypes.TEXT),

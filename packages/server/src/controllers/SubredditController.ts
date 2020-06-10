@@ -3,10 +3,19 @@ import { get, controller, use, post } from "./decorators";
 import "../services/passport";
 import { User } from "../models/User";
 import { Subreddit } from "../models/Subreddit";
+import { subredditResponseMessages } from "./responseMessages/subreddit";
+import { requireLogin } from "../../middleware/requireLogin";
+
+const {
+  server_error,
+  name_taken,
+  subreddit_created_successfully,
+} = subredditResponseMessages;
 
 @controller("/api/subreddit")
 class SubrredditController {
   @post("/createSubreddit")
+  @use(requireLogin)
   async createSubreddit(req: Request, res: Response) {
     const { name, communityTopics, description, adultContent } = req.body;
     const user = await findCurrentUser(req.user);
@@ -18,14 +27,17 @@ class SubrredditController {
         description,
         adultContent
       );
-      if (subreddit) {
+      if (subreddit instanceof Subreddit) {
         res
           .status(201)
-          .json({ success: true, message: "Subreddit created succesfully" });
+          .json({ success: true, message: subreddit_created_successfully });
         return;
+      } else if (subreddit === { error: name_taken }) {
+        res.status(401).json({ success: false, message: subreddit.error });
       }
     }
-    res.status(501).json({ success: false, message: "Internal server error" });
+
+    res.status(501).json({ success: false, message: server_error });
   }
 }
 
@@ -37,7 +49,7 @@ const findCurrentUser = async (user: any) => {
       },
     });
   } catch (error) {
-    return false;
+    return { error: server_error };
   }
 };
 
@@ -49,17 +61,36 @@ const createSub = async (
   adultContent: boolean,
   privateSub: boolean = false
 ) => {
+  const existingSub = await isSubAvailable(name);
+
+  if (!(existingSub instanceof Subreddit)) {
+    try {
+      const subreddit = await Subreddit.create({
+        owner_id: userid,
+        name,
+        topics,
+        description,
+        adultContent,
+        private: privateSub,
+      });
+      return subreddit;
+    } catch (error) {
+      return false;
+    }
+  } else {
+    return { error: name_taken };
+  }
+};
+
+const isSubAvailable = async (subName: string) => {
   try {
-    const subreddit = Subreddit.create({
-      owner_id: userid,
-      name,
-      topics,
-      description,
-      adultContent,
-      private: privateSub,
+    return await Subreddit.findOne({
+      where: {
+        name: subName,
+      },
     });
-    return subreddit;
   } catch (error) {
-    return false;
+    console.log(error);
+    return { error: server_error };
   }
 };

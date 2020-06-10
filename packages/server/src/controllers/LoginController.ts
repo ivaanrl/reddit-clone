@@ -57,7 +57,6 @@ class LoginController {
   @post("/signup")
   @use(passport.authenticate("local-signup"))
   signupUser(req: Request, res: Response) {
-    console.log("signup");
     if (req.user == null) {
       req.logOut();
       return res.status(501).json({ success: false, message: "Server error" });
@@ -75,8 +74,6 @@ class LoginController {
       karma: number;
     };
 
-    console.log(req.user);
-
     return res.status(201).json({
       success: true,
       message: user_created_successfully,
@@ -91,6 +88,15 @@ class LoginController {
   @get("/current_user")
   getCurrentUser(req: Request, res: Response) {
     res.json(req.user);
+  }
+
+  @get("/signout")
+  logoutUser(req: Request, res: Response) {
+    console.log("logout");
+    req.logOut();
+
+    console.log(req.user);
+    res.end();
   }
 
   @post("/checkEmail")

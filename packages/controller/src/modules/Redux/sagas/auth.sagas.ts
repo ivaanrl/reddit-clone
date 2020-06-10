@@ -8,6 +8,7 @@ import {
   signupUserCompletedAction,
   signupUserFailed,
   signinUserFailed,
+  signoutUserCompletedAction,
 } from "../actions/auth";
 
 export function* watchUserSingin() {
@@ -16,6 +17,10 @@ export function* watchUserSingin() {
 
 export function* watchUserSignup() {
   yield takeEvery(ActionTypes.SIGNUP_USER, signupUser);
+}
+
+export function* watchUserSignout() {
+  yield takeEvery(ActionTypes.SIGN_OUT_USER, signoutUser);
 }
 
 export function* signinUser(userInfo: {
@@ -66,6 +71,29 @@ export function* signupUser(userInfo: {
     );
   }
 }
+
+export function* signoutUser() {
+  try {
+    const response = yield call(signoutRequest);
+
+    yield put(signoutUserCompletedAction());
+  } catch (error) {
+    //yield put(signoutUserCompletedAction());;
+  }
+}
+
+export const signoutRequest = () => {
+  let response;
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      .get(APIUrl + "/auth/signout");
+  } catch (error) {
+    response = error.response;
+  }
+  return response;
+};
 
 export const signinRequest = (userInfo: {
   username: string;

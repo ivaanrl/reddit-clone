@@ -60,6 +60,7 @@ User.init(
     username: {
       type: DataTypes.STRING(128),
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.TEXT,
@@ -68,6 +69,7 @@ User.init(
     email: {
       type: DataTypes.STRING(128),
       allowNull: false,
+      unique: true,
     },
     karma: {
       type: DataTypes.INTEGER,
