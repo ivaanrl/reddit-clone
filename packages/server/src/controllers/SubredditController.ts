@@ -40,6 +40,14 @@ class SubrredditController {
 
     return res.status(501).json({ success: false, message: server_error });
   }
+
+  @get("/getSubreddit/:name")
+  async getSubreddit(req: Request, res: Response) {
+    const { name } = req.params;
+    const subreddit = await getSubreddit(name);
+
+    res.status(201).json(subreddit);
+  }
 }
 
 const findCurrentUser = async (user: any) => {
@@ -62,7 +70,7 @@ const createSub = async (
   adultContent: boolean,
   privateSub: boolean = false
 ) => {
-  const existingSub = await isSubAvailable(name);
+  const existingSub = await getSubreddit(name);
 
   if (!(existingSub instanceof Subreddit)) {
     try {
@@ -83,7 +91,7 @@ const createSub = async (
   }
 };
 
-const isSubAvailable = async (subName: string) => {
+const getSubreddit = async (subName: string) => {
   try {
     return await Subreddit.findOne({
       where: {

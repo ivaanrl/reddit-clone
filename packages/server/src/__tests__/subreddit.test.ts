@@ -3,7 +3,7 @@ import * as Str from "@supercharge/strings";
 import { subredditResponseMessages } from "../controllers/responseMessages/subreddit";
 import { loginUser } from "../__testHelpers__/auth/loginUser";
 import { logoutUser } from "../__testHelpers__/auth/logoutUser";
-import { createSubreddit } from "src/__testHelpers__/subreddits/createSubreddit";
+import { createSubreddit } from "../__testHelpers__/subreddits/createSubreddit";
 
 const {
   server_error,
@@ -40,7 +40,6 @@ describe("create subreddit", () => {
       },
       { withCredentials: true }
     );
-
     expect(res.status).toBe(201);
     expect(res.data.message).toBe(subreddit_created_successfully);
   });
@@ -68,6 +67,34 @@ describe("create subreddit", () => {
 
     expect(res.status).toBe(401);
     expect(res.data.message).toBe(name_taken);
+  });
+});
+
+describe("user get subreddit", () => {
+  let name: string,
+    communityTopics: string[],
+    description: string,
+    adultContent: boolean;
+  beforeAll(async () => {
+    name = Str.random();
+    communityTopics = [Str.random(), Str.random()];
+    description = Str.random();
+    adultContent = false;
+    await createSubreddit(name, communityTopics, description, adultContent);
+  });
+
+  test("it returns the correct subreddit", async () => {
+    const res = await axios.get(
+      "http://localhost:5000/api/subreddit/getSubreddit/" + name,
+      {
+        withCredentials: true,
+      }
+    );
+
+    expect(res.status).toBe(201);
+    expect(res.data.name).toBe(name);
+    expect(res.data.description).toBe(description);
+    expect(res.data.adultContent).toBe(adultContent);
   });
 });
 
