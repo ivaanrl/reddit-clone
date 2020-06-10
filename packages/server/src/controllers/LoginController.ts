@@ -43,6 +43,7 @@ class LoginController {
       karma: number;
     };
 
+    console.log(req.user);
     return res.status(201).json({
       success: true,
       message: successful_login,

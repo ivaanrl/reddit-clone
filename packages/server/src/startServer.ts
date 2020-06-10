@@ -37,18 +37,32 @@ export const startServer = async () => {
     database: "reddit",
   });
 
-  app.use(
-    session({
-      store: new (cpg(session))({ pool }),
-      secret: cookieSecret,
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        sameSite: "none",
-      },
-    })
-  );
+  if (process.env.NODE_ENV === "development") {
+    app.use(
+      session({
+        store: new (cpg(session))({ pool }),
+        secret: cookieSecret,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          sameSite: "none",
+        },
+      })
+    );
+  } else {
+    app.use(
+      session({
+        secret: cookieSecret,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          sameSite: "none",
+        },
+      })
+    );
+  }
 
   app.use(passport.initialize());
   app.use(passport.session());

@@ -9,12 +9,13 @@ const {
   invalid_combination,
   username_taken,
 } = authResponseMessages;
-let username: string, password: string;
+let username: string, password: string, email: string;
 
 beforeAll(async () => {
   await startServer();
   username = Str.random();
   password = Str.random();
+  email = Str.random();
 });
 
 describe("User can create account, and then login", () => {
@@ -22,6 +23,7 @@ describe("User can create account, and then login", () => {
     const res = await axios.post("http://localhost:5000/api/auth/signup", {
       username: username,
       password: password,
+      email,
     });
     expect(res.status).toBe(201);
     expect(res.data.message).toBe(user_created_successfully);
@@ -78,6 +80,7 @@ describe("singup fails with repeated info", () => {
       res = await axios.post("http://localhost:5000/api/auth/signup", {
         username: username,
         password: password,
+        email: email,
       });
     } catch (error) {
       res = error.response;
