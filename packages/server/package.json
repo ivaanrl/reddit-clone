@@ -20,7 +20,8 @@
   },
   "scripts": {
     "start": "ts-node-dev --respawn src/index.ts",
-    "test": "cross-env NODE_ENV=test jest --watch"
+    "run-tests": "cross-env NODE_ENV=test jest --watch",
+    "test": "NODE_ENV=test concurrently \"yarn start\" \"yarn run-tests\""
   },
   "keywords": [],
   "author": "",
@@ -62,6 +63,7 @@
     "@types/uuid": "^8.0.0",
     "@types/validator": "^13.0.0",
     "axios": "^0.19.2",
+    "concurrently": "^5.2.0",
     "cross-env": "^7.0.2",
     "sequelize-cli": "^5.5.1",
     "supertest": "^4.0.2",

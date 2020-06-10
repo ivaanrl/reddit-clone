@@ -4,7 +4,7 @@ import "../services/passport";
 import { User } from "../models/User";
 import { Subreddit } from "../models/Subreddit";
 import { subredditResponseMessages } from "./responseMessages/subreddit";
-import { requireLogin } from "../../middleware/requireLogin";
+import { requireLogin } from "../middleware/requireLogin";
 
 const {
   server_error,
@@ -27,17 +27,18 @@ class SubrredditController {
         description,
         adultContent
       );
+
       if (subreddit instanceof Subreddit) {
         res
           .status(201)
           .json({ success: true, message: subreddit_created_successfully });
         return;
-      } else if (subreddit === { error: name_taken }) {
-        res.status(401).json({ success: false, message: subreddit.error });
+      } else if (subreddit == name_taken) {
+        return res.status(401).json({ success: false, message: subreddit });
       }
     }
 
-    res.status(501).json({ success: false, message: server_error });
+    return res.status(501).json({ success: false, message: server_error });
   }
 }
 
@@ -78,7 +79,7 @@ const createSub = async (
       return false;
     }
   } else {
-    return { error: name_taken };
+    return name_taken;
   }
 };
 

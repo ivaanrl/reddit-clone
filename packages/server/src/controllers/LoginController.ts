@@ -93,10 +93,7 @@ class LoginController {
 
   @get("/signout")
   logoutUser(req: Request, res: Response) {
-    console.log("logout");
     req.logOut();
-
-    console.log(req.user);
     res.end();
   }
 

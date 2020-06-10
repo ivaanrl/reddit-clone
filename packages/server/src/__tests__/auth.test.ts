@@ -1,5 +1,4 @@
 import axios from "axios";
-import { startServer } from "../startServer";
 import { authResponseMessages } from "../controllers/responseMessages/auth";
 import * as Str from "@supercharge/strings";
 
@@ -12,7 +11,6 @@ const {
 let username: string, password: string, email: string;
 
 beforeAll(async () => {
-  await startServer();
   username = Str.random();
   password = Str.random();
   email = Str.random();
