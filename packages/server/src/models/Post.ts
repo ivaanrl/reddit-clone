@@ -12,6 +12,7 @@ import { Vote } from "./Vote";
 export class Post extends Model {
   public id!: number;
   public author_id!: string;
+  public subreddit_id!: number;
   public content!: string;
   public upvotes!: number;
 
@@ -48,4 +49,4 @@ Post.init(
   }
 );
 
-Post.hasMany(Vote, { sourceKey: "id" });
+Post.hasMany(Vote, { sourceKey: "id", foreignKey: "post_id" });

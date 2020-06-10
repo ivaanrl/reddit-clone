@@ -14,8 +14,12 @@ import { User } from "./User";
 
 export class Subreddit extends Model {
   public id!: number;
-  public name: string;
-  public private: boolean;
+  public owner_id!: string;
+  public name!: string;
+  public topics!: string;
+  public description!: string;
+  public adultContent!: boolean;
+  public private!: boolean;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -47,6 +51,31 @@ Subreddit.init(
       autoIncrement: true,
       primaryKey: true,
     },
+    owner_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    topics: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.STRING(500),
+      allowNull: false,
+    },
+    adultContent: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    private: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
   },
   {
     tableName: "subreddits",
@@ -54,4 +83,4 @@ Subreddit.init(
   }
 );
 
-Subreddit.hasMany(Post, { sourceKey: "id" });
+Subreddit.hasMany(Post, { sourceKey: "id", foreignKey: "subreddit_id" });
