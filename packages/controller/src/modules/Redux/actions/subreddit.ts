@@ -13,6 +13,8 @@ export const getSubredditCompletedAction = (subreddit: {
   description: string;
   adultContent: boolean;
   joined: number;
+  createdAt: string;
+  mods: string[];
 }) => ({
   type: ActionTypes.GET_SUBREDDIT_COMPLETED,
   payload: subreddit,

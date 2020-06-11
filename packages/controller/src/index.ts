@@ -9,3 +9,4 @@ export * from "./modules/PostPreviewController";
 export * from "./modules/CreateCommunityController";
 export * from "./modules/SubredditController";
 export * from "./modules/SubredditDescriptionController";
+export * from "./modules/SubredditModeratorsController";

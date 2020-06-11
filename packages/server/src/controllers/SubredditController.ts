@@ -6,6 +6,7 @@ import { Subreddit } from "../models/Subreddit";
 import { subredditResponseMessages } from "./responseMessages/subreddit";
 import { requireLogin } from "../middleware/requireLogin";
 import { User_Subreddit } from "../models/User_Subreddit";
+import { Op } from "sequelize";
 
 const {
   server_error,
@@ -35,6 +36,7 @@ class SubrredditController {
           UserId: user.id,
           SubredditId: subreddit.id,
           role: "own",
+          username: user.username,
         });
         res
           .status(201)
@@ -62,7 +64,27 @@ class SubrredditController {
         topics,
         description,
         adultContent,
+        createdAt,
       } = subreddit;
+      const modsArray: string[] = [];
+      const mods = await User_Subreddit.findAll({
+        where: {
+          SubredditId: subreddit.id,
+          [Op.or]: [
+            {
+              role: "own",
+            },
+            {
+              role: "adm",
+            },
+          ],
+        },
+      });
+
+      mods.forEach((mod) => {
+        modsArray.push(mod.username);
+      });
+
       const sub = {
         id,
         owner_id,
@@ -71,6 +93,8 @@ class SubrredditController {
         description,
         adultContent,
         joined,
+        createdAt,
+        mods: modsArray,
       };
 
       return res.status(201).json(sub);
@@ -81,17 +105,35 @@ class SubrredditController {
     return res.status(404).json();
   }
 
-  /*@get("/test")
-  async test(req: Request, res: Response) {
-    const user = await findCurrentUser(req.user);
+  @get("/test")
+  async test(_req: Request, res: Response) {
+    const sub = await getSubreddit("nodejs");
 
-    if (user instanceof User) {
-      const posts = await user.getSubreddits();
+    if (sub instanceof Subreddit) {
+      const modsArray: string[] = [];
+      const mods = await User_Subreddit.findAll({
+        where: {
+          SubredditId: sub.id,
+          [Op.or]: [
+            {
+              role: "own",
+            },
+            {
+              role: "adm",
+            },
+          ],
+        },
+      });
 
-      console.log(posts);
+      mods.forEach((mod) => {
+        modsArray.push(mod.username);
+      });
+      console.log(mods);
+
+      return res.json(modsArray);
     }
-    res.end();
-  }*/
+    return res.end();
+  }
 }
 
 const findCurrentUser = async (user: any) => {

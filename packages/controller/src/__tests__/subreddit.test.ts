@@ -35,6 +35,8 @@ describe("Subredit Saga", () => {
           adultContent: false,
           description: "Official Nodejs subreddit",
           joined: 1,
+          createdAt: "2020-06-11T04:51:01.820Z",
+          mods: ["ivanrl"],
         })
       )
       .run();

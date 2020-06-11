@@ -4,6 +4,7 @@ import { User } from "./User";
 
 export class User_Subreddit extends Model {
   public role!: string;
+  public username!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -15,6 +16,10 @@ User_Subreddit.init(
   {
     role: {
       type: DataTypes.STRING(3),
+      allowNull: false,
+    },
+    username: {
+      type: DataTypes.STRING(22),
       allowNull: false,
     },
   },

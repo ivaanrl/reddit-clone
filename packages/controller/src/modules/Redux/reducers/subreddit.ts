@@ -8,6 +8,8 @@ export type subredditState = {
   description: string;
   adultContent: boolean;
   joined: number;
+  createdAt: string;
+  mods: string[];
   error: number | null;
 };
 
@@ -20,6 +22,8 @@ export const subredditReducer = (
     description: "",
     adultContent: false,
     joined: 0,
+    mods: [],
+    createdAt: "",
     error: null,
   },
   action: BaseAction
@@ -36,6 +40,8 @@ export const subredditReducer = (
         description: "",
         adultContent: false,
         joined: 0,
+        createdAt: "",
+        mods: [],
         error: action.payload,
       };
     default:
