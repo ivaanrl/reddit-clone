@@ -36,6 +36,7 @@ class SubrredditController {
           SubredditId: subreddit.id,
           role: "own",
         });
+        console.log("SUBREDDIIIIT", subreddit);
         res
           .status(201)
           .json({ success: true, message: subreddit_created_successfully });
@@ -74,9 +75,11 @@ class SubrredditController {
       };
 
       return res.status(201).json(sub);
+    } else if (subreddit === { error: server_error }) {
+      return res.status(501).json({ success: false, message: server_error });
     }
 
-    return res.status(501).json({ success: false, message: server_error });
+    return res.status(404).json();
   }
 
   /*@get("/test")

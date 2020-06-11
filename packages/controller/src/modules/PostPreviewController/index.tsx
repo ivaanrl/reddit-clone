@@ -3,7 +3,7 @@ interface Props {
     upvote: () => void;
     downvote: () => void;
     navigateToPost: () => void;
-  }) => JSX.Element | null;
+  }) => JSX.Element;
 }
 
 export const PostPreviewController = (props: Props) => {

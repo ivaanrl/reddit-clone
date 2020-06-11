@@ -1,5 +1,5 @@
 interface Props {
-  children: (data: {}) => JSX.Element | null;
+  children: (data: {}) => JSX.Element;
 }
 
 export const SidebarController = (props: Props) => {

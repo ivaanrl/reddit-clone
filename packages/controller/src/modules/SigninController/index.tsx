@@ -1,5 +1,5 @@
 interface Props {
-  children: () => JSX.Element | null;
+  children: () => JSX.Element;
 }
 
 export const SigninController = (props: Props) => {

@@ -8,6 +8,12 @@ import {
   signoutUser,
 } from "./auth";
 
+import {
+  getSubreddit,
+  getSubredditCompletedAction,
+  getSubredditFailed,
+} from "./subreddit";
+
 export const allActions = {
   signinUser,
   signupUser,
@@ -16,6 +22,9 @@ export const allActions = {
   signinUserFailed,
   signupUserFailed,
   signoutUser,
+  getSubreddit,
+  getSubredditCompletedAction,
+  getSubredditFailed,
 };
 
 export * from "./types";

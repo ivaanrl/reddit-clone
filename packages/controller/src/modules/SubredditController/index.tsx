@@ -2,6 +2,6 @@ interface Props {
   children: (data: {}) => JSX.Element;
 }
 
-export const CreatePostCommunityController = (props: Props) => {
+export const SubredditController = (props: Props) => {
   return props.children({});
 };

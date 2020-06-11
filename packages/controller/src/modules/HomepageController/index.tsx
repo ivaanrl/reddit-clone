@@ -1,5 +1,5 @@
 interface Props {
-  children: (data: { getPosts: () => string | null }) => JSX.Element | null;
+  children: (data: { getPosts: () => string | null }) => JSX.Element;
 }
 
 export const HomepageController = (props: Props) => {

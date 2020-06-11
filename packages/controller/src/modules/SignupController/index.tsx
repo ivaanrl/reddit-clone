@@ -4,7 +4,7 @@ import { APIUrl } from "../../requestInfo";
 interface Props {
   children: (data: {
     checkEmailAvailability: (email: string) => Promise<superagent.Response>;
-  }) => JSX.Element | null;
+  }) => JSX.Element;
 }
 
 export const SignupController = (props: Props) => {

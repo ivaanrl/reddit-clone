@@ -1,7 +1,7 @@
 interface Props {
   children: (data: {
     search: (searchValue: string) => string | null;
-  }) => JSX.Element | null;
+  }) => JSX.Element;
 }
 
 export const NavbarController = (props: Props) => {

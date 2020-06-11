@@ -9,7 +9,7 @@ interface Props {
       description: string;
       adultContent: boolean;
     }) => Promise<superagent.Response>;
-  }) => JSX.Element | null;
+  }) => JSX.Element;
 }
 
 export const CreateCommunityController = (props: Props) => {
