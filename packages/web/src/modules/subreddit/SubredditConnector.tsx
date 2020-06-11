@@ -1,5 +1,5 @@
 import React from "react";
-import { SubredditController } from "@reddit-clone/controller";
+import { SubredditController, State } from "@reddit-clone/controller";
 import SubredditView from "./ui/SubredditView";
 
 const SubredditConnector = () => {

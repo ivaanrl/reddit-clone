@@ -36,7 +36,6 @@ class SubrredditController {
           SubredditId: subreddit.id,
           role: "own",
         });
-        console.log("SUBREDDIIIIT", subreddit);
         res
           .status(201)
           .json({ success: true, message: subreddit_created_successfully });
