@@ -3,6 +3,7 @@ import "./Subreddit.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { State, allActions } from "@reddit-clone/controller";
 import { useHistory } from "react-router-dom";
+import SubredditSidebarConnector from "../sidebar/SubredditSidebarConnector";
 
 const SubredditView = () => {
   const { pathname } = useHistory().location;
@@ -42,7 +43,12 @@ const SubredditView = () => {
           </div>
         </div>
       </div>
-      <div className="subreddit-main"></div>
+      <div className="main-container">
+        <div className="homepage-container">
+          <div className="mock-post" />
+        </div>
+        <SubredditSidebarConnector />
+      </div>
     </React.Fragment>
   );
 };
