@@ -35,11 +35,18 @@ export class User extends Model {
   public readonly posts?: Post[];
 
   public getComments!: HasManyGetAssociationsMixin<Comment>;
-  public addComment!: HasManyAddAssociationMixin<Comment, number>;
-  public hasComment!: HasManyHasAssociationMixin<Comment, number>;
+  public addComments!: HasManyAddAssociationMixin<Comment, number>;
+  public hasComments!: HasManyHasAssociationMixin<Comment, number>;
   public countComments!: HasManyCountAssociationsMixin;
-  public createComment!: HasManyCreateAssociationMixin<Comment>;
+  public createComments!: HasManyCreateAssociationMixin<Comment>;
   public readonly comments?: Comment[];
+
+  public getVotes!: HasManyGetAssociationsMixin<Vote>;
+  public addVotes!: HasManyAddAssociationMixin<Vote, number>;
+  public hasVotes!: HasManyHasAssociationMixin<Vote, number>;
+  public countVotes!: HasManyCountAssociationsMixin;
+  public createVotes!: HasManyCreateAssociationMixin<Vote>;
+  public readonly votes?: Vote[];
 
   public joinSubreddit!: BelongsToManyCreateAssociationMixin<Subreddit>;
   public getSubreddits!: BelongsToManyGetAssociationsMixin<Subreddit>;
@@ -47,6 +54,7 @@ export class User extends Model {
   public static associations: {
     posts: Association<User, Post>;
     comments: Association<User, Comment>;
+    votes: Association<User, Vote>;
     subreddits: Association<User, Subreddit>;
   };
 }
@@ -58,7 +66,7 @@ User.init(
       primaryKey: true,
     },
     username: {
-      type: DataTypes.STRING(128),
+      type: DataTypes.STRING(22),
       allowNull: false,
       unique: true,
     },
@@ -92,6 +100,14 @@ User.hasMany(Comment, {
 User.hasMany(Vote, {
   sourceKey: "id",
   foreignKey: "author_id",
-  as: "subreddits",
+  as: "votes",
 });
-User.belongsToMany(Subreddit, { through: User_Subreddit });
+
+User.belongsToMany(Subreddit, {
+  through: User_Subreddit,
+  foreignKey: "UserId",
+});
+Subreddit.belongsToMany(User, {
+  through: User_Subreddit,
+  foreignKey: "SubredditId",
+});

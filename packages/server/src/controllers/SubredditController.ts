@@ -5,6 +5,7 @@ import { User } from "../models/User";
 import { Subreddit } from "../models/Subreddit";
 import { subredditResponseMessages } from "./responseMessages/subreddit";
 import { requireLogin } from "../middleware/requireLogin";
+import { User_Subreddit } from "../models/User_Subreddit";
 
 const {
   server_error,
@@ -19,6 +20,7 @@ class SubrredditController {
   async createSubreddit(req: Request, res: Response) {
     const { name, communityTopics, description, adultContent } = req.body;
     const user = await findCurrentUser(req.user);
+
     if (user instanceof User) {
       const subreddit = await createSub(
         user.id,
@@ -29,6 +31,11 @@ class SubrredditController {
       );
 
       if (subreddit instanceof Subreddit) {
+        await User_Subreddit.create({
+          UserId: user.id,
+          SubredditId: subreddit.id,
+          role: "own",
+        });
         res
           .status(201)
           .json({ success: true, message: subreddit_created_successfully });
@@ -46,8 +53,43 @@ class SubrredditController {
     const { name } = req.params;
     const subreddit = await getSubreddit(name);
 
-    res.status(201).json(subreddit);
+    if (subreddit instanceof Subreddit) {
+      const joined = (await subreddit.getUsers()).length;
+      const {
+        id,
+        owner_id,
+        name,
+        topics,
+        description,
+        adultContent,
+      } = subreddit;
+      const sub = {
+        id,
+        owner_id,
+        name,
+        topics,
+        description,
+        adultContent,
+        joined,
+      };
+
+      return res.status(201).json(sub);
+    }
+
+    return res.status(501).json({ success: false, message: server_error });
   }
+
+  /*@get("/test")
+  async test(req: Request, res: Response) {
+    const user = await findCurrentUser(req.user);
+
+    if (user instanceof User) {
+      const posts = await user.getSubreddits();
+
+      console.log(posts);
+    }
+    res.end();
+  }*/
 }
 
 const findCurrentUser = async (user: any) => {
