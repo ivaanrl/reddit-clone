@@ -8,38 +8,32 @@ import SubredditSidebarConnector from "../sidebar/SubredditSidebarConnector";
 const SubredditView = () => {
   const { pathname } = useHistory().location;
   const dispatch = useDispatch();
-  const {
-    id,
-    owner_id,
-    name,
-    description,
-    joined,
-    topics,
-    adultContent,
-  } = useSelector((state: State) => state.subreddit);
+  const { name } = useSelector((state: State) => state.subreddit);
 
   useEffect(() => {
     dispatch(allActions.getSubreddit(pathname.split("/")[2]));
-  }, [pathname]);
+  }, [pathname, dispatch]);
 
   return (
     <React.Fragment>
       <div className="subreddit-header">
         <div className="banner" />
-        <div className="header-info-container">
-          <div className="subreddit-photo-container">
-            <div className="subreddit-photo"></div>
-          </div>
-          <div className="name-button-handle-container">
-            <div className="header-name-button">
-              <div className="subreddit-name" title="subreddit-name">
-                {name}
-              </div>
-              <button className="sidebar-main-button join-leave-button">
-                JOINED
-              </button>
+        <div className="header-info-background">
+          <div className="header-info-container">
+            <div className="subreddit-photo-container">
+              <div className="subreddit-photo"></div>
             </div>
-            <div className="subreddit-handle">{"r/" + name}</div>
+            <div className="name-button-handle-container">
+              <div className="header-name-button">
+                <div className="subreddit-name" title="subreddit-name">
+                  {name}
+                </div>
+                <button className="sidebar-main-button join-leave-button">
+                  JOINED
+                </button>
+              </div>
+              <div className="subreddit-handle">{"r/" + name}</div>
+            </div>
           </div>
         </div>
       </div>

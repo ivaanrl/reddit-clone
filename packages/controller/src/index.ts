@@ -8,3 +8,4 @@ export * from "./modules/SidebarController";
 export * from "./modules/PostPreviewController";
 export * from "./modules/CreateCommunityController";
 export * from "./modules/SubredditController";
+export * from "./modules/SubredditDescriptionController";
