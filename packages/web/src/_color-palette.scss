@@ -29,6 +29,7 @@ $link-color: #0079d3;
 $highlight-color: #ff4500;
 $error: #ea0027;
 $nsfw: #ff585b;
+
 @mixin theme-aware($key, $color) {
   @each $theme-name, $theme-color in $themes {
     .theme-#{$theme-name} & {
