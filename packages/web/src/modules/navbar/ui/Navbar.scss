@@ -85,11 +85,7 @@
 }
 
 .navbar-subreddit-dropdown {
-  @include theme-aware("color", "text-flair");
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
+  width: 60%;
   &:hover {
     cursor: pointer;
   }

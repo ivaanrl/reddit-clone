@@ -7,6 +7,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { State, allActions } from "@reddit-clone/controller";
 import SignupFormConnector from "../../signupForm/SignupFormConnector";
 import SigninFormConnector from "../../signinForm/SigninFormConnector";
+import Select, { ActionMeta, ValueType } from "react-select";
+import { getSubredditsForDropdown } from "../../../shared/getSubredditsForDropdown";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   search: (searchValue: string) => string | null;
@@ -15,6 +18,8 @@ interface Props {
 const NavbarView = (props: Props) => {
   const dispatch = useDispatch();
   const user = useSelector((state: State) => state.auth);
+  const history = useHistory();
+  const subsOptions = getSubredditsForDropdown(user.userSubs);
 
   const [svgColor, setSvgColor] = useState("#FFFFFF");
   const [redditLogoColor, setRedditLogoColor] = useState("#D7DADC");
@@ -105,6 +110,34 @@ const NavbarView = (props: Props) => {
     setPopoverOpen(false);
   };
 
+  const handleSubredditDropdownChange = (
+    value: ValueType<{ value: string; label: string }>,
+    actionMeta: ActionMeta<{ value: string; label: string }>
+  ) => {
+    const selected = value as { value: string; label: string };
+    if (selected.value === "home") {
+      history.push("");
+    } else {
+      history.push(`/r/${selected.value}`);
+    }
+  };
+
+  const getDefaultValue = () => {
+    const { pathname } = history.location;
+    if (pathname === "/") {
+      return {
+        value: "home",
+        label: "Home",
+      };
+    } else {
+      const sub = pathname.split("/")[2];
+      return {
+        value: sub,
+        label: sub,
+      };
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="navbar-container">
@@ -142,17 +175,14 @@ const NavbarView = (props: Props) => {
             </a>
           </div>
           <div className="navbar-subreddit-dropdown">
-            <div className="text">Subreddit dropdown</div>
-            <svg
-              className="navbar-subreddits-dropdown-popover-arrow"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill="#818384"
-                d="M14.17,9.35,10,13.53,5.83,9.35a.5.5,0,0,1,.35-.85h7.64a.5.5,0,0,1,.35.85"
-              ></path>
-            </svg>
+            <Select
+              className="react-select"
+              classNamePrefix="react-select"
+              placeholder="Select subreddit..."
+              defaultValue={getDefaultValue()}
+              options={subsOptions}
+              onChange={handleSubredditDropdownChange}
+            />
           </div>
         </div>
         <div className="navbar-search">
