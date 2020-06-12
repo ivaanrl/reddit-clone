@@ -9,6 +9,11 @@ export const signinUserCompletedAction = (user: {
   email: string;
   karma: number;
   username: string;
+  userSubs: {
+    id: number;
+    name: string;
+    adultContent: boolean;
+  }[];
 }) => ({
   type: ActionTypes.SIGNIN_USER_COMPLETED,
   payload: user,
@@ -62,6 +67,7 @@ export const signoutUserCompletedAction = () => ({
     email: "",
     username: "",
     karma: 0,
+    userSubs: [],
     error: {
       status: null,
       message: "",

@@ -4,6 +4,7 @@ export type authReducerState = {
   username: string;
   email: string;
   karma: number;
+  userSubs: { id: number; name: string; adultContent: boolean }[];
   error?: {
     status: number | null;
     message: string;
@@ -15,6 +16,7 @@ export const authReducer = (
     username: "",
     email: "",
     karma: 0,
+    userSubs: [],
   },
   action: BaseAction
 ) => {

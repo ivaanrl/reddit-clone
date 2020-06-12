@@ -31,6 +31,14 @@ describe("Authsaga", () => {
             username: "ivanrl",
             karma: 0,
             email: "ivanrl2010@gmail.com",
+            userSubs: [
+              { id: 109, name: "anotherCommunityy", adultContent: false },
+              {
+                id: 112,
+                name: "nodejs",
+                adultContent: false,
+              },
+            ],
           })
         )
         .run();

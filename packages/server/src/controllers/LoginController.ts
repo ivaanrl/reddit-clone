@@ -17,7 +17,7 @@ const {
 class LoginController {
   @post("/signin")
   @use(passport.authenticate("local-signin"))
-  signinUser(req: Request, res: Response) {
+  async signinUser(req: Request, res: Response) {
     if (req.user == null) {
       req.logOut();
       return res.status(501).json({ success: false, message: server_error });
@@ -43,7 +43,31 @@ class LoginController {
       karma: number;
     };
 
-    console.log(req.user);
+    const user = await User.findOne({
+      where: {
+        username,
+      },
+    });
+    const userSubsArray: {
+      id: number;
+      name: string;
+      adultContent: boolean;
+    }[] = [];
+
+    if (user instanceof User) {
+      const userSubs = await user?.getSubreddits();
+
+      userSubs.forEach((sub) => {
+        userSubsArray.push({
+          id: sub.id,
+          name: sub.name,
+          adultContent: sub.adultContent,
+        });
+      });
+    }
+
+    console.log(userSubsArray);
+
     return res.status(201).json({
       success: true,
       message: successful_login,
@@ -51,6 +75,7 @@ class LoginController {
         username,
         email,
         karma,
+        userSubs: userSubsArray,
       },
     });
   }
