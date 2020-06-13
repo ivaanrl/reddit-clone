@@ -1900,6 +1900,11 @@
   dependencies:
     "@types/express" "*"
 
+"@types/escape-html@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/escape-html/-/escape-html-1.0.0.tgz#9135124510b0930b664255149e59ed750fc11f65"
+  integrity sha512-Ehe6irbxo5BSYwG03buglLJCmy3JqqtC69UvopsBWYf4hDa+ZODJ7BuZU6y+YE4U6MaoSruTxM2+uePfAHts9Q==
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -2211,6 +2216,22 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
+
+"@types/slate-html-serializer@^0.6.4":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@types/slate-html-serializer/-/slate-html-serializer-0.6.4.tgz#3b4df0720cf29b9040e3d807a6c895acfb3182d6"
+  integrity sha512-jsNvjTGxSCCvscdwEBYQN8b7i030391zzIsrakDcbQPVDjwte9tICTaK5bovEeNdm8h6nH8yIvJK78cv339IWA==
+  dependencies:
+    "@types/react" "*"
+    "@types/slate" "*"
+
+"@types/slate@*":
+  version "0.47.7"
+  resolved "https://registry.yarnpkg.com/@types/slate/-/slate-0.47.7.tgz#fec860e24456fdf9f1169f69aadd7ce64707881f"
+  integrity sha512-Vy4E9lOKGFc5msZMwLWtVN9nrGYsdk6S7jXdC0Wf26UoMqJCS3yzXbNoFILSoCh7fq57ftJZrM6+8kkC/yT+LA==
+  dependencies:
+    "@types/react" "*"
+    immutable "^3.8.2"
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
@@ -5413,7 +5434,7 @@ es6-weak-map@^2.0.2:
     es6-iterator "^2.0.3"
     es6-symbol "^3.1.1"
 
-escape-html@~1.0.3:
+escape-html@^1.0.3, escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
@@ -7149,6 +7170,11 @@ immer@^5.0.0:
   version "5.3.6"
   resolved "https://registry.yarnpkg.com/immer/-/immer-5.3.6.tgz#51eab8cbbeb13075fe2244250f221598818cac04"
   integrity sha512-pqWQ6ozVfNOUDjrLfm4Pt7q4Q12cGw2HUZgry4Q5+Myxu9nmHRkWBpI0J4+MK0AxbdFtdMTwEGVl7Vd+vEiK+A==
+
+immutable@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+  integrity sha1-wkOZUUVbs5kT2vKBN28VMOEErfM=
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -12902,6 +12928,13 @@ slate-history@^0.58.3:
     immer "^5.0.0"
     is-plain-object "^3.0.0"
 
+slate-html-serializer@^0.8.13:
+  version "0.8.13"
+  resolved "https://registry.yarnpkg.com/slate-html-serializer/-/slate-html-serializer-0.8.13.tgz#cb37696f5d7046a61047b53e659654799c5c3bde"
+  integrity sha512-TRn81JUs7qbzE19A3f7Cw+YM4aiYiKUZM98hX9AQ7YeFqXosB0S07FwezfFt73qZhvHuJTHlnB58gPa48mEg0w==
+  dependencies:
+    type-of "^2.0.1"
+
 slate-react@^0.58.3:
   version "0.58.3"
   resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.58.3.tgz#1513ef3463c17136c7ed2cad20c8094c3607791c"
@@ -13953,6 +13986,11 @@ type-is@~1.6.17, type-is@~1.6.18:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.24"
+
+type-of@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/type-of/-/type-of-2.0.1.tgz#e72a1741896568e9f628378d816d6912f7f23972"
+  integrity sha1-5yoXQYllaOn2KDeNgW1pEvfyOXI=
 
 type@^1.0.1:
   version "1.2.0"

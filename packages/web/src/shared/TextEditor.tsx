@@ -64,13 +64,6 @@ const TextEditor = (props: Props) => {
     },
   };
 
-  /*const [value, setValue] = useState<any>([
-    {
-      type: "paragraph",
-      children: [{ text: "" }],
-    },
-  ]); */
-
   const CodeElement = (props: any) => {
     return (
       <pre {...props.attributes}>

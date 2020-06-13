@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import { getSubredditsForDropdown } from "../../../shared/getSubredditsForDropdown";
 import TextEditor from "../../../shared/TextEditor";
+import { HTMLSerializer } from "../../../shared/HTMLSerializer";
 
 const CreatePostView = () => {
   const history = useHistory();
@@ -36,6 +37,19 @@ const CreatePostView = () => {
     setTitleValue(event.target.value);
   };
 
+  const handleCancel = () => {
+    history.goBack();
+  };
+
+  const handleSubmit = () => {
+    const serialized: any[] = [];
+    textEditorValue.forEach((node: Node) => {
+      serialized.push(HTMLSerializer(node));
+    });
+
+    console.log(serialized as []);
+  };
+
   return (
     <div className="create-post-container">
       <div className="create-post-main-title">Create a post</div>
@@ -64,8 +78,12 @@ const CreatePostView = () => {
         />
         <TextEditor value={textEditorValue} setValue={setTextEditorValue} />
         <div className="buttons-container">
-          <button className="sidebar-main-button">CANCEL</button>
-          <button className="sidebar-secondary-button">POST</button>
+          <button className="sidebar-main-button" onClick={handleCancel}>
+            CANCEL
+          </button>
+          <button className="sidebar-secondary-button" onClick={handleSubmit}>
+            POST
+          </button>
         </div>
       </div>
     </div>
