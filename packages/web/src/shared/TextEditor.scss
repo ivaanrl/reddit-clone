@@ -1,0 +1,40 @@
+@import "../color-palette";
+
+.text-editor-main {
+  width: 100%;
+}
+
+.text-editor-main-container {
+  border: 1px solid;
+  border-radius: 4px;
+  @include theme-aware("border-color", "color-line");
+}
+
+.text-editor-button-container {
+  width: 100%;
+  @include theme-aware("background-color", "input-background");
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.text-editor-button {
+  border: none;
+  padding: 4px;
+  margin-right: 15px;
+  margin-left: 5px;
+  cursor: auto;
+  @include theme-aware("background-color", "input-background");
+  &:hover {
+    background-color: $text-editor-button-color-hover;
+  }
+}
+
+.text-editor-editable {
+  @include theme-aware("background-color", "color-card");
+  @include theme-aware("color", "text-main");
+  min-height: 140px;
+  box-sizing: border-box;
+  padding: 13px;
+  max-height: 400px;
+  overflow-y: scroll;
+}

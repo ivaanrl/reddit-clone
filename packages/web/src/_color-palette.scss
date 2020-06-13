@@ -29,6 +29,8 @@ $link-color: #0079d3;
 $highlight-color: #ff4500;
 $error: #ea0027;
 $nsfw: #ff585b;
+$text-editor-button-color: #878a8c;
+$text-editor-button-color-hover: #dae0e6;
 
 @mixin theme-aware($key, $color) {
   @each $theme-name, $theme-color in $themes {

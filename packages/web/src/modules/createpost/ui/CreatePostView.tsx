@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import React, { useState } from "react";
 import "./CreatePost.scss";
 import Select, { ValueType, ActionMeta } from "react-select";
 import { useHistory } from "react-router-dom";
@@ -24,6 +24,18 @@ const CreatePostView = () => {
     }
   };
 
+  const [textEditorValue, setTextEditorValue] = useState<any>([
+    {
+      type: "paragraph",
+      children: [{ text: "" }],
+    },
+  ]);
+  const [titleValue, setTitleValue] = useState("");
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitleValue(event.target.value);
+  };
+
   return (
     <div className="create-post-container">
       <div className="create-post-main-title">Create a post</div>
@@ -40,7 +52,21 @@ const CreatePostView = () => {
           options={subsOptions}
           onChange={handleSubredditDropdownChange}
         />
-        <TextEditor />
+      </div>
+      <div className="create-post-form-container">
+        <input
+          type="text"
+          name="title"
+          id="title"
+          placeholder="Title"
+          value={titleValue}
+          onChange={handleInputChange}
+        />
+        <TextEditor value={textEditorValue} setValue={setTextEditorValue} />
+        <div className="buttons-container">
+          <button className="sidebar-main-button">CANCEL</button>
+          <button className="sidebar-secondary-button">POST</button>
+        </div>
       </div>
     </div>
   );
