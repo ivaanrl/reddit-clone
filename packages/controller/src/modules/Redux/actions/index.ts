@@ -14,6 +14,8 @@ import {
   getSubredditFailed,
 } from "./subreddit";
 
+import { createPost } from "./post";
+
 export const allActions = {
   signinUser,
   signupUser,
@@ -25,6 +27,7 @@ export const allActions = {
   getSubreddit,
   getSubredditCompletedAction,
   getSubredditFailed,
+  createPost,
 };
 
 export * from "./types";

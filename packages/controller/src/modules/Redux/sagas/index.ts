@@ -4,6 +4,7 @@ import {
   watchUserSignup,
   watchUserSignout,
 } from "./auth.sagas";
+import { watchCreatePost } from "./post.sagas";
 import { watchGetSubreddit } from "./subreddit.sagas";
 
 export const rootSaga = function* root() {
@@ -12,5 +13,6 @@ export const rootSaga = function* root() {
     fork(watchUserSingin),
     fork(watchUserSignout),
     fork(watchGetSubreddit),
+    fork(watchCreatePost),
   ]);
 };

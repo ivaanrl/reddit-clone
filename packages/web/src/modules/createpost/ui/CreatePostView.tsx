@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import "./CreatePost.scss";
 import Select, { ValueType, ActionMeta } from "react-select";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { State } from "@reddit-clone/controller";
+import { useSelector, useDispatch } from "react-redux";
+import { State, allActions } from "@reddit-clone/controller";
 import { getSubredditsForDropdown } from "../../../shared/getSubredditsForDropdown";
 import TextEditor from "../../../shared/TextEditor";
 import { HTMLSerializer } from "../../../shared/HTMLSerializer";
 
 const CreatePostView = () => {
+  const dispatch = useDispatch();
+  const sub = useSelector((state: State) => state.subreddit);
   const history = useHistory();
   const user = useSelector((state: State) => state.auth);
   const subsOptions = getSubredditsForDropdown(user.userSubs, false);
@@ -42,12 +44,22 @@ const CreatePostView = () => {
   };
 
   const handleSubmit = () => {
-    const serialized: any[] = [];
+    const serialized: string[][] = [];
     textEditorValue.forEach((node: Node) => {
       serialized.push(HTMLSerializer(node));
     });
 
-    console.log(serialized as []);
+    const formatted = serialized.map((arr) => {
+      return arr.join("||");
+    });
+
+    dispatch(
+      allActions.createPost({
+        subName: sub.name,
+        title: titleValue,
+        content: formatted,
+      })
+    );
   };
 
   return (

@@ -1,4 +1,4 @@
-import { ActionTypes, BaseAction } from "../actions";
+import { ActionTypes } from "../actions";
 import { takeEvery, call, put } from "redux-saga/effects";
 import superagent from "superagent";
 import { APIUrl } from "../../../requestInfo";

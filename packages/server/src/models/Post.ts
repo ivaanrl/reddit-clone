@@ -13,7 +13,8 @@ export class Post extends Model {
   public id!: number;
   public author_id!: string;
   public subreddit_id!: number;
-  public content!: string;
+  public title!: string;
+  public content!: string[];
   public upvotes!: number;
 
   public readonly createdAt!: Date;
@@ -38,10 +39,17 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    content: {
-      type: DataTypes.TEXT,
+    title: {
+      type: DataTypes.STRING(300),
       allowNull: false,
     },
+    content: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+    },
+    /*upvotes: {
+      type: DataTypes.NUMBER,
+      defaultValue: 0,
+    },*/
   },
   {
     sequelize,
