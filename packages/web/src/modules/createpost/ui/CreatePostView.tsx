@@ -10,7 +10,7 @@ import TextEditor from "../../../shared/TextEditor";
 const CreatePostView = () => {
   const history = useHistory();
   const user = useSelector((state: State) => state.auth);
-  const subsOptions = getSubredditsForDropdown(user.userSubs);
+  const subsOptions = getSubredditsForDropdown(user.userSubs, false);
 
   const handleSubredditDropdownChange = (
     value: ValueType<{ value: string; label: string }>,
@@ -18,7 +18,7 @@ const CreatePostView = () => {
   ) => {
     const selected = value as { value: string; label: string };
     if (selected.value === "home") {
-      history.push("");
+      history.push("/submit");
     } else {
       history.push(`/r/${selected.value}/submit`);
     }

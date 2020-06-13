@@ -2,11 +2,14 @@ import React from "react";
 import "./SubredditDescription.scss";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
+import { useLocation, NavLink } from "react-router-dom";
 
 const SubredditDescriptionView = () => {
-  const { description, joined, adultContent, createdAt } = useSelector(
+  const { description, joined, adultContent, createdAt, name } = useSelector(
     (state: State) => state.subreddit
   );
+
+  const { pathname } = useLocation();
 
   const monthArray = [
     "Jan",
@@ -45,7 +48,11 @@ const SubredditDescriptionView = () => {
           <span className="tag">NSFW</span> Adult Content
         </div>
       ) : null}
-      <button className="sidebar-secondary-button">CREATE POST</button>
+      {pathname.split("/").includes("submit") ? null : (
+        <NavLink to={"/r/" + name + "/submit"}>
+          <button className="sidebar-secondary-button">CREATE POST</button>
+        </NavLink>
+      )}
     </div>
   );
 };

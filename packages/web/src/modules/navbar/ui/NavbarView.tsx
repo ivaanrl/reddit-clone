@@ -19,7 +19,7 @@ const NavbarView = (props: Props) => {
   const dispatch = useDispatch();
   const user = useSelector((state: State) => state.auth);
   const history = useHistory();
-  const subsOptions = getSubredditsForDropdown(user.userSubs);
+  const subsOptions = getSubredditsForDropdown(user.userSubs, true);
 
   const [svgColor, setSvgColor] = useState("#FFFFFF");
   const [redditLogoColor, setRedditLogoColor] = useState("#D7DADC");

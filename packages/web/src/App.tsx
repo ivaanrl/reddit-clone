@@ -11,6 +11,10 @@ const App = () => {
     <div>
       <NavbarConnector />
       <Switch>
+        <Route
+          path="/r/:subredditName/submit"
+          component={CreatePostConnector}
+        />
         <Route path="/r/:subredditName" component={SubredditConnector} />
         <Route path="/submit" component={CreatePostConnector} />
         <Route path="/" exact component={HomepageConnector} />

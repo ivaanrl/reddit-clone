@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./CreatePostCommunity.scss";
 import CreateCommunityConnector from "../createCommunity/CreateCommunityConnector";
+import { NavLink } from "react-router-dom";
 
 const CreatePostCommunityView = () => {
   const [showCreateCommunity, setShowCreateCommunity] = useState(false);
@@ -25,9 +26,11 @@ const CreatePostCommunityView = () => {
           Your personal Reddit frontpage. Come here to check in with your
           favorite communities.
         </div>
-        <button className="sidebar-secondary-button create-post-button">
-          CREATE POST
-        </button>
+        <NavLink to="/submit" style={{ width: "100%" }}>
+          <button className="sidebar-secondary-button create-post-button">
+            CREATE POST
+          </button>
+        </NavLink>
         <button
           className="sidebar-main-button create-community-button"
           onClick={handleOpenCraeteCommunityForm}
