@@ -1,6 +1,5 @@
 import escapeHtml from "escape-html";
 import { Node, Text } from "slate";
-import { chdir } from "process";
 
 export const HTMLSerializer = (node: any) => {
   if (Text.isText(node)) {
