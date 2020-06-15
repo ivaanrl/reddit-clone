@@ -12,6 +12,8 @@ import {
   getSubreddit,
   getSubredditCompletedAction,
   getSubredditFailed,
+  createSubreddit,
+  createSubredditCompletedAction,
 } from "./subreddit";
 
 import { createPost } from "./post";
@@ -27,6 +29,8 @@ export const allActions = {
   getSubreddit,
   getSubredditCompletedAction,
   getSubredditFailed,
+  createSubreddit,
+  createSubredditCompletedAction,
   createPost,
 };
 

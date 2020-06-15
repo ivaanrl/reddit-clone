@@ -7,6 +7,8 @@ import {
 } from "@reddit-clone/common";
 import Select from "react-select";
 import superagent from "superagent";
+import { useDispatch } from "react-redux";
+import { allActions } from "@reddit-clone/controller";
 
 interface Props {
   submit: (values: {
@@ -19,6 +21,7 @@ interface Props {
 }
 
 const CreateCommunityView = (props: Props) => {
+  const dispatch = useDispatch();
   const { closeForm, submit } = props;
 
   const formik = useFormik({
@@ -57,9 +60,7 @@ const CreateCommunityView = (props: Props) => {
     description: string;
     adultContent: boolean;
   }) => {
-    console.log("submit");
-    const res = await submit(values);
-    console.log(res);
+    dispatch(allActions.createSubreddit(values));
   };
 
   const handleModalClick = (

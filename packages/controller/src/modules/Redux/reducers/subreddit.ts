@@ -44,6 +44,8 @@ export const subredditReducer = (
         mods: [],
         error: action.payload,
       };
+    case ActionTypes.CREATE_SUBREDDIT_COMPLETED:
+      return { ...state, ...action.payload };
     default:
       return state;
   }

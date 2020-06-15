@@ -5,7 +5,7 @@ import {
   watchUserSignout,
 } from "./auth.sagas";
 import { watchCreatePost } from "./post.sagas";
-import { watchGetSubreddit } from "./subreddit.sagas";
+import { watchGetSubreddit, watchCreateSubreddit } from "./subreddit.sagas";
 
 export const rootSaga = function* root() {
   yield all([
@@ -14,5 +14,6 @@ export const rootSaga = function* root() {
     fork(watchUserSignout),
     fork(watchGetSubreddit),
     fork(watchCreatePost),
+    fork(watchCreateSubreddit),
   ]);
 };

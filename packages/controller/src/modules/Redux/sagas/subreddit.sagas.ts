@@ -5,10 +5,15 @@ import { APIUrl } from "../../../requestInfo";
 import {
   getSubredditCompletedAction,
   getSubredditFailed,
+  createSubredditCompletedAction,
 } from "../actions/subreddit";
 
 export function* watchGetSubreddit() {
   yield takeEvery(ActionTypes.GET_SUBREDDIT, getSubreddit);
+}
+
+export function* watchCreateSubreddit() {
+  yield takeEvery(ActionTypes.CREATE_SUBREDDIT, createSubreddit);
 }
 
 export function* getSubreddit(subInfo: { type: string; payload: string }) {
@@ -29,6 +34,43 @@ export const getSubredditRequest = (subName: string) => {
       .agent()
       .withCredentials()
       .get(APIUrl + "/subreddit/getSubreddit/" + subName);
+  } catch (error) {
+    response = error.response;
+  }
+  return response;
+};
+
+export function* createSubreddit(subInfo: {
+  type: string;
+  payload: {
+    name: string;
+    communityTopics: string[];
+    description: string;
+    adultContent: boolean;
+  };
+}) {
+  try {
+    const subResponse = yield call(createSubredditRequest, subInfo.payload);
+
+    yield put(createSubredditCompletedAction(subResponse));
+  } catch (error) {
+    console.log("NEED TO HANDLE ERROR!");
+  }
+}
+
+export const createSubredditRequest = async (subInfo: {
+  name: string;
+  communityTopics: string[];
+  description: string;
+  adultContent: boolean;
+}) => {
+  let response: superagent.Response;
+  try {
+    response = await superagent
+      .agent()
+      .withCredentials()
+      .post(APIUrl + "/subreddit/createSubreddit")
+      .send(subInfo);
   } catch (error) {
     response = error.response;
   }
