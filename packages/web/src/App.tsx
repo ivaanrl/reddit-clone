@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.scss";
 import NavbarConnector from "./modules/navbar/NavbarConnector";
 import HomepageConnector from "./modules/homepage/HomepageConnector";
 import { Switch, Route } from "react-router-dom";
 import SubredditConnector from "./modules/subreddit/SubredditConnector";
 import CreatePostConnector from "./modules/createpost/CreatePostConnector";
+import { loadUserFromLocalStorage } from "./shared/localStorage";
+import { useDispatch } from "react-redux";
+import { allActions } from "@reddit-clone/controller";
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const user = loadUserFromLocalStorage();
+    if (user) {
+      dispatch(allActions.signinUserCompletedAction(user));
+    }
+  });
+
   return (
     <div>
       <NavbarConnector />

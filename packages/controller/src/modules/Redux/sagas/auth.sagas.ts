@@ -10,6 +10,7 @@ import {
   signinUserFailed,
   signoutUserCompletedAction,
 } from "../actions/auth";
+import { authReducerState } from "../reducers/auth";
 
 export function* watchUserSingin() {
   yield takeEvery(ActionTypes.SIGNIN_USER, signinUser);
@@ -34,6 +35,7 @@ export function* signinUser(userInfo: {
     const userResponse = yield call(signinRequest, userInfo.payload);
 
     yield put(signinUserCompletedAction(userResponse.body.user));
+    saveUserToLocalStorage(userResponse.body.user);
   } catch (error) {
     //Sign in failed
     yield put(
@@ -59,6 +61,7 @@ export function* signupUser(userInfo: {
     const userResponse = yield call(signupRequest, userInfo.payload);
 
     yield put(signupUserCompletedAction(userResponse.body.user));
+    saveUserToLocalStorage(userResponse.body.user);
   } catch (error) {
     //Signup failed
     yield put(
@@ -128,4 +131,13 @@ export const signupRequest = (userInfo: {
     response = error.response;
   }
   return response;
+};
+
+export const saveUserToLocalStorage = (user: authReducerState) => {
+  try {
+    const serializeUser = JSON.stringify(user);
+    localStorage.setItem("user", serializeUser);
+  } catch (error) {
+    //Should I ignore write errors?
+  }
 };
