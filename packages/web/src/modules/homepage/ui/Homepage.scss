@@ -1,6 +1,11 @@
+@import "../../../mquery";
+
 .homepage-container {
-  max-width: 640px;
-  flex-grow: 1;
+  width: 100%;
+  @include mquery(960) {
+    max-width: 640px;
+    flex-grow: 1;
+  }
 }
 
 .mock-post {

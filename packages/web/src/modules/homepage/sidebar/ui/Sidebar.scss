@@ -1,5 +1,11 @@
+@import "../../../../mquery";
+
 .sidebar-container {
-  max-width: 312px;
-  min-width: 312px;
-  margin-left: 24px;
+  display: none;
+  @include mquery(960) {
+    display: inline-block;
+    max-width: 312px;
+    min-width: 312px;
+    margin-left: 24px;
+  }
 }
