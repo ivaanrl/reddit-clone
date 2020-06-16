@@ -1,15 +1,17 @@
 import React from "react";
+import "./Posts.scss";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
+import PostConnector from "../post/PostConnector";
 
 const PostsView = () => {
   const { posts } = useSelector((state: State) => state.subreddit);
   return (
-    <React.Fragment>
+    <div className="posts-container">
       {posts.map((post) => {
-        return "hola";
+        return <PostConnector postInfo={{ ...post }} />;
       })}
-    </React.Fragment>
+    </div>
   );
 };
 
