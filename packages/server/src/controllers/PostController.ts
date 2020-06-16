@@ -6,6 +6,7 @@ import { Subreddit } from "../models/Subreddit";
 import { subredditResponseMessages } from "./responseMessages/subreddit";
 import { requireLogin } from "../middleware/requireLogin";
 import { getSubreddit, findCurrentUser } from "../helpers";
+import { postResponseMessages } from "./responseMessages/post";
 
 @controller("/api/post")
 class PostController {
@@ -28,20 +29,20 @@ class PostController {
         if (post) {
           return res
             .status(201)
-            .json({ message: "Post created successfully." });
+            .json({ message: postResponseMessages.post_created_successfully });
         } else {
           return res
             .status(501)
-            .json({ message: "There was an error creating the post" });
+            .json({ message: postResponseMessages.non_specified_error });
         }
       } catch (error) {
         return res
           .status(501)
-          .json({ message: "There was an error creating the post" });
+          .json({ message: postResponseMessages.non_specified_error });
       }
     }
     return res
       .status(501)
-      .json({ message: "There was an error creating the post" });
+      .json({ message: postResponseMessages.non_specified_error });
   }
 }
