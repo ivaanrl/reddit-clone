@@ -32,7 +32,7 @@ export const createPostRequest = (post: {
     response = superagent
       .agent()
       .withCredentials()
-      .post(APIUrl + "/subreddit/createPost")
+      .post(APIUrl + "/post/createPost")
       .send(post);
   } catch (error) {
     response = error.response;

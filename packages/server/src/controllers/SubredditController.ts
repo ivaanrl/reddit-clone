@@ -7,6 +7,7 @@ import { subredditResponseMessages } from "./responseMessages/subreddit";
 import { requireLogin } from "../middleware/requireLogin";
 import { User_Subreddit } from "../models/User_Subreddit";
 import { Op } from "sequelize";
+import { getSubreddit, findCurrentUser, createSub } from "../helpers";
 
 const {
   server_error,
@@ -108,21 +109,17 @@ class SubrredditController {
   @post("/createPost")
   @use(requireLogin)
   async createPost(req: Request, res: Response) {
-    console.log("hola");
     const { subName, title, content } = req.body;
 
     const sub = await getSubreddit(subName);
     const user = await findCurrentUser(req.user);
 
-    console.log(subName);
     if (user instanceof User && sub instanceof Subreddit) {
       const post = await user.createPost({
         content,
         title,
         subreddit_id: sub.id,
       });
-
-      console.log(post);
     }
 
     res.end();
@@ -158,57 +155,3 @@ class SubrredditController {
     return res.end();
   }
 }
-
-const findCurrentUser = async (user: any) => {
-  try {
-    return await User.findOne({
-      where: {
-        id: user.id,
-      },
-    });
-  } catch (error) {
-    return { error: server_error };
-  }
-};
-
-const createSub = async (
-  userid: string,
-  name: string,
-  topics: string[],
-  description: string,
-  adultContent: boolean,
-  privateSub: boolean = false
-) => {
-  const existingSub = await getSubreddit(name);
-
-  if (!(existingSub instanceof Subreddit)) {
-    try {
-      const subreddit = await Subreddit.create({
-        owner_id: userid,
-        name,
-        topics,
-        description,
-        adultContent,
-        private: privateSub,
-      });
-      return subreddit;
-    } catch (error) {
-      return false;
-    }
-  } else {
-    return name_taken;
-  }
-};
-
-const getSubreddit = async (subName: string) => {
-  try {
-    return await Subreddit.findOne({
-      where: {
-        name: subName,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-    return { error: server_error };
-  }
-};

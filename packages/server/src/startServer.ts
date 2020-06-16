@@ -5,6 +5,7 @@ import session from "express-session";
 import { keys } from "../config/keys";
 import "./controllers/LoginController";
 import "./controllers/SubredditController";
+import "./controllers/PostController";
 import { AppRouter } from "./AppRouter";
 import sequelize from "./models/index";
 import cpg from "connect-pg-simple";
