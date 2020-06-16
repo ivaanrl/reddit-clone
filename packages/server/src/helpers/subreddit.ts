@@ -44,7 +44,6 @@ export const getSubreddit = async (subName: string) => {
       },
     });
   } catch (error) {
-    console.log(error);
     return { error: server_error };
   }
 };

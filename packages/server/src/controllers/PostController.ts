@@ -32,17 +32,17 @@ class PostController {
             .json({ message: postResponseMessages.post_created_successfully });
         } else {
           return res
-            .status(501)
+            .status(401)
             .json({ message: postResponseMessages.non_specified_error });
         }
       } catch (error) {
         return res
-          .status(501)
+          .status(401)
           .json({ message: postResponseMessages.non_specified_error });
       }
     }
     return res
-      .status(501)
+      .status(401)
       .json({ message: postResponseMessages.non_specified_error });
   }
 }
