@@ -11,3 +11,5 @@ export * from "./modules/SubredditController";
 export * from "./modules/SubredditDescriptionController";
 export * from "./modules/SubredditModeratorsController";
 export * from "./modules/CreatePostController";
+export * from "./modules/PostController";
+export * from "./modules/PostsController";

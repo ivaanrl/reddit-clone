@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { State, allActions } from "@reddit-clone/controller";
 import { useHistory } from "react-router-dom";
 import SubredditSidebarConnector from "../sidebar/SubredditSidebarConnector";
+import PostsConnector from "../../posts/PostsConnector";
 
 const SubredditView = () => {
   const { pathname } = useHistory().location;
@@ -40,6 +41,7 @@ const SubredditView = () => {
       <div className="main-container">
         <div className="homepage-container">
           <div className="mock-post" />
+          <PostsConnector />
         </div>
         <SubredditSidebarConnector />
       </div>
