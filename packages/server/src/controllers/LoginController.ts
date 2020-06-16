@@ -66,8 +66,6 @@ class LoginController {
       });
     }
 
-    console.log(userSubsArray);
-
     return res.status(201).json({
       success: true,
       message: successful_login,

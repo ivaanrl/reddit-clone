@@ -1,5 +1,17 @@
 import { BaseAction, ActionTypes } from "../actions";
 
+interface Post {
+  id: number;
+  author_id: string;
+  title: string;
+  content: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  subreddit_id: number;
+  votes: number;
+  author_username: string;
+}
+
 export type subredditState = {
   id: number;
   name: string;
@@ -10,6 +22,7 @@ export type subredditState = {
   joined: number;
   createdAt: string;
   mods: string[];
+  posts: Post[];
   error: number | null;
 };
 
@@ -23,6 +36,7 @@ export const subredditReducer = (
     adultContent: false,
     joined: 0,
     mods: [],
+    posts: [],
     createdAt: "",
     error: null,
   },
@@ -42,6 +56,7 @@ export const subredditReducer = (
         joined: 0,
         createdAt: "",
         mods: [],
+        posts: [],
         error: action.payload,
       };
     case ActionTypes.CREATE_SUBREDDIT_COMPLETED:

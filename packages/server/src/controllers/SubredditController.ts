@@ -141,25 +141,6 @@ class SubrredditController {
     return res.status(404).json();
   }
 
-  @post("/createPost")
-  @use(requireLogin)
-  async createPost(req: Request, res: Response) {
-    const { subName, title, content } = req.body;
-
-    const sub = await getSubreddit(subName);
-    const user = await findCurrentUser(req.user);
-
-    if (user instanceof User && sub instanceof Subreddit) {
-      const post = await user.createPost({
-        content,
-        title,
-        subreddit_id: sub.id,
-      });
-    }
-
-    res.end();
-  }
-
   @get("/test")
   async test(_req: Request, res: Response) {
     const sub = await getSubreddit("nodejs");
