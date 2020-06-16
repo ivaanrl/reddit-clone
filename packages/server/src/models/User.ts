@@ -91,7 +91,11 @@ User.init(
   }
 );
 
-User.hasMany(Post, { sourceKey: "id", foreignKey: "author_id", as: "posts" });
+User.hasMany(Post, {
+  sourceKey: "id",
+  foreignKey: "author_id",
+  as: "posts",
+});
 User.hasMany(Comment, {
   sourceKey: "id",
   foreignKey: "author_id",

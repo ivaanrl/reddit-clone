@@ -4,6 +4,7 @@ import { subredditResponseMessages } from "../controllers/responseMessages/subre
 import { loginUser } from "../__testHelpers__/auth/loginUser";
 import { logoutUser } from "../__testHelpers__/auth/logoutUser";
 import { createSubreddit } from "../__testHelpers__/subreddits/createSubreddit";
+import { createPost } from "../__testHelpers__/posts/createPost";
 
 const {
   server_error,
@@ -81,20 +82,29 @@ describe("user get subreddit", () => {
     description = Str.random();
     adultContent = false;
     await createSubreddit(name, communityTopics, description, adultContent);
+    for (let i = 0; i < 10; i++) {
+      await createPost(name);
+    }
   });
 
   test("it returns the correct subreddit", async () => {
-    const res = await axios.get(
-      "http://localhost:5000/api/subreddit/getSubreddit/" + name,
-      {
-        withCredentials: true,
-      }
-    );
+    let res;
+    try {
+      res = await axios.get(
+        "http://localhost:5000/api/subreddit/getSubreddit/" + name,
+        {
+          withCredentials: true,
+        }
+      );
+    } catch (error) {
+      res = error.response;
+    }
 
     expect(res.status).toBe(201);
     expect(res.data.name).toBe(name);
     expect(res.data.description).toBe(description);
     expect(res.data.adultContent).toBe(adultContent);
+    expect(res.data.posts.length).toBeGreaterThan(3);
   });
 });
 

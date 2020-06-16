@@ -17,10 +17,10 @@ class PostController {
 
     const sub = await getSubreddit(subName);
     const user = await findCurrentUser(req.user);
-
     if (user instanceof User && sub instanceof Subreddit) {
       try {
         const post = await user.createPost({
+          author_username: user.username,
           content,
           title,
           subreddit_id: sub.id,

@@ -6,16 +6,16 @@ import {
   Association,
 } from "sequelize";
 import sequelize from "./index";
-import { User } from "./User";
 import { Vote } from "./Vote";
 
 export class Post extends Model {
   public id!: number;
   public author_id!: string;
+  public author_username!: string;
   public subreddit_id!: number;
   public title!: string;
   public content!: string[];
-  public upvotes!: number;
+  public votes!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -39,6 +39,10 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    author_username: {
+      type: DataTypes.STRING(22),
+      allowNull: false,
+    },
     title: {
       type: DataTypes.STRING(300),
       allowNull: false,
@@ -46,10 +50,10 @@ Post.init(
     content: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
     },
-    /*upvotes: {
+    votes: {
       type: DataTypes.NUMBER,
       defaultValue: 0,
-    },*/
+    },
   },
   {
     sequelize,

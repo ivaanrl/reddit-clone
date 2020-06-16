@@ -86,6 +86,40 @@ class SubrredditController {
         modsArray.push(mod.username);
       });
 
+      const posts = await subreddit.getPosts();
+      const postsArray: {
+        id: number;
+        author_id: string;
+        title: string;
+        content: string[];
+        createdAt: Date;
+        updatedAt: Date;
+        subreddit_id: number;
+      }[] = posts.map((post) => {
+        const {
+          id,
+          author_id,
+          title,
+          content,
+          createdAt,
+          updatedAt,
+          subreddit_id,
+          votes,
+          author_username,
+        } = post;
+        return {
+          id,
+          author_id,
+          author_username,
+          title,
+          content,
+          createdAt,
+          updatedAt,
+          subreddit_id,
+          votes,
+        };
+      });
+
       const sub = {
         id,
         owner_id,
@@ -96,6 +130,7 @@ class SubrredditController {
         joined,
         createdAt,
         mods: modsArray,
+        posts: postsArray,
       };
 
       return res.status(201).json(sub);

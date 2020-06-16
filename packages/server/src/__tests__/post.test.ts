@@ -1,12 +1,9 @@
 import axios from "axios";
-import * as Str from "@supercharge/strings";
-import { subredditResponseMessages } from "../controllers/responseMessages/subreddit";
 import { loginUser } from "../__testHelpers__/auth/loginUser";
 import { logoutUser } from "../__testHelpers__/auth/logoutUser";
 import { createSubreddit } from "../__testHelpers__/subreddits/createSubreddit";
 import faker from "faker";
 import { postResponseMessages } from "../controllers/responseMessages/post";
-import { title } from "process";
 
 let username: string, password: string, email: string;
 let subName: string,
@@ -34,15 +31,21 @@ describe("post are created", () => {
       faker.lorem.words(parseInt(faker.random.alphaNumeric(10), 10)),
       faker.lorem.words(parseInt(faker.random.alphaNumeric(10), 10)),
     ];
-    const res = await axios.post(
-      "http://localhost:5000/api/post/createPost",
-      {
-        subName,
-        title,
-        content,
-      },
-      { withCredentials: true }
-    );
+    let res;
+    try {
+      res = await axios.post(
+        "http://localhost:5000/api/post/createPost",
+        {
+          subName,
+          title,
+          content,
+        },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      res = error.response;
+      console.log(error);
+    }
     expect(res.status).toBe(201);
     expect(res.data.message).toBe(
       postResponseMessages.post_created_successfully
