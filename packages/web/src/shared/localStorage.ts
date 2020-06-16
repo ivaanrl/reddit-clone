@@ -11,3 +11,12 @@ export const loadUserFromLocalStorage = () => {
     return undefined;
   }
 };
+
+export const deleteUserFromLocalStorage = () => {
+  try {
+    localStorage.removeItem("user");
+    return;
+  } catch (error) {
+    return;
+  }
+};

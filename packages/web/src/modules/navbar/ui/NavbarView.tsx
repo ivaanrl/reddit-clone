@@ -10,6 +10,7 @@ import SigninFormConnector from "../../signinForm/SigninFormConnector";
 import Select, { ActionMeta, ValueType } from "react-select";
 import { getSubredditsForDropdown } from "../../../shared/getSubredditsForDropdown";
 import { useHistory } from "react-router-dom";
+import { deleteUserFromLocalStorage } from "../../../shared/localStorage";
 
 interface Props {
   search: (searchValue: string) => string | null;
@@ -108,6 +109,7 @@ const NavbarView = (props: Props) => {
   const handleLogout = () => {
     dispatch(allActions.signoutUser());
     setPopoverOpen(false);
+    deleteUserFromLocalStorage();
   };
 
   const handleSubredditDropdownChange = (
