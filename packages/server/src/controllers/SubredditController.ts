@@ -95,30 +95,33 @@ class SubrredditController {
         createdAt: Date;
         updatedAt: Date;
         subreddit_id: number;
-      }[] = posts.map((post) => {
-        const {
-          id,
-          author_id,
-          title,
-          content,
-          createdAt,
-          updatedAt,
-          subreddit_id,
-          votes,
-          author_username,
-        } = post;
-        return {
-          id,
-          author_id,
-          author_username,
-          title,
-          content,
-          createdAt,
-          updatedAt,
-          subreddit_id,
-          votes,
-        };
-      });
+      }[] = await Promise.all(
+        posts.map(async (post) => {
+          const votes = await post.countVotes();
+          const {
+            id,
+            author_id,
+            title,
+            content,
+            createdAt,
+            updatedAt,
+            subreddit_id,
+            author_username,
+          } = post;
+          return {
+            id,
+            author_id,
+            author_username,
+            title,
+            content,
+            createdAt,
+            updatedAt,
+            subreddit_id,
+            subreddit_name: name,
+            votes,
+          };
+        })
+      );
 
       const sub = {
         id,

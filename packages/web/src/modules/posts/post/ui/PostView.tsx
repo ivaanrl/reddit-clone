@@ -12,6 +12,7 @@ interface Props {
     createdAt: string;
     updatedAt: string;
     subreddit_id: number;
+    subreddit_name: string;
     votes: number;
     title: string;
     id: number;
@@ -26,6 +27,7 @@ const PostView = (props: Props) => {
     createdAt,
     updatedAt,
     subreddit_id,
+    subreddit_name,
     votes,
     title,
     id,
@@ -47,7 +49,7 @@ const PostView = (props: Props) => {
             <path d="M8 0L14.9282 7.5H1.0718L8 0Z" />
           </svg>
         </div>
-        <div className="vote-count">250</div>
+        <div className="vote-count">{votes}</div>
         <div className="downvote-container">
           <svg
             className="downvote"
@@ -68,7 +70,7 @@ const PostView = (props: Props) => {
             {author_username}
           </NavLink>
           &nbsp;
-          <NavLink to="/" className="post-navlink">
+          <NavLink to={`/r/${subreddit_name}/${id}`} className="post-navlink">
             {formatDate(createdAt)}
           </NavLink>
         </div>

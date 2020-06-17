@@ -13,15 +13,15 @@ export class Post extends Model {
   public author_id!: string;
   public author_username!: string;
   public subreddit_id!: number;
+  public subreddit_name!: string;
   public title!: string;
   public content!: string[];
-  public votes!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
   public getVotes!: HasManyGetAssociationsMixin<Vote>;
-  public countUpvotes!: HasManyCountAssociationsMixin;
+  public countVotes!: HasManyCountAssociationsMixin;
 
   public static associations: {
     votes: Association<Post, Vote>;
@@ -49,10 +49,6 @@ Post.init(
     },
     content: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
-    },
-    votes: {
-      type: DataTypes.NUMBER,
-      defaultValue: 0,
     },
   },
   {

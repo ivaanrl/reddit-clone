@@ -8,6 +8,7 @@ interface Post {
   createdAt: string;
   updatedAt: string;
   subreddit_id: number;
+  subreddit_name: string;
   votes: number;
   author_username: string;
 }
