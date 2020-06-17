@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
     "@popperjs/core": "^2.4.0",
     "@reddit-clone/common": "^1.0.1",
     "@reddit-clone/controller": "^0.0.6",
@@ -16,6 +19,7 @@
     "emotion": "^10.0.27",
     "escape-html": "^1.0.3",
     "faker": "^4.1.0",
+    "font-awesome": "^4.7.0",
     "formik": "^2.1.4",
     "is-hotkey": "^0.1.6",
     "node-sass": "^4.14.1",

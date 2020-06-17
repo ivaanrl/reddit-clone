@@ -1,0 +1,106 @@
+@import "../../../../color-palette";
+
+.post-container {
+  border: 1px solid;
+  border-radius: 4px;
+  @include theme-aware("border-color", "color-line");
+  @include theme-aware("background-color", "color-card");
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  padding: 10px;
+  padding-left: 0px;
+  padding-bottom: 4px;
+  display: flex;
+  flex-direction: row;
+  &:hover {
+    @include theme-aware("border-color", "text-main");
+    cursor: pointer;
+  }
+}
+
+.votes-sidebar {
+  box-sizing: border-box;
+  padding: 8px;
+  padding-top: 0;
+  @include theme-aware("background-color", "color-card");
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vote-count {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  @include theme-aware("color", "text-main");
+}
+
+.upvote-container {
+  margin-bottom: -6px;
+}
+
+.create-date {
+  @include theme-aware("color", "text-muted");
+  font-size: 12px;
+}
+
+.title {
+  margin-top: 10px;
+  font-size: 18px;
+  @include theme-aware("color", "text-main");
+  font-weight: 700;
+}
+
+.content {
+  font-size: 14px;
+  @include theme-aware("color", "text-main");
+  max-width: 300px;
+  overflow-x: hidden;
+}
+
+.bottom-bar {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  @include theme-aware("color", "text-muted");
+  font-size: 12px;
+}
+
+.bottom-bar-icon {
+  font-size: 16px;
+  margin-right: 5px;
+}
+
+.comments {
+  margin-right: 20px;
+}
+
+.bottom-bar-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px;
+  &:hover {
+    background-color: rgb(215, 218, 220);
+  }
+}
+
+.upvote {
+  @include theme-aware("fill", "text-muted");
+
+  border-radius: 4px;
+  padding: 5px;
+  &:hover {
+    background-color: rgb(215, 218, 220);
+    fill: $upvote-color;
+    cursor: pointer;
+  }
+}
+
+.downvote {
+  @extend .upvote;
+  transform: rotate(180deg);
+  &:hover {
+    fill: $downvote-color;
+  }
+}

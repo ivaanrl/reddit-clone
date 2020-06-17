@@ -1,8 +1,13 @@
+@import "../../mquery";
+
 .main-container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
   box-sizing: border-box;
-  padding: 24px;
+
+  @include mquery(700) {
+    padding: 24px;
+  }
 }

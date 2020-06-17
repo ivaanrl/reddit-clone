@@ -31,6 +31,8 @@ $error: #ea0027;
 $nsfw: #ff585b;
 $text-editor-button-color: #878a8c;
 $text-editor-button-color-hover: #dae0e6;
+$upvote-color: #ff3300;
+$downvote-color: #7193ec;
 
 @mixin theme-aware($key, $color) {
   @each $theme-name, $theme-color in $themes {

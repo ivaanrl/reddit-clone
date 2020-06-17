@@ -40,7 +40,6 @@ const SubredditView = () => {
       </div>
       <div className="main-container">
         <div className="homepage-container">
-          <div className="mock-post" />
           <PostsConnector />
         </div>
         <SubredditSidebarConnector />
