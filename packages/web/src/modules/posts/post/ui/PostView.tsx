@@ -1,5 +1,6 @@
 import React from "react";
 import "./Post.scss";
+import { NavLink } from "react-router-dom";
 
 interface Props {
   sanitizeContent: (content: string[]) => { __html: string };
@@ -61,9 +62,16 @@ const PostView = (props: Props) => {
         </div>
       </div>
       <div className="main-content">
-        <div className="create-date">{`Posted by  ${author_username}  ${formatDate(
-          createdAt
-        )}`}</div>
+        <div className="create-date">
+          <div className="postedBy">Posted by </div>&nbsp;
+          <NavLink to={`/u/${author_username}`} className="post-navlink">
+            {author_username}
+          </NavLink>
+          &nbsp;
+          <NavLink to="/" className="post-navlink">
+            {formatDate(createdAt)}
+          </NavLink>
+        </div>
         <div className="title">{title}</div>
         <div
           className="content"

@@ -42,6 +42,8 @@
 .create-date {
   @include theme-aware("color", "text-muted");
   font-size: 12px;
+  display: flex;
+  flex-direction: row;
 }
 
 .title {
@@ -102,5 +104,14 @@
   transform: rotate(180deg);
   &:hover {
     fill: $downvote-color;
+  }
+}
+
+.post-navlink {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
