@@ -3,12 +3,13 @@ import "./Post.scss";
 
 interface Props {
   sanitizeContent: (content: string[]) => { __html: string };
+  formatDate: (date: string) => string;
   postInfo: {
     author_id: string;
     author_username: string;
     content: string[];
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
     subreddit_id: number;
     votes: number;
     title: string;
@@ -28,7 +29,7 @@ const PostView = (props: Props) => {
     title,
     id,
   } = props.postInfo;
-  const { sanitizeContent } = props;
+  const { sanitizeContent, formatDate } = props;
 
   return (
     <div className="post-container">
@@ -60,7 +61,9 @@ const PostView = (props: Props) => {
         </div>
       </div>
       <div className="main-content">
-        <div className="create-date">{`Posted by  ${author_username}`}</div>
+        <div className="create-date">{`Posted by  ${author_username}  ${formatDate(
+          createdAt
+        )}`}</div>
         <div className="title">{title}</div>
         <div
           className="content"

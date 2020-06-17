@@ -5,8 +5,8 @@ interface Post {
   author_id: string;
   title: string;
   content: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   subreddit_id: number;
   votes: number;
   author_username: string;
@@ -21,6 +21,7 @@ export type subredditState = {
   adultContent: boolean;
   joined: number;
   createdAt: string;
+  updatedAt: string;
   mods: string[];
   posts: Post[];
   error: number | null;
@@ -38,6 +39,7 @@ export const subredditReducer = (
     mods: [],
     posts: [],
     createdAt: "",
+    updatedAt: "",
     error: null,
   },
   action: BaseAction
@@ -55,6 +57,7 @@ export const subredditReducer = (
         adultContent: false,
         joined: 0,
         createdAt: "",
+        updatedAt: "",
         mods: [],
         posts: [],
         error: action.payload,
