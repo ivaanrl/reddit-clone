@@ -45,7 +45,7 @@ export class User extends Model {
   public addVotes!: HasManyAddAssociationMixin<Vote, number>;
   public hasVotes!: HasManyHasAssociationMixin<Vote, number>;
   public countVotes!: HasManyCountAssociationsMixin;
-  public createVotes!: HasManyCreateAssociationMixin<Vote>;
+  public createVote!: HasManyCreateAssociationMixin<Vote>;
   public readonly votes?: Vote[];
 
   public joinSubreddit!: BelongsToManyCreateAssociationMixin<Subreddit>;
@@ -113,5 +113,5 @@ User.belongsToMany(Subreddit, {
 });
 Subreddit.belongsToMany(User, {
   through: User_Subreddit,
-  foreignKey: "SubredditId",
+  foreignKey: "SubredditName",
 });

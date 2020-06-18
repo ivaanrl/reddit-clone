@@ -14,9 +14,8 @@ import { User } from "./User";
 import { User_Subreddit } from "./User_Subreddit";
 
 export class Subreddit extends Model {
-  public id!: number;
-  public owner_id!: string;
   public name!: string;
+  public owner_id!: string;
   public topics!: string;
   public description!: string;
   public adultContent!: boolean;
@@ -47,19 +46,15 @@ export class Subreddit extends Model {
 
 Subreddit.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
       primaryKey: true,
+      unique: true,
     },
     owner_id: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
     },
     topics: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
@@ -85,4 +80,4 @@ Subreddit.init(
   }
 );
 
-Subreddit.hasMany(Post, { sourceKey: "id", foreignKey: "subreddit_id" });
+Subreddit.hasMany(Post, { sourceKey: "name", foreignKey: "subreddit_name" });

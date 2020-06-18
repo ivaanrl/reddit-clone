@@ -35,7 +35,7 @@ class SubrredditController {
       if (subreddit instanceof Subreddit) {
         await User_Subreddit.create({
           UserId: user.id,
-          SubredditId: subreddit.id,
+          SubredditName: subreddit.name,
           role: "own",
           username: user.username,
         });
@@ -59,9 +59,8 @@ class SubrredditController {
     if (subreddit instanceof Subreddit) {
       const joined = (await subreddit.getUsers()).length;
       const {
-        id,
-        owner_id,
         name,
+        owner_id,
         topics,
         description,
         adultContent,
@@ -70,7 +69,7 @@ class SubrredditController {
       const modsArray: string[] = [];
       const mods = await User_Subreddit.findAll({
         where: {
-          SubredditId: subreddit.id,
+          SubredditName: subreddit.name,
           [Op.or]: [
             {
               role: "own",
@@ -94,7 +93,7 @@ class SubrredditController {
         content: string[];
         createdAt: Date;
         updatedAt: Date;
-        subreddit_id: number;
+        subreddit_name: string;
       }[] = await Promise.all(
         posts.map(async (post) => {
           const votes = await post.countVotes();
@@ -105,7 +104,7 @@ class SubrredditController {
             content,
             createdAt,
             updatedAt,
-            subreddit_id,
+            subreddit_name,
             author_username,
           } = post;
           return {
@@ -116,17 +115,15 @@ class SubrredditController {
             content,
             createdAt,
             updatedAt,
-            subreddit_id,
-            subreddit_name: name,
+            subreddit_name,
             votes,
           };
         })
       );
 
       const sub = {
-        id,
-        owner_id,
         name,
+        owner_id,
         topics,
         description,
         adultContent,
@@ -152,7 +149,7 @@ class SubrredditController {
       const modsArray: string[] = [];
       const mods = await User_Subreddit.findAll({
         where: {
-          SubredditId: sub.id,
+          SubredditName: sub.name,
           [Op.or]: [
             {
               role: "own",

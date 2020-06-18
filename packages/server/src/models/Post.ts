@@ -12,7 +12,6 @@ export class Post extends Model {
   public id!: number;
   public author_id!: string;
   public author_username!: string;
-  public subreddit_id!: number;
   public subreddit_name!: string;
   public title!: string;
   public content!: string[];
