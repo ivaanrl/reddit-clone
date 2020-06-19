@@ -53,6 +53,7 @@ class SubrredditController {
 
   @get("/getSubreddit/:name")
   async getSubreddit(req: Request, res: Response) {
+    console.log(req.params);
     const { name } = req.params;
     const subreddit = await getSubreddit(name);
 

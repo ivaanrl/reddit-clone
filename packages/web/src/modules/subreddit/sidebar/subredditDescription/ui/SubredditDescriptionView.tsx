@@ -2,14 +2,14 @@ import React from "react";
 import "./SubredditDescription.scss";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
-import { useLocation, NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 const SubredditDescriptionView = () => {
   const { description, joined, adultContent, createdAt, name } = useSelector(
     (state: State) => state.subreddit
   );
 
-  const { pathname } = useLocation();
+  const { pathname } = useHistory().location;
 
   const monthArray = [
     "Jan",
@@ -27,10 +27,14 @@ const SubredditDescriptionView = () => {
   ];
 
   const transformDate = () => {
-    const date = createdAt.substr(0, 10).split("-");
-    return `Created ${monthArray[parseInt(date[1], 10)]} ${date[2]}, ${
-      date[0]
-    } `;
+    if (createdAt) {
+      const date = createdAt.substr(0, 10).split("-");
+      return `Created ${monthArray[parseInt(date[1], 10)]} ${date[2]}, ${
+        date[0]
+      } `;
+    } else {
+      return;
+    }
   };
 
   return (

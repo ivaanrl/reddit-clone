@@ -16,6 +16,14 @@ jest.mock("react-redux", () => ({
   useDispatch: () => jest.fn(),
 }));
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useHistory: () => ({
+    push: jest.fn(),
+    location: { pathname: "need/to/find/how/to/test/useHistory" },
+  }),
+}));
+
 describe("Navbar UI is properly displayed", () => {
   beforeEach(() => {
     render(<NavbarConnector />);
@@ -31,8 +39,8 @@ describe("Navbar UI is properly displayed", () => {
   });
 
   test("displays subreddit dropdown", () => {
-    const subredditDropdown = "Subreddit dropdown";
-    expect(screen.getByText(subredditDropdown)).not.toBe(null);
+    const subredditDropdown = "subredditDropdown";
+    expect(screen.getByTitle(subredditDropdown)).not.toBe(null);
   });
 
   test("doesn't display karma if not logged in", () => {

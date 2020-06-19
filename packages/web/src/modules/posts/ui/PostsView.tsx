@@ -8,9 +8,13 @@ const PostsView = () => {
   const { posts } = useSelector((state: State) => state.subreddit);
   return (
     <div className="posts-container">
-      {posts.map((post) => {
-        return <PostConnector postInfo={{ ...post }} />;
-      })}
+      {posts ? (
+        posts.map((post) => {
+          return <PostConnector postInfo={{ ...post }} />;
+        })
+      ) : (
+        <div>There are no post in this subreddit...Yet</div>
+      )}
     </div>
   );
 };

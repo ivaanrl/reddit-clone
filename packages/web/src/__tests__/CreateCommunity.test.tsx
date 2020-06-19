@@ -34,7 +34,7 @@ test("can create subreddit", async () => {
   );
 
   const name = faker.name.firstName();
-  const description = faker.lorem.text();
+  const description = faker.lorem.words(5);
 
   const getSelectItem = async (getByLabelText: any, getByText: any) => async (
     selectLabel: string,

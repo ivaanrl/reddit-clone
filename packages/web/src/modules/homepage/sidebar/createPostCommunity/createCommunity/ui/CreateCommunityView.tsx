@@ -22,7 +22,7 @@ interface Props {
 
 const CreateCommunityView = (props: Props) => {
   const dispatch = useDispatch();
-  const { closeForm, submit } = props;
+  const { closeForm } = props;
 
   const formik = useFormik({
     initialValues: {

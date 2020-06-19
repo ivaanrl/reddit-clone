@@ -10,13 +10,15 @@ const SubredditModeratorsView = () => {
   return (
     <div className="sub-sidebar-main-container">
       <div className="sub-sidebar-header">Moderators</div>
-      {mods.map((mod) => {
-        return (
-          <NavLink className="sub-sidebar-mod-link" to={`/u/${mod}`}>
-            u/{mod}
-          </NavLink>
-        );
-      })}
+      {mods
+        ? mods.map((mod) => {
+            return (
+              <NavLink className="sub-sidebar-mod-link" to={`/u/${mod}`}>
+                u/{mod}
+              </NavLink>
+            );
+          })
+        : null}
     </div>
   );
 };

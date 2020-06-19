@@ -1,5 +1,3 @@
-import { authReducerState } from "@reddit-clone/controller/dist/modules/Redux/reducers/auth";
-
 export const loadUserFromLocalStorage = () => {
   try {
     const user = localStorage.getItem("user");

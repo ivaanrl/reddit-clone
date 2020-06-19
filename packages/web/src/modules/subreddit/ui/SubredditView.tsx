@@ -12,6 +12,7 @@ const SubredditView = () => {
   const { name } = useSelector((state: State) => state.subreddit);
 
   useEffect(() => {
+    console.log("holaaaaaaaaaaaaaaaaaaaaaaa");
     dispatch(allActions.getSubreddit(pathname.split("/")[2]));
   }, [pathname, dispatch]);
 

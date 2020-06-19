@@ -21,12 +21,9 @@ interface Props {
 
 const PostView = (props: Props) => {
   const {
-    author_id,
     author_username,
     content,
     createdAt,
-    updatedAt,
-    subreddit_id,
     subreddit_name,
     votes,
     title,

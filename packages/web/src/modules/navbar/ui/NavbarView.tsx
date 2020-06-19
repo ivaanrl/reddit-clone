@@ -176,7 +176,7 @@ const NavbarView = (props: Props) => {
               </svg>
             </a>
           </div>
-          <div className="navbar-subreddit-dropdown">
+          <div className="navbar-subreddit-dropdown" title="subredditDropdown">
             <Select
               className="react-select"
               classNamePrefix="react-select"
