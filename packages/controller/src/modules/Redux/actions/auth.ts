@@ -10,7 +10,6 @@ export const signinUserCompletedAction = (user: {
   karma: number;
   username: string;
   userSubs: {
-    id: number;
     name: string;
     adultContent: boolean;
   }[];

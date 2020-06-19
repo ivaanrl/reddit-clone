@@ -1,4 +1,5 @@
 import { ActionTypes } from "./types";
+import { Post } from "../reducers/subreddit";
 
 export const getSubreddit = (subName: string) => ({
   type: ActionTypes.GET_SUBREDDIT,
@@ -6,7 +7,6 @@ export const getSubreddit = (subName: string) => ({
 });
 
 export const getSubredditCompletedAction = (subreddit: {
-  id: number;
   name: string;
   owner_id: string;
   topics: string[];
@@ -15,6 +15,7 @@ export const getSubredditCompletedAction = (subreddit: {
   joined: number;
   createdAt: string;
   mods: string[];
+  posts: Post[];
 }) => ({
   type: ActionTypes.GET_SUBREDDIT_COMPLETED,
   payload: subreddit,
@@ -36,7 +37,6 @@ export const createSubreddit = (subreddit: {
 });
 
 export const createSubredditCompletedAction = (subreddit: {
-  id: number;
   name: string;
   owner_id: string;
   topics: string[];

@@ -28,15 +28,15 @@ describe("Subredit Saga", () => {
       .call(getSubredditRequest, subName)
       .put(
         allActions.getSubredditCompletedAction({
-          id: 112,
           name: "nodejs",
-          owner_id: "150415ad-76e3-4763-b235-71588b0c6e2c",
+          owner_id: "d20dab92-03b8-4876-8b02-60f62240c58a",
           topics: ["programming", "technology"],
           adultContent: false,
           description: "Official Nodejs subreddit",
           joined: 1,
-          createdAt: "2020-06-11T04:51:01.820Z",
+          createdAt: "2020-06-19T05:45:01.167Z",
           mods: ["ivanrl"],
+          posts: [],
         })
       )
       .run();

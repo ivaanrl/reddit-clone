@@ -1,6 +1,6 @@
 import { BaseAction, ActionTypes } from "../actions";
 
-interface Post {
+export interface Post {
   id: number;
   author_id: string;
   title: string;
@@ -14,7 +14,6 @@ interface Post {
 }
 
 export type subredditState = {
-  id: number;
   name: string;
   owner_id: string;
   topics: string[];
@@ -30,7 +29,6 @@ export type subredditState = {
 
 export const subredditReducer = (
   state: subredditState = {
-    id: 0,
     name: "",
     owner_id: "",
     topics: [],
@@ -50,7 +48,6 @@ export const subredditReducer = (
       return { ...state, ...action.payload };
     case ActionTypes.GET_SUBREDDIT_FAILED:
       return {
-        id: 0,
         name: "",
         owner_id: "",
         topics: [],

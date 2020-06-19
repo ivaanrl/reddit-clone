@@ -4,7 +4,7 @@ export type authReducerState = {
   username: string;
   email: string;
   karma: number;
-  userSubs: { id: number; name: string; adultContent: boolean }[];
+  userSubs: { name: string; adultContent: boolean }[];
   error?: {
     status: number | null;
     message: string;
