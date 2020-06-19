@@ -12,7 +12,6 @@ const SubredditView = () => {
   const { name } = useSelector((state: State) => state.subreddit);
 
   useEffect(() => {
-    console.log("holaaaaaaaaaaaaaaaaaaaaaaa");
     dispatch(allActions.getSubreddit(pathname.split("/")[2]));
   }, [pathname, dispatch]);
 
@@ -23,7 +22,7 @@ const SubredditView = () => {
         <div className="header-info-background">
           <div className="header-info-container">
             <div className="subreddit-photo-container">
-              <div className="subreddit-photo"></div>
+              <div className="subreddit-photo" title="subreddit-photo"></div>
             </div>
             <div className="name-button-handle-container">
               <div className="header-name-button">
@@ -34,7 +33,9 @@ const SubredditView = () => {
                   JOINED
                 </button>
               </div>
-              <div className="subreddit-handle">{"r/" + name}</div>
+              <div className="subreddit-handle" title="subreddit-handle">
+                {"r/" + name}
+              </div>
             </div>
           </div>
         </div>

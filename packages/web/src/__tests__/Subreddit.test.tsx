@@ -32,5 +32,34 @@ beforeEach(() => {
 });
 
 describe("renders properly", () => {
-  test("", () => {});
+  test("displays subreddit title", () => {
+    expect(screen.getByTitle("subreddit-name")).not.toBe(null);
+  });
+
+  test("displays subreddit picture", () => {
+    expect(screen.getByTitle("subreddit-photo")).not.toBe(null);
+  });
+
+  test("displays subreddit handle", () => {
+    expect(screen.getByTitle("subreddit-handle")).not.toBe(null);
+  });
+
+  test("displays subreddit description", () => {
+    expect(screen.getByTitle("subreddit-description")).not.toBe(null);
+  });
+
+  test("displays subreddit moderators", () => {
+    expect(screen.getByTitle("subreddit-moderators")).not.toBe(null);
+  });
+
+  test("displays subreddit posts", () => {
+    expect(screen.getByTitle("posts")).not.toBe(null);
+  });
+
+  test("calls API for subreddit info", () => {
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: ActionTypes.GET_SUBREDDIT,
+      payload: "nodejs",
+    });
+  });
 });

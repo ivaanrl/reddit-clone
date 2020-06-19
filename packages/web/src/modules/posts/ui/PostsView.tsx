@@ -7,7 +7,7 @@ import PostConnector from "../post/PostConnector";
 const PostsView = () => {
   const { posts } = useSelector((state: State) => state.subreddit);
   return (
-    <div className="posts-container">
+    <div className="posts-container" title="posts">
       {posts ? (
         posts.map((post) => {
           return <PostConnector postInfo={{ ...post }} />;

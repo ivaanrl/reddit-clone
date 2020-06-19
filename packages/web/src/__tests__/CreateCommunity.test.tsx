@@ -22,14 +22,8 @@ jest.mock("react-redux", () => ({
 }));
 const DOWN_ARROW = { keyCode: 40 };
 
-beforeEach(() => {
-  /*const { asFragment, getByLabelText, getByText } = render(
-    <CreateCommunityConnector closeForm={mockCloseForm} />
-  );*/
-});
-
 test("can create subreddit", async () => {
-  const { asFragment, getByLabelText, getByText } = render(
+  const { getByLabelText, getByText } = render(
     <CreateCommunityConnector closeForm={mockCloseForm} />
   );
 

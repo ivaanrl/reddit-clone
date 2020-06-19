@@ -38,7 +38,7 @@ const SubredditDescriptionView = () => {
   };
 
   return (
-    <div className="sub-sidebar-main-container">
+    <div className="sub-sidebar-main-container" title="subreddit-description">
       <div className="sub-sidebar-header">About Community</div>
       <div className="sub-description">{description}</div>
       <div className="member-count">

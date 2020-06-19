@@ -8,7 +8,7 @@ const SubredditModeratorsView = () => {
   const { mods } = useSelector((state: State) => state.subreddit);
 
   return (
-    <div className="sub-sidebar-main-container">
+    <div className="sub-sidebar-main-container" title="subreddit-moderators">
       <div className="sub-sidebar-header">Moderators</div>
       {mods
         ? mods.map((mod) => {
