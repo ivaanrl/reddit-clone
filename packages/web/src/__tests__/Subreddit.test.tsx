@@ -1,8 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, fireEvent, screen } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
-import userEvent from "@testing-library/user-event";
+import { render, screen } from "@testing-library/react";
 import { ActionTypes } from "@reddit-clone/controller";
 import SubredditConnector from "../modules/subreddit/SubredditConnector";
 import { Router, BrowserRouter } from "react-router-dom";

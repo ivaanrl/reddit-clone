@@ -63,7 +63,7 @@ const CreatePostView = () => {
   };
 
   return (
-    <div className="create-post-container">
+    <div className="create-post-container" title="create-post-container">
       <div className="create-post-main-title">Create a post</div>
       <div className="separator create-post-separator" />
       <div className="create-post-select-container">

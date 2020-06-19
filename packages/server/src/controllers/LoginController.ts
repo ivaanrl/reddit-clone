@@ -49,7 +49,6 @@ class LoginController {
       },
     });
     const userSubsArray: {
-      id: number;
       name: string;
       adultContent: boolean;
     }[] = [];
@@ -59,7 +58,6 @@ class LoginController {
 
       userSubs.forEach((sub) => {
         userSubsArray.push({
-          id: sub.id,
           name: sub.name,
           adultContent: sub.adultContent,
         });
