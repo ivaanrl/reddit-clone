@@ -8,3 +8,8 @@ export const createPost = (post: {
   type: ActionTypes.CREATE_POST,
   payload: post,
 });
+
+export const votePost = (voteInfo: { postId: number; voteValue: number }) => ({
+  type: ActionTypes.VOTE_POST,
+  payload: voteInfo,
+});

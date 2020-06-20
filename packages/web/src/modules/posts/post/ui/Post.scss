@@ -99,12 +99,28 @@
   }
 }
 
+.upvote-active {
+  fill: $upvote-color;
+}
+
+.vote-count-upvote {
+  color: $upvote-color;
+}
+
 .downvote {
   @extend .upvote;
   transform: rotate(180deg);
   &:hover {
     fill: $downvote-color;
   }
+}
+
+.downvote-active {
+  fill: $downvote-color;
+}
+
+.vote-count-downvote {
+  color: $downvote-color;
 }
 
 .post-navlink {

@@ -9,7 +9,6 @@ interface Props {
     content: string[];
     createdAt: string;
     updatedAt: string;
-    subreddit_id: number;
     subreddit_name: string;
     votes: number;
     title: string;
@@ -20,11 +19,12 @@ interface Props {
 const PostConnector = (props: Props) => {
   return (
     <PostController>
-      {({ sanitizeContent, formatDate }) => (
+      {({ sanitizeContent, formatDate, vote }) => (
         <PostView
           postInfo={props.postInfo}
           formatDate={formatDate}
           sanitizeContent={sanitizeContent}
+          vote={vote}
         />
       )}
     </PostController>

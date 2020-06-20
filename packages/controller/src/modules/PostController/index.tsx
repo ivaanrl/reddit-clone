@@ -1,9 +1,12 @@
 import sanitizeHTML from "sanitize-html";
+import { allActions } from "../Redux/actions";
+import { useDispatch } from "react-redux";
 
 interface Props {
   children: (data: {
     sanitizeContent: (content: string[]) => { __html: string };
     formatDate: (date: string) => string;
+    vote: (id: number, voteValue: number) => void;
   }) => JSX.Element;
 }
 
@@ -84,5 +87,10 @@ export const PostController = (props: Props) => {
     }
   };
 
-  return props.children({ sanitizeContent, formatDate });
+  const dispatch = useDispatch();
+  const vote = (value: number, id: number) => {
+    dispatch(allActions.votePost({ postId: id, voteValue: value }));
+  };
+
+  return props.children({ sanitizeContent, formatDate, vote });
 };
