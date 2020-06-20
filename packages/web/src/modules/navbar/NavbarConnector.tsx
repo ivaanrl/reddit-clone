@@ -5,7 +5,9 @@ import NavbarView from "./ui/NavbarView";
 const NavbarConnector = () => {
   return (
     <NavbarController>
-      {({ search }) => <NavbarView search={search} />}
+      {({ search, signoutUser }) => (
+        <NavbarView search={search} signoutUser={signoutUser} />
+      )}
     </NavbarController>
   );
 };

@@ -3,7 +3,7 @@ import { usePopper } from "react-popper";
 import "./Navbar.scss";
 import Switch from "react-switch";
 import OutsideAlerter from "../../../shared/outsideAlerter";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { State, allActions } from "@reddit-clone/controller";
 import SignupFormConnector from "../../signupForm/SignupFormConnector";
 import SigninFormConnector from "../../signinForm/SigninFormConnector";
@@ -14,11 +14,12 @@ import { deleteUserFromLocalStorage } from "../../../shared/localStorage";
 
 interface Props {
   search: (searchValue: string) => string | null;
+  signoutUser: () => void;
 }
 
 const NavbarView = (props: Props) => {
-  const dispatch = useDispatch();
   const user = useSelector((state: State) => state.auth);
+  const { signoutUser } = props;
   const history = useHistory();
   const subsOptions = getSubredditsForDropdown(user.userSubs, true);
 
@@ -107,7 +108,7 @@ const NavbarView = (props: Props) => {
   };
 
   const handleLogout = () => {
-    dispatch(allActions.signoutUser());
+    signoutUser();
     setPopoverOpen(false);
     deleteUserFromLocalStorage();
   };
