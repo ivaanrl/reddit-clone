@@ -7,10 +7,11 @@ import { usernamePasswordValidationSchema } from "@reddit-clone/common";
 
 interface Props {
   closeForm: () => void;
+  signin: (values: { username: string; password: string }) => void;
 }
 
 const SigninFormView = (props: Props) => {
-  const { closeForm } = props;
+  const { closeForm, signin } = props;
   const dispatch = useDispatch();
   const user = useSelector((state: State) => state.auth);
 
@@ -45,7 +46,7 @@ const SigninFormView = (props: Props) => {
     username: string;
     password: string;
   }) => {
-    dispatch(allActions.signinUser(values));
+    signin(values);
   };
 
   return (

@@ -9,7 +9,9 @@ interface Props {
 const SigninFormConnector = (props: Props) => {
   return (
     <SigninController>
-      {() => <SigninFormView closeForm={props.closeForm} />}
+      {({ signin }) => (
+        <SigninFormView closeForm={props.closeForm} signin={signin} />
+      )}
     </SigninController>
   );
 };

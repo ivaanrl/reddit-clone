@@ -1,7 +1,18 @@
+import { useDispatch } from "react-redux";
+import { allActions } from "../..";
+
 interface Props {
-  children: () => JSX.Element;
+  children: (data: {
+    signin: (values: { username: string; password: string }) => void;
+  }) => JSX.Element;
 }
 
 export const SigninController = (props: Props) => {
-  return props.children();
+  const dispatch = useDispatch();
+
+  const signin = (values: { username: string; password: string }) => {
+    dispatch(allActions.signinUser(values));
+  };
+
+  return props.children({ signin });
 };
