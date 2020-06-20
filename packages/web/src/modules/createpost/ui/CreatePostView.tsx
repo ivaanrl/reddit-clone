@@ -8,8 +8,12 @@ import { getSubredditsForDropdown } from "../../../shared/getSubredditsForDropdo
 import TextEditor from "../../../shared/TextEditor";
 import { HTMLSerializer } from "../../../shared/HTMLSerializer";
 
-const CreatePostView = () => {
-  const dispatch = useDispatch();
+interface Props {
+  createPost: (subName: string, title: string, content: string[]) => void;
+}
+
+const CreatePostView = (props: Props) => {
+  const { createPost } = props;
   const sub = useSelector((state: State) => state.subreddit);
   const history = useHistory();
   const user = useSelector((state: State) => state.auth);
@@ -53,13 +57,7 @@ const CreatePostView = () => {
       return arr.join("||");
     });
 
-    dispatch(
-      allActions.createPost({
-        subName: sub.name,
-        title: titleValue,
-        content: formatted,
-      })
-    );
+    createPost(sub.name, titleValue, formatted);
   };
 
   return (

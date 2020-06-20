@@ -1,7 +1,23 @@
+import { useDispatch } from "react-redux";
+import { allActions } from "../Redux";
+
 interface Props {
-  children: (data: {}) => JSX.Element;
+  children: (data: {
+    createPost: (subName: string, title: string, content: string[]) => void;
+  }) => JSX.Element;
 }
 
 export const CreatePostController = (props: Props) => {
-  return props.children({});
+  const dispatch = useDispatch();
+  const createPost = (subName: string, title: string, content: string[]) => {
+    dispatch(
+      allActions.createPost({
+        subName,
+        title,
+        content,
+      })
+    );
+  };
+
+  return props.children({ createPost });
 };

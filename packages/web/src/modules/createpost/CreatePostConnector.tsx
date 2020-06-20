@@ -23,7 +23,9 @@ const CreatePostConnector = () => {
 
   return (
     <div className="main-container">
-      <CreatePostController>{() => <CreatePostView />}</CreatePostController>
+      <CreatePostController>
+        {({ createPost }) => <CreatePostView createPost={createPost} />}
+      </CreatePostController>
       <div className="div" style={{ marginTop: "60px" }}>
         {sidebar}
       </div>
