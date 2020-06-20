@@ -13,6 +13,7 @@ interface Props {
     votes: number;
     title: string;
     id: number;
+    user_vote: number;
   };
 }
 

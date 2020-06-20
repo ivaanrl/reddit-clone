@@ -107,7 +107,7 @@
 
 .vote-count-upvote {
   @extend .vote-count;
-  color: $upvote-color;
+  color: $upvote-color !important;
 }
 
 .downvote {
@@ -127,7 +127,7 @@
 
 .vote-count-downvote {
   @extend .vote-count;
-  color: $downvote-color;
+  color: $downvote-color !important;
 }
 
 .post-navlink {

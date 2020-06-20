@@ -8,6 +8,7 @@ import { requireLogin } from "../middleware/requireLogin";
 import { User_Subreddit } from "../models/User_Subreddit";
 import { Op } from "sequelize";
 import { getSubreddit, findCurrentUser, createSub } from "../helpers";
+import { Vote } from "../models/Vote";
 
 const {
   server_error,
@@ -53,9 +54,9 @@ class SubrredditController {
 
   @get("/getSubreddit/:name")
   async getSubreddit(req: Request, res: Response) {
-    console.log(req.params);
     const { name } = req.params;
     const subreddit = await getSubreddit(name);
+    const user = await findCurrentUser(req.user);
 
     if (subreddit instanceof Subreddit) {
       const joined = (await subreddit.getUsers()).length;
@@ -97,6 +98,15 @@ class SubrredditController {
         subreddit_name: string;
       }[] = await Promise.all(
         posts.map(async (post) => {
+          let userVote;
+          if (user instanceof User) {
+            userVote = await Vote.findOne({
+              where: {
+                author_id: user.id,
+                post_id: post.id,
+              },
+            });
+          }
           const votes = await post.countVotes();
           const {
             id,
@@ -118,6 +128,7 @@ class SubrredditController {
             updatedAt,
             subreddit_name,
             votes,
+            user_vote: userVote?.value,
           };
         })
       );

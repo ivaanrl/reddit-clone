@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Post.scss";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -17,6 +17,7 @@ interface Props {
     votes: number;
     title: string;
     id: number;
+    user_vote: number;
   };
   vote: (id: number, voteValue: number) => void;
 }
@@ -25,6 +26,7 @@ const PostView = (props: Props) => {
   const dispatch = useDispatch();
   const [upvoteActive, setUpvoteActive] = useState(false);
   const [downvoteActive, setDownvoteActive] = useState(false);
+  const [voteCountClass, setVoteCountClass] = useState("vote-count");
   const {
     author_username,
     content,
@@ -33,15 +35,32 @@ const PostView = (props: Props) => {
     votes,
     title,
     id,
+    user_vote,
   } = props.postInfo;
   const { sanitizeContent, formatDate, vote } = props;
+
+  useEffect(() => {
+    if (user_vote === 1) {
+      setUpvoteActive(true);
+      setVoteCountClass("vote-count-upvote");
+    } else if (user_vote === -1) {
+      setDownvoteActive(true);
+      setVoteCountClass("vote-count-downvote");
+    }
+  }, [user_vote]);
 
   const handleVote = (voteValue: number) => {
     vote(voteValue, id);
     if (voteValue === 1) {
+      upvoteActive
+        ? setVoteCountClass("vote-count")
+        : setVoteCountClass("vote-count-upvote");
       setUpvoteActive(!upvoteActive);
       setDownvoteActive(false);
     } else {
+      downvoteActive
+        ? setVoteCountClass("vote-count")
+        : setVoteCountClass("vote-count-downvote");
       setUpvoteActive(false);
       setDownvoteActive(!downvoteActive);
     }
@@ -67,16 +86,7 @@ const PostView = (props: Props) => {
             <path d="M8 0L14.9282 7.5H1.0718L8 0Z" />
           </svg>
         </div>
-        <div
-          className={
-            upvoteActive
-              ? "vote-count-upvote"
-              : downvoteActive
-              ? "vote-count-downvote"
-              : "vote-count"
-          }
-          title="vote-count"
-        >
+        <div className={voteCountClass} title="vote-count">
           {votes}
         </div>
         <div

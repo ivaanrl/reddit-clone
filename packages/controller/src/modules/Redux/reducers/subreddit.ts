@@ -10,6 +10,7 @@ export interface Post {
   subreddit_name: string;
   votes: number;
   author_username: string;
+  user_vote: number;
 }
 
 export type subredditState = {
