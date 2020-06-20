@@ -50,7 +50,7 @@ const SigninFormView = (props: Props) => {
 
   return (
     <div className="form-backdrop">
-      <div className="signupform-container">
+      <div className="signupform-container" title="signupform">
         <div className="signupform-image-container"></div>
         <form onSubmit={formik.handleSubmit} className="step-0">
           <div className="signin-username-password-container">

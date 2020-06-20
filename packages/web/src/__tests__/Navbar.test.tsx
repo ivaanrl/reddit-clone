@@ -8,6 +8,8 @@ import {
   waitForElement,
 } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
+import NavbarView from "../modules/navbar/ui/NavbarView";
+import userEvent from "@testing-library/user-event";
 
 const mockSelector = jest.fn();
 
@@ -112,5 +114,32 @@ describe("user can open login form", () => {
     });
 
     expect(screen.queryByText(closeFormButtonText)).toBe(null);
+  });
+});
+
+const mockSearch = jest.fn();
+const mockSignout = jest.fn();
+
+describe("correct functions are called", () => {
+  beforeEach(() => {
+    render(<NavbarView search={mockSearch} signoutUser={mockSignout} />);
+  });
+
+  test("users can logout", async () => {
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "SIGN IN" }));
+      await waitForElement(() => screen.getByTitle("signupform"));
+      const usernameInput = screen.getByAltText("username input");
+      const passwordInput = screen.getByAltText("password input");
+      await userEvent.type(usernameInput, "ivanrl");
+      await userEvent.type(passwordInput, "73442332Ivan");
+
+      fireEvent.click(screen.getByRole("button", { name: "LOG IN" }));
+    });
+
+    fireEvent.click(screen.getByTestId("popover-div"));
+    fireEvent.click(screen.getByTitle("logout"));
+
+    expect(mockSignout).toHaveBeenCalledTimes(1);
   });
 });
