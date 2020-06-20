@@ -101,9 +101,12 @@
 
 .upvote-active {
   fill: $upvote-color;
+  border-radius: 4px;
+  padding: 5px;
 }
 
 .vote-count-upvote {
+  @extend .vote-count;
   color: $upvote-color;
 }
 
@@ -116,10 +119,14 @@
 }
 
 .downvote-active {
+  border-radius: 4px;
+  padding: 5px;
+  transform: rotate(180deg);
   fill: $downvote-color;
 }
 
 .vote-count-downvote {
+  @extend .vote-count;
   color: $downvote-color;
 }
 
