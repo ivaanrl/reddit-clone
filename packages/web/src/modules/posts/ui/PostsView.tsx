@@ -9,8 +9,8 @@ const PostsView = () => {
   return (
     <div className="posts-container" title="posts">
       {posts ? (
-        posts.map((post) => {
-          return <PostConnector postInfo={{ ...post }} />;
+        posts.map((post, index) => {
+          return <PostConnector postInfo={{ ...post, index }} />;
         })
       ) : (
         <div>There are no post in this subreddit...Yet</div>

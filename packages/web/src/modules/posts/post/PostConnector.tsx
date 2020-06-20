@@ -14,6 +14,7 @@ interface Props {
     title: string;
     id: number;
     user_vote: number;
+    index: number;
   };
 }
 

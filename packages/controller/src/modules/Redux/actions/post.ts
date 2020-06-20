@@ -9,7 +9,19 @@ export const createPost = (post: {
   payload: post,
 });
 
-export const votePost = (voteInfo: { postId: number; voteValue: number }) => ({
+export const votePost = (voteInfo: {
+  postId: number;
+  voteValue: number;
+  index: number;
+}) => ({
   type: ActionTypes.VOTE_POST,
+  payload: voteInfo,
+});
+
+export const updatePostVotes = (voteInfo: {
+  index: number;
+  value: number;
+}) => ({
+  type: ActionTypes.UPDATE_POST_VOTES,
   payload: voteInfo,
 });

@@ -62,6 +62,25 @@ export const subredditReducer = (
       };
     case ActionTypes.CREATE_SUBREDDIT_COMPLETED:
       return { ...state, ...action.payload };
+    case ActionTypes.UPDATE_POST_VOTES:
+      const { index, value } = action.payload;
+      const stateCopy = { ...state };
+      const postToEdit = stateCopy.posts[index];
+      if (postToEdit.user_vote === value) {
+        postToEdit.votes = 0;
+        postToEdit.user_vote = 0;
+      } else if (postToEdit.user_vote === 1 && value === -1) {
+        postToEdit.votes = -1;
+        postToEdit.user_vote = -1;
+      } else if (postToEdit.user_vote === -1 && value === 1) {
+        postToEdit.votes = 1;
+        postToEdit.user_vote = 1;
+      } else {
+        postToEdit.votes += value;
+        postToEdit.user_vote = value;
+      }
+
+      return { ...state, ...stateCopy };
     default:
       return state;
   }

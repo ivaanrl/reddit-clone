@@ -2,6 +2,7 @@ import { ActionTypes } from "../actions";
 import { takeEvery, call, put } from "redux-saga/effects";
 import superagent from "superagent";
 import { APIUrl } from "../../../requestInfo";
+import { updatePostVotes } from "../actions/post";
 
 export function* watchCreatePost() {
   yield takeEvery(ActionTypes.CREATE_POST, createPost);
@@ -28,10 +29,16 @@ export function* createPost(post: {
 
 export function* votePost(postInfo: {
   type: string;
-  payload: { voteValue: number; postId: number };
+  payload: { voteValue: number; postId: number; index: number };
 }) {
   try {
     const response = yield call(votePostRequest, postInfo.payload);
+    yield put(
+      updatePostVotes({
+        index: postInfo.payload.index,
+        value: postInfo.payload.voteValue,
+      })
+    );
   } catch (error) {
     console.log(error);
   }

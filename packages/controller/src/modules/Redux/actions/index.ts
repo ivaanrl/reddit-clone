@@ -16,7 +16,7 @@ import {
   createSubredditCompletedAction,
 } from "./subreddit";
 
-import { createPost, votePost } from "./post";
+import { createPost, votePost, updatePostVotes } from "./post";
 
 export const allActions = {
   signinUser,
@@ -33,6 +33,7 @@ export const allActions = {
   createSubredditCompletedAction,
   createPost,
   votePost,
+  updatePostVotes,
 };
 
 export * from "./types";

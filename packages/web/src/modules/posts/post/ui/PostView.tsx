@@ -18,8 +18,9 @@ interface Props {
     title: string;
     id: number;
     user_vote: number;
+    index: number;
   };
-  vote: (id: number, voteValue: number) => void;
+  vote: (id: number, voteValue: number, index: number) => void;
 }
 
 const PostView = (props: Props) => {
@@ -36,6 +37,7 @@ const PostView = (props: Props) => {
     title,
     id,
     user_vote,
+    index,
   } = props.postInfo;
   const { sanitizeContent, formatDate, vote } = props;
 
@@ -50,11 +52,13 @@ const PostView = (props: Props) => {
   }, [user_vote]);
 
   const handleVote = (voteValue: number) => {
-    vote(voteValue, id);
+    vote(voteValue, id, index);
     if (voteValue === 1) {
-      upvoteActive
-        ? setVoteCountClass("vote-count")
-        : setVoteCountClass("vote-count-upvote");
+      if (upvoteActive) {
+        setVoteCountClass("vote-count");
+      } else {
+        setVoteCountClass("vote-count-upvote");
+      }
       setUpvoteActive(!upvoteActive);
       setDownvoteActive(false);
     } else {

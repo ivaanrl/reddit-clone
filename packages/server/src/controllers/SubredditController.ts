@@ -107,7 +107,11 @@ class SubrredditController {
               },
             });
           }
-          const votes = await post.countVotes();
+          const votes = await post.getVotes();
+          let voteValue = 0;
+          votes.forEach((vote) => {
+            voteValue += vote.value;
+          });
           const {
             id,
             author_id,
@@ -127,7 +131,7 @@ class SubrredditController {
             createdAt,
             updatedAt,
             subreddit_name,
-            votes,
+            votes: voteValue,
             user_vote: userVote?.value,
           };
         })
