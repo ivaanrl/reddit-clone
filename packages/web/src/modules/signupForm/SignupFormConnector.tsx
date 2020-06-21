@@ -9,10 +9,11 @@ interface Props {
 const SignupFormConnector = ({ closeForm }: Props) => {
   return (
     <SignupController>
-      {({ checkEmailAvailability }) => (
+      {({ checkEmailAvailability, submitForm }) => (
         <SignupFormView
           checkEmailAvailability={checkEmailAvailability}
           closeForm={closeForm}
+          submitForm={submitForm}
         />
       )}
     </SignupController>

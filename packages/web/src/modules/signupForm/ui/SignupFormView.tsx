@@ -6,12 +6,17 @@ import {
   usernamePasswordValidationSchema,
 } from "@reddit-clone/common";
 import superagent from "superagent";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { allActions, State } from "@reddit-clone/controller";
 
 interface Props {
   checkEmailAvailability: (email: string) => Promise<superagent.Response>;
   closeForm: () => void;
+  submitForm: (values: {
+    email: string;
+    password: string;
+    username: string;
+  }) => void;
 }
 
 const EmailForm = (props: {
@@ -161,8 +166,7 @@ ChooseSubredditForm.validationSchema = {};
 const steps = [EmailForm, UsernamePasswordForm, ChooseSubredditForm];
 
 const SignupFormView = (props: Props) => {
-  const { closeForm, checkEmailAvailability } = props;
-  const dispatch = useDispatch();
+  const { closeForm, checkEmailAvailability, submitForm } = props;
   const user = useSelector((state: State) => state.auth);
 
   const [step, setStep] = useState<number>(0);
@@ -209,8 +213,7 @@ const SignupFormView = (props: Props) => {
       return;
     }
 
-    dispatch(allActions.signupUser(formik.values));
-
+    submitForm(formik.values);
     //need to implement recommended subreddits after sign up
     //handleNextStep();
   };

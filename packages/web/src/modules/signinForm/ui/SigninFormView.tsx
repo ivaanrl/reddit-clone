@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import "./SigninForm.scss";
 import { useFormik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { State, allActions } from "@reddit-clone/controller";
+import { useSelector } from "react-redux";
+import { State } from "@reddit-clone/controller";
 import { usernamePasswordValidationSchema } from "@reddit-clone/common";
 
 interface Props {
@@ -12,7 +12,6 @@ interface Props {
 
 const SigninFormView = (props: Props) => {
   const { closeForm, signin } = props;
-  const dispatch = useDispatch();
   const user = useSelector((state: State) => state.auth);
 
   const formik = useFormik({
