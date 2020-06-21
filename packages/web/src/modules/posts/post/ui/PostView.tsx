@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Post.scss";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { allActions } from "@reddit-clone/controller";
 
 interface Props {
   sanitizeContent: (content: string[]) => { __html: string };
@@ -24,7 +22,6 @@ interface Props {
 }
 
 const PostView = (props: Props) => {
-  const dispatch = useDispatch();
   const [upvoteActive, setUpvoteActive] = useState(false);
   const [downvoteActive, setDownvoteActive] = useState(false);
   const [voteCountClass, setVoteCountClass] = useState("vote-count");

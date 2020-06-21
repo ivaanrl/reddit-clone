@@ -4,7 +4,7 @@ import "./Navbar.scss";
 import Switch from "react-switch";
 import OutsideAlerter from "../../../shared/outsideAlerter";
 import { useSelector } from "react-redux";
-import { State, allActions } from "@reddit-clone/controller";
+import { State } from "@reddit-clone/controller";
 import SignupFormConnector from "../../signupForm/SignupFormConnector";
 import SigninFormConnector from "../../signinForm/SigninFormConnector";
 import Select, { ActionMeta, ValueType } from "react-select";

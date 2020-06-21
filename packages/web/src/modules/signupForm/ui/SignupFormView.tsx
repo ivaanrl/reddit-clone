@@ -7,7 +7,7 @@ import {
 } from "@reddit-clone/common";
 import superagent from "superagent";
 import { useSelector } from "react-redux";
-import { allActions, State } from "@reddit-clone/controller";
+import { State } from "@reddit-clone/controller";
 
 interface Props {
   checkEmailAvailability: (email: string) => Promise<superagent.Response>;
