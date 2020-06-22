@@ -38,7 +38,7 @@ export class User extends Model {
   public addComments!: HasManyAddAssociationMixin<Comment, number>;
   public hasComments!: HasManyHasAssociationMixin<Comment, number>;
   public countComments!: HasManyCountAssociationsMixin;
-  public createComments!: HasManyCreateAssociationMixin<Comment>;
+  public createComment!: HasManyCreateAssociationMixin<Comment>;
   public readonly comments?: Comment[];
 
   public getVotes!: HasManyGetAssociationsMixin<Vote>;

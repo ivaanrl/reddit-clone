@@ -16,7 +16,7 @@ import { Vote } from "./Vote";
 export class Comment extends Model {
   public id!: number;
   public author_id!: string;
-  public content!: string;
+  public content!: string[];
   public post_id!: string;
   public comment_id: string;
 
@@ -47,7 +47,7 @@ Comment.init(
       allowNull: false,
     },
     content: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
     post_id: {

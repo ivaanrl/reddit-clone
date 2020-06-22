@@ -8,6 +8,17 @@ import { requireLogin } from "../middleware/requireLogin";
 import { getSubreddit, findCurrentUser } from "../helpers";
 import { postResponseMessages } from "./responseMessages/post";
 import { Vote } from "../models/Vote";
+import { Post } from "../models/Post";
+
+const {
+  post_created_successfully,
+  server_error,
+  non_specified_error,
+  comment_saved,
+  vote_removed,
+  post_downvoted,
+  post_upvoted,
+} = postResponseMessages;
 
 @controller("/api/post")
 class PostController {
@@ -28,23 +39,15 @@ class PostController {
         });
 
         if (post) {
-          return res
-            .status(201)
-            .json({ message: postResponseMessages.post_created_successfully });
+          return res.status(201).json({ message: post_created_successfully });
         } else {
-          return res
-            .status(401)
-            .json({ message: postResponseMessages.non_specified_error });
+          return res.status(401).json({ message: non_specified_error });
         }
       } catch (error) {
-        return res
-          .status(401)
-          .json({ message: postResponseMessages.non_specified_error });
+        return res.status(401).json({ message: non_specified_error });
       }
     }
-    return res
-      .status(401)
-      .json({ message: postResponseMessages.non_specified_error });
+    return res.status(401).json({ message: non_specified_error });
   }
 
   @post("/vote/:id")
@@ -64,7 +67,7 @@ class PostController {
           },
         });
       } catch (error) {
-        return res.status(501).json({ message: "server error" });
+        return res.status(501).json({ message: server_error });
       }
 
       if (!(vote instanceof Vote)) {
@@ -74,16 +77,16 @@ class PostController {
             post_id: postId,
           });
 
-          return res.status(201).json({ message: "Post upvoted" });
+          return res.status(201).json({ message: post_upvoted });
         } catch (error) {
-          return res.status(501).json({ message: "server error" });
+          return res.status(501).json({ message: server_error });
         }
       } else {
         if (vote.value !== voteValue) {
           await vote.update({
             value: voteValue,
           });
-          const message = voteValue === 1 ? "Post upvoted" : "Post downvoted";
+          const message = voteValue === 1 ? post_upvoted : post_downvoted;
           return res.status(201).json({ message });
         } else {
           try {
@@ -94,14 +97,39 @@ class PostController {
               },
             });
 
-            return res.status(201).json({ message: "Vote removed" });
+            return res.status(201).json({ message: vote_removed });
           } catch (error) {
             console.log(error);
-            return res.status(501).json({ message: "server error" });
+            return res.status(501).json({ message: server_error });
           }
         }
       }
     }
-    return res.status(501).json({ message: "server error" });
+    return res.status(501).json({ message: server_error });
+  }
+
+  @post("/comment")
+  @use(requireLogin)
+  async createComment(req: Request, res: Response) {
+    const { postId, comment } = req.body;
+    const user = await findCurrentUser(req.user);
+    const post = await Post.findOne({ where: { id: postId } });
+
+    if (user instanceof User && post instanceof Post) {
+      try {
+        const newComment = await user.createComment({
+          post_id: post.id,
+          content: comment,
+        });
+
+        if (newComment) {
+          return res.status(201).json({ message: comment_saved });
+        }
+      } catch (error) {
+        return res.status(501).json({ message: server_error });
+      }
+    }
+
+    return res.status(501).json({ message: server_error });
   }
 }

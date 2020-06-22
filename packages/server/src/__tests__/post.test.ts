@@ -8,6 +8,17 @@ import { getSubreddit } from "../__testHelpers__/subreddits/getSubreddit";
 import { getUpvotes } from "../__testHelpers__/user/getUpvotes";
 import { createPost } from "../__testHelpers__/posts/createPost";
 import { getDownvotes } from "../__testHelpers__/user/getDownvotes";
+import { Post } from "../models/Post";
+
+const {
+  post_created_successfully,
+  server_error,
+  non_specified_error,
+  comment_saved,
+  vote_removed,
+  post_downvoted,
+  post_upvoted,
+} = postResponseMessages;
 
 let username: string, password: string, email: string;
 let subName: string,
@@ -23,6 +34,7 @@ beforeAll(async () => {
   subName = faker.lorem.word();
   communityTopics = [faker.lorem.word(), faker.lorem.word()];
   description = faker.lorem.words(15);
+
   adultContent = faker.random.boolean();
   await createSubreddit(subName, communityTopics, description, adultContent);
 });
@@ -51,9 +63,7 @@ describe("post are created", () => {
       console.log(error);
     }
     expect(res.status).toBe(201);
-    expect(res.data.message).toBe(
-      postResponseMessages.post_created_successfully
-    );
+    expect(res.data.message).toBe(post_created_successfully);
   });
 
   test("without content", async () => {
@@ -67,9 +77,7 @@ describe("post are created", () => {
       { withCredentials: true }
     );
     expect(res.status).toBe(201);
-    expect(res.data.message).toBe(
-      postResponseMessages.post_created_successfully
-    );
+    expect(res.data.message).toBe(post_created_successfully);
   });
 });
 
@@ -96,7 +104,7 @@ describe("can't create post with missing information", () => {
       res = error.response;
     }
     expect(res.status).toBe(401);
-    expect(res.data.message).toBe(postResponseMessages.non_specified_error);
+    expect(res.data.message).toBe(non_specified_error);
   });
 
   test("missing title", async () => {
@@ -120,7 +128,7 @@ describe("can't create post with missing information", () => {
       res = error.response;
     }
     expect(res.status).toBe(401);
-    expect(res.data.message).toBe(postResponseMessages.non_specified_error);
+    expect(res.data.message).toBe(non_specified_error);
   });
 });
 
@@ -218,8 +226,114 @@ describe("voting works", () => {
   });
 });
 
-describe("throws unauthorized error", () => {
+describe("can create comment", () => {
+  let subInfo: AxiosResponse<{
+    name: string;
+    ownner_id: string;
+    topics: string[];
+    description: string;
+    joined: boolean;
+    createdAt: string;
+    adultContent: boolean;
+    mods: string[];
+    posts: {
+      id: number;
+      author_id: string;
+      author_username: string;
+      title: string;
+      content: string[];
+      createdAt: string;
+      updatedAt: string;
+      subreddit_id: string;
+      votes: number;
+    }[];
+  }>;
+  let subPosts: {
+    id: number;
+    author_id: string;
+    author_username: string;
+    title: string;
+    content: string[];
+    createdAt: string;
+    updatedAt: string;
+    subreddit_id: string;
+    votes: number;
+  }[];
   beforeAll(async () => {
+    await createPost(subName);
+    subInfo = await getSubreddit(subName);
+    subPosts = subInfo.data.posts;
+  });
+
+  test("can comment post", async () => {
+    const firstPost = subPosts[subPosts.length - 1];
+    const comment = [
+      faker.lorem.words(3),
+      faker.lorem.words(3),
+      faker.lorem.words(3),
+    ];
+    let res;
+    try {
+      res = await axios.post(
+        "http://localhost:5000/api/post/comment/",
+        {
+          comment,
+          postId: firstPost.id,
+        },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      res = error.response;
+    }
+
+    expect(res.status).toBe(201);
+    expect(res.data.message).toBe(comment_saved);
+
+    const post = await Post.findOne({ where: { id: firstPost.id } });
+    const postComments = await post?.getComments();
+
+    expect(postComments?.length).toBeGreaterThan(0);
+  });
+});
+
+describe("throws unauthorized error", () => {
+  let subInfo: AxiosResponse<{
+    name: string;
+    ownner_id: string;
+    topics: string[];
+    description: string;
+    joined: boolean;
+    createdAt: string;
+    adultContent: boolean;
+    mods: string[];
+    posts: {
+      id: number;
+      author_id: string;
+      author_username: string;
+      title: string;
+      content: string[];
+      createdAt: string;
+      updatedAt: string;
+      subreddit_id: string;
+      votes: number;
+    }[];
+  }>;
+  let subPosts: {
+    id: number;
+    author_id: string;
+    author_username: string;
+    title: string;
+    content: string[];
+    createdAt: string;
+    updatedAt: string;
+    subreddit_id: string;
+    votes: number;
+  }[];
+
+  beforeAll(async () => {
+    await createPost(subName);
+    subInfo = await getSubreddit(subName);
+    subPosts = subInfo.data.posts;
     await logoutUser();
   });
 
@@ -240,6 +354,33 @@ describe("throws unauthorized error", () => {
           subName,
           title,
           content,
+        },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      res = error.response;
+    }
+
+    expect(res.status).toBe(401);
+    expect(res.data.message).toBe(
+      "You must be logged in to perform this action"
+    );
+  });
+
+  test("can comment post", async () => {
+    const firstPost = subPosts[subPosts.length - 1];
+    const comment = [
+      faker.lorem.words(3),
+      faker.lorem.words(3),
+      faker.lorem.words(3),
+    ];
+    let res;
+    try {
+      res = await axios.post(
+        "http://localhost:5000/api/post/comment/",
+        {
+          comment,
+          postId: firstPost.id,
         },
         { withCredentials: true }
       );

@@ -6,14 +6,18 @@ import { useHistory } from "react-router-dom";
 import SubredditSidebarConnector from "../sidebar/SubredditSidebarConnector";
 import PostsConnector from "../../posts/PostsConnector";
 
-const SubredditView = () => {
+interface Props {
+  getSubreddit: (subName: string) => void;
+}
+
+const SubredditView = (props: Props) => {
+  const { getSubreddit } = props;
   const { pathname } = useHistory().location;
-  const dispatch = useDispatch();
   const { name } = useSelector((state: State) => state.subreddit);
 
   useEffect(() => {
-    dispatch(allActions.getSubreddit(pathname.split("/")[2]));
-  }, [pathname, dispatch]);
+    getSubreddit(pathname.split("/")[2]);
+  }, [pathname]);
 
   return (
     <React.Fragment>

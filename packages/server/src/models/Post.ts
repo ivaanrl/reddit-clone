@@ -4,9 +4,11 @@ import {
   HasManyCountAssociationsMixin,
   HasManyGetAssociationsMixin,
   Association,
+  HasManyAddAssociationMixin,
 } from "sequelize";
 import sequelize from "./index";
 import { Vote } from "./Vote";
+import { Comment } from "./Comment";
 
 export class Post extends Model {
   public id!: number;
@@ -19,11 +21,15 @@ export class Post extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
+  public getComments!: HasManyGetAssociationsMixin<Comment>;
+  public countComments!: HasManyCountAssociationsMixin;
+
   public getVotes!: HasManyGetAssociationsMixin<Vote>;
   public countVotes!: HasManyCountAssociationsMixin;
 
   public static associations: {
     votes: Association<Post, Vote>;
+    comments: Association<Post, Comment>;
   };
 }
 
@@ -57,3 +63,4 @@ Post.init(
 );
 
 Post.hasMany(Vote, { sourceKey: "id", foreignKey: "post_id" });
+Post.hasMany(Comment, { sourceKey: "id", foreignKey: "post_id" });
