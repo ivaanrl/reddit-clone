@@ -60,7 +60,6 @@ describe("post are created", () => {
       );
     } catch (error) {
       res = error.response;
-      console.log(error);
     }
     expect(res.status).toBe(201);
     expect(res.data.message).toBe(post_created_successfully);
@@ -220,8 +219,6 @@ describe("voting works", () => {
 
     firstPost.votes = -1;
 
-    console.log(downvotes.data);
-
     expect(downvotes.data.downvotedPosts).toEqual([firstPost]);
   });
 });
@@ -293,6 +290,64 @@ describe("can create comment", () => {
     const postComments = await post?.getComments();
 
     expect(postComments?.length).toBeGreaterThan(0);
+  });
+});
+
+describe("can get full post", () => {
+  let subInfo: AxiosResponse<{
+    name: string;
+    ownner_id: string;
+    topics: string[];
+    description: string;
+    joined: boolean;
+    createdAt: string;
+    adultContent: boolean;
+    mods: string[];
+    posts: {
+      id: number;
+      author_id: string;
+      author_username: string;
+      title: string;
+      content: string[];
+      createdAt: string;
+      updatedAt: string;
+      subreddit_id: string;
+      votes: number;
+    }[];
+  }>;
+  let subPosts: {
+    id: number;
+    author_id: string;
+    author_username: string;
+    title: string;
+    content: string[];
+    createdAt: string;
+    updatedAt: string;
+    subreddit_id: string;
+    votes: number;
+  }[];
+  beforeAll(async () => {
+    await createPost(subName);
+    subInfo = await getSubreddit(subName);
+    subPosts = subInfo.data.posts;
+  });
+
+  test("can get full post without comments", async () => {
+    const firstPost = subPosts[subPosts.length - 1];
+    let res;
+    try {
+      res = await axios.get(
+        "http://localhost:5000/api/post/getPost/" + firstPost.id,
+        {
+          withCredentials: true,
+        }
+      );
+    } catch (error) {
+      res = error.response;
+    }
+
+    expect(res.status).toBe(201);
+    expect(res.data).toEqual(firstPost);
   });
 });
 

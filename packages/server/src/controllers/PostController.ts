@@ -18,6 +18,8 @@ const {
   vote_removed,
   post_downvoted,
   post_upvoted,
+  post_not_found,
+  error_getting_post,
 } = postResponseMessages;
 
 @controller("/api/post")
@@ -130,6 +132,60 @@ class PostController {
       }
     }
 
+    return res.status(501).json({ message: server_error });
+  }
+
+  @get("/getPost/:id")
+  async getPost(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const post = await Post.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (post instanceof Post) {
+        let voteValue = 0;
+        try {
+          const postVotes = await post.getVotes();
+          postVotes.forEach((vote) => {
+            voteValue += vote.value;
+          });
+        } catch (error) {
+          console.log(error);
+          return res.status(505).json({ message: error_getting_post });
+        }
+
+        const {
+          id,
+          author_id,
+          title,
+          content,
+          createdAt,
+          updatedAt,
+          subreddit_name,
+          author_username,
+        } = post;
+
+        return res
+          .status(201)
+          .json({
+            id,
+            author_id,
+            author_username,
+            title,
+            content,
+            createdAt,
+            updatedAt,
+            subreddit_name,
+            votes: voteValue,
+          });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(404).json({ message: post_not_found });
+    }
     return res.status(501).json({ message: server_error });
   }
 }

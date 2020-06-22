@@ -6,4 +6,6 @@ export const postResponseMessages = {
   vote_removed: "Vote removed",
   post_upvoted: "Post upvoted",
   post_downvoted: "Post downvoted",
+  post_not_found: "Post not found",
+  error_getting_post: "There was an error loading the post",
 };
