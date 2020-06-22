@@ -347,7 +347,29 @@ describe("can get full post", () => {
     }
 
     expect(res.status).toBe(201);
-    expect(res.data).toEqual(firstPost);
+    expect(res.data).toEqual({ ...firstPost, comments: [] });
+  });
+
+  test("can get full post with comments", async () => {
+    const firstPost = subPosts[subPosts.length - 1];
+    let res;
+    try {
+      res = await axios.get(
+        "http://localhost:5000/api/post/getPost/" + firstPost.id,
+        {
+          withCredentials: true,
+        }
+      );
+    } catch (error) {
+      res = error.response;
+    }
+
+    const post = await Post.findOne({ where: { id: firstPost.id } });
+
+    const postCommnets = await post?.getComments();
+
+    expect(res.status).toBe(201);
+    expect(res.data).toEqual({ ...firstPost, comments: postCommnets });
   });
 });
 

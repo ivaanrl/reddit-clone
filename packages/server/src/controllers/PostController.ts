@@ -147,11 +147,14 @@ class PostController {
 
       if (post instanceof Post) {
         let voteValue = 0;
+        let postComments;
         try {
           const postVotes = await post.getVotes();
           postVotes.forEach((vote) => {
             voteValue += vote.value;
           });
+
+          postComments = await post.getComments();
         } catch (error) {
           console.log(error);
           return res.status(505).json({ message: error_getting_post });
@@ -168,19 +171,18 @@ class PostController {
           author_username,
         } = post;
 
-        return res
-          .status(201)
-          .json({
-            id,
-            author_id,
-            author_username,
-            title,
-            content,
-            createdAt,
-            updatedAt,
-            subreddit_name,
-            votes: voteValue,
-          });
+        return res.status(201).json({
+          id,
+          author_id,
+          author_username,
+          title,
+          content,
+          createdAt,
+          updatedAt,
+          subreddit_name,
+          votes: voteValue,
+          comments: postComments,
+        });
       }
     } catch (error) {
       console.log(error);
