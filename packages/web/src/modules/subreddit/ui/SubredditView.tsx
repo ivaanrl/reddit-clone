@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./Subreddit.scss";
-import { useSelector, useDispatch } from "react-redux";
-import { State, allActions } from "@reddit-clone/controller";
+import { useSelector } from "react-redux";
+import { State } from "@reddit-clone/controller";
 import { useHistory } from "react-router-dom";
 import SubredditSidebarConnector from "../sidebar/SubredditSidebarConnector";
 import PostsConnector from "../../posts/PostsConnector";
@@ -17,7 +17,7 @@ const SubredditView = (props: Props) => {
 
   useEffect(() => {
     getSubreddit(pathname.split("/")[2]);
-  }, [pathname]);
+  }, [pathname, getSubreddit]);
 
   return (
     <React.Fragment>

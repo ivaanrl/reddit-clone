@@ -9,12 +9,26 @@
   border-radius: 4px;
   @include theme-aware("border-color", "color-line");
 }
+.text-editor-main-container-comment {
+  border: none;
+}
 
 .text-editor-button-container {
   width: 100%;
   @include theme-aware("background-color", "input-background");
   padding-top: 5px;
   padding-bottom: 5px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.text-editor-comment-button {
+  max-height: 27px;
+  font-size: 12px;
+  max-width: 100px;
+  padding: 0;
+  margin-right: 10px;
 }
 
 .text-editor-button {
@@ -27,6 +41,12 @@
   &:hover {
     background-color: $text-editor-button-color-hover;
   }
+}
+
+.text-editor-button-small {
+  @extend .text-editor-button;
+  margin-right: 5px;
+  margin-left: 0;
 }
 
 .text-editor-editable {

@@ -25,3 +25,24 @@ export const updatePostVotes = (voteInfo: {
   type: ActionTypes.UPDATE_POST_VOTES,
   payload: voteInfo,
 });
+
+export const getFullPost = (postId: number) => ({
+  type: ActionTypes.GET_FULL_POST,
+  payload: postId,
+});
+
+export const getFullPostCompletedAction = (postInfo: {
+  id: number;
+  author_id: string;
+  title: string;
+  content: string[];
+  createdAt: string;
+  updatedAt: string;
+  subreddit_name: string;
+  votes: number;
+  author_username: string;
+  user_vote: number;
+}) => ({
+  type: ActionTypes.GET_FULL_POST_COMPLETED,
+  payload: postInfo,
+});

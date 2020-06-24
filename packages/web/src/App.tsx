@@ -8,6 +8,7 @@ import CreatePostConnector from "./modules/createpost/CreatePostConnector";
 import { loadUserFromLocalStorage } from "./shared/localStorage";
 import { useDispatch } from "react-redux";
 import { allActions } from "@reddit-clone/controller";
+import FullPostConnector from "./modules/fullPost/FullPostConnector";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,10 @@ const App = () => {
     <div>
       <NavbarConnector />
       <Switch>
+        <Route
+          path="/r/:subredditName/post/:id"
+          component={FullPostConnector}
+        />
         <Route
           path="/r/:subredditName/submit"
           component={CreatePostConnector}

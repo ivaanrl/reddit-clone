@@ -148,6 +148,20 @@ class PostController {
       if (post instanceof Post) {
         let voteValue = 0;
         let postComments;
+        let user_vote = 0;
+        let user = await findCurrentUser(req.user);
+        if (user instanceof User) {
+          const vote = await Vote.findOne({
+            where: {
+              author_id: user.id,
+            },
+          });
+
+          if (vote instanceof Vote) {
+            console.log(vote);
+            user_vote = vote?.value;
+          }
+        }
         try {
           const postVotes = await post.getVotes();
           postVotes.forEach((vote) => {
@@ -181,6 +195,7 @@ class PostController {
           updatedAt,
           subreddit_name,
           votes: voteValue,
+          user_vote,
           comments: postComments,
         });
       }

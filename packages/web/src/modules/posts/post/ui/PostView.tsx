@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./Post.scss";
 import { NavLink } from "react-router-dom";
+import Vote from "../../vote/Vote";
 
 interface Props {
   sanitizeContent: (content: string[]) => { __html: string };
@@ -22,9 +23,6 @@ interface Props {
 }
 
 const PostView = (props: Props) => {
-  const [upvoteActive, setUpvoteActive] = useState(false);
-  const [downvoteActive, setDownvoteActive] = useState(false);
-  const [voteCountClass, setVoteCountClass] = useState("vote-count");
   const {
     author_username,
     content,
@@ -38,76 +36,15 @@ const PostView = (props: Props) => {
   } = props.postInfo;
   const { sanitizeContent, formatDate, vote } = props;
 
-  useEffect(() => {
-    if (user_vote === 1) {
-      setUpvoteActive(true);
-      setVoteCountClass("vote-count-upvote");
-    } else if (user_vote === -1) {
-      setDownvoteActive(true);
-      setVoteCountClass("vote-count-downvote");
-    }
-  }, [user_vote]);
-
-  const handleVote = (voteValue: number) => {
-    vote(voteValue, id, index);
-    if (voteValue === 1) {
-      if (upvoteActive) {
-        setVoteCountClass("vote-count");
-      } else {
-        setVoteCountClass("vote-count-upvote");
-      }
-      setUpvoteActive(!upvoteActive);
-      setDownvoteActive(false);
-    } else {
-      downvoteActive
-        ? setVoteCountClass("vote-count")
-        : setVoteCountClass("vote-count-downvote");
-      setUpvoteActive(false);
-      setDownvoteActive(!downvoteActive);
-    }
-  };
-
   return (
     <div className="post-container">
-      <div className="votes-sidebar">
-        <div
-          className="upvote-container"
-          title="upvote-button"
-          onClick={() => handleVote(1)}
-        >
-          <svg
-            className={upvoteActive ? "upvote-active" : "upvote"}
-            data-testid="upvote-svg"
-            width="16"
-            height="14"
-            viewBox="0 0 16 14"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect x="5.71429" y="4.73685" width="4.57143" height="9.26316" />
-            <path d="M8 0L14.9282 7.5H1.0718L8 0Z" />
-          </svg>
-        </div>
-        <div className={voteCountClass} title="vote-count">
-          {votes}
-        </div>
-        <div
-          className="downvote-container"
-          title="downvote-button"
-          onClick={() => handleVote(-1)}
-        >
-          <svg
-            data-testid="downvote-svg"
-            className={downvoteActive ? "downvote-active" : "downvote"}
-            width="16"
-            height="14"
-            viewBox="0 0 16 14"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect x="5.71429" y="4.73685" width="4.57143" height="9.26316" />
-            <path d="M8 0L14.9282 7.5H1.0718L8 0Z" />
-          </svg>
-        </div>
-      </div>
+      <Vote
+        id={id}
+        index={index}
+        votes={votes}
+        user_vote={user_vote}
+        vote={vote}
+      />
       <div className="main-content">
         <div className="create-date" title="post-create-date">
           <div className="postedBy">Posted by </div>&nbsp;
@@ -115,7 +52,10 @@ const PostView = (props: Props) => {
             {author_username}
           </NavLink>
           &nbsp;
-          <NavLink to={`/r/${subreddit_name}/${id}`} className="post-navlink">
+          <NavLink
+            to={`/r/${subreddit_name}/post/${id}`}
+            className="post-navlink"
+          >
             {formatDate(createdAt)}
           </NavLink>
         </div>

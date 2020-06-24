@@ -5,7 +5,7 @@ export * from "./modules/SigninController";
 export * from "./modules/SignupController";
 export * from "./modules/CreatePostCommunityController";
 export * from "./modules/SidebarController";
-export * from "./modules/PostPreviewController";
+export * from "./modules/FullPostController";
 export * from "./modules/CreateCommunityController";
 export * from "./modules/SubredditController";
 export * from "./modules/SubredditDescriptionController";

@@ -86,7 +86,11 @@ const CreatePostView = (props: Props) => {
           value={titleValue}
           onChange={handleInputChange}
         />
-        <TextEditor value={textEditorValue} setValue={setTextEditorValue} />
+        <TextEditor
+          value={textEditorValue}
+          setValue={setTextEditorValue}
+          topBar={true}
+        />
         <div className="buttons-container">
           <button className="sidebar-main-button" onClick={handleCancel}>
             CANCEL

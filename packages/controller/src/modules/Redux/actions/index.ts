@@ -16,7 +16,13 @@ import {
   createSubredditCompletedAction,
 } from "./subreddit";
 
-import { createPost, votePost, updatePostVotes } from "./post";
+import {
+  createPost,
+  votePost,
+  updatePostVotes,
+  getFullPost,
+  getFullPostCompletedAction,
+} from "./post";
 
 export const allActions = {
   signinUser,
@@ -34,6 +40,8 @@ export const allActions = {
   createPost,
   votePost,
   updatePostVotes,
+  getFullPost,
+  getFullPostCompletedAction,
 };
 
 export * from "./types";

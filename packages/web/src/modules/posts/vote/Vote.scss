@@ -1,0 +1,64 @@
+@import "../../../color-palette";
+
+.votes-sidebar {
+  box-sizing: border-box;
+  padding: 8px;
+  padding-top: 0;
+  @include theme-aware("background-color", "color-card");
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vote-count {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  @include theme-aware("color", "text-main");
+}
+
+.upvote-container {
+  margin-bottom: -6px;
+}
+.upvote {
+  @include theme-aware("fill", "text-muted");
+
+  border-radius: 4px;
+  padding: 5px;
+  &:hover {
+    background-color: rgb(215, 218, 220);
+    fill: $upvote-color;
+    cursor: pointer;
+  }
+}
+
+.upvote-active {
+  fill: $upvote-color;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.vote-count-upvote {
+  @extend .vote-count;
+  color: $upvote-color !important;
+}
+
+.downvote {
+  @extend .upvote;
+  transform: rotate(180deg);
+  &:hover {
+    fill: $downvote-color;
+  }
+}
+
+.downvote-active {
+  border-radius: 4px;
+  padding: 5px;
+  transform: rotate(180deg);
+  fill: $downvote-color;
+}
+
+.vote-count-downvote {
+  @extend .vote-count;
+  color: $downvote-color !important;
+}

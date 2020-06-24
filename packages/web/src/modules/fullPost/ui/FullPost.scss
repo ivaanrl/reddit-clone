@@ -1,0 +1,49 @@
+@import "../../../mquery";
+@import "../../../color-palette";
+
+.homepage-container {
+  @include theme-aware("background-color", "color-card");
+  border-radius: 4px;
+}
+
+.post {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  padding-top: 10px;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  @include theme-aware("color", "text-muted");
+  font-size: 12px;
+  a {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.title {
+  @include theme-aware("color", "text-main");
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.comments {
+  padding-left: 0;
+}
+
+.text-editor-container {
+  max-width: 60%;
+  margin: auto;
+  margin-top: 20px;
+  border: 1px solid;
+  border-radius: 4px;
+  @include theme-aware("border-color", "color-line");
+  margin-bottom: 25px;
+}

@@ -2,7 +2,7 @@ import { ActionTypes } from "../actions";
 import { takeEvery, call, put } from "redux-saga/effects";
 import superagent from "superagent";
 import { APIUrl } from "../../../requestInfo";
-import { updatePostVotes } from "../actions/post";
+import { updatePostVotes, getFullPostCompletedAction } from "../actions/post";
 
 export function* watchCreatePost() {
   yield takeEvery(ActionTypes.CREATE_POST, createPost);
@@ -10,6 +10,10 @@ export function* watchCreatePost() {
 
 export function* watchVotePost() {
   yield takeEvery(ActionTypes.VOTE_POST, votePost);
+}
+
+export function* watchGetFullPost() {
+  yield takeEvery(ActionTypes.GET_FULL_POST, getFullPost);
 }
 
 export function* createPost(post: {
@@ -24,6 +28,15 @@ export function* createPost(post: {
     const response = yield call(createPostRequest, post.payload);
   } catch (error) {
     console.log(error);
+  }
+}
+
+export function* getFullPost(post: { type: string; payload: number }) {
+  try {
+    const response = yield call(getFullPostRequest, post.payload);
+    yield put(getFullPostCompletedAction(response.body));
+  } catch (error) {
+    alert("HANDLE ERROR");
   }
 }
 
@@ -56,6 +69,20 @@ export const createPostRequest = (post: {
       .withCredentials()
       .post(APIUrl + "/post/createPost")
       .send(post);
+  } catch (error) {
+    response = error.response;
+  }
+
+  return response;
+};
+
+export const getFullPostRequest = (postId: number) => {
+  let response;
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      .get(APIUrl + "/post/getPost/" + postId);
   } catch (error) {
     response = error.response;
   }
