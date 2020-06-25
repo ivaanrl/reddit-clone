@@ -1,16 +1,8 @@
 import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ActionTypes, rootReducer } from "@reddit-clone/controller";
-import SubredditConnector from "../modules/subreddit/SubredditConnector";
-import { Router, BrowserRouter } from "react-router-dom";
-import PostsConnector from "../modules/posts/PostsConnector";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
-import configureMockStore from "redux-mock-store";
-import { number } from "yup";
+import { BrowserRouter } from "react-router-dom";
 import PostConnector from "../modules/posts/post/PostConnector";
-import PostView from "../modules/posts/post/ui/PostView";
 
 const mockSelector = jest.fn();
 const mockDispatch = jest.fn();
@@ -28,7 +20,7 @@ jest.mock("react-router-dom", () => ({
   }),
 }));
 
-let postConnector: any;
+let postConnector;
 
 beforeEach(() => {
   postConnector = render(
