@@ -156,11 +156,12 @@ class PostController {
           const vote = await Vote.findOne({
             where: {
               author_id: user.id,
+              post_id: post.id,
             },
           });
 
           if (vote instanceof Vote) {
-            user_vote = vote?.value;
+            user_vote = vote.value;
           }
         }
         try {
