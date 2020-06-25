@@ -46,3 +46,29 @@ export const getFullPostCompletedAction = (postInfo: {
   type: ActionTypes.GET_FULL_POST_COMPLETED,
   payload: postInfo,
 });
+
+export const voteFullPost = (postInfo: {
+  postId: number;
+  voteValue: number;
+}) => ({
+  type: ActionTypes.VOTE_FULL_POST,
+  payload: postInfo,
+});
+
+export const updateFullPostVotes = (voteValue: number) => ({
+  type: ActionTypes.UPDATE_FULL_POST_VOTES,
+  payload: voteValue,
+});
+
+export const commentFullPost = (postInfo: {
+  postId: number;
+  content: string[];
+}) => ({
+  type: ActionTypes.COMMENT_FULL_POST,
+  payload: postInfo,
+});
+
+export const commentFullPostCompletedAction = (comment: string[]) => ({
+  type: ActionTypes.COMMENT_FULL_POST_COMPLETED,
+  payload: comment,
+});

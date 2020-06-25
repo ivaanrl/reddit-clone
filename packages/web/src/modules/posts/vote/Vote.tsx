@@ -8,10 +8,11 @@ interface Props {
   user_vote: number;
   vote?: (id: number, voteValue: number, index: number) => void;
   voteFullPost?: (id: number, voteValue: number) => void;
+  showCount: boolean;
 }
 
 const Vote = (props: Props) => {
-  const { vote, id, index, votes, user_vote, voteFullPost } = props;
+  const { vote, id, index, votes, user_vote, voteFullPost, showCount } = props;
   const [upvoteActive, setUpvoteActive] = useState(false);
   const [downvoteActive, setDownvoteActive] = useState(false);
   const [voteCountClass, setVoteCountClass] = useState("vote-count");
@@ -30,7 +31,7 @@ const Vote = (props: Props) => {
     if (vote && index) {
       vote(voteValue, id, index);
     } else if (voteFullPost) {
-      voteFullPost(id, voteValue);
+      voteFullPost(voteValue, id);
     }
 
     if (voteValue === 1) {
@@ -69,9 +70,11 @@ const Vote = (props: Props) => {
           <path d="M8 0L14.9282 7.5H1.0718L8 0Z" />
         </svg>
       </div>
-      <div className={voteCountClass} title="vote-count">
-        {votes}
-      </div>
+      {showCount ? (
+        <div className={voteCountClass} title="vote-count">
+          {votes}
+        </div>
+      ) : null}
       <div
         className="downvote-container"
         title="downvote-button"

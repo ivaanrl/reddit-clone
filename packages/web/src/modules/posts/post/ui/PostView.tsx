@@ -44,6 +44,7 @@ const PostView = (props: Props) => {
         votes={votes}
         user_vote={user_vote}
         vote={vote}
+        showCount={true}
       />
       <div className="main-content">
         <div className="create-date" title="post-create-date">

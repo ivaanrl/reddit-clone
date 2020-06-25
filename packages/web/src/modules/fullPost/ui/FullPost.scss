@@ -1,7 +1,7 @@
 @import "../../../mquery";
 @import "../../../color-palette";
 
-.homepage-container {
+.full-post-container {
   @include theme-aware("background-color", "color-card");
   border-radius: 4px;
 }
@@ -39,11 +39,25 @@
 }
 
 .text-editor-container {
-  max-width: 60%;
+  max-width: 90%;
   margin: auto;
-  margin-top: 20px;
+  margin-top: 5px;
   border: 1px solid;
   border-radius: 4px;
   @include theme-aware("border-color", "color-line");
   margin-bottom: 25px;
+}
+
+small {
+  margin-top: 20px;
+  padding-left: 35px;
+
+  a {
+    color: $link-color;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

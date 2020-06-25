@@ -9,6 +9,7 @@ interface Props {
     sanitizeContent: (content: string[]) => { __html: string };
     formatDate: (date: string) => string;
     vote: (id: number, voteValue: number) => void;
+    comment: (postId: number, content: string[]) => void;
   }) => JSX.Element;
 }
 
@@ -19,7 +20,11 @@ export const FullPostController = (props: Props) => {
   };
 
   const vote = (value: number, id: number) => {
-    //dispatch(allActions.votePost({ postId: id, voteValue: value, index }));
+    dispatch(allActions.voteFullPost({ postId: id, voteValue: value }));
+  };
+
+  const comment = (postId: number, content: string[]) => {
+    dispatch(allActions.commentFullPost({ postId, content }));
   };
 
   return props.children({
@@ -27,5 +32,6 @@ export const FullPostController = (props: Props) => {
     vote,
     sanitizeContent,
     formatDate,
+    comment,
   });
 };

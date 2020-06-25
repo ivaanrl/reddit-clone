@@ -14,10 +14,12 @@ interface Props {
   setValue: (newValue: any) => void;
   value: any;
   topBar: boolean;
+  placeholder: string;
+  comment?: () => void;
 }
 
 const TextEditor = (props: Props) => {
-  const { setValue, value, topBar } = props;
+  const { setValue, value, topBar, placeholder, comment } = props;
 
   const editor = useMemo(() => withReact(createEditor()), []);
   const LIST_TYPES = ["bulleted-list", "numbered-list"];
@@ -294,8 +296,11 @@ const TextEditor = (props: Props) => {
           <polygon points="15.56 9.24 17.39 4 14.16 4 10.8 9.8 10.8 16 18 16 18 9.24 15.56 9.24"></polygon>
         </svg>
       </button>
-      {!topBar ? (
-        <button className="sidebar-secondary-button text-editor-comment-button">
+      {!topBar && comment ? (
+        <button
+          className="sidebar-secondary-button text-editor-comment-button"
+          onClick={comment}
+        >
           {" "}
           COMMENT
         </button>
@@ -322,7 +327,7 @@ const TextEditor = (props: Props) => {
           className="text-editor-editable"
           renderElement={renderElement}
           renderLeaf={renderLeaf}
-          placeholder="Text (optional)"
+          placeholder={placeholder}
           onKeyDown={(event) => {
             if (!event.ctrlKey) {
               return;

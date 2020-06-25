@@ -2,7 +2,12 @@ import { ActionTypes } from "../actions";
 import { takeEvery, call, put } from "redux-saga/effects";
 import superagent from "superagent";
 import { APIUrl } from "../../../requestInfo";
-import { updatePostVotes, getFullPostCompletedAction } from "../actions/post";
+import {
+  updatePostVotes,
+  getFullPostCompletedAction,
+  updateFullPostVotes,
+  commentFullPostCompletedAction,
+} from "../actions/post";
 
 export function* watchCreatePost() {
   yield takeEvery(ActionTypes.CREATE_POST, createPost);
@@ -14,6 +19,14 @@ export function* watchVotePost() {
 
 export function* watchGetFullPost() {
   yield takeEvery(ActionTypes.GET_FULL_POST, getFullPost);
+}
+
+export function* watchVoteFullPost() {
+  yield takeEvery(ActionTypes.VOTE_FULL_POST, voteFullPost);
+}
+
+export function* watchCommentFullPost() {
+  yield takeEvery(ActionTypes.COMMENT_FULL_POST, commentFullPost);
 }
 
 export function* createPost(post: {
@@ -45,7 +58,7 @@ export function* votePost(postInfo: {
   payload: { voteValue: number; postId: number; index: number };
 }) {
   try {
-    const response = yield call(votePostRequest, postInfo.payload);
+    yield call(votePostRequest, postInfo.payload);
     yield put(
       updatePostVotes({
         index: postInfo.payload.index,
@@ -56,6 +69,47 @@ export function* votePost(postInfo: {
     console.log(error);
   }
 }
+
+export function* voteFullPost(postInfo: {
+  type: string;
+  payload: { voteValue: number; postId: number };
+}) {
+  try {
+    yield call(votePostRequest, postInfo.payload);
+    yield put(updateFullPostVotes(postInfo.payload.voteValue));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* commentFullPost(postInfo: {
+  type: string;
+  payload: { postId: number; content: string[] };
+}) {
+  try {
+    yield call(commentFullPostRequest, postInfo.payload);
+    yield put(commentFullPostCompletedAction(postInfo.payload.content));
+  } catch (error) {}
+}
+
+export const commentFullPostRequest = (post: {
+  postId: number;
+  content: string[];
+}) => {
+  let response;
+
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      .post(APIUrl + "/post/comment")
+      .send(post);
+  } catch (error) {
+    response = error.response;
+  }
+
+  return response;
+};
 
 export const createPostRequest = (post: {
   subName: string;

@@ -6,13 +6,14 @@ import SubredditSidebarConnector from "../subreddit/sidebar/SubredditSidebarConn
 const FullPostConnector = () => {
   return (
     <FullPostController>
-      {({ getFullPost, vote, sanitizeContent, formatDate }) => (
+      {({ getFullPost, vote, sanitizeContent, formatDate, comment }) => (
         <div className="main-container">
           <FullPostView
             getFullPost={getFullPost}
             vote={vote}
             sanitizeContent={sanitizeContent}
             formatDate={formatDate}
+            comment={comment}
           />
           <div className="sidebar-contaier">
             <SubredditSidebarConnector />

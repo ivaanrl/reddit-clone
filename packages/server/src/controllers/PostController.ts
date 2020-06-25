@@ -113,7 +113,8 @@ class PostController {
   @post("/comment")
   @use(requireLogin)
   async createComment(req: Request, res: Response) {
-    const { postId, comment } = req.body;
+    const { postId, content } = req.body;
+    console.log(req.body);
     const user = await findCurrentUser(req.user);
     const post = await Post.findOne({ where: { id: postId } });
 
@@ -121,13 +122,14 @@ class PostController {
       try {
         const newComment = await user.createComment({
           post_id: post.id,
-          content: comment,
+          content,
         });
 
         if (newComment) {
           return res.status(201).json({ message: comment_saved });
         }
       } catch (error) {
+        console.log(error);
         return res.status(501).json({ message: server_error });
       }
     }
@@ -158,7 +160,6 @@ class PostController {
           });
 
           if (vote instanceof Vote) {
-            console.log(vote);
             user_vote = vote?.value;
           }
         }

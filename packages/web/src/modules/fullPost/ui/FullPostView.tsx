@@ -5,22 +5,24 @@ import { State } from "@reddit-clone/controller";
 import { useSelector } from "react-redux";
 import Vote from "../../posts/vote/Vote";
 import TextEditor from "../../../shared/TextEditor";
+import { HTMLSerializer } from "../../../shared/HTMLSerializer";
 
 interface Props {
   getFullPost: (postId: number) => void;
   sanitizeContent: (content: string[]) => { __html: string };
   formatDate: (date: string) => string;
   vote: (id: number, voteValue: number) => void;
+  comment: (postId: number, content: string[]) => void;
 }
 
 const FullPostView = (props: Props) => {
   const location = useLocation();
-  const { getFullPost, sanitizeContent, formatDate, vote } = props;
+  const { getFullPost, sanitizeContent, formatDate, vote, comment } = props;
+  const user = useSelector((state: State) => state.auth);
   const post = useSelector((state: State) => state.fullPost);
 
   const {
     id,
-    author_id,
     author_username,
     title,
     content,
@@ -43,10 +45,30 @@ const FullPostView = (props: Props) => {
     getFullPost(parseInt(postId));
   }, [getFullPost, location.pathname]);
 
+  const handleComment = () => {
+    if (textEditor[0].children[0].text === "") return;
+    const serialized: string[][] = [];
+    textEditor.forEach((node: Node) => {
+      serialized.push(HTMLSerializer(node));
+    });
+
+    const formatted = serialized.map((arr) => {
+      return arr.join("||");
+    });
+
+    comment(id, formatted);
+  };
+
   return (
-    <div className="homepage-container">
+    <div className="homepage-container full-post-container">
       <div className="post">
-        <Vote id={id} votes={votes} user_vote={user_vote} voteFullPost={vote} />
+        <Vote
+          id={id}
+          votes={votes}
+          user_vote={user_vote}
+          voteFullPost={vote}
+          showCount={true}
+        />
         <div className="main-content">
           <div className="info">
             <div className="subreddit">
@@ -81,12 +103,20 @@ const FullPostView = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="text-editor-container">
-        <TextEditor
-          value={textEditor}
-          setValue={setTextEditor}
-          topBar={false}
-        />
+      <div className="create-comment-container">
+        <small>
+          Comment as{" "}
+          <NavLink to={`/u/${user.username}`}>{user.username}</NavLink>
+        </small>
+        <div className="text-editor-container">
+          <TextEditor
+            value={textEditor}
+            setValue={setTextEditor}
+            topBar={false}
+            placeholder="What are your thoughts?"
+            comment={handleComment}
+          />
+        </div>
       </div>
     </div>
   );
