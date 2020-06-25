@@ -31,7 +31,7 @@ const Vote = (props: Props) => {
     if (vote && (index || index === 0)) {
       vote(voteValue, id, index);
     } else if (voteFullPost) {
-      voteFullPost(voteValue, id);
+      voteFullPost(id, voteValue);
     }
 
     if (voteValue === 1) {

@@ -71,11 +71,11 @@ const FullPostView = (props: Props) => {
         />
         <div className="main-content">
           <div className="info">
-            <div className="subreddit">
+            <div className="subreddit" title="subreddit-name">
               <NavLink to={`/r/${subreddit_name}`}>r/{subreddit_name}</NavLink>
               &nbsp;
             </div>
-            <div className="posted-by">
+            <div className="posted-by" title="posted-by">
               Posted by{" "}
               <NavLink to={`/u/${author_username}`}>
                 u/{author_username}
@@ -91,7 +91,7 @@ const FullPostView = (props: Props) => {
             className="content"
             dangerouslySetInnerHTML={sanitizeContent(content)}
           />
-          <div className="bottom-bar">
+          <div className="bottom-bar" title="bottom-bar">
             <div className="comments bottom-bar-container">
               <i className="fa fa-comment  bottom-bar-icon" />
               <div className="text">X comments</div>
@@ -103,19 +103,24 @@ const FullPostView = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="create-comment-container">
+      <div
+        className="create-comment-container"
+        title="create-comment-container"
+      >
         <small>
           Comment as{" "}
           <NavLink to={`/u/${user.username}`}>{user.username}</NavLink>
         </small>
         <div className="text-editor-container">
-          <TextEditor
-            value={textEditor}
-            setValue={setTextEditor}
-            topBar={false}
-            placeholder="What are your thoughts?"
-            comment={handleComment}
-          />
+          {process.env.NODE_ENV !== "test" ? (
+            <TextEditor
+              value={textEditor}
+              setValue={setTextEditor}
+              topBar={false}
+              placeholder="What are your thoughts?"
+              comment={handleComment}
+            />
+          ) : null}
         </div>
       </div>
     </div>

@@ -300,6 +300,7 @@ const TextEditor = (props: Props) => {
         <button
           className="sidebar-secondary-button text-editor-comment-button"
           onClick={comment}
+          disabled={!(value[0].children[0].text === "")}
         >
           {" "}
           COMMENT
