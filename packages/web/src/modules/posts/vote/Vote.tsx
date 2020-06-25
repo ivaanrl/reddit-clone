@@ -28,7 +28,7 @@ const Vote = (props: Props) => {
   }, [user_vote]);
 
   const handleVote = (voteValue: number) => {
-    if (vote && index) {
+    if (vote && (index || index === 0)) {
       vote(voteValue, id, index);
     } else if (voteFullPost) {
       voteFullPost(voteValue, id);

@@ -87,7 +87,9 @@ class SubrredditController {
         modsArray.push(mod.username);
       });
 
-      const posts = await subreddit.getPosts();
+      const posts = await subreddit.getPosts({
+        order: [["createdAt", "DESC"]],
+      });
       const postsArray: {
         id: number;
         author_id: string;
