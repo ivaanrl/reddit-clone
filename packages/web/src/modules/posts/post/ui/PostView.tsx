@@ -47,32 +47,40 @@ const PostView = (props: Props) => {
         showCount={true}
       />
       <div className="main-content">
-        <div className="create-date" title="post-create-date">
-          <div className="postedBy">Posted by </div>&nbsp;
-          <NavLink to={`/u/${author_username}`} className="post-navlink">
-            {author_username}
-          </NavLink>
-          &nbsp;
+        <NavLink
+          to={`/r/${subreddit_name}/post/${id}`}
+          className="main-content"
+        >
+          <div className="create-date" title="post-create-date">
+            <div className="postedBy">Posted by </div>&nbsp;
+            <NavLink to={`/u/${author_username}`} className="post-navlink">
+              {author_username}
+            </NavLink>
+            &nbsp;
+            <NavLink
+              to={`/r/${subreddit_name}/post/${id}`}
+              className="post-navlink"
+            >
+              {formatDate(createdAt)}
+            </NavLink>
+          </div>
+          <div className="title" title="post-title">
+            {title}
+          </div>
+          <div
+            className="content"
+            dangerouslySetInnerHTML={sanitizeContent(content)}
+            title="post-content"
+          />
+        </NavLink>
+        <div className="bottom-bar">
           <NavLink
             to={`/r/${subreddit_name}/post/${id}`}
-            className="post-navlink"
+            className="comments bottom-bar-container"
           >
-            {formatDate(createdAt)}
-          </NavLink>
-        </div>
-        <div className="title" title="post-title">
-          {title}
-        </div>
-        <div
-          className="content"
-          dangerouslySetInnerHTML={sanitizeContent(content)}
-          title="post-content"
-        />
-        <div className="bottom-bar">
-          <div className="comments bottom-bar-container">
             <i className="fa fa-comment  bottom-bar-icon" />
             <div className="text">X comments</div>
-          </div>
+          </NavLink>
           <div className="save bottom-bar-container">
             <i className="fa fa-bookmark bottom-bar-icon" />
             <div className="text">Save</div>

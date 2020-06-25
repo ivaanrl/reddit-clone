@@ -12,10 +12,16 @@
   padding-bottom: 4px;
   display: flex;
   flex-direction: row;
+
   &:hover {
     @include theme-aware("border-color", "text-main");
     cursor: pointer;
   }
+}
+
+.main-content {
+  text-decoration: none;
+  width: 100%;
 }
 
 .votes-sidebar {
@@ -82,6 +88,8 @@
   flex-direction: row;
   align-items: center;
   padding: 4px;
+  text-decoration: none;
+  color: inherit;
   &:hover {
     background-color: rgb(215, 218, 220);
   }
