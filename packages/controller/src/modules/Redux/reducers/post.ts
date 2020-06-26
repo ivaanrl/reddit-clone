@@ -1,5 +1,15 @@
 import { BaseAction, ActionTypes } from "../actions";
 
+export interface Comment {
+  id: number;
+  author_id: string;
+  content: string[];
+  post_id?: string;
+  comment_id?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface fullPostState {
   id: number;
   author_id: string;
@@ -11,7 +21,7 @@ export interface fullPostState {
   votes: number;
   author_username: string;
   user_vote: number;
-  comments: string[][];
+  comments: Comment[];
 }
 
 export const fullPostReducer = (

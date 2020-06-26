@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Vote from "../../posts/vote/Vote";
 import TextEditor from "../../../shared/TextEditor";
 import { HTMLSerializer } from "../../../shared/HTMLSerializer";
+import CommentsConnector from "../comments/CommentsConnector";
 
 interface Props {
   getFullPost: (postId: number) => void;
@@ -123,6 +124,7 @@ const FullPostView = (props: Props) => {
           ) : null}
         </div>
       </div>
+      <CommentsConnector />
     </div>
   );
 };

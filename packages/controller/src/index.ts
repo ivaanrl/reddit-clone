@@ -13,3 +13,5 @@ export * from "./modules/SubredditModeratorsController";
 export * from "./modules/CreatePostController";
 export * from "./modules/PostController";
 export * from "./modules/PostsController";
+export * from "./modules/CommentController";
+export * from "./modules/CommentsController";
