@@ -12,7 +12,16 @@ const CommentConnector = (props: Props) => {
   const { commentInfo, index } = props;
   return (
     <CommentController>
-      {() => <CommentView index={index} commentInfo={commentInfo} />}
+      {({ sanitizeContent, formatDate, vote, comment }) => (
+        <CommentView
+          comment={comment}
+          vote={vote}
+          formatDate={formatDate}
+          sanitizeContent={sanitizeContent}
+          index={index}
+          commentInfo={commentInfo}
+        />
+      )}
     </CommentController>
   );
 };

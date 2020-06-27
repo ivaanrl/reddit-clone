@@ -1,0 +1,71 @@
+@import "../../../../../color-palette";
+@import "../../../../../mquery";
+
+.comment-main-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.comment-header {
+  display: flex;
+  flex-direction: row;
+  font-size: 12px;
+  @include theme-aware("color", "text-muted");
+}
+
+.comment-header-username {
+  @include theme-aware("color", "text-main");
+  font-weight: 500;
+}
+
+.comment-content {
+  font-size: 14px;
+  font-weight: 400;
+  @include theme-aware("color", "text-main");
+
+  p {
+    margin: 0;
+  }
+}
+
+.bottom-bar {
+  cursor: pointer;
+}
+
+.comment-bottom-bar {
+  margin-bottom: 10px;
+}
+
+.comment-sidebar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-side-line {
+  height: 100%;
+  width: 2px;
+  @include theme-aware("background-color", "color-line");
+  margin-top: -14px;
+  margin-right: 3px;
+  margin-left: 3px;
+  cursor: pointer;
+
+  &:hover {
+    @include theme-aware("background-color", "text-main");
+    width: 2px;
+  }
+}
+
+.comment-expand-button {
+  color: $link-color;
+}
+
+.expand-button-container {
+  width: 42px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}

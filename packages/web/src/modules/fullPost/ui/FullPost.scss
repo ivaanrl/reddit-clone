@@ -51,9 +51,9 @@
 small {
   margin-top: 20px;
   padding-left: 35px;
-
+  @include theme-aware("color", "text-main");
   a {
-    color: $link-color;
+    color: $link-color !important;
     text-decoration: none;
 
     &:hover {

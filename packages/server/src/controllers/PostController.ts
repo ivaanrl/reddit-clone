@@ -122,6 +122,7 @@ class PostController {
       try {
         const newComment = await user.createComment({
           post_id: post.id,
+          author_username: user.username,
           content,
         });
 
@@ -150,6 +151,7 @@ class PostController {
       if (post instanceof Post) {
         let voteValue = 0;
         let postComments;
+        let postCommentsArray;
         let user_vote = 0;
         let user = await findCurrentUser(req.user);
         if (user instanceof User) {
@@ -171,6 +173,49 @@ class PostController {
           });
 
           postComments = await post.getComments();
+
+          postCommentsArray = await Promise.all(
+            postComments.map(async (comment) => {
+              const {
+                id,
+                author_id,
+                author_username,
+                content,
+                post_id,
+                comment_id,
+                createdAt,
+                updatedAt,
+              } = comment;
+              let voteValue = 0;
+              const commentVotes = await comment.getVotes();
+              commentVotes.forEach((vote) => {
+                voteValue += vote.value;
+              });
+              let user_vote;
+              if (user instanceof User) {
+                user_vote = await Vote.findOne({
+                  where: {
+                    author_id: user.id,
+                    comment_id: comment.id,
+                  },
+                });
+              } else {
+                user_vote = 0;
+              }
+              return {
+                id,
+                author_id,
+                author_username,
+                content,
+                post_id,
+                comment_id,
+                createdAt,
+                updatedAt,
+                voteValue,
+                user_vote,
+              };
+            })
+          );
         } catch (error) {
           console.log(error);
           return res.status(505).json({ message: error_getting_post });
@@ -198,7 +243,7 @@ class PostController {
           subreddit_name,
           votes: voteValue,
           user_vote,
-          comments: postComments,
+          comments: postCommentsArray,
         });
       }
     } catch (error) {
