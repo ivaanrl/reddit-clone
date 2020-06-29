@@ -15,11 +15,12 @@ interface Props {
   value: any;
   topBar: boolean;
   placeholder: string;
+  cancel?: React.Dispatch<React.SetStateAction<boolean>>;
   comment?: () => void;
 }
 
 const TextEditor = (props: Props) => {
-  const { setValue, value, topBar, placeholder, comment } = props;
+  const { setValue, value, topBar, placeholder, comment, cancel } = props;
 
   const editor = useMemo(() => withReact(createEditor()), []);
   const LIST_TYPES = ["bulleted-list", "numbered-list"];
@@ -296,7 +297,27 @@ const TextEditor = (props: Props) => {
           <polygon points="15.56 9.24 17.39 4 14.16 4 10.8 9.8 10.8 16 18 16 18 9.24 15.56 9.24"></polygon>
         </svg>
       </button>
-      {!topBar && comment ? (
+      {!topBar && comment && cancel ? (
+        <React.Fragment>
+          <button
+            className="sidebar-main-button text-editor-comment-button"
+            onClick={() => cancel(false)}
+            disabled={!(value[0].children[0].text === "")}
+          >
+            {" "}
+            CANCEL
+          </button>
+          <button
+            className="sidebar-secondary-button text-editor-comment-button"
+            onClick={comment}
+            disabled={!(value[0].children[0].text === "")}
+          >
+            {" "}
+            REPLY
+          </button>
+        </React.Fragment>
+      ) : null}
+      {!topBar && comment && !cancel ? (
         <button
           className="sidebar-secondary-button text-editor-comment-button"
           onClick={comment}
@@ -325,7 +346,9 @@ const TextEditor = (props: Props) => {
       >
         {topBar ? buttonContainer : null}
         <Editable
-          className="text-editor-editable"
+          className={
+            cancel ? "text-editor-editable-small" : "text-editor-editable"
+          }
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           placeholder={placeholder}

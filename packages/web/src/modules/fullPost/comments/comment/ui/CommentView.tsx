@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Comment.scss";
 import { Comment } from "@reddit-clone/controller/dist/modules/Redux/reducers/post";
 import Vote from "../../../../posts/vote/Vote";
+import { HTMLSerializer } from "../../../../../shared/HTMLSerializer";
+import TextEditor from "../../../../../shared/TextEditor";
 
 interface Props {
   commentInfo: Comment;
@@ -35,6 +37,27 @@ const CommentView = (props: Props) => {
   } = commentInfo;
 
   const [showComment, setShowComment] = useState(true);
+  const [textEditor, setTextEditor] = useState<any>([
+    {
+      type: "paragraph",
+      children: [{ text: "" }],
+    },
+  ]);
+  const [showTextEditor, setShowTextEditor] = useState(false);
+
+  const handleComment = () => {
+    if (textEditor[0].children[0].text === "") return;
+    const serialized: string[][] = [];
+    textEditor.forEach((node: Node) => {
+      serialized.push(HTMLSerializer(node));
+    });
+
+    const formatted = serialized.map((arr) => {
+      return arr.join("||");
+    });
+
+    comment(id, formatted);
+  };
 
   return (
     <div className="comment-main-container">
@@ -73,7 +96,10 @@ const CommentView = (props: Props) => {
               dangerouslySetInnerHTML={sanitizeContent(content)}
             />
             <div className="bottom-bar comment-bottom-bar" title="bottom-bar">
-              <div className="comments bottom-bar-container">
+              <div
+                className="comments bottom-bar-container"
+                onClick={() => setShowTextEditor(!showTextEditor)}
+              >
                 <i className="fa fa-comment  bottom-bar-icon" />
                 <div className="text">Reply</div>
               </div>
@@ -81,6 +107,21 @@ const CommentView = (props: Props) => {
                 <div className="text">Save</div>
               </div>
             </div>
+            {process.env.NODE_ENV !== "test" && showTextEditor ? (
+              <div className="editor-sideline-container">
+                <div className="text-editor-side-line" />
+                <div className="comment-text-editor-container">
+                  <TextEditor
+                    value={textEditor}
+                    setValue={setTextEditor}
+                    topBar={false}
+                    placeholder="What are your thoughts?"
+                    comment={handleComment}
+                    cancel={setShowTextEditor}
+                  />
+                </div>
+              </div>
+            ) : null}
           </React.Fragment>
         ) : null}
       </div>

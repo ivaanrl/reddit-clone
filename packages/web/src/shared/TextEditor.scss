@@ -56,5 +56,10 @@
   box-sizing: border-box;
   padding: 13px;
   max-height: 400px;
-  overflow-y: scroll;
+  overflow: auto;
+}
+
+.text-editor-editable-small {
+  @extend .text-editor-editable;
+  max-height: 140px;
 }

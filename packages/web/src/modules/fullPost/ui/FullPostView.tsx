@@ -63,13 +63,15 @@ const FullPostView = (props: Props) => {
   return (
     <div className="homepage-container full-post-container">
       <div className="post">
-        <Vote
-          id={id}
-          votes={votes}
-          user_vote={user_vote}
-          voteFullPost={vote}
-          showCount={true}
-        />
+        <div className="full-post-votes-container">
+          <Vote
+            id={id}
+            votes={votes}
+            user_vote={user_vote}
+            voteFullPost={vote}
+            showCount={true}
+          />
+        </div>
         <div className="main-content">
           <div className="info">
             <div className="subreddit" title="subreddit-name">
