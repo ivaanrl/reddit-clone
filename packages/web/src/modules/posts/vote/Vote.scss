@@ -10,6 +10,11 @@
   align-items: center;
 }
 
+.votes-sidebar-child {
+  @extend .votes-sidebar;
+  padding: 0;
+}
+
 .vote-count {
   font-size: 12px;
   line-height: 16px;

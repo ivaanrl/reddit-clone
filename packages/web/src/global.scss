@@ -11,6 +11,10 @@ button {
   &:focus {
     outline: 0;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 input {
@@ -46,6 +50,10 @@ textarea {
     @include theme-aware("color", "highlight-selection-hover");
     @include theme-aware("border-color", "highlight-selection-hover");
   }
+
+  &:disabled {
+    color: black !important;
+  }
   width: 100%;
 }
 
@@ -54,6 +62,10 @@ textarea {
   @include theme-aware("border-color", "highlight-selection");
   @include theme-aware("color", "input-background");
   &:hover {
+    @include theme-aware("background-color", "highlight-selection-hover");
+  }
+  &:disabled {
+    @include theme-aware("color", "text-muted");
     @include theme-aware("background-color", "highlight-selection-hover");
   }
   width: 100%;

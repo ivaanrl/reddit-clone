@@ -12,6 +12,7 @@ interface Props {
   formatDate: (date: string) => string;
   vote: (id: number, voteValue: number) => void;
   comment: (postId: number, content: string[]) => void;
+  child: boolean;
 }
 
 const CommentView = (props: Props) => {
@@ -22,6 +23,7 @@ const CommentView = (props: Props) => {
     formatDate,
     vote,
     comment,
+    child,
   } = props;
   const {
     id,
@@ -34,7 +36,10 @@ const CommentView = (props: Props) => {
     updatedAt,
     voteValue,
     user_vote,
+    replies,
   } = commentInfo;
+
+  console.log(replies);
 
   const [showComment, setShowComment] = useState(true);
   const [textEditor, setTextEditor] = useState<any>([
@@ -60,7 +65,11 @@ const CommentView = (props: Props) => {
   };
 
   return (
-    <div className="comment-main-container">
+    <div
+      className={
+        child ? "comment-main-container-child" : "comment-main-container"
+      }
+    >
       {showComment ? (
         <div className="comment-sidebar-container">
           <Vote
@@ -70,6 +79,7 @@ const CommentView = (props: Props) => {
             user_vote={user_vote}
             vote={vote}
             showCount={false}
+            child={child}
           />
           <div
             className="comment-side-line"
@@ -78,7 +88,9 @@ const CommentView = (props: Props) => {
         </div>
       ) : (
         <div
-          className="expand-button-container"
+          className={
+            child ? "expand-button-container-child" : "expand-button-container"
+          }
           onClick={() => setShowComment(true)}
         >
           <i className="fa fa-plus-circle  comment-expand-button" />
@@ -122,6 +134,24 @@ const CommentView = (props: Props) => {
                 </div>
               </div>
             ) : null}
+
+            {replies?.map((reply, index) => {
+              if (reply) {
+                return (
+                  <CommentView
+                    comment={comment}
+                    vote={vote}
+                    formatDate={formatDate}
+                    sanitizeContent={sanitizeContent}
+                    index={index}
+                    commentInfo={reply}
+                    child={true}
+                  />
+                );
+              } else {
+                return;
+              }
+            })}
           </React.Fragment>
         ) : null}
       </div>

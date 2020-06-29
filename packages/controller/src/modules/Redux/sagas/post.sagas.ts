@@ -29,6 +29,10 @@ export function* watchCommentFullPost() {
   yield takeEvery(ActionTypes.COMMENT_FULL_POST, commentFullPost);
 }
 
+export function* watchReplyComment() {
+  yield takeEvery(ActionTypes.REPLY_COMMENT, replyComment);
+}
+
 export function* createPost(post: {
   type: string;
   payload: {
@@ -91,6 +95,37 @@ export function* commentFullPost(postInfo: {
     yield put(commentFullPostCompletedAction(postInfo.payload.content));
   } catch (error) {}
 }
+
+export function* replyComment(comment: {
+  type: string;
+  payload: {
+    commentId: number;
+    content: string[];
+  };
+}) {
+  try {
+    yield call(replyCommentRequest, comment.payload);
+  } catch (error) {}
+}
+
+export const replyCommentRequest = (commentInfo: {
+  commentId: number;
+  content: string[];
+}) => {
+  let response;
+
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      .post(APIUrl + "/post/replyComment")
+      .send(commentInfo);
+  } catch (error) {
+    response = error.response;
+  }
+
+  return response;
+};
 
 export const commentFullPostRequest = (post: {
   postId: number;

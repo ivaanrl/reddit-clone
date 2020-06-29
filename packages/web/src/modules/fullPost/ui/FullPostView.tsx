@@ -70,6 +70,7 @@ const FullPostView = (props: Props) => {
             user_vote={user_vote}
             voteFullPost={vote}
             showCount={true}
+            child={false}
           />
         </div>
         <div className="main-content">

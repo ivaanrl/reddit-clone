@@ -45,6 +45,7 @@ const PostView = (props: Props) => {
         user_vote={user_vote}
         vote={vote}
         showCount={true}
+        child={false}
       />
       <div className="main-content">
         <NavLink

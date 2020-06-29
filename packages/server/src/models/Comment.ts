@@ -9,8 +9,6 @@ import {
   Association,
 } from "sequelize";
 import sequelize from "./index";
-import { User } from "./User";
-import { Post } from "./Post";
 import { Vote } from "./Vote";
 
 export class Comment extends Model {
@@ -18,7 +16,7 @@ export class Comment extends Model {
   public author_id!: string;
   public author_username!: string;
   public content!: string[];
-  public post_id!: string;
+  public post_id: string;
   public comment_id: string;
 
   public readonly createdAt!: Date;
@@ -29,7 +27,7 @@ export class Comment extends Model {
   public hasComment!: HasManyHasAssociationMixin<Comment, number>;
   public countComments!: HasManyCountAssociationsMixin;
   public createComment!: HasManyCreateAssociationMixin<Comment>;
-  public readonly comments?: Post[];
+  public readonly comments?: Comment[];
 
   public getVotes!: HasManyGetAssociationsMixin<Vote>;
   public countVotes!: HasManyCountAssociationsMixin;
@@ -61,7 +59,6 @@ Comment.init(
     },
     post_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     comment_id: {
       type: DataTypes.INTEGER,
@@ -73,5 +70,5 @@ Comment.init(
   }
 );
 
-Comment.hasMany(Comment, { sourceKey: "id" });
+Comment.hasMany(Comment, { sourceKey: "id", foreignKey: "comment_id" });
 Comment.hasMany(Vote, { sourceKey: "id" });

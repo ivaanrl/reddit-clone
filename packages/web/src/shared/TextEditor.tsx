@@ -302,7 +302,6 @@ const TextEditor = (props: Props) => {
           <button
             className="sidebar-main-button text-editor-comment-button"
             onClick={() => cancel(false)}
-            disabled={!(value[0].children[0].text === "")}
           >
             {" "}
             CANCEL
@@ -310,7 +309,7 @@ const TextEditor = (props: Props) => {
           <button
             className="sidebar-secondary-button text-editor-comment-button"
             onClick={comment}
-            disabled={!(value[0].children[0].text === "")}
+            disabled={value[0].children[0].text === ""}
           >
             {" "}
             REPLY
@@ -321,7 +320,7 @@ const TextEditor = (props: Props) => {
         <button
           className="sidebar-secondary-button text-editor-comment-button"
           onClick={comment}
-          disabled={!(value[0].children[0].text === "")}
+          disabled={value[0].children[0].text === ""}
         >
           {" "}
           COMMENT

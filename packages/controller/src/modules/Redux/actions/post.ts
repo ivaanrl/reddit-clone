@@ -72,3 +72,16 @@ export const commentFullPostCompletedAction = (comment: string[]) => ({
   type: ActionTypes.COMMENT_FULL_POST_COMPLETED,
   payload: comment,
 });
+
+export const replyComment = (commentInfo: {
+  commentId: number;
+  content: string[];
+}) => ({
+  type: ActionTypes.REPLY_COMMENT,
+  payload: commentInfo,
+});
+
+export const replyCommentCompletedAction = (commentInfo: any) => ({
+  type: ActionTypes.REPLY_COMMENT_COMPLETED,
+  payload: commentInfo,
+});

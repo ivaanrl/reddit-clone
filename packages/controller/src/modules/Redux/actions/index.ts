@@ -26,6 +26,8 @@ import {
   updateFullPostVotes,
   commentFullPost,
   commentFullPostCompletedAction,
+  replyComment,
+  replyCommentCompletedAction,
 } from "./post";
 
 export const allActions = {
@@ -50,6 +52,8 @@ export const allActions = {
   updateFullPostVotes,
   commentFullPost,
   commentFullPostCompletedAction,
+  replyComment,
+  replyCommentCompletedAction,
 };
 
 export * from "./types";

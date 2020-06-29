@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { sanitizeContent } from "../../shared/sanitizePostHTML";
 import { formatDate } from "../../shared/formatDate";
+import { allActions } from "../Redux";
 
 interface Props {
   children: (data: {
@@ -19,8 +20,8 @@ const CommentController = (props: Props) => {
     //dispatch(allActions.voteFullPost({ postId: id, voteValue: value }));
   };
 
-  const comment = (postId: number, content: string[]) => {
-    //dispatch(allActions.commentFullPost({ postId, content }));
+  const comment = (commentId: number, content: string[]) => {
+    dispatch(allActions.replyComment({ commentId, content }));
   };
 
   return props.children({ vote, sanitizeContent, formatDate, comment });

@@ -7,6 +7,11 @@
   margin-bottom: 20px;
 }
 
+.comment-main-container-child {
+  @extend .comment-main-container;
+  margin-left: -8px;
+}
+
 .comment-header {
   display: flex;
   flex-direction: row;
@@ -72,6 +77,11 @@
   display: flex;
   justify-content: center;
   cursor: pointer;
+}
+
+.expand-button-container-child {
+  @extend .expand-button-container;
+  margin-left: -6px;
 }
 
 .comment-text-editor-container {

@@ -11,6 +11,7 @@ export interface Comment {
   updatedAt: string;
   voteValue: number;
   user_vote: number;
+  replies: Comment[];
 }
 
 export interface fullPostState {

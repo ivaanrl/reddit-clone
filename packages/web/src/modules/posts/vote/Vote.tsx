@@ -9,10 +9,20 @@ interface Props {
   vote?: (id: number, voteValue: number, index: number) => void;
   voteFullPost?: (id: number, voteValue: number) => void;
   showCount: boolean;
+  child: boolean;
 }
 
 const Vote = (props: Props) => {
-  const { vote, id, index, votes, user_vote, voteFullPost, showCount } = props;
+  const {
+    vote,
+    id,
+    index,
+    votes,
+    user_vote,
+    voteFullPost,
+    showCount,
+    child,
+  } = props;
   const [upvoteActive, setUpvoteActive] = useState(false);
   const [downvoteActive, setDownvoteActive] = useState(false);
   const [voteCountClass, setVoteCountClass] = useState("vote-count");
@@ -52,7 +62,7 @@ const Vote = (props: Props) => {
   };
 
   return (
-    <div className="votes-sidebar">
+    <div className={child ? "votes-sidebar-child" : "votes-sidebar"}>
       <div
         className="upvote-container"
         title="upvote-button"

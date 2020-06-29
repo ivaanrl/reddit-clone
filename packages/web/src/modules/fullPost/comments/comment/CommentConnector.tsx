@@ -20,6 +20,7 @@ const CommentConnector = (props: Props) => {
           sanitizeContent={sanitizeContent}
           index={index}
           commentInfo={commentInfo}
+          child={false}
         />
       )}
     </CommentController>

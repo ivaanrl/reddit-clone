@@ -9,6 +9,7 @@ import { getSubreddit, findCurrentUser } from "../helpers";
 import { postResponseMessages } from "./responseMessages/post";
 import { Vote } from "../models/Vote";
 import { Post } from "../models/Post";
+import { Comment } from "../models/Comment";
 
 const {
   post_created_successfully,
@@ -187,7 +188,10 @@ class PostController {
                 updatedAt,
               } = comment;
               let voteValue = 0;
+
               const commentVotes = await comment.getVotes();
+              const commentReplies = await comment.getComments();
+
               commentVotes.forEach((vote) => {
                 voteValue += vote.value;
               });
@@ -213,6 +217,7 @@ class PostController {
                 updatedAt,
                 voteValue,
                 user_vote,
+                replies: commentReplies,
               };
             })
           );
@@ -249,6 +254,38 @@ class PostController {
     } catch (error) {
       console.log(error);
       return res.status(404).json({ message: post_not_found });
+    }
+    return res.status(501).json({ message: server_error });
+  }
+
+  @post("/replyComment")
+  @use(requireLogin)
+  async replyComment(req: Request, res: Response) {
+    const { commentId, content } = req.body;
+
+    const user = await findCurrentUser(req.user);
+
+    const comment = await Comment.findOne({
+      where: {
+        id: commentId,
+      },
+    });
+
+    if (user instanceof User && comment instanceof Comment) {
+      try {
+        const newComment = await user.createComment({
+          comment_id: comment.id,
+          author_username: user.username,
+          content,
+        });
+
+        if (newComment) {
+          return res.status(201).json({ message: comment_saved });
+        }
+      } catch (error) {
+        console.log(error);
+        return res.status(501).json({ message: server_error });
+      }
     }
     return res.status(501).json({ message: server_error });
   }

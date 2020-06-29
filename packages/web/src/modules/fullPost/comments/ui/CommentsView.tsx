@@ -7,13 +7,15 @@ import { Comment } from "@reddit-clone/controller/dist/modules/Redux/reducers/po
 
 const CommentsView = () => {
   const postComments = useSelector((state: State) => state.fullPost.comments);
-
-  console.log(postComments);
   return (
     <React.Fragment>
       {postComments.map((comment: Comment, index: number) => {
         return (
-          <CommentConnector commentInfo={comment} index={index} key={index} />
+          <CommentConnector
+            commentInfo={comment}
+            index={index}
+            key={comment.id}
+          />
         );
       })}
     </React.Fragment>
