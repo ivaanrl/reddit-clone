@@ -12,6 +12,7 @@ import sequelize from "./index";
 import { Vote } from "./Vote";
 
 export class Comment extends Model {
+  public path!: string;
   public id!: number;
   public author_id!: string;
   public author_username!: string;
@@ -40,10 +41,14 @@ export class Comment extends Model {
 
 Comment.init(
   {
+    path: {
+      type: DataTypes.STRING(1000),
+      allowNull: false,
+    },
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.STRING,
       primaryKey: true,
+      unique: true,
     },
     author_id: {
       type: DataTypes.STRING,
@@ -61,7 +66,7 @@ Comment.init(
       type: DataTypes.INTEGER,
     },
     comment_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
   },
   {

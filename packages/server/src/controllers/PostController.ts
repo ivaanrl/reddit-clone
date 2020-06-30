@@ -10,6 +10,8 @@ import { postResponseMessages } from "./responseMessages/post";
 import { Vote } from "../models/Vote";
 import { Post } from "../models/Post";
 import { Comment } from "../models/Comment";
+import uniqid from "uniqid";
+import sequelize from "../models";
 
 const {
   post_created_successfully,
@@ -121,7 +123,10 @@ class PostController {
 
     if (user instanceof User && post instanceof Post) {
       try {
+        const id = uniqid();
         const newComment = await user.createComment({
+          path: `${post.id}.${id}`,
+          id,
           post_id: post.id,
           author_username: user.username,
           content,
@@ -151,7 +156,7 @@ class PostController {
 
       if (post instanceof Post) {
         let voteValue = 0;
-        let postComments;
+        let postComments: Comment[];
         let postCommentsArray;
         let user_vote = 0;
         let user = await findCurrentUser(req.user);
@@ -173,10 +178,22 @@ class PostController {
             voteValue += vote.value;
           });
 
-          postComments = await post.getComments();
+          //postComments = await post.getComments();
+          postComments = (
+            await sequelize.query(`
+          SELECT * FROM comments WHERE path <@ '${post.id}'
+          `)
+          )[0] as Comment[];
 
-          postCommentsArray = await Promise.all(
+          postComments.forEach((comment) => {
+            comment.path = comment.path.split(".").join();
+          });
+
+          console.log(postComments);
+
+          /*postCommentsArray = await Promise.all(
             postComments.map(async (comment) => {
+              const newCom = new Comment(comment);
               const {
                 id,
                 author_id,
@@ -186,11 +203,11 @@ class PostController {
                 comment_id,
                 createdAt,
                 updatedAt,
-              } = comment;
+              } = newCom;
               let voteValue = 0;
 
-              const commentVotes = await comment.getVotes();
-              const commentReplies = await comment.getComments();
+              const commentVotes = await newCom.getVotes();
+              const commentReplies = await newCom.getComments();
 
               commentVotes.forEach((vote) => {
                 voteValue += vote.value;
@@ -220,7 +237,7 @@ class PostController {
                 replies: commentReplies,
               };
             })
-          );
+          ); */
         } catch (error) {
           console.log(error);
           return res.status(505).json({ message: error_getting_post });
@@ -273,7 +290,10 @@ class PostController {
 
     if (user instanceof User && comment instanceof Comment) {
       try {
+        const id = uniqid();
         const newComment = await user.createComment({
+          id,
+          path: `${comment.path}.${id}`,
           comment_id: comment.id,
           author_username: user.username,
           content,
