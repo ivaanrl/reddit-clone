@@ -43,7 +43,7 @@ const PostView = (props: Props) => {
         index={index}
         votes={votes}
         user_vote={user_vote}
-        vote={vote}
+        votePost={vote}
         showCount={true}
         child={false}
       />

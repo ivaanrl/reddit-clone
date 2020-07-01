@@ -8,19 +8,19 @@ interface Props {
   children: (data: {
     sanitizeContent: (content: string[]) => { __html: string };
     formatDate: (date: string) => string;
-    vote: (id: number, voteValue: number) => void;
-    comment: (postId: number, content: string[]) => void;
+    vote: (id: string, voteValue: number) => void;
+    comment: (postId: string, content: string[]) => void;
   }) => JSX.Element;
 }
 
 const CommentController = (props: Props) => {
   const dispatch = useDispatch();
 
-  const vote = (value: number, id: number) => {
+  const vote = (value: string, id: number) => {
     //dispatch(allActions.voteFullPost({ postId: id, voteValue: value }));
   };
 
-  const comment = (commentId: number, content: string[]) => {
+  const comment = (commentId: string, content: string[]) => {
     dispatch(allActions.replyComment({ commentId, content }));
   };
 

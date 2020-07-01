@@ -10,8 +10,8 @@ interface Props {
   index: number;
   sanitizeContent: (content: string[]) => { __html: string };
   formatDate: (date: string) => string;
-  vote: (id: number, voteValue: number) => void;
-  comment: (postId: number, content: string[]) => void;
+  vote: (id: string, voteValue: number) => void;
+  comment: (postId: string, content: string[]) => void;
   child: boolean;
 }
 
@@ -38,8 +38,6 @@ const CommentView = (props: Props) => {
     user_vote,
     replies,
   } = commentInfo;
-
-  console.log(replies);
 
   const [showComment, setShowComment] = useState(true);
   const [textEditor, setTextEditor] = useState<any>([
@@ -73,11 +71,11 @@ const CommentView = (props: Props) => {
       {showComment ? (
         <div className="comment-sidebar-container">
           <Vote
-            id={id}
+            commentId={id}
             index={index}
             votes={voteValue}
             user_vote={user_vote}
-            vote={vote}
+            voteComment={vote}
             showCount={false}
             child={child}
           />
@@ -139,6 +137,7 @@ const CommentView = (props: Props) => {
               if (reply) {
                 return (
                   <CommentView
+                    key={index}
                     comment={comment}
                     vote={vote}
                     formatDate={formatDate}

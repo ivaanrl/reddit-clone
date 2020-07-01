@@ -3,7 +3,6 @@ import { get, controller, use, post } from "./decorators";
 import "../services/passport";
 import { User } from "../models/User";
 import { Subreddit } from "../models/Subreddit";
-import { subredditResponseMessages } from "./responseMessages/subreddit";
 import { requireLogin } from "../middleware/requireLogin";
 import { getSubreddit, findCurrentUser } from "../helpers";
 import { postResponseMessages } from "./responseMessages/post";
@@ -118,7 +117,6 @@ class PostController {
   @use(requireLogin)
   async createComment(req: Request, res: Response) {
     const { postId, content } = req.body;
-    console.log(req.body);
     const user = await findCurrentUser(req.user);
     const post = await Post.findOne({ where: { id: postId } });
 
@@ -159,7 +157,6 @@ class PostController {
         let voteValue = 0;
         let postComments: Comment[];
         let postsWithChildren: CommentWithReply[];
-        let postCommentsArray;
         let user_vote = 0;
         let user = await findCurrentUser(req.user);
         if (user instanceof User) {
@@ -180,7 +177,6 @@ class PostController {
             voteValue += vote.value;
           });
 
-          //postComments = await post.getComments();
           postComments = (
             await sequelize.query(`
           SELECT * FROM comments WHERE path <@ '${post.id}'
@@ -194,18 +190,6 @@ class PostController {
             if (comment.path.length > maxPathLength) {
               maxPathLength = comment.path.length;
             }
-
-            const {
-              path,
-              author_id,
-              author_username,
-              content,
-              post_id,
-              comment_id,
-              createdAt,
-              updatedAt,
-              getVotes,
-            } = comment;
 
             const newCommentWithReply = new CommentWithReply({ ...comment });
             newCommentWithReply.setDataValue("user_vote", 0);
@@ -287,7 +271,9 @@ class PostController {
         });
 
         if (newComment) {
-          return res.status(201).json({ message: comment_saved });
+          return res
+            .status(201)
+            .json({ message: comment_saved, reply: newComment });
         }
       } catch (error) {
         console.log(error);

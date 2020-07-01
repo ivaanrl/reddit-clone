@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./Vote.scss";
 
 interface Props {
-  id: number;
+  id?: number;
+  commentId?: string;
   index?: number;
   votes: number;
   user_vote: number;
-  vote?: (id: number, voteValue: number, index: number) => void;
+  voteComment?: (id: string, voteValue: number) => void;
+  votePost?: (id: number, voteValue: number, index: number) => void;
   voteFullPost?: (id: number, voteValue: number) => void;
   showCount: boolean;
   child: boolean;
@@ -14,7 +16,9 @@ interface Props {
 
 const Vote = (props: Props) => {
   const {
-    vote,
+    votePost,
+    commentId,
+    voteComment,
     id,
     index,
     votes,
@@ -38,10 +42,12 @@ const Vote = (props: Props) => {
   }, [user_vote]);
 
   const handleVote = (voteValue: number) => {
-    if (vote && (index || index === 0)) {
-      vote(voteValue, id, index);
-    } else if (voteFullPost) {
+    if (votePost && (index || index === 0) && id) {
+      votePost(id, voteValue, index);
+    } else if (voteFullPost && id) {
       voteFullPost(id, voteValue);
+    } else if (voteComment && commentId) {
+      voteComment(commentId, voteValue);
     }
 
     if (voteValue === 1) {

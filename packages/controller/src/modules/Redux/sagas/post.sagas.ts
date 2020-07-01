@@ -7,6 +7,7 @@ import {
   getFullPostCompletedAction,
   updateFullPostVotes,
   commentFullPostCompletedAction,
+  replyCommentCompletedAction,
 } from "../actions/post";
 
 export function* watchCreatePost() {
@@ -104,8 +105,19 @@ export function* replyComment(comment: {
   };
 }) {
   try {
-    yield call(replyCommentRequest, comment.payload);
-  } catch (error) {}
+    const replyResponse = yield call(replyCommentRequest, comment.payload);
+
+    const { reply } = replyResponse.body;
+
+    console.log(reply);
+    reply.user_vote = 0;
+    reply.votes = 0;
+    reply.replies = [];
+
+    yield put(replyCommentCompletedAction(reply));
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export const replyCommentRequest = (commentInfo: {

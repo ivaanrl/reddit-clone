@@ -74,7 +74,7 @@ export const commentFullPostCompletedAction = (comment: string[]) => ({
 });
 
 export const replyComment = (commentInfo: {
-  commentId: number;
+  commentId: string;
   content: string[];
 }) => ({
   type: ActionTypes.REPLY_COMMENT,
