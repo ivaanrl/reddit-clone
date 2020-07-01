@@ -1,4 +1,5 @@
 import { BaseAction, ActionTypes } from "../actions";
+import { insertIntoTree } from "./helpers/post/insertIntoTree";
 
 export interface Comment {
   path: string[];
@@ -77,7 +78,7 @@ export const fullPostReducer = (
 
       newReply.path = ((newReply.path as unknown) as string).split(".");
 
-      const newCommentTree = insterIntoTree(
+      const newCommentTree = insertIntoTree(
         newReply,
         stateWithNewReply.comments,
         2
@@ -90,80 +91,4 @@ export const fullPostReducer = (
     default:
       return state;
   }
-};
-
-const insterIntoTree = (
-  newComment: Comment,
-  commentsArray: Comment[],
-  pathLength: number,
-  idxPath: number[] = [],
-  firstTry: boolean = true
-): Comment[] => {
-  if (firstTry) {
-    let currentBranch: Comment | Comment[] = commentsArray;
-    idxPath.forEach((idx) => {
-      if (Array.isArray(currentBranch)) currentBranch = currentBranch[idx];
-    });
-
-    for (let i = 0; i < currentBranch.length; i++) {
-      if (currentBranch[i].path.includes(newComment.path[pathLength - 1])) {
-        idxPath.push(i);
-        return insterIntoTree(
-          newComment,
-          commentsArray,
-          pathLength + 1,
-          idxPath,
-          false
-        );
-      }
-    }
-  } else {
-    let currentBranch = commentsArray[idxPath[0]];
-    for (let j = 1; j < idxPath.length; j++) {
-      currentBranch = currentBranch.replies[idxPath[j]];
-    }
-
-    for (let i = 0; i < currentBranch.replies.length; i++) {
-      if (
-        currentBranch.replies[i].path.includes(newComment.path[pathLength - 2])
-      ) {
-        if (
-          currentBranch.replies[i].path.length + 1 ===
-          newComment.path.length
-        ) {
-          if (
-            currentBranch.replies[i].path[
-              currentBranch.replies[i].path.length - 1
-            ] === newComment.path[newComment.path.length - 2]
-          ) {
-            idxPath.push(i);
-            return insterIntoTree(
-              newComment,
-              commentsArray,
-              pathLength + 1,
-              idxPath,
-              false
-            );
-          } else {
-            continue;
-          }
-        } else {
-          idxPath.push(i);
-          return insterIntoTree(
-            newComment,
-            commentsArray,
-            pathLength + 1,
-            idxPath,
-            false
-          );
-        }
-      }
-    }
-
-    if (currentBranch.replies.length === 0) {
-      currentBranch.replies.push(newComment);
-    }
-  }
-
-  return commentsArray;
 };
