@@ -12,8 +12,8 @@ import sequelize from "./index";
 import { Vote } from "./Vote";
 
 export class Comment extends Model {
-  public path!: string;
-  public id!: number;
+  public path!: string | string[];
+  public id!: string;
   public author_id!: string;
   public author_username!: string;
   public content!: string[];

@@ -12,6 +12,7 @@ import { Post } from "../models/Post";
 import { Comment } from "../models/Comment";
 import uniqid from "uniqid";
 import sequelize from "../models";
+import { getChildren, CommentWithReply } from "../helpers/post";
 
 const {
   post_created_successfully,
@@ -157,6 +158,7 @@ class PostController {
       if (post instanceof Post) {
         let voteValue = 0;
         let postComments: Comment[];
+        let postsWithChildren: CommentWithReply[];
         let postCommentsArray;
         let user_vote = 0;
         let user = await findCurrentUser(req.user);
@@ -185,59 +187,44 @@ class PostController {
           `)
           )[0] as Comment[];
 
-          postComments.forEach((comment) => {
-            comment.path = comment.path.split(".").join();
+          let maxPathLength = -1;
+
+          const postCommentsWithReplies = postComments.map((comment) => {
+            comment.path = (comment.path as string).split(".");
+            if (comment.path.length > maxPathLength) {
+              maxPathLength = comment.path.length;
+            }
+
+            const {
+              path,
+              author_id,
+              author_username,
+              content,
+              post_id,
+              comment_id,
+              createdAt,
+              updatedAt,
+              getVotes,
+            } = comment;
+
+            const newCommentWithReply = new CommentWithReply({ ...comment });
+            newCommentWithReply.setDataValue("user_vote", 0);
+            newCommentWithReply.setDataValue("voteValue", 0);
+            newCommentWithReply.setDataValue("replies", []);
+
+            return newCommentWithReply;
           });
 
-          console.log(postComments);
+          let user_id = "";
+          if (user instanceof User) {
+            user_id = user.id;
+          }
 
-          /*postCommentsArray = await Promise.all(
-            postComments.map(async (comment) => {
-              const newCom = new Comment(comment);
-              const {
-                id,
-                author_id,
-                author_username,
-                content,
-                post_id,
-                comment_id,
-                createdAt,
-                updatedAt,
-              } = newCom;
-              let voteValue = 0;
-
-              const commentVotes = await newCom.getVotes();
-              const commentReplies = await newCom.getComments();
-
-              commentVotes.forEach((vote) => {
-                voteValue += vote.value;
-              });
-              let user_vote;
-              if (user instanceof User) {
-                user_vote = await Vote.findOne({
-                  where: {
-                    author_id: user.id,
-                    comment_id: comment.id,
-                  },
-                });
-              } else {
-                user_vote = 0;
-              }
-              return {
-                id,
-                author_id,
-                author_username,
-                content,
-                post_id,
-                comment_id,
-                createdAt,
-                updatedAt,
-                voteValue,
-                user_vote,
-                replies: commentReplies,
-              };
-            })
-          ); */
+          postsWithChildren = await getChildren(
+            postCommentsWithReplies,
+            maxPathLength,
+            user_id
+          );
         } catch (error) {
           console.log(error);
           return res.status(505).json({ message: error_getting_post });
@@ -265,7 +252,7 @@ class PostController {
           subreddit_name,
           votes: voteValue,
           user_vote,
-          comments: postCommentsArray,
+          comments: postsWithChildren,
         });
       }
     } catch (error) {
