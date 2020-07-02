@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Comment.scss";
 import { Comment } from "@reddit-clone/controller/dist/modules/Redux/reducers/post";
 import Vote from "../../../../posts/vote/Vote";
@@ -8,9 +8,10 @@ import TextEditor from "../../../../../shared/TextEditor";
 interface Props {
   commentInfo: Comment;
   index: number;
+  depth: number;
   sanitizeContent: (content: string[]) => { __html: string };
   formatDate: (date: string) => string;
-  vote: (id: string, voteValue: number) => void;
+  vote: (path: string[], voteValue: number) => void;
   comment: (postId: string, content: string[]) => void;
   child: boolean;
 }
@@ -24,15 +25,13 @@ const CommentView = (props: Props) => {
     vote,
     comment,
     child,
+    depth,
   } = props;
   const {
+    path,
     id,
-    author_id,
     author_username,
     content,
-    post_id,
-    comment_id,
-    createdAt,
     updatedAt,
     voteValue,
     user_vote,
@@ -48,6 +47,16 @@ const CommentView = (props: Props) => {
   ]);
   const [showTextEditor, setShowTextEditor] = useState(false);
 
+  useEffect(() => {
+    if (voteValue < 0) {
+      setShowComment(false);
+    }
+
+    if (index > 3 && depth > 5) {
+      setShowComment(false);
+    }
+  }, []);
+
   const handleComment = () => {
     if (textEditor[0].children[0].text === "") return;
     const serialized: string[][] = [];
@@ -60,6 +69,13 @@ const CommentView = (props: Props) => {
     });
 
     comment(id, formatted);
+    setShowTextEditor(false);
+    setTextEditor([
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
+      },
+    ]);
   };
 
   return (
@@ -71,7 +87,7 @@ const CommentView = (props: Props) => {
       {showComment ? (
         <div className="comment-sidebar-container">
           <Vote
-            commentId={id}
+            path={path}
             index={index}
             votes={voteValue}
             user_vote={user_vote}
@@ -145,6 +161,7 @@ const CommentView = (props: Props) => {
                     index={index}
                     commentInfo={reply}
                     child={true}
+                    depth={depth + 1}
                   />
                 );
               } else {

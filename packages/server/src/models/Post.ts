@@ -11,7 +11,7 @@ import { Vote } from "./Vote";
 import { Comment } from "./Comment";
 
 export class Post extends Model {
-  public id!: number;
+  public id!: string;
   public author_id!: string;
   public author_username!: string;
   public subreddit_name!: string;
@@ -36,8 +36,7 @@ export class Post extends Model {
 Post.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.TEXT,
       primaryKey: true,
     },
     author_id: {

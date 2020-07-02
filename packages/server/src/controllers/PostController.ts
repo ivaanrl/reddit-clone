@@ -23,6 +23,7 @@ const {
   post_upvoted,
   post_not_found,
   error_getting_post,
+  comment_upvoted,
 } = postResponseMessages;
 
 @controller("/api/post")
@@ -36,7 +37,9 @@ class PostController {
     const user = await findCurrentUser(req.user);
     if (user instanceof User && sub instanceof Subreddit) {
       try {
+        const id = uniqid() + uniqid();
         const post = await user.createPost({
+          id,
           author_username: user.username,
           content,
           title,
@@ -49,17 +52,18 @@ class PostController {
           return res.status(401).json({ message: non_specified_error });
         }
       } catch (error) {
+        console.log(error);
         return res.status(401).json({ message: non_specified_error });
       }
     }
     return res.status(401).json({ message: non_specified_error });
   }
 
-  @post("/vote/:id")
+  @post("/vote")
   @use(requireLogin)
   async VotePost(req: Request, res: Response) {
-    const postId = parseInt(req.params.id, 10);
-    const { voteValue } = req.body;
+    //const postId = parseInt(req.params.id, 10);
+    const { voteValue, postId } = req.body;
 
     const user = await findCurrentUser(req.user);
     if (user instanceof User) {

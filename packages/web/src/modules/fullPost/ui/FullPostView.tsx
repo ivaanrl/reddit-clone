@@ -9,11 +9,11 @@ import { HTMLSerializer } from "../../../shared/HTMLSerializer";
 import CommentsConnector from "../comments/CommentsConnector";
 
 interface Props {
-  getFullPost: (postId: number) => void;
+  getFullPost: (postId: string) => void;
   sanitizeContent: (content: string[]) => { __html: string };
   formatDate: (date: string) => string;
-  vote: (id: number, voteValue: number) => void;
-  comment: (postId: number, content: string[]) => void;
+  vote: (id: string, voteValue: number) => void;
+  comment: (postId: string, content: string[]) => void;
 }
 
 const FullPostView = (props: Props) => {
@@ -43,7 +43,7 @@ const FullPostView = (props: Props) => {
 
   useEffect(() => {
     const postId = location.pathname.split("/")[4];
-    getFullPost(parseInt(postId));
+    getFullPost(postId);
   }, [getFullPost, location.pathname]);
 
   const handleComment = () => {

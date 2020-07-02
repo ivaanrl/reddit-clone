@@ -12,7 +12,7 @@ interface Props {
     subreddit_name: string;
     votes: number;
     title: string;
-    id: number;
+    id: string;
     user_vote: number;
     index: number;
   };

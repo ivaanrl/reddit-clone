@@ -91,7 +91,7 @@ class SubrredditController {
         order: [["createdAt", "DESC"]],
       });
       const postsArray: {
-        id: number;
+        id: string;
         author_id: string;
         title: string;
         content: string[];

@@ -11,6 +11,7 @@ import {
   watchVoteFullPost,
   watchCommentFullPost,
   watchReplyComment,
+  watchVoteComment,
 } from "./post.sagas";
 import { watchGetSubreddit, watchCreateSubreddit } from "./subreddit.sagas";
 
@@ -27,5 +28,6 @@ export const rootSaga = function* root() {
     fork(watchVoteFullPost),
     fork(watchCommentFullPost),
     fork(watchReplyComment),
+    fork(watchVoteComment),
   ]);
 };

@@ -5,25 +5,25 @@ import { formatDate } from "../../shared/formatDate";
 
 interface Props {
   children: (data: {
-    getFullPost: (postId: number) => void;
+    getFullPost: (postId: string) => void;
     sanitizeContent: (content: string[]) => { __html: string };
     formatDate: (date: string) => string;
-    vote: (id: number, voteValue: number) => void;
-    comment: (postId: number, content: string[]) => void;
+    vote: (id: string, voteValue: number) => void;
+    comment: (postId: string, content: string[]) => void;
   }) => JSX.Element;
 }
 
 export const FullPostController = (props: Props) => {
   const dispatch = useDispatch();
-  const getFullPost = (postId: number) => {
+  const getFullPost = (postId: string) => {
     dispatch(allActions.getFullPost(postId));
   };
 
-  const vote = (value: number, id: number) => {
+  const vote = (id: string, value: number) => {
     dispatch(allActions.voteFullPost({ postId: id, voteValue: value }));
   };
 
-  const comment = (postId: number, content: string[]) => {
+  const comment = (postId: string, content: string[]) => {
     dispatch(allActions.commentFullPost({ postId, content }));
   };
 

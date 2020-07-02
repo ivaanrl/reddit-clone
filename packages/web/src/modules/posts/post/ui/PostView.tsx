@@ -15,11 +15,11 @@ interface Props {
     subreddit_name: string;
     votes: number;
     title: string;
-    id: number;
+    id: string;
     user_vote: number;
     index: number;
   };
-  vote: (id: number, voteValue: number, index: number) => void;
+  vote: (id: string, voteValue: number, index: number) => void;
 }
 
 const PostView = (props: Props) => {

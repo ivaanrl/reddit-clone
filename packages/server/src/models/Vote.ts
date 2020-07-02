@@ -6,7 +6,6 @@ export class Vote extends Model {
   public author_id!: string;
   public value!: number;
   public post_id: number;
-  public comment_id: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -28,10 +27,7 @@ Vote.init(
       allowNull: false,
     },
     post_id: {
-      type: DataTypes.INTEGER,
-    },
-    comment_id: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.TEXT,
     },
   },
   {

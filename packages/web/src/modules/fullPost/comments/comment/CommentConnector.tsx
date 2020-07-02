@@ -21,6 +21,7 @@ const CommentConnector = (props: Props) => {
           index={index}
           commentInfo={commentInfo}
           child={false}
+          depth={0}
         />
       )}
     </CommentController>

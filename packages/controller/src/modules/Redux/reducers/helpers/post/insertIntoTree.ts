@@ -13,7 +13,15 @@ export const insertIntoTree = (
 
     for (let i = 0; i < currentBranch.length; i++) {
       //select parent comment based on path
-      if (currentBranch[i].path.includes(newComment.path[pathLength - 1])) {
+      if (
+        currentBranch[i].path[1] === newComment.path[1] &&
+        currentBranch[i].path.length === newComment.path.length
+      ) {
+        currentBranch[i].replies.push(newComment);
+        return commentsArray;
+      } else if (
+        currentBranch[i].path.includes(newComment.path[pathLength - 1])
+      ) {
         idxPath.push(i);
         return insertIntoTree(
           newComment,

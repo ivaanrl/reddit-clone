@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./Vote.scss";
 
 interface Props {
-  id?: number;
-  commentId?: string;
+  id?: string;
+  path?: string[];
   index?: number;
   votes: number;
   user_vote: number;
-  voteComment?: (id: string, voteValue: number) => void;
-  votePost?: (id: number, voteValue: number, index: number) => void;
-  voteFullPost?: (id: number, voteValue: number) => void;
+  voteComment?: (path: string[], voteValue: number) => void;
+  votePost?: (id: string, voteValue: number, index: number) => void;
+  voteFullPost?: (id: string, voteValue: number) => void;
   showCount: boolean;
   child: boolean;
 }
@@ -17,7 +17,7 @@ interface Props {
 const Vote = (props: Props) => {
   const {
     votePost,
-    commentId,
+    path,
     voteComment,
     id,
     index,
@@ -46,8 +46,9 @@ const Vote = (props: Props) => {
       votePost(id, voteValue, index);
     } else if (voteFullPost && id) {
       voteFullPost(id, voteValue);
-    } else if (voteComment && commentId) {
-      voteComment(commentId, voteValue);
+    } else if (voteComment && path) {
+      console.log("aa");
+      voteComment(path, voteValue);
     }
 
     if (voteValue === 1) {

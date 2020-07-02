@@ -1,5 +1,6 @@
 import { BaseAction, ActionTypes } from "../actions";
 import { insertIntoTree } from "./helpers/post/insertIntoTree";
+import { voteCommentInTree } from "./helpers/post/voteCommentInTree";
 
 export interface Comment {
   path: string[];
@@ -17,7 +18,7 @@ export interface Comment {
 }
 
 export interface fullPostState {
-  id: number;
+  id: string;
   author_id: string;
   title: string;
   content: string[];
@@ -32,7 +33,7 @@ export interface fullPostState {
 
 export const fullPostReducer = (
   state: fullPostState = {
-    id: 0,
+    id: "",
     author_id: "",
     title: "",
     content: [""],
@@ -55,7 +56,7 @@ export const fullPostReducer = (
       const stateCopy = { ...state };
 
       if (value === stateCopy.user_vote) {
-        stateCopy.votes = 0;
+        stateCopy.votes = stateCopy.votes + stateCopy.user_vote;
         stateCopy.user_vote = 0;
       } else if (stateCopy.user_vote === 1 && value === -1) {
         stateCopy.votes = -1;
@@ -87,6 +88,21 @@ export const fullPostReducer = (
       stateWithNewReply.comments = newCommentTree;
 
       return { ...state, ...stateWithNewReply };
+    case ActionTypes.VOTE_COMMENT_COMPLETED:
+      const stateWithNewVote = { ...state };
+      const votedComment: { path: string[]; voteValue: number } =
+        action.payload;
+
+      const commentTreeWithVote = voteCommentInTree(
+        votedComment,
+        stateWithNewVote.comments,
+        2,
+        votedComment.voteValue
+      );
+
+      stateWithNewVote.comments = commentTreeWithVote;
+
+      return { ...state, ...stateWithNewVote };
 
     default:
       return state;

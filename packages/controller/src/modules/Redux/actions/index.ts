@@ -28,6 +28,8 @@ import {
   commentFullPostCompletedAction,
   replyComment,
   replyCommentCompletedAction,
+  voteComment,
+  voteCommentCompletedAction,
 } from "./post";
 
 export const allActions = {
@@ -54,6 +56,8 @@ export const allActions = {
   commentFullPostCompletedAction,
   replyComment,
   replyCommentCompletedAction,
+  voteComment,
+  voteCommentCompletedAction,
 };
 
 export * from "./types";

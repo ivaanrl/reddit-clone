@@ -7,13 +7,13 @@ interface Props {
   children: (data: {
     sanitizeContent: (content: string[]) => { __html: string };
     formatDate: (date: string) => string;
-    vote: (id: number, voteValue: number, index: number) => void;
+    vote: (id: string, voteValue: number, index: number) => void;
   }) => JSX.Element;
 }
 
 export const PostController = (props: Props) => {
   const dispatch = useDispatch();
-  const vote = (value: number, id: number, index: number) => {
+  const vote = (id: string, value: number, index: number) => {
     dispatch(allActions.votePost({ postId: id, voteValue: value, index }));
   };
 

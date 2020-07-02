@@ -8,4 +8,5 @@ export const postResponseMessages = {
   post_downvoted: "Post downvoted",
   post_not_found: "Post not found",
   error_getting_post: "There was an error loading the post",
+  comment_upvoted: "Comment upvoted",
 };

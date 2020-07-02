@@ -10,7 +10,7 @@ export const createPost = (post: {
 });
 
 export const votePost = (voteInfo: {
-  postId: number;
+  postId: string;
   voteValue: number;
   index: number;
 }) => ({
@@ -26,7 +26,7 @@ export const updatePostVotes = (voteInfo: {
   payload: voteInfo,
 });
 
-export const getFullPost = (postId: number) => ({
+export const getFullPost = (postId: string) => ({
   type: ActionTypes.GET_FULL_POST,
   payload: postId,
 });
@@ -48,7 +48,7 @@ export const getFullPostCompletedAction = (postInfo: {
 });
 
 export const voteFullPost = (postInfo: {
-  postId: number;
+  postId: string;
   voteValue: number;
 }) => ({
   type: ActionTypes.VOTE_FULL_POST,
@@ -61,7 +61,7 @@ export const updateFullPostVotes = (voteValue: number) => ({
 });
 
 export const commentFullPost = (postInfo: {
-  postId: number;
+  postId: string;
   content: string[];
 }) => ({
   type: ActionTypes.COMMENT_FULL_POST,
@@ -83,5 +83,21 @@ export const replyComment = (commentInfo: {
 
 export const replyCommentCompletedAction = (commentInfo: any) => ({
   type: ActionTypes.REPLY_COMMENT_COMPLETED,
+  payload: commentInfo,
+});
+
+export const voteComment = (commentInfo: {
+  path: string[];
+  voteValue: number;
+}) => ({
+  type: ActionTypes.VOTE_COMMENT,
+  payload: commentInfo,
+});
+
+export const voteCommentCompletedAction = (commentInfo: {
+  path: string[];
+  voteValue: number;
+}) => ({
+  type: ActionTypes.VOTE_COMMENT_COMPLETED,
   payload: commentInfo,
 });

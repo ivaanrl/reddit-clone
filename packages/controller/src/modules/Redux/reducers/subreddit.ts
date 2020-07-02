@@ -1,7 +1,7 @@
 import { BaseAction, ActionTypes } from "../actions";
 
 export interface Post {
-  id: number;
+  id: string;
   author_id: string;
   title: string;
   content: string[];

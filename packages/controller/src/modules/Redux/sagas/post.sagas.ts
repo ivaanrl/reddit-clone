@@ -8,6 +8,7 @@ import {
   updateFullPostVotes,
   commentFullPostCompletedAction,
   replyCommentCompletedAction,
+  voteCommentCompletedAction,
 } from "../actions/post";
 
 export function* watchCreatePost() {
@@ -34,6 +35,10 @@ export function* watchReplyComment() {
   yield takeEvery(ActionTypes.REPLY_COMMENT, replyComment);
 }
 
+export function* watchVoteComment() {
+  yield takeEvery(ActionTypes.VOTE_COMMENT, voteComment);
+}
+
 export function* createPost(post: {
   type: string;
   payload: {
@@ -49,7 +54,7 @@ export function* createPost(post: {
   }
 }
 
-export function* getFullPost(post: { type: string; payload: number }) {
+export function* getFullPost(post: { type: string; payload: string }) {
   try {
     const response = yield call(getFullPostRequest, post.payload);
     yield put(getFullPostCompletedAction(response.body));
@@ -60,7 +65,7 @@ export function* getFullPost(post: { type: string; payload: number }) {
 
 export function* votePost(postInfo: {
   type: string;
-  payload: { voteValue: number; postId: number; index: number };
+  payload: { voteValue: number; postId: string; index: number };
 }) {
   try {
     yield call(votePostRequest, postInfo.payload);
@@ -77,7 +82,7 @@ export function* votePost(postInfo: {
 
 export function* voteFullPost(postInfo: {
   type: string;
-  payload: { voteValue: number; postId: number };
+  payload: { voteValue: number; postId: string };
 }) {
   try {
     yield call(votePostRequest, postInfo.payload);
@@ -119,6 +124,41 @@ export function* replyComment(comment: {
     console.log(error);
   }
 }
+
+export function* voteComment(comment: {
+  type: string;
+  payload: {
+    path: string[];
+    voteValue: number;
+  };
+}) {
+  try {
+    const voteResponse = yield call(voteCommentRequest, comment.payload);
+    if (voteResponse.status === 201) {
+      yield put(voteCommentCompletedAction(comment.payload));
+    }
+  } catch (error) {}
+}
+
+export const voteCommentRequest = (commentInfo: {
+  path: string[];
+  voteValue: number;
+}) => {
+  const { path, voteValue } = commentInfo;
+  let response;
+
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      .post(APIUrl + "/post/vote/")
+      .send({ voteValue, postId: path[path.length - 1] });
+  } catch (error) {
+    response = error.response;
+  }
+
+  return response;
+};
 
 export const replyCommentRequest = (commentInfo: {
   commentId: number;
@@ -177,7 +217,7 @@ export const createPostRequest = (post: {
   return response;
 };
 
-export const getFullPostRequest = (postId: number) => {
+export const getFullPostRequest = (postId: string) => {
   let response;
   try {
     response = superagent
@@ -196,15 +236,15 @@ export const votePostRequest = ({
   postId,
 }: {
   voteValue: number;
-  postId: number;
+  postId: string;
 }) => {
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
-      .post(APIUrl + "/post/vote/" + postId)
-      .send({ voteValue });
+      .post(APIUrl + "/post/vote/")
+      .send({ voteValue, postId });
   } catch (error) {
     response = error.response;
   }

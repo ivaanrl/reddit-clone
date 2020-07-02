@@ -42,11 +42,11 @@ export class Comment extends Model {
 Comment.init(
   {
     path: {
-      type: DataTypes.STRING(1000),
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       primaryKey: true,
       unique: true,
     },
@@ -63,10 +63,10 @@ Comment.init(
       allowNull: false,
     },
     post_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
     },
     comment_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
   },
   {
@@ -76,4 +76,4 @@ Comment.init(
 );
 
 Comment.hasMany(Comment, { sourceKey: "id", foreignKey: "comment_id" });
-Comment.hasMany(Vote, { sourceKey: "id" });
+Comment.hasMany(Vote, { sourceKey: "id", foreignKey: "post_id" });
