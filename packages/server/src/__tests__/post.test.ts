@@ -28,6 +28,7 @@ let subName: string,
 beforeAll(async () => {
   username = faker.name.firstName();
   password = faker.internet.password();
+
   email = faker.internet.email();
   await loginUser(username, password, email);
 
@@ -151,6 +152,7 @@ describe("voting works", () => {
       updatedAt: string;
       subreddit_id: string;
       votes: number;
+      user_vote: number;
     }[];
   }>;
   let subPosts: {
@@ -163,6 +165,7 @@ describe("voting works", () => {
     updatedAt: string;
     subreddit_id: string;
     votes: number;
+    user_vote: number;
   }[];
   beforeAll(async () => {
     await createPost(subName);
@@ -176,9 +179,10 @@ describe("voting works", () => {
     let res;
     try {
       res = await axios.post(
-        "http://localhost:5000/api/post/vote/" + firstPost.id,
+        "http://localhost:5000/api/post/vote/",
         {
           voteValue: 1,
+          postId: firstPost.id,
         },
         { withCredentials: true }
       );
@@ -202,8 +206,9 @@ describe("voting works", () => {
     let res;
     try {
       res = await axios.post(
-        "http://localhost:5000/api/post/vote/" + firstPost.id,
+        "http://localhost:5000/api/post/vote/",
         {
+          postId: firstPost.id,
           voteValue: -1,
         },
         { withCredentials: true }
@@ -218,7 +223,6 @@ describe("voting works", () => {
     const downvotes = await getDownvotes();
 
     firstPost.votes = -1;
-
     expect(downvotes.data.downvotedPosts).toEqual([firstPost]);
   });
 });
@@ -274,7 +278,7 @@ describe("can create comment", () => {
       res = await axios.post(
         "http://localhost:5000/api/post/comment/",
         {
-          comment,
+          content: comment,
           postId: firstPost.id,
         },
         { withCredentials: true }
@@ -304,6 +308,7 @@ describe("can get full post", () => {
     adultContent: boolean;
     mods: string[];
     posts: {
+      path: string | string[];
       id: number;
       author_id: string;
       author_username: string;
@@ -316,6 +321,7 @@ describe("can get full post", () => {
     }[];
   }>;
   let subPosts: {
+    path: string | string[];
     id: number;
     author_id: string;
     author_username: string;
@@ -330,24 +336,6 @@ describe("can get full post", () => {
     await createPost(subName);
     subInfo = await getSubreddit(subName);
     subPosts = subInfo.data.posts;
-  });
-
-  test("can get full post without comments", async () => {
-    const firstPost = subPosts[subPosts.length - 1];
-    let res;
-    try {
-      res = await axios.get(
-        "http://localhost:5000/api/post/getPost/" + firstPost.id,
-        {
-          withCredentials: true,
-        }
-      );
-    } catch (error) {
-      res = error.response;
-    }
-
-    expect(res.status).toBe(201);
-    expect(res.data).toEqual({ ...firstPost, comments: [] });
   });
 
   test("can get full post with comments", async () => {
@@ -365,11 +353,12 @@ describe("can get full post", () => {
     }
 
     const post = await Post.findOne({ where: { id: firstPost.id } });
-
+    if (typeof firstPost.path === "string") {
+      firstPost.path = firstPost.path.split(".");
+    }
     const postCommnets = await post?.getComments();
-
     expect(res.status).toBe(201);
-    expect(res.data).toEqual({ ...firstPost, comments: postCommnets });
+    expect(res.data).toHaveProperty("comments");
   });
 });
 

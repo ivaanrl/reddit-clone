@@ -11,6 +11,7 @@ export const getSubreddit = async (name: string) => {
     adultContent: boolean;
     mods: string[];
     posts: {
+      path: string | string[];
       id: number;
       author_id: string;
       author_username: string;
@@ -20,6 +21,7 @@ export const getSubreddit = async (name: string) => {
       updatedAt: string;
       subreddit_id: string;
       votes: number;
+      user_vote: number;
     }[];
   }>("http://localhost:5000/api/subreddit/getSubreddit/" + name, {
     withCredentials: true,
