@@ -1,4 +1,5 @@
 import { Comment } from "../../post";
+import { vote } from "../vote";
 
 export const voteCommentInTree = (
   votedComment: { path: string[] },
@@ -16,20 +17,13 @@ export const voteCommentInTree = (
         currentBranch[i].path[1] === votedComment.path[1] &&
         currentBranch[i].path.length === votedComment.path.length
       ) {
-        if (value === currentBranch[i].user_vote) {
-          currentBranch[i].voteValue =
-            currentBranch[i].voteValue + currentBranch[i].user_vote;
-          currentBranch[i].user_vote = 0;
-        } else if (currentBranch[i].user_vote === 1 && value === -1) {
-          currentBranch[i].voteValue = -1;
-          currentBranch[i].user_vote = -1;
-        } else if (currentBranch[i].user_vote === -1 && value === 1) {
-          currentBranch[i].voteValue = 1;
-          currentBranch[i].user_vote = 1;
-        } else {
-          currentBranch[i].voteValue += value;
-          currentBranch[i].user_vote = value;
-        }
+        const { user_vote, votes } = vote(
+          currentBranch[i].user_vote,
+          value,
+          currentBranch[i].voteValue
+        );
+        currentBranch[i].voteValue = votes;
+        currentBranch[i].user_vote = user_vote;
         return commentsArray;
       } else if (
         currentBranch[i].path.includes(votedComment.path[pathLength - 1])
@@ -63,27 +57,14 @@ export const voteCommentInTree = (
             currentBranch.replies[i].path[votedComment.path.length - 1] ===
             votedComment.path[votedComment.path.length - 1]
           ) {
-            if (value === currentBranch.replies[i].user_vote) {
-              currentBranch.replies[i].voteValue =
-                currentBranch.replies[i].voteValue +
-                currentBranch.replies[i].user_vote;
-              currentBranch.replies[i].user_vote = 0;
-            } else if (
-              currentBranch.replies[i].user_vote === 1 &&
-              value === -1
-            ) {
-              currentBranch.replies[i].voteValue = -1;
-              currentBranch.replies[i].user_vote = -1;
-            } else if (
-              currentBranch.replies[i].user_vote === -1 &&
-              value === 1
-            ) {
-              currentBranch.replies[i].voteValue = 1;
-              currentBranch.replies[i].user_vote = 1;
-            } else {
-              currentBranch.replies[i].voteValue += value;
-              currentBranch.replies[i].user_vote = value;
-            }
+            const { user_vote, votes } = vote(
+              currentBranch.replies[i].user_vote,
+              value,
+              currentBranch.replies[i].voteValue
+            );
+            currentBranch.replies[i].voteValue = votes;
+            currentBranch.replies[i].user_vote = user_vote;
+
             return commentsArray;
           } else {
             continue;

@@ -1,6 +1,7 @@
 import { BaseAction, ActionTypes } from "../actions";
 import { insertIntoTree } from "./helpers/post/insertIntoTree";
 import { voteCommentInTree } from "./helpers/post/voteCommentInTree";
+import { vote } from "./helpers/vote";
 
 export interface Comment {
   path: string[];
@@ -49,25 +50,20 @@ export const fullPostReducer = (
 ) => {
   switch (action.type) {
     case ActionTypes.GET_FULL_POST_COMPLETED:
-      console.log("get full post");
       return { ...state, ...action.payload };
     case ActionTypes.UPDATE_FULL_POST_VOTES:
       const value = action.payload;
       const stateCopy = { ...state };
 
-      if (value === stateCopy.user_vote) {
-        stateCopy.votes = stateCopy.votes + stateCopy.user_vote;
-        stateCopy.user_vote = 0;
-      } else if (stateCopy.user_vote === 1 && value === -1) {
-        stateCopy.votes = -1;
-        stateCopy.user_vote = -1;
-      } else if (stateCopy.user_vote === -1 && value === 1) {
-        stateCopy.votes = 1;
-        stateCopy.user_vote = 1;
-      } else {
-        stateCopy.votes += value;
-        stateCopy.user_vote = value;
-      }
+      const { user_vote, votes } = vote(
+        stateCopy.user_vote,
+        value,
+        stateCopy.votes
+      );
+
+      stateCopy.votes = votes;
+      stateCopy.user_vote = user_vote;
+
       return { ...state, ...stateCopy };
     case ActionTypes.COMMENT_FULL_POST_COMPLETED:
       const newState = { ...state };

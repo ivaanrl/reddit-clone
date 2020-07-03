@@ -1,4 +1,5 @@
 import { BaseAction, ActionTypes } from "../actions";
+import { vote } from "./helpers/vote";
 
 export interface Post {
   id: string;
@@ -66,20 +67,14 @@ export const subredditReducer = (
       const { index, value } = action.payload;
       const stateCopy = { ...state };
       const postToEdit = stateCopy.posts[index];
-      if (postToEdit.user_vote === value) {
-        postToEdit.votes = 0;
-        postToEdit.user_vote = 0;
-      } else if (postToEdit.user_vote === 1 && value === -1) {
-        postToEdit.votes = -1;
-        postToEdit.user_vote = -1;
-      } else if (postToEdit.user_vote === -1 && value === 1) {
-        postToEdit.votes = 1;
-        postToEdit.user_vote = 1;
-      } else {
-        postToEdit.votes += value;
-        postToEdit.user_vote = value;
-      }
+      const { user_vote, votes } = vote(
+        postToEdit.user_vote,
+        value,
+        postToEdit.votes
+      );
 
+      postToEdit.votes = votes;
+      postToEdit.user_vote = user_vote;
       return { ...state, ...stateCopy };
     default:
       return state;
