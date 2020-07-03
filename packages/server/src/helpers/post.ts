@@ -19,18 +19,22 @@ export const getChildren = async (
     if (commentsLeft[i].path.length === pathLength) {
       for (let j = 0; j < commentsLeft.length; j++) {
         if (commentsLeft[i].comment_id === commentsLeft[j].id) {
-          const commentVotes = await commentsLeft[j].getVotes();
+          const commentVotes = await commentsLeft[i].getVotes();
           let voteValue = 0;
           commentVotes.forEach((vote) => {
             voteValue += vote.value;
             if (vote.author_id === user_id) {
-              commentsLeft[j].setDataValue("user_vote", vote.value);
+              commentsLeft[i].setDataValue("user_vote", vote.value);
             }
           });
-          commentsLeft[j].setDataValue("voteValue", voteValue);
-          commentsLeft[i].voteValue = voteValue;
+
+          commentsLeft[i].setDataValue("voteValue", voteValue);
           const newReplies = commentsLeft[j].getDataValue("replies");
           newReplies.push(commentsLeft[i]);
+
+          newReplies.sort((a, b) =>
+            a.voteValue > b.voteValue ? 1 : b.voteValue > a.voteValue ? -1 : 0
+          );
           commentsLeft[j].setDataValue("replies", newReplies);
           commentsLeft.splice(i, 1);
           i--;
