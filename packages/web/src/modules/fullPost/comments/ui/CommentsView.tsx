@@ -6,10 +6,11 @@ import CommentConnector from "../comment/CommentConnector";
 import { Comment } from "@reddit-clone/controller/dist/modules/Redux/reducers/post";
 
 const CommentsView = () => {
-  const postComments = useSelector((state: State) => state.fullPost.comments);
+  const postComments = useSelector((state: State) => state.fullPost);
+
   return (
     <React.Fragment>
-      {postComments.map((comment: Comment, index: number) => {
+      {postComments.comments.map((comment: Comment, index: number) => {
         return (
           <CommentConnector
             commentInfo={comment}

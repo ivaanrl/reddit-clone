@@ -47,7 +47,6 @@ const Vote = (props: Props) => {
     } else if (voteFullPost && id) {
       voteFullPost(id, voteValue);
     } else if (voteComment && path) {
-      console.log("aa");
       voteComment(path, voteValue);
     }
 

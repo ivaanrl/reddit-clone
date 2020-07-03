@@ -35,7 +35,7 @@ beforeEach(() => {
           subreddit_name: "nodejs",
           votes: 0,
           title: "title",
-          id: 125,
+          id: "125",
           user_vote: 0,
           index: 0,
         }}

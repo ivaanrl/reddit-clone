@@ -1,8 +1,11 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import FullPostView from "../modules/fullPost/ui/FullPostView";
+import * as redux from "react-redux";
+import createMockStore from "redux-mock-store";
+import { Provider } from "react-redux";
 
 const mockSelector = jest.fn();
 const mockGetFullPost = jest.fn();
@@ -11,9 +14,39 @@ const mockFormatDate = jest.fn();
 const mockVote = jest.fn();
 const mockComment = jest.fn();
 
-jest.mock("react-redux", () => ({
-  useSelector: () => mockSelector,
-}));
+const spy = jest.spyOn(redux, "useSelector");
+spy.mockReturnValue({
+  id: "125",
+  author_username: "ivanrl",
+  comments: [
+    {
+      path: "125.aokjsbd",
+      id: "aokjsbd",
+      author_id: "",
+      content: ["a", "b"],
+      post_id: "125",
+      comment_id: "aokjsbd",
+      createdAt: "2020-06-18T15:46:47.121-03",
+      updatedAt: "2020-06-18T15:46:47.121-03",
+      voteValue: 0,
+      user_vote: 0,
+      replies: [],
+    },
+    {
+      path: "125.anlas",
+      id: "anlas",
+      author_id: "",
+      content: ["a", "b"],
+      post_id: "125",
+      comment_id: "anlas",
+      createdAt: "2020-06-18T15:46:47.121-03",
+      updatedAt: "2020-06-18T15:46:47.121-03",
+      voteValue: 0,
+      user_vote: 0,
+      replies: [],
+    },
+  ],
+});
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -22,25 +55,29 @@ jest.mock("react-router-dom", () => ({
   }),
 }));
 
+const store = createMockStore();
+
 beforeEach(() => {
   render(
-    <BrowserRouter>
-      <FullPostView
-        getFullPost={mockGetFullPost}
-        sanitizeContent={mockSanitizeContent}
-        formatDate={mockFormatDate}
-        vote={mockVote}
-        comment={mockComment}
-      />
-    </BrowserRouter>
+    <Provider store={store()}>
+      <BrowserRouter>
+        <FullPostView
+          getFullPost={mockGetFullPost}
+          sanitizeContent={mockSanitizeContent}
+          formatDate={mockFormatDate}
+          vote={mockVote}
+          comment={mockComment}
+        />
+      </BrowserRouter>
+    </Provider>
   );
 });
 
 describe("renders properly", () => {
   test("displays voting buttons", () => {
-    expect(screen.getByTitle("downvote-button")).not.toBe(null);
-    expect(screen.getByTitle("upvote-button")).not.toBe(null);
-    expect(screen.getByTitle("vote-count")).not.toBe(null);
+    expect(screen.queryAllByTitle("downvote-button")).not.toBe(null);
+    expect(screen.queryAllByTitle("upvote-button")).not.toBe(null);
+    expect(screen.queryAllByTitle("vote-count")).not.toBe(null);
   });
 
   test("display info", () => {
@@ -49,7 +86,7 @@ describe("renders properly", () => {
   });
 
   test("displays bottom bar", () => {
-    expect(screen.getByTitle("bottom-bar")).not.toBe(null);
+    expect(screen.queryAllByTitle("bottom-bar")).not.toBe(null);
   });
 
   test("displays create comment container", () => {
@@ -63,15 +100,19 @@ describe("renders properly", () => {
 
 describe("voting works", () => {
   test("upvote button dispatches correct action", () => {
-    const upvoteButton = screen.getByTestId("upvote-svg");
-    fireEvent.click(upvoteButton);
+    const upvoteButton = screen.queryAllByTitle("upvote-button");
+    act(() => {
+      fireEvent.click(upvoteButton[0]);
+    });
 
     expect(mockVote).toHaveBeenCalled();
   });
 
-  test("downvote button dispatches correct action", () => {
-    const downvote = screen.getByTestId("downvote-svg");
-    fireEvent.click(downvote);
+  test("downvote button dispatches correct action", async () => {
+    const downvote = screen.queryAllByTitle("downvote-button");
+    await act(async () => {
+      fireEvent.click(downvote[0]);
+    });
 
     expect(mockVote).toHaveBeenCalled();
   });
