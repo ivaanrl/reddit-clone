@@ -12,7 +12,10 @@ export const voteCommentInTree = (
     let currentBranch = commentsArray;
 
     for (let i = 0; i < currentBranch.length; i++) {
-      if (currentBranch[i].path[1] === votedComment.path[1]) {
+      if (
+        currentBranch[i].path[1] === votedComment.path[1] &&
+        currentBranch[i].path.length === votedComment.path.length
+      ) {
         if (value === currentBranch[i].user_vote) {
           currentBranch[i].voteValue =
             currentBranch[i].voteValue + currentBranch[i].user_vote;

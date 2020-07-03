@@ -1,16 +1,4 @@
 import { Comment } from "../models/Comment";
-import { HasManyGetAssociationsMixin } from "sequelize/types";
-import { Vote } from "../models/Vote";
-
-/*
-public path!: string;
-  public id!: string;
-  public author_id!: string;
-  public author_username!: string;
-  public content!: string[];
-  public post_id: string;
-  public comment_id: string;
-*/
 
 export class CommentWithReply extends Comment {
   public user_vote!: number;
@@ -36,9 +24,10 @@ export const getChildren = async (
           commentVotes.forEach((vote) => {
             voteValue += vote.value;
             if (vote.author_id === user_id) {
-              commentsLeft[i].user_vote = vote.value;
+              commentsLeft[j].setDataValue("user_vote", vote.value);
             }
           });
+          commentsLeft[j].setDataValue("voteValue", voteValue);
           commentsLeft[i].voteValue = voteValue;
           const newReplies = commentsLeft[j].getDataValue("replies");
           newReplies.push(commentsLeft[i]);
