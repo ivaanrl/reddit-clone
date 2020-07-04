@@ -4,6 +4,7 @@ import {
   getSubreddit,
   getSubredditRequest,
 } from "../modules/Redux/sagas/subreddit.sagas";
+import { call, put } from "redux-saga-test-plan/matchers";
 
 describe("Subredit Saga", () => {
   test("calls the api for non-existing sub and sets error 404 in state", () => {
@@ -21,24 +22,26 @@ describe("Subredit Saga", () => {
   test("calls the api for valid subreddit and sets it in state", () => {
     const subName = "nodejs";
 
-    return expectSaga(getSubreddit, {
-      type: ActionTypes.GET_SUBREDDIT,
-      payload: subName,
-    })
-      .call(getSubredditRequest, subName)
-      .put(
-        allActions.getSubredditCompletedAction({
-          name: "nodejs",
-          owner_id: "d20dab92-03b8-4876-8b02-60f62240c58a",
-          topics: ["programming", "technology"],
-          adultContent: false,
-          description: "Official Nodejs subreddit",
-          joined: 1,
-          createdAt: "2020-06-19T05:45:01.167Z",
-          mods: ["ivanrl"],
-          posts: [],
-        })
-      )
+    function* mockGetSubreddit() {
+      const user = yield call(getSubredditRequest, subName);
+      yield put(allActions.getSubredditCompletedAction(APIResponse));
+    }
+
+    const APIResponse = {
+      name: "nodejs",
+      owner_id: "522663be-8903-4216-9df1-dae96343af51",
+      topics: ["technology", "programming"],
+      adultContent: false,
+      description: "Official nodejs community",
+      joined: 1,
+      createdAt: "2020-07-02T21:38:14.026Z",
+      mods: ["ivanrl"],
+      posts: [],
+    };
+
+    return expectSaga(mockGetSubreddit)
+      .provide([call(getSubredditRequest), APIResponse])
+      .put(allActions.getSubredditCompletedAction(APIResponse))
       .run();
   });
 });
