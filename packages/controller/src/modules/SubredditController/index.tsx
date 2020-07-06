@@ -2,7 +2,10 @@ import { useDispatch } from "react-redux";
 import { allActions } from "../Redux";
 
 interface Props {
-  children: (data: { getSubreddit: (subName: string) => void }) => JSX.Element;
+  children: (data: {
+    getSubreddit: (subName: string) => void;
+    joinOrLeaveSubreddit: (subName: string) => void;
+  }) => JSX.Element;
 }
 
 export const SubredditController = (props: Props) => {
@@ -11,5 +14,9 @@ export const SubredditController = (props: Props) => {
     dispatch(allActions.getSubreddit(subName));
   };
 
-  return props.children({ getSubreddit });
+  const joinOrLeaveSubreddit = (subName: string) => {
+    dispatch(allActions.joinOrLeaveSubreddit(subName));
+  };
+
+  return props.children({ getSubreddit, joinOrLeaveSubreddit });
 };

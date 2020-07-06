@@ -13,7 +13,11 @@ import {
   watchReplyComment,
   watchVoteComment,
 } from "./post.sagas";
-import { watchGetSubreddit, watchCreateSubreddit } from "./subreddit.sagas";
+import {
+  watchGetSubreddit,
+  watchCreateSubreddit,
+  watchJoinOrLeaveSubreddit,
+} from "./subreddit.sagas";
 
 export const rootSaga = function* root() {
   yield all([
@@ -29,5 +33,6 @@ export const rootSaga = function* root() {
     fork(watchCommentFullPost),
     fork(watchReplyComment),
     fork(watchVoteComment),
+    fork(watchJoinOrLeaveSubreddit),
   ]);
 };

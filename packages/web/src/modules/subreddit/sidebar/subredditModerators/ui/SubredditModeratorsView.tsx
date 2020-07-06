@@ -11,9 +11,13 @@ const SubredditModeratorsView = () => {
     <div className="sub-sidebar-main-container" title="subreddit-moderators">
       <div className="sub-sidebar-header">Moderators</div>
       {mods
-        ? mods.map((mod) => {
+        ? mods.map((mod, index) => {
             return (
-              <NavLink className="sub-sidebar-mod-link" to={`/u/${mod}`}>
+              <NavLink
+                key={index}
+                className="sub-sidebar-mod-link"
+                to={`/u/${mod}`}
+              >
                 u/{mod}
               </NavLink>
             );

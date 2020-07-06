@@ -49,3 +49,13 @@ export const createSubredditCompletedAction = (subreddit: {
   type: ActionTypes.CREATE_SUBREDDIT_COMPLETED,
   payload: subreddit,
 });
+
+export const joinOrLeaveSubreddit = (subName: string) => ({
+  type: ActionTypes.JOIN_LEAVE_SUBREDDIT,
+  payload: subName,
+});
+
+export const joinOrLeaveSubredditCompletedAction = (isUserJoined: boolean) => ({
+  type: ActionTypes.JOIN_LEAVE_SUBREDDIT_COMPLETED,
+  payload: isUserJoined,
+});

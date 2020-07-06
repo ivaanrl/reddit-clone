@@ -59,7 +59,22 @@ class SubrredditController {
     const user = await findCurrentUser(req.user);
 
     if (subreddit instanceof Subreddit) {
-      const joined = (await subreddit.getUsers()).length;
+      const joinedUsers = await subreddit.getUsers();
+      const joined = joinedUsers.length;
+      let isUserJoined = false;
+
+      if (user instanceof User) {
+        const user_subreddit = await User_Subreddit.findOne({
+          where: {
+            username: user.username,
+            SubredditName: subreddit.name,
+          },
+        });
+        if (user_subreddit) {
+          isUserJoined = true;
+        }
+      }
+
       const {
         name,
         owner_id,
@@ -68,6 +83,7 @@ class SubrredditController {
         adultContent,
         createdAt,
       } = subreddit;
+
       const modsArray: string[] = [];
       const mods = await User_Subreddit.findAll({
         where: {
@@ -146,6 +162,7 @@ class SubrredditController {
         description,
         adultContent,
         joined,
+        isUserJoined,
         createdAt,
         mods: modsArray,
         posts: postsArray,
@@ -182,10 +199,66 @@ class SubrredditController {
       mods.forEach((mod) => {
         modsArray.push(mod.username);
       });
-      console.log(mods);
 
       return res.json(modsArray);
     }
     return res.end();
+  }
+
+  @post("/joinOrLeave")
+  @use(requireLogin)
+  async joinOrLeaveSubreddit(req: Request, res: Response) {
+    const { subName } = req.body;
+    console.log(subName);
+    const user = await findCurrentUser(req.user);
+    if (user instanceof User) {
+      let userFollow;
+      try {
+        userFollow = await User_Subreddit.findOne({
+          where: {
+            username: user.username,
+            SubredditName: subName,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        return res.status(501).json({ message: "Internal Server Error" });
+      }
+
+      if (userFollow) {
+        try {
+          await User_Subreddit.destroy({
+            where: {
+              username: user.username,
+              SubredditName: subName,
+            },
+          });
+        } catch (error) {
+          console.log(error);
+          return res.status(501).json({ message: "Internal Server Error" });
+        }
+
+        return res
+          .status(201)
+          .json({ message: "Not Joined Anymore", userJoined: false });
+      } else {
+        try {
+          await User_Subreddit.create({
+            UserId: user.id,
+            SubredditName: subName,
+            role: "usr",
+            username: user.username,
+          });
+          return res
+            .status(201)
+            .json({ message: "User succesfully joined", userJoined: true });
+        } catch (error) {
+          console.log(error);
+          return res.status(501).json({ message: "Internal Server Error" });
+        }
+      }
+    }
+
+    return res.status(501).json({ message: "Internal Server Error" });
   }
 }

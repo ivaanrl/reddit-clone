@@ -6,6 +6,7 @@ import {
   getSubredditCompletedAction,
   getSubredditFailed,
   createSubredditCompletedAction,
+  joinOrLeaveSubredditCompletedAction,
 } from "../actions/subreddit";
 
 export function* watchGetSubreddit() {
@@ -14,6 +15,10 @@ export function* watchGetSubreddit() {
 
 export function* watchCreateSubreddit() {
   yield takeEvery(ActionTypes.CREATE_SUBREDDIT, createSubreddit);
+}
+
+export function* watchJoinOrLeaveSubreddit() {
+  yield takeEvery(ActionTypes.JOIN_LEAVE_SUBREDDIT, joinOrLeaveSubreddit);
 }
 
 export function* getSubreddit(subInfo: { type: string; payload: string }) {
@@ -26,6 +31,31 @@ export function* getSubreddit(subInfo: { type: string; payload: string }) {
     yield put(getSubredditFailed(error.status));
   }
 }
+
+export function* joinOrLeaveSubreddit(info: { type: string; payload: string }) {
+  try {
+    const res = yield call(joinOrLeaveRequest, info.payload);
+
+    yield put(joinOrLeaveSubredditCompletedAction(res.body.userJoined));
+  } catch (error) {
+    //handle error
+  }
+}
+
+export const joinOrLeaveRequest = (subName: string) => {
+  let response;
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      .post(APIUrl + "/subreddit/joinOrLeave")
+      .send({ subName });
+  } catch (error) {
+    response = error.response;
+  }
+
+  return response;
+};
 
 export const getSubredditRequest = (subName: string) => {
   let response;

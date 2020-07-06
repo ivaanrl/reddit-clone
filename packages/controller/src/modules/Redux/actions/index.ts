@@ -14,6 +14,8 @@ import {
   getSubredditFailed,
   createSubreddit,
   createSubredditCompletedAction,
+  joinOrLeaveSubreddit,
+  joinOrLeaveSubredditCompletedAction,
 } from "./subreddit";
 
 import {
@@ -58,6 +60,8 @@ export const allActions = {
   replyCommentCompletedAction,
   voteComment,
   voteCommentCompletedAction,
+  joinOrLeaveSubreddit,
+  joinOrLeaveSubredditCompletedAction,
 };
 
 export * from "./types";

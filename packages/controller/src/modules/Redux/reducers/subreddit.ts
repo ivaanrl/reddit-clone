@@ -21,6 +21,7 @@ export type subredditState = {
   description: string;
   adultContent: boolean;
   joined: number;
+  isUserJoined: boolean;
   createdAt: string;
   updatedAt: string;
   mods: string[];
@@ -36,6 +37,7 @@ export const subredditReducer = (
     description: "",
     adultContent: false,
     joined: 0,
+    isUserJoined: false,
     mods: [],
     posts: [],
     createdAt: "",
@@ -76,6 +78,8 @@ export const subredditReducer = (
       postToEdit.votes = votes;
       postToEdit.user_vote = user_vote;
       return { ...state, ...stateCopy };
+    case ActionTypes.JOIN_LEAVE_SUBREDDIT_COMPLETED:
+      return { ...state, ...{ isUserJoined: action.payload } };
     default:
       return state;
   }
