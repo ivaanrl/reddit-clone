@@ -9,6 +9,7 @@ import { loadUserFromLocalStorage } from "./shared/localStorage";
 import { useDispatch } from "react-redux";
 import { allActions } from "@reddit-clone/controller";
 import FullPostConnector from "./modules/fullPost/FullPostConnector";
+import FlashMessageConnector from "./modules/flashMessage/FlashMessageConnector";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/submit" component={CreatePostConnector} />
         <Route path="/" exact component={HomepageConnector} />
       </Switch>
+      <FlashMessageConnector />
     </div>
   );
 };

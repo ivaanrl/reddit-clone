@@ -5,9 +5,9 @@ export type authReducerState = {
   email: string;
   karma: number;
   userSubs: { name: string; adultContent: boolean }[];
-  error?: {
-    status: number | null;
-    message: string;
+  message: {
+    status: number;
+    text: string;
   };
 };
 
@@ -17,6 +17,10 @@ export const authReducer = (
     email: "",
     karma: 0,
     userSubs: [],
+    message: {
+      status: 0,
+      text: "",
+    },
   },
   action: BaseAction
 ) => {
@@ -24,17 +28,17 @@ export const authReducer = (
     case ActionTypes.SIGNIN_USER_COMPLETED:
       return {
         ...action.payload,
-        error: {
-          message: "",
-          status: null,
+        message: {
+          text: "",
+          status: 0,
         },
       };
     case ActionTypes.SIGNUP_USER_COMPLETED:
       return {
         ...action.payload,
-        error: {
-          message: "",
-          status: null,
+        message: {
+          text: "",
+          status: 0,
         },
       };
     case ActionTypes.SIGNUP_USER_FAILED:
@@ -43,6 +47,14 @@ export const authReducer = (
       return { ...state, ...action.payload };
     case ActionTypes.SIGN_OUT_USER:
       return { ...action.payload };
+    case ActionTypes.REMOVE_AUTH_ERRORS:
+      return {
+        ...state,
+        message: {
+          text: "",
+          status: 0,
+        },
+      };
     default:
       return state;
   }

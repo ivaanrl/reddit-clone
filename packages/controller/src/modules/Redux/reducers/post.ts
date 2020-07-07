@@ -30,6 +30,11 @@ export interface fullPostState {
   author_username: string;
   user_vote: number;
   comments: Comment[];
+
+  message: {
+    status: number;
+    text: string;
+  };
 }
 
 export const fullPostReducer = (
@@ -45,6 +50,10 @@ export const fullPostReducer = (
     author_username: "",
     user_vote: 0,
     comments: [],
+    message: {
+      status: 0,
+      text: "",
+    },
   },
   action: BaseAction
 ) => {
@@ -99,7 +108,14 @@ export const fullPostReducer = (
       stateWithNewVote.comments = commentTreeWithVote;
 
       return { ...state, ...stateWithNewVote };
-
+    case ActionTypes.REMOVE_FULL_POST_ERRORS:
+      return {
+        ...state,
+        message: {
+          status: 0,
+          text: "",
+        },
+      };
     default:
       return state;
   }

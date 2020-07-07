@@ -28,7 +28,12 @@ export function* getSubreddit(subInfo: { type: string; payload: string }) {
     yield put(getSubredditCompletedAction(subResponse.body));
   } catch (error) {
     //failed to get sub
-    yield put(getSubredditFailed(error.status));
+    yield put(
+      getSubredditFailed({
+        status: error.status,
+        text: error.response.body.message,
+      })
+    );
   }
 }
 

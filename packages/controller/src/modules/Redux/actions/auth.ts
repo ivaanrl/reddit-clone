@@ -18,14 +18,14 @@ export const signinUserCompletedAction = (user: {
   payload: user,
 });
 
-export const signinUserFailed = (error: {
-  [error: string]: {
+export const signinUserFailed = (message: {
+  [message: string]: {
     status: number;
-    message: string;
+    text: string;
   };
 }) => ({
   type: ActionTypes.SIGNIN_USER_FAILED,
-  payload: error,
+  payload: message,
 });
 
 export const signupUser = (user: {
@@ -46,14 +46,14 @@ export const signupUserCompletedAction = (user: {
   payload: user,
 });
 
-export const signupUserFailed = (error: {
-  [error: string]: {
+export const signupUserFailed = (message: {
+  [message: string]: {
     status: number;
-    message: string;
+    text: string;
   };
 }) => ({
   type: ActionTypes.SIGNUP_USER_FAILED,
-  payload: error,
+  payload: message,
 });
 
 export const signoutUser = () => ({
@@ -67,9 +67,13 @@ export const signoutUserCompletedAction = () => ({
     username: "",
     karma: 0,
     userSubs: [],
-    error: {
-      status: null,
-      message: "",
+    message: {
+      status: 0,
+      text: "",
     },
   },
+});
+
+export const removeAuthErrors = () => ({
+  type: ActionTypes.REMOVE_AUTH_ERRORS,
 });

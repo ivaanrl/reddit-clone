@@ -101,3 +101,7 @@ export const voteCommentCompletedAction = (commentInfo: {
   type: ActionTypes.VOTE_COMMENT_COMPLETED,
   payload: commentInfo,
 });
+
+export const removeFullPostErrors = () => ({
+  type: ActionTypes.REMOVE_FULL_POST_ERRORS,
+});

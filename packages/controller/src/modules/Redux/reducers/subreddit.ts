@@ -26,7 +26,10 @@ export type subredditState = {
   updatedAt: string;
   mods: string[];
   posts: Post[];
-  error: number | null;
+  message: {
+    status: number;
+    text: string;
+  };
 };
 
 export const subredditReducer = (
@@ -42,7 +45,10 @@ export const subredditReducer = (
     posts: [],
     createdAt: "",
     updatedAt: "",
-    error: null,
+    message: {
+      status: 0,
+      text: "",
+    },
   },
   action: BaseAction
 ) => {
@@ -50,6 +56,7 @@ export const subredditReducer = (
     case ActionTypes.GET_SUBREDDIT_COMPLETED:
       return { ...state, ...action.payload };
     case ActionTypes.GET_SUBREDDIT_FAILED:
+      const { status, text } = action.payload;
       return {
         name: "",
         owner_id: "",
@@ -61,7 +68,7 @@ export const subredditReducer = (
         updatedAt: "",
         mods: [],
         posts: [],
-        error: action.payload,
+        message: { status, text },
       };
     case ActionTypes.CREATE_SUBREDDIT_COMPLETED:
       return { ...state, ...action.payload };
@@ -80,6 +87,14 @@ export const subredditReducer = (
       return { ...state, ...stateCopy };
     case ActionTypes.JOIN_LEAVE_SUBREDDIT_COMPLETED:
       return { ...state, ...{ isUserJoined: action.payload } };
+    case ActionTypes.REMOVE_SUBREDDIT_ERRORS:
+      return {
+        ...state,
+        message: {
+          text: "",
+          status: 0,
+        },
+      };
     default:
       return state;
   }

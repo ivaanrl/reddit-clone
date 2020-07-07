@@ -15,3 +15,4 @@ export * from "./modules/PostController";
 export * from "./modules/PostsController";
 export * from "./modules/CommentController";
 export * from "./modules/CommentsController";
+export * from "./modules/FlashMessageController";

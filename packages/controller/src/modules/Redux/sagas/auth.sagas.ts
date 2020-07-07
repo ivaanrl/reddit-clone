@@ -40,9 +40,9 @@ export function* signinUser(userInfo: {
     //Sign in failed
     yield put(
       signinUserFailed({
-        error: {
+        message: {
           status: error.response.status,
-          message: error.response.body.message,
+          text: error.response.body.message,
         },
       })
     );
@@ -66,9 +66,9 @@ export function* signupUser(userInfo: {
     //Signup failed
     yield put(
       signupUserFailed({
-        error: {
+        message: {
           status: error.response.status,
-          message: error.response.body.message,
+          text: error.response.body.message,
         },
       })
     );

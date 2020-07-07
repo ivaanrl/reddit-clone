@@ -6,6 +6,7 @@ import {
   signinUserFailed,
   signupUserFailed,
   signoutUser,
+  removeAuthErrors,
 } from "./auth";
 
 import {
@@ -16,6 +17,7 @@ import {
   createSubredditCompletedAction,
   joinOrLeaveSubreddit,
   joinOrLeaveSubredditCompletedAction,
+  removeSubredditErrors,
 } from "./subreddit";
 
 import {
@@ -32,6 +34,7 @@ import {
   replyCommentCompletedAction,
   voteComment,
   voteCommentCompletedAction,
+  removeFullPostErrors,
 } from "./post";
 
 export const allActions = {
@@ -62,6 +65,9 @@ export const allActions = {
   voteCommentCompletedAction,
   joinOrLeaveSubreddit,
   joinOrLeaveSubredditCompletedAction,
+  removeAuthErrors,
+  removeFullPostErrors,
+  removeSubredditErrors,
 };
 
 export * from "./types";

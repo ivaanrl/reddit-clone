@@ -173,7 +173,7 @@ class SubrredditController {
       return res.status(501).json({ success: false, message: server_error });
     }
 
-    return res.status(404).json();
+    return res.status(404).json({ message: server_error });
   }
 
   @get("/test")

@@ -21,9 +21,12 @@ export const getSubredditCompletedAction = (subreddit: {
   payload: subreddit,
 });
 
-export const getSubredditFailed = (status: number) => ({
+export const getSubredditFailed = (message: {
+  status: number;
+  text: string;
+}) => ({
   type: ActionTypes.GET_SUBREDDIT_FAILED,
-  payload: status,
+  payload: message,
 });
 
 export const createSubreddit = (subreddit: {
@@ -58,4 +61,8 @@ export const joinOrLeaveSubreddit = (subName: string) => ({
 export const joinOrLeaveSubredditCompletedAction = (isUserJoined: boolean) => ({
   type: ActionTypes.JOIN_LEAVE_SUBREDDIT_COMPLETED,
   payload: isUserJoined,
+});
+
+export const removeSubredditErrors = () => ({
+  type: ActionTypes.REMOVE_SUBREDDIT_ERRORS,
 });

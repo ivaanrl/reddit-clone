@@ -29,10 +29,10 @@ const SigninFormView = (props: Props) => {
   const { errors, touched, handleChange, values, handleBlur } = formik;
 
   useEffect(() => {
-    if (user.error?.message) {
+    if (user.message.text) {
       formik.setErrors({
-        username: user.error.message,
-        password: user.error.message,
+        username: user.message.text,
+        password: user.message.text,
       });
     } else {
       if (user.username) {

@@ -233,9 +233,9 @@ const SignupFormView = (props: Props) => {
   });
 
   useEffect(() => {
-    if (user.error?.message) {
+    if (user.message.text) {
       formik.setErrors({
-        username: user.error.message,
+        username: user.message.text,
       });
     } else {
       if (user.username) {
