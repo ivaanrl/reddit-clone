@@ -10,7 +10,11 @@ import SigninFormConnector from "../../signinForm/SigninFormConnector";
 import Select, { ActionMeta, ValueType } from "react-select";
 import { getSubredditsForDropdown } from "../../../shared/getSubredditsForDropdown";
 import { useHistory } from "react-router-dom";
-import { deleteUserFromLocalStorage } from "../../../shared/localStorage";
+import {
+  deleteUserFromLocalStorage,
+  getThemeFromLocalStorage,
+  setThemeInLocalStorage,
+} from "../../../shared/localStorage";
 
 interface Props {
   search: (searchValue: string) => string | null;
@@ -55,9 +59,11 @@ const NavbarView = (props: Props) => {
   const handleThemeChange = () => {
     if (theme === "light") {
       setTheme("dark");
+      setThemeInLocalStorage("light");
       setSvgColor("#000000");
       setRedditLogoColor("#000000");
     } else {
+      setThemeInLocalStorage("dark");
       setTheme("light");
       setSvgColor("#FFFFFF");
       setRedditLogoColor("#D7DADC");
@@ -66,9 +72,27 @@ const NavbarView = (props: Props) => {
     document.documentElement.classList.add(`theme-${theme}`);
   };
 
+  const handleStoredTheme = () => {
+    const storedTheme = getThemeFromLocalStorage();
+    if (storedTheme) {
+      if (storedTheme === "light") {
+        setTheme("dark");
+        setSvgColor("#000000");
+        setRedditLogoColor("#000000");
+      } else if (storedTheme === "dark") {
+        setTheme("light");
+        setSvgColor("#FFFFFF");
+        setRedditLogoColor("#D7DADC");
+      }
+      document.documentElement.className = "";
+      document.documentElement.classList.add(`theme-${storedTheme}`);
+    } else {
+      handleThemeChange();
+    }
+  };
+
   useEffect(() => {
-    handleThemeChange();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    handleStoredTheme();
   }, []);
 
   useEffect(() => {

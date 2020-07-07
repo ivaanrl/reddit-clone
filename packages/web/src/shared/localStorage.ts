@@ -18,3 +18,24 @@ export const deleteUserFromLocalStorage = () => {
     return;
   }
 };
+
+export const setThemeInLocalStorage = (theme: string) => {
+  try {
+    localStorage.setItem("theme", theme);
+  } catch (error) {
+    return undefined;
+  }
+};
+
+export const getThemeFromLocalStorage = () => {
+  try {
+    const theme = localStorage.getItem("theme");
+
+    if (theme === null) {
+      return "light";
+    }
+    return theme;
+  } catch (error) {
+    return "light";
+  }
+};
