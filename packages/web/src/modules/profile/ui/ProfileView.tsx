@@ -10,10 +10,9 @@ const ProfileView = (props: Props) => {
   const location = useLocation();
 
   useEffect(() => {
-    const username = location.pathname.split("");
-    console.log(username);
-    //getProfile('');
-  }, []);
+    const username = location.pathname.split("/")[2];
+    getProfile(username);
+  }, [location, getProfile]);
 
   return <div></div>;
 };

@@ -12,6 +12,13 @@ import { Post } from "../models/Post";
 
 @controller("/api/user")
 class UserController {
+  @get("/getProfile/:username")
+  async getProfile(req: Request, res: Response) {
+    const username = req.params.username;
+
+    return res.json();
+  }
+
   @get("/getUpvotes")
   @use(requireLogin)
   async getUpvotes(req: Request, res: Response) {
@@ -73,8 +80,6 @@ class UserController {
   @get("/getDownvotes")
   @use(requireLogin)
   async getDownvotes(req: Request, res: Response) {
-    console.log("downvotes");
-
     const user = await findCurrentUser(req.user);
 
     if (user instanceof User) {
