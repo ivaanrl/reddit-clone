@@ -19,6 +19,15 @@ import {
   watchJoinOrLeaveSubreddit,
 } from "./subreddit.sagas";
 
+import {
+  watchGetProfile,
+  watchGetProfileComments,
+  watchGetProfileDownvoted,
+  watchGetProfileUpvoted,
+  watchProfilePosts,
+  watchProfileSaved,
+} from "./profile.sagas";
+
 export const rootSaga = function* root() {
   yield all([
     fork(watchUserSignup),
@@ -34,5 +43,11 @@ export const rootSaga = function* root() {
     fork(watchReplyComment),
     fork(watchVoteComment),
     fork(watchJoinOrLeaveSubreddit),
+    fork(watchGetProfile),
+    fork(watchGetProfileComments),
+    fork(watchGetProfileDownvoted),
+    fork(watchGetProfileUpvoted),
+    fork(watchProfilePosts),
+    fork(watchProfileSaved),
   ]);
 };

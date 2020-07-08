@@ -37,6 +37,27 @@ import {
   removeFullPostErrors,
 } from "./post";
 
+import {
+  getProfile,
+  getProfileCompletedAction,
+  getProfileFailed,
+  getProfilePosts,
+  getProfilePostsCompletedAction,
+  getProfilePostsFailed,
+  getProfileSavedPosts,
+  getProfileSavedPostsCompletedAction,
+  getProfileSavedPostsFailed,
+  getProfileUpvotedPostsFailed,
+  getProfileUpvotedPostsCompletedAction,
+  getProfileCommentsFailed,
+  getProfileCommentsCompletedAction,
+  getProfileComments,
+  getProfileDownvotedPosts,
+  getProfileDownvotedPostsCompletedAction,
+  getProfileDownvotedPostsFailed,
+  getProfileUpvotedPosts,
+} from "./profile";
+
 export const allActions = {
   signinUser,
   signupUser,
@@ -68,6 +89,24 @@ export const allActions = {
   removeAuthErrors,
   removeFullPostErrors,
   removeSubredditErrors,
+  getProfile,
+  getProfileCompletedAction,
+  getProfileFailed,
+  getProfilePosts,
+  getProfilePostsCompletedAction,
+  getProfilePostsFailed,
+  getProfileSavedPosts,
+  getProfileSavedPostsCompletedAction,
+  getProfileSavedPostsFailed,
+  getProfileUpvotedPostsFailed,
+  getProfileUpvotedPostsCompletedAction,
+  getProfileCommentsFailed,
+  getProfileCommentsCompletedAction,
+  getProfileComments,
+  getProfileDownvotedPosts,
+  getProfileDownvotedPostsCompletedAction,
+  getProfileDownvotedPostsFailed,
+  getProfileUpvotedPosts,
 };
 
 export * from "./types";
