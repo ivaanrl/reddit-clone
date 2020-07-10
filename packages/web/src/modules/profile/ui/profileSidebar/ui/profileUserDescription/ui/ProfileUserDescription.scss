@@ -1,0 +1,109 @@
+@import "../../../../../../../color-palette";
+
+.profile-description-container {
+  width: 100%;
+  @include theme-aware("background-color", "color-card");
+  @include theme-aware("border-color", "color-line");
+  @include theme-aware("color", "text-main");
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+.profile-description-banner-picture {
+  position: relative;
+  height: 94px;
+  width: 100%;
+  background-color: $link-color-light;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.profile-description-info-container {
+  margin-top: -70px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.profile-description-picture {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  border: 3px solid white;
+  @include theme-aware(
+    "background-color",
+    "default-profile-picture-background"
+  );
+}
+
+.default-profile-picture {
+  fill: white;
+}
+
+.edit-picture-button {
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+  border-radius: 100%;
+  @include theme-aware("background-color", "color-card");
+  @include theme-aware("border-color", "highlight-selection");
+  border: 1px solid;
+  bottom: 0;
+  right: 0;
+}
+
+.edit-profile-picture {
+  margin-right: -15px;
+  margin-bottom: -3px;
+}
+
+.edit-banner-picture {
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.edit-picture-pencil {
+  @include theme-aware("color", "highlight-selection");
+}
+
+.profile-description-username {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  margin-top: 4px;
+}
+
+.profile-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.profile-content {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  @include theme-aware("color", "text-muted");
+}
+
+.profile-description-stats-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.profile-description-icon {
+  fill: $link-color-light;
+  width: 13px;
+  height: 14px;
+}
+
+.profile-description-new-post-button {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}

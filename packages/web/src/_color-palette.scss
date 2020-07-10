@@ -10,6 +10,7 @@ $themes: (
     highlight-selection: #0079d3,
     highlight-selection-hover: #3394dc,
     highlight-selection-text-color: #ffffff,
+    default-profile-picture-background: #d7dfe2,
   ),
   dark: (
     color-background: #030303,
@@ -22,10 +23,12 @@ $themes: (
     highlight-selection: #d7dadc,
     highlight-selection-hover: #ffffff,
     highlight-selection-text-color: #1a1a1b,
+    default-profile-picture-background: #818384,
   ),
 );
 
 $link-color: #0079d3;
+$link-color-light: #24a0ed;
 $highlight-color: #ff4500;
 $error: #ea0027;
 $nsfw: #ff585b;

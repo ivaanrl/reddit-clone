@@ -6,7 +6,12 @@ export const getProfile = (username: string) => ({
   payload: username,
 });
 
-export const getProfileCompletedAction = (userInfo: any) => ({
+export const getProfileCompletedAction = (userInfo: {
+  id: string;
+  username: string;
+  karma: number;
+  createdAt: string;
+}) => ({
   type: ActionTypes.GET_PROFILE_COMPLETED,
   payload: userInfo,
 });
@@ -21,7 +26,15 @@ export const getProfilePosts = (username: string) => ({
   payload: username,
 });
 
-export const getProfilePostsCompletedAction = (userPosts: Post[]) => ({
+export const getProfilePostsCompletedAction = (
+  userPosts: {
+    id: string;
+    subreddit_name: string;
+    title: string;
+    voteCount: number;
+    user_vote: number;
+  }[]
+) => ({
   type: ActionTypes.GET_PROFILE_POSTS_COMPLETED,
   payload: userPosts,
 });

@@ -1,0 +1,56 @@
+@import "../../../../color-palette";
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  @include theme-aware("color", "text-muted");
+}
+
+.vote-container {
+  padding-top: 8px;
+}
+
+.profile-post-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid;
+  @include theme-aware("background-color", "color-card");
+  @include theme-aware("border-color", "color-line");
+}
+
+.profile-post-container:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.profile-post-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-post-title {
+  font-size: 16px;
+}
+
+.profile-post-small-text {
+  display: flex;
+  flex-direction: row;
+  font-size: 12px;
+}
+
+.profile-post-subreddit-name {
+  @include theme-aware("color", "text-main");
+}
+
+.profile-post-image-container {
+  width: 80px;
+  height: 55px;
+  border-radius: 4px;
+  border: 1px solid;
+  margin-right: 20px;
+  margin-bottom: 4px;
+  @include theme-aware("border-color", "color-line");
+}

@@ -43,6 +43,7 @@ class UserController {
     const username = req.params.username;
     const order = req.query.order;
     let user;
+    const currentUser = findCurrentUser(req.user);
     try {
       user = await User.findOne({ where: { username } });
     } catch (error) {
@@ -55,14 +56,38 @@ class UserController {
           order: [["createdAt", "DESC"]],
         });
 
-        const userPostsArray = userPosts.map((userPost) => {
-          const { id, subreddit_name, title } = userPost;
+        const userPostsArray = await Promise.all(
+          userPosts.map(async (userPost) => {
+            const postVotes = await userPost.getVotes();
+            let voteCount = 0;
+            let userVote = 0;
 
-          return { id, subreddit_name, title };
-        });
+            postVotes.forEach((vote) => {
+              voteCount += vote.value;
+              if (
+                currentUser instanceof User &&
+                currentUser.id === vote.author_id
+              ) {
+                userVote = vote.value;
+              }
+            });
+
+            const { id, subreddit_name, title, createdAt } = userPost;
+
+            return {
+              id,
+              subreddit_name,
+              title,
+              createdAt,
+              voteCount,
+              userVote,
+            };
+          })
+        );
 
         return res.status(201).json({ posts: userPostsArray });
       } catch (error) {
+        console.log(error);
         return res.status(501).json({ message: "Server internal error" });
       }
     } else {

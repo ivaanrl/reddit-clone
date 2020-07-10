@@ -178,7 +178,7 @@ export const getProfileCommentsRequest = (username: string) => {
     response = superagent
       .agent()
       .withCredentials()
-      .get(APIUrl + "user/getProfileComments/" + username);
+      .get(APIUrl + "/user/getProfileComments/" + username);
   } catch (error) {
     response = error.response;
   }
@@ -192,7 +192,7 @@ export const getProfileUpvotedRequest = (username: string) => {
     response = superagent
       .agent()
       .withCredentials()
-      .get(APIUrl + "user/getUpvotes/" + username);
+      .get(APIUrl + "/user/getUpvotes/" + username);
   } catch (error) {
     response = error.response;
   }
@@ -206,7 +206,7 @@ export const getProfileDownvotedRequest = (username: string) => {
     response = superagent
       .agent()
       .withCredentials()
-      .get(APIUrl + "user/getDownvotes/" + username);
+      .get(APIUrl + "/user/getDownvotes/" + username);
   } catch (error) {
     response = error.response;
   }
@@ -220,7 +220,7 @@ export const getProfileSavedRequest = (username: string) => {
     response = superagent
       .agent()
       .withCredentials()
-      .get(APIUrl + "user/getSaved/" + username);
+      .get(APIUrl + "/user/getSaved/" + username);
   } catch (error) {
     response = error.response;
   }
@@ -235,7 +235,7 @@ export const getProfilePostsRequest = (username: string) => {
       .agent()
       .withCredentials()
       .query({ order: "new" })
-      .get(APIUrl + "user/getPosts/" + username);
+      .get(APIUrl + "/user/getPosts/" + username);
   } catch (error) {
     response = error.response;
   }
