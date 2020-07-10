@@ -164,6 +164,7 @@ export const getProfileRequest = (username: string) => {
     response = superagent
       .agent()
       .withCredentials()
+      .query({ order: "new" })
       .get(APIUrl + "/user/getProfile/" + username);
   } catch (error) {
     response = error.response;
@@ -233,6 +234,7 @@ export const getProfilePostsRequest = (username: string) => {
     response = superagent
       .agent()
       .withCredentials()
+      .query({ order: "new" })
       .get(APIUrl + "user/getPosts/" + username);
   } catch (error) {
     response = error.response;

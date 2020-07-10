@@ -15,8 +15,59 @@ class UserController {
   @get("/getProfile/:username")
   async getProfile(req: Request, res: Response) {
     const username = req.params.username;
+    const order = req.query.order;
 
-    return res.json();
+    try {
+      const user = await User.findOne({ where: { username } });
+
+      if (user instanceof User) {
+        const { id, username, karma, createdAt } = user;
+        return res.status(201).json({
+          userInfo: {
+            id,
+            username,
+            karma,
+            createdAt,
+          },
+        });
+      } else {
+        return res.status(404).json({ message: "There is no such user" });
+      }
+    } catch (error) {
+      return res.status(501).json({ message: "Internal server error" });
+    }
+  }
+
+  @get("/getPosts/:username")
+  async getProfilePosts(req: Request, res: Response) {
+    const username = req.params.username;
+    const order = req.query.order;
+    let user;
+    try {
+      user = await User.findOne({ where: { username } });
+    } catch (error) {
+      return res.status(501).json({ message: "Server internal error" });
+    }
+
+    if (user instanceof User) {
+      try {
+        const userPosts = await user.getPosts({
+          order: [["createdAt", "DESC"]],
+        });
+
+        const userPostsArray = userPosts.map((userPost) => {
+          const { id, subreddit_name, title } = userPost;
+
+          return { id, subreddit_name, title };
+        });
+
+        return res.status(201).json({ posts: userPostsArray });
+      } catch (error) {
+        return res.status(501).json({ message: "Server internal error" });
+      }
+    } else {
+      return; //no error because 'getProfile' already throws one for user not found
+    }
   }
 
   @get("/getUpvotes")
