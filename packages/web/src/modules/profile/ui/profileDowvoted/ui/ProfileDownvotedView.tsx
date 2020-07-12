@@ -5,22 +5,20 @@ import { State } from "@reddit-clone/controller";
 import ProfilePostConnector from "../../../profilePost/ProfilePostConnector";
 
 interface Props {
-  getProfilePosts: (username: string) => void;
+  getDownvotes: (username: string) => void;
 }
 
-const ProfilePostsView = (props: Props) => {
-  const { getProfilePosts } = props;
+const ProfileDownvotedView = (props: Props) => {
+  const { getDownvotes } = props;
   const location = useLocation();
-  const profilePosts = useSelector((state: State) => state.profile.posts);
-
+  const downvotedPosts = useSelector((state: State) => state.profile.posts);
   useEffect(() => {
     const username = location.pathname.split("/")[2];
-    getProfilePosts(username);
+    getDownvotes(username);
   }, []);
-
   return (
     <div className="profile-container">
-      {profilePosts.map((profilePost, index) => {
+      {downvotedPosts.map((downvotedPost, index) => {
         const {
           id,
           subreddit_name,
@@ -28,7 +26,7 @@ const ProfilePostsView = (props: Props) => {
           voteCount,
           user_vote,
           createdAt,
-        } = profilePost;
+        } = downvotedPost;
         return (
           <ProfilePostConnector
             id={id}
@@ -46,4 +44,4 @@ const ProfilePostsView = (props: Props) => {
   );
 };
 
-export default ProfilePostsView;
+export default ProfileDownvotedView;

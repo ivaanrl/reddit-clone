@@ -46,15 +46,22 @@ export const profileReducer = (
       const { status, text } = action.payload;
       return { ...state, ...{ message: { status, text } } };
     case ActionTypes.GET_PROFILE_UPVOTED_POSTS_COMPLETED:
-      console.log(action.payload);
-      console.log("current state", state);
-      console.log({ ...state, ...action.payload });
       return { ...state, ...action.payload };
     case ActionTypes.GET_PROFILE_UPVOTED_POSTS_FAILED:
-      const { upvotedStatus, upvotedText } = action.payload;
       return {
         ...state,
-        ...{ message: { status: upvotedStatus, text: upvotedText } },
+        ...{
+          message: { status: action.payload.status, text: action.payload.text },
+        },
+      };
+    case ActionTypes.GET_PROFILE_DOWNVOTED_POSTS_COMPLETED:
+      return { ...state, ...action.payload };
+    case ActionTypes.GET_PROFILE_DOWNVOTED_POSTS_FAILED:
+      return {
+        ...state,
+        ...{
+          message: { status: action.payload.status, text: action.payload.text },
+        },
       };
     default:
       return state;

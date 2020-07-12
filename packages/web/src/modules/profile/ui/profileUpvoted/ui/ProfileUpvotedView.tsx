@@ -13,7 +13,6 @@ const ProfileUpvotedView = (props: Props) => {
   const { getUpvotes } = props;
   const upvotedPosts = useSelector((state: State) => state.profile.posts);
   useEffect(() => {
-    console.log("aa");
     const username = location.pathname.split("/")[2];
     getUpvotes(username);
   }, []);

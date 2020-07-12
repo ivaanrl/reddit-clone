@@ -97,6 +97,7 @@ class UserController {
   @get("/getUpvotes/:username")
   @use(requireLogin)
   async getUpvotes(req: Request, res: Response) {
+    console.log("upvotes");
     const username = req.params.username;
     const currentUser = findCurrentUser(req.user);
     let user;
@@ -160,10 +161,18 @@ class UserController {
     return res.status(501).json({ message: "server error" });
   }
 
-  @get("/getDownvotes")
+  @get("/getDownvotes/:username")
   @use(requireLogin)
   async getDownvotes(req: Request, res: Response) {
-    const user = await findCurrentUser(req.user);
+    console.log("downvotesss");
+    const username = req.params.username;
+    const currentUser = findCurrentUser(req.user);
+    let user;
+    try {
+      user = await User.findOne({ where: { username } });
+    } catch (error) {
+      return res.status(501).json({ message: "Server internal error" });
+    }
 
     if (user instanceof User) {
       try {
@@ -176,45 +185,41 @@ class UserController {
 
         const downvotedPostsWithoutVotes = await Promise.all(
           downvotes.map(async (downvote) => {
-            return await Post.findByPk(downvote.post_id);
+            return await Post.findOne({ where: { id: downvote.post_id } });
           })
         );
-
         const downvotedPosts = await Promise.all(
           downvotedPostsWithoutVotes.map(async (post) => {
             if (post instanceof Post) {
-              const votes = await post.getVotes();
-              let voteValue = 0;
-              votes.forEach((vote) => {
-                voteValue += vote.value;
+              const postVotes = await post.getVotes();
+              let voteCount = 0;
+              let userVote = 0;
+
+              postVotes.forEach((vote) => {
+                voteCount += vote.value;
+                if (
+                  currentUser instanceof User &&
+                  currentUser.id === vote.author_id
+                ) {
+                  userVote = vote.value;
+                }
               });
-              const {
-                id,
-                author_id,
-                title,
-                content,
-                createdAt,
-                updatedAt,
-                subreddit_name,
-                author_username,
-              } = post;
+
+              const { id, title, createdAt, updatedAt, subreddit_name } = post;
               return {
                 id,
-                author_id,
-                author_username,
                 title,
-                content,
                 createdAt,
                 updatedAt,
                 subreddit_name,
-                votes: voteValue,
+                voteCount,
+                userVote,
               };
             }
             return null;
           })
         );
-
-        return res.status(201).json({ downvotedPosts });
+        return res.status(201).json({ posts: downvotedPosts });
       } catch (error) {
         console.log(error);
         return res.status(501).json({ message: "server error" });

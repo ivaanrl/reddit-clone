@@ -30,7 +30,7 @@ export function* watchGetProfileUpvoted() {
 }
 
 export function* watchGetProfileDownvoted() {
-  yield takeEvery(ActionTypes.GET_PROFILE_DOWNVOTED_POSTS, getProfileUpvoted);
+  yield takeEvery(ActionTypes.GET_PROFILE_DOWNVOTED_POSTS, getProfileDownvoted);
 }
 
 export function* watchProfileSaved() {
