@@ -84,7 +84,6 @@ class UserController {
             };
           })
         );
-
         return res.status(201).json({ posts: userPostsArray });
       } catch (error) {
         console.log(error);
@@ -95,10 +94,17 @@ class UserController {
     }
   }
 
-  @get("/getUpvotes")
+  @get("/getUpvotes/:username")
   @use(requireLogin)
   async getUpvotes(req: Request, res: Response) {
-    const user = await findCurrentUser(req.user);
+    const username = req.params.username;
+    const currentUser = findCurrentUser(req.user);
+    let user;
+    try {
+      user = await User.findOne({ where: { username } });
+    } catch (error) {
+      return res.status(501).json({ message: "Server internal error" });
+    }
 
     if (user instanceof User) {
       try {
@@ -111,40 +117,41 @@ class UserController {
 
         const upvotedPostsWithoutVotes = await Promise.all(
           upvotes.map(async (upvote) => {
-            return await Post.findByPk(upvote.post_id);
+            return await Post.findOne({ where: { id: upvote.post_id } });
           })
         );
-
         const upvotedPosts = await Promise.all(
           upvotedPostsWithoutVotes.map(async (post) => {
             if (post instanceof Post) {
-              const votes = await post.countVotes();
-              const {
-                id,
-                author_id,
-                title,
-                content,
-                createdAt,
-                updatedAt,
-                subreddit_name,
-                author_username,
-              } = post;
+              const postVotes = await post.getVotes();
+              let voteCount = 0;
+              let userVote = 0;
+
+              postVotes.forEach((vote) => {
+                voteCount += vote.value;
+                if (
+                  currentUser instanceof User &&
+                  currentUser.id === vote.author_id
+                ) {
+                  userVote = vote.value;
+                }
+              });
+
+              const { id, title, createdAt, updatedAt, subreddit_name } = post;
               return {
                 id,
-                author_id,
-                author_username,
                 title,
-                content,
                 createdAt,
                 updatedAt,
                 subreddit_name,
-                votes,
+                voteCount,
+                userVote,
               };
             }
             return null;
           })
         );
-        return res.status(201).json({ upvotedPosts });
+        return res.status(201).json({ posts: upvotedPosts });
       } catch (error) {
         console.log(error);
         return res.status(501).json({ message: "server error" });
