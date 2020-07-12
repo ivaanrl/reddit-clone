@@ -25,3 +25,4 @@ export * from "./modules/ProfileSavedPostsController";
 export * from "./modules/ProfileUpvotedPostsController";
 export * from "./modules/ProfileSidebarController";
 export * from "./modules/ProfileUserDescriptionController";
+export * from "./modules/ProfileSectionBarController";

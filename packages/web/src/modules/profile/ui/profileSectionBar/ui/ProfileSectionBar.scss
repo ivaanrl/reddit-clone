@@ -1,0 +1,31 @@
+@import "../../../../../color-palette";
+
+.sections-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+  @include theme-aware("background-color", "color-card");
+}
+
+.sections-section {
+  padding: 10px;
+  box-sizing: border-box;
+  @include theme-aware("color", "text-main");
+  font-weight: 500;
+  font-size: 14px;
+  &:visited {
+    @include theme-aware("color", "text-main");
+  }
+
+  &:first-child {
+    margin-left: 5px;
+  }
+}
+
+.active-section {
+  padding-top: 12px;
+  border-bottom: 2px solid;
+  @include theme-aware("border-color", "highlight-selection");
+}

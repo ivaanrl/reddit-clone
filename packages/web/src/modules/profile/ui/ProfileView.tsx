@@ -3,6 +3,7 @@ import "./Profile.scss";
 import { useLocation } from "react-router-dom";
 import ProfilePostsConnector from "./profilePosts/ProfilePostsConnector";
 import ProfileSidebarConnector from "./profileSidebar/ProfileSidebarConnector";
+import ProfileSectionBarConnector from "./profileSectionBar/ProfileSectionBarConnector";
 
 interface Props {
   getProfile: (username: string) => void;
@@ -19,6 +20,7 @@ const ProfileView = (props: Props) => {
 
   return (
     <div>
+      <ProfileSectionBarConnector />
       <div className="main-container">
         <ProfilePostsConnector />
         <ProfileSidebarConnector />
