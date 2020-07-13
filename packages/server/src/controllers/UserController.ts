@@ -2,13 +2,11 @@ import { Request, Response } from "express";
 import { get, controller, use, post } from "./decorators";
 import "../services/passport";
 import { User } from "../models/User";
-import { Subreddit } from "../models/Subreddit";
-import { subredditResponseMessages } from "./responseMessages/subreddit";
 import { requireLogin } from "../middleware/requireLogin";
-import { getSubreddit, findCurrentUser } from "../helpers";
-import { postResponseMessages } from "./responseMessages/post";
+import { findCurrentUser } from "../helpers";
 import { Vote } from "../models/Vote";
 import { Post } from "../models/Post";
+import { requireSameUser } from "../middleware/requireSameUser";
 
 @controller("/api/user")
 class UserController {
@@ -96,9 +94,11 @@ class UserController {
 
   @get("/getUpvotes/:username")
   @use(requireLogin)
+  @use(requireSameUser)
   async getUpvotes(req: Request, res: Response) {
     const username = req.params.username;
-    const currentUser = findCurrentUser(req.user);
+    const currentUser = await findCurrentUser(req.user);
+
     let user;
     try {
       user = await User.findOne({ where: { username } });
@@ -162,9 +162,11 @@ class UserController {
 
   @get("/getDownvotes/:username")
   @use(requireLogin)
+  @use(requireSameUser)
   async getDownvotes(req: Request, res: Response) {
     const username = req.params.username;
-    const currentUser = findCurrentUser(req.user);
+    const currentUser = await findCurrentUser(req.user);
+
     let user;
     try {
       user = await User.findOne({ where: { username } });
