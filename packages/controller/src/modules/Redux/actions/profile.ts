@@ -118,3 +118,31 @@ export const getProfileCommentsFailed = (error: {
   type: ActionTypes.GET_PROFILE_COMMENTS_FAILED,
   payload: error,
 });
+
+export const replyCommentInProfile = (commentInfo: {
+  commentId: string;
+  content: string[];
+}) => ({
+  type: ActionTypes.REPLY_COMMENT_IN_PROFILE,
+  payload: commentInfo,
+});
+
+export const replyCommentInProfileCompletedAction = (success: {
+  status: number;
+  text: string;
+}) => ({
+  type: ActionTypes.REPLY_COMMENT_IN_PROFILE_COMPLETED,
+  payload: success,
+});
+
+export const replyCommentInProfileFailed = (error: {
+  status: number;
+  text: string;
+}) => ({
+  type: ActionTypes.REPLY_COMMENT_IN_PROFILE_FAILED,
+  payload: error,
+});
+
+export const removeProfileMessages = () => ({
+  type: ActionTypes.REMOVE_PROFILE_MESSAGES,
+});

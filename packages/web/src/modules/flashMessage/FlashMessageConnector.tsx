@@ -7,6 +7,7 @@ const FlashMessageConnector = () => {
   const auth = useSelector((state: State) => state.auth);
   const post = useSelector((state: State) => state.fullPost);
   const subreddit = useSelector((state: State) => state.subreddit);
+  const profile = useSelector((state: State) => state.profile);
   return (
     <FlashMessageController>
       {({ removeError }) => (
@@ -32,6 +33,14 @@ const FlashMessageConnector = () => {
               message={post.message.text}
               status={post.message.status}
               name={"fullpost"}
+              removeError={removeError}
+            />
+          ) : null}
+          {profile.message.text ? (
+            <FlashMessageView
+              message={profile.message.text}
+              status={profile.message.status}
+              name={"profile"}
               removeError={removeError}
             />
           ) : null}

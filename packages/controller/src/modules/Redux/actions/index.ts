@@ -56,6 +56,10 @@ import {
   getProfileDownvotedPostsCompletedAction,
   getProfileDownvotedPostsFailed,
   getProfileUpvotedPosts,
+  replyCommentInProfileFailed,
+  replyCommentInProfileCompletedAction,
+  replyCommentInProfile,
+  removeProfileMessages,
 } from "./profile";
 
 export const allActions = {
@@ -107,6 +111,10 @@ export const allActions = {
   getProfileDownvotedPostsCompletedAction,
   getProfileDownvotedPostsFailed,
   getProfileUpvotedPosts,
+  replyCommentInProfileFailed,
+  replyCommentInProfileCompletedAction,
+  replyCommentInProfile,
+  removeProfileMessages,
 };
 
 export * from "./types";

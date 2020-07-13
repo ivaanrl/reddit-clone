@@ -85,6 +85,21 @@ export const profileReducer = (
           message: { status: action.payload.status, text: action.payload.text },
         },
       };
+    case ActionTypes.REPLY_COMMENT_IN_PROFILE_COMPLETED:
+      return {
+        ...state,
+        ...{
+          message: { status: action.payload.status, text: action.payload.text },
+        },
+      };
+    case ActionTypes.REMOVE_PROFILE_MESSAGES:
+      return {
+        ...state,
+        message: {
+          status: 0,
+          text: "",
+        },
+      };
     default:
       return state;
   }

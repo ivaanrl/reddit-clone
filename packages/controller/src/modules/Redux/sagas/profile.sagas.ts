@@ -15,6 +15,8 @@ import {
   getProfileSavedPostsFailed,
   getProfilePostsCompletedAction,
   getProfilePostsFailed,
+  replyCommentInProfileCompletedAction,
+  replyCommentInProfileFailed,
 } from "../actions/profile";
 
 export function* watchGetProfile() {
@@ -39,6 +41,30 @@ export function* watchProfileSaved() {
 
 export function* watchProfilePosts() {
   yield takeEvery(ActionTypes.GET_PROFILE_POSTS, getProfilePosts);
+}
+
+export function* watchReplyCommentInProfile() {
+  yield takeEvery(ActionTypes.REPLY_COMMENT_IN_PROFILE, replyCommentInProfile);
+}
+
+export function* replyCommentInProfile(commentInfo: {
+  type: string;
+  payload: { commentId: string; content: string[] };
+}) {
+  try {
+    const replyResponse = yield call(
+      replyCommentInProfileRequest,
+      commentInfo.payload
+    );
+    yield put(
+      replyCommentInProfileCompletedAction({
+        status: replyResponse.status,
+        text: replyResponse.body.message,
+      })
+    );
+  } catch (error) {
+    yield put(replyCommentInProfileFailed(error.response.body));
+  }
 }
 
 export function* getProfilePosts(profileInfo: {
@@ -156,6 +182,25 @@ export function* getProfile(profileInfo: { type: string; payload: string }) {
     );
   }
 }
+
+export const replyCommentInProfileRequest = (commentInfo: {
+  commentId: string;
+  content: string[];
+}) => {
+  let response;
+
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      .post(APIUrl + "/post/replyComment")
+      .send(commentInfo);
+  } catch (error) {
+    response = error.response;
+  }
+
+  return response;
+};
 
 export const getProfileRequest = (username: string) => {
   let response;

@@ -29,7 +29,7 @@ const FlashMessageView = (props: Props) => {
 
     switch (firstNumber) {
       case "2":
-        setButtonColor("flagh-message-button-success");
+        setButtonColor("flash-message-button-success");
         break;
       case "4":
         setButtonColor("flash-message-button-error");
@@ -38,6 +38,8 @@ const FlashMessageView = (props: Props) => {
         setButtonColor("flash-message-button-error");
         break;
     }
+
+    setTimeout(() => removeError(name), 10000);
   }, [status]);
 
   const handleClose = () => {

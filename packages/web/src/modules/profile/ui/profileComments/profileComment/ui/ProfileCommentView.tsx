@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./ProfileComment.scss";
 import { NavLink } from "react-router-dom";
 import TextEditor from "../../../../../../shared/TextEditor";
+import { HTMLSerializer } from "../../../../../../shared/HTMLSerializer";
 
 interface Props {
   commentId: string;
@@ -16,10 +17,12 @@ interface Props {
   postTitle: string;
   formatDate: (date: string) => string;
   sanitizeContent: (content: string[]) => { __html: string };
+  comment: (commentId: string, content: string[]) => void;
 }
 
 const ProfileCommentView = (props: Props) => {
   const {
+    comment,
     commentId,
     commentAuthorId,
     commentAuthorUsername,
@@ -42,7 +45,26 @@ const ProfileCommentView = (props: Props) => {
   ]);
   const [showTextEditor, setShowTextEditor] = useState(false);
 
-  const handleComment = () => {};
+  const handleComment = () => {
+    if (textEditor[0].children[0].text === "") return;
+    const serialized: string[][] = [];
+    textEditor.forEach((node: Node) => {
+      serialized.push(HTMLSerializer(node));
+    });
+
+    const formatted = serialized.map((arr) => {
+      return arr.join("||");
+    });
+
+    comment(commentId, formatted);
+    setShowTextEditor(false);
+    setTextEditor([
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
+      },
+    ]);
+  };
 
   return (
     <div className="profile-comment-container">

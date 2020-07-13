@@ -26,6 +26,7 @@ import {
   watchGetProfileUpvoted,
   watchProfilePosts,
   watchProfileSaved,
+  watchReplyCommentInProfile,
 } from "./profile.sagas";
 
 export const rootSaga = function* root() {
@@ -49,5 +50,6 @@ export const rootSaga = function* root() {
     fork(watchGetProfileUpvoted),
     fork(watchProfilePosts),
     fork(watchProfileSaved),
+    fork(watchReplyCommentInProfile),
   ]);
 };

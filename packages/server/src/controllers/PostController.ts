@@ -253,6 +253,7 @@ class PostController {
   @post("/replyComment")
   @use(requireLogin)
   async replyComment(req: Request, res: Response) {
+    console.log("replyyy");
     const { commentId, content } = req.body;
 
     const user = await findCurrentUser(req.user);
@@ -271,6 +272,7 @@ class PostController {
           path: `${comment.path}.${id}`,
           comment_id: comment.id,
           author_username: user.username,
+          post_id: comment.post_id,
           content,
         });
 

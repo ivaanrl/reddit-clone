@@ -21,6 +21,9 @@ export const FlashMessageController = (props: Props) => {
       case "fullpost":
         dispatch(allActions.removeFullPostErrors());
         break;
+      case "profile":
+        dispatch(allActions.removeProfileMessages());
+        break;
     }
   };
 

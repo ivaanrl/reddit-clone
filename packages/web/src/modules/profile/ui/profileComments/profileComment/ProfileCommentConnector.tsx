@@ -31,8 +31,9 @@ const ProfileCommentConnector = (props: Props) => {
 
   return (
     <ProfileCommentController>
-      {({ formatDate, sanitizeContent }) => (
+      {({ formatDate, sanitizeContent, comment }) => (
         <ProfileCommentView
+          comment={comment}
           commentId={commentId}
           commentAuthorId={commentAuthorId}
           commentAuthorUsername={commentAuthorUsername}
