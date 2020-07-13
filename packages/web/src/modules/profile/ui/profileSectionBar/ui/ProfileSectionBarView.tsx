@@ -3,18 +3,20 @@ import "./ProfileSectionBar.scss";
 import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
+import { profile } from "console";
 
 const ProfileSectionBarView = () => {
   const location = useLocation();
+  const currentUser = useSelector((state: State) => state.auth);
   const user = useSelector((state: State) => state.profile);
   const [activeSection, setActiveSection] = useState("posts");
-  const profileSections = [
-    "posts",
-    "comments",
-    "upvoted",
-    "downvoted",
-    "saved",
-  ];
+  let profileSections: string[];
+
+  if (user.userInfo.username === currentUser.username) {
+    profileSections = ["posts", "comments", "upvoted", "downvoted", "saved"];
+  } else {
+    profileSections = ["posts", "comments"];
+  }
 
   useEffect(() => {
     const section = location.pathname.split("/")[3];

@@ -8,6 +8,8 @@ import ProfileUpvotedConnector from "./profileUpvoted/ProfileUpvotedConnector";
 import ProfileDownvotedConnector from "./profileDowvoted/ProfileDownvotedConnector";
 import ProfileCommentsView from "./profileComments/ui/ProfileCommentsView";
 import ProfileCommentsConnector from "./profileComments/ProfileCommentsConnector";
+import { useSelector } from "react-redux";
+import { State } from "@reddit-clone/controller";
 
 interface Props {
   getProfile: (username: string) => void;
@@ -19,6 +21,8 @@ const ProfileView = (props: Props) => {
   const [sectionToRender, setSectionToRender] = useState<JSX.Element>(
     <ProfilePostsConnector />
   );
+
+  const userProfile = useSelector((state: State) => state.profile);
 
   const changeSection = (section: string) => {
     switch (section) {
@@ -44,7 +48,9 @@ const ProfileView = (props: Props) => {
     const username = pathname[2];
     const section = pathname[3];
     changeSection(section);
-    getProfile(username);
+    if (userProfile.userInfo.username !== username) {
+      getProfile(username);
+    }
   }, [location, getProfile]);
 
   return (

@@ -1,0 +1,29 @@
+@import "../../../../color-palette";
+
+.profile-unauthorized {
+  @include theme-aware("background-color", "color-card");
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.unauthorized-main-message {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  @include theme-aware("color", "text-muted");
+}
+
+.unauthorized-sub-message {
+  font-size: 14px;
+  @include theme-aware("color", "text-muted");
+}
+
+.profile-unauthorized-logo {
+  height: 28px;
+  width: 28px;
+  @include theme-aware("fill", "text-muted");
+  margin-bottom: 15px;
+}
