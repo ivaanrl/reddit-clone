@@ -26,3 +26,5 @@ export * from "./modules/ProfileUpvotedPostsController";
 export * from "./modules/ProfileSidebarController";
 export * from "./modules/ProfileUserDescriptionController";
 export * from "./modules/ProfileSectionBarController";
+export * from "./modules/ProfileCommentController";
+export * from "./modules/ProfileCommentsController";

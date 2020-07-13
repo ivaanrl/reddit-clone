@@ -6,6 +6,8 @@ import ProfileSidebarConnector from "./profileSidebar/ProfileSidebarConnector";
 import ProfileSectionBarConnector from "./profileSectionBar/ProfileSectionBarConnector";
 import ProfileUpvotedConnector from "./profileUpvoted/ProfileUpvotedConnector";
 import ProfileDownvotedConnector from "./profileDowvoted/ProfileDownvotedConnector";
+import ProfileCommentsView from "./profileComments/ui/ProfileCommentsView";
+import ProfileCommentsConnector from "./profileComments/ProfileCommentsConnector";
 
 interface Props {
   getProfile: (username: string) => void;
@@ -28,6 +30,9 @@ const ProfileView = (props: Props) => {
         break;
       case "downvoted":
         setSectionToRender(<ProfileDownvotedConnector />);
+        break;
+      case "comments":
+        setSectionToRender(<ProfileCommentsConnector />);
         break;
       default:
         setSectionToRender(<ProfilePostsConnector />);

@@ -97,7 +97,6 @@ class UserController {
   @get("/getUpvotes/:username")
   @use(requireLogin)
   async getUpvotes(req: Request, res: Response) {
-    console.log("upvotes");
     const username = req.params.username;
     const currentUser = findCurrentUser(req.user);
     let user;
@@ -164,7 +163,6 @@ class UserController {
   @get("/getDownvotes/:username")
   @use(requireLogin)
   async getDownvotes(req: Request, res: Response) {
-    console.log("downvotesss");
     const username = req.params.username;
     const currentUser = findCurrentUser(req.user);
     let user;
@@ -225,6 +223,58 @@ class UserController {
         return res.status(501).json({ message: "server error" });
       }
     }
+    return res.status(501).json({ message: "server error" });
+  }
+
+  @get("/getProfileComments/:username")
+  async getComment(req: Request, res: Response) {
+    const username = req.params.username;
+    let user;
+    try {
+      user = await User.findOne({ where: { username } });
+    } catch (error) {
+      return res.status(501).json({ message: "Server internal error" });
+    }
+
+    if (user instanceof User) {
+      const userComments = await user.getComments();
+
+      try {
+        const userCommentsWithParentComment = await Promise.all(
+          userComments.map(async (comment) => {
+            const commentVotes = await comment.getVotes();
+            let commentVoteValue = 0;
+            commentVotes.forEach((vote) => {
+              commentVoteValue += vote.value;
+            });
+
+            const parentPost = await Post.findOne({
+              where: { id: comment.post_id },
+            });
+
+            return {
+              commentId: comment.id,
+              commentAuthorId: comment.author_id,
+              commentAuthorUsername: comment.author_username,
+              commentContent: comment.content,
+              commentCreatedAt: comment.createdAt,
+              commentVoteValue,
+              postId: parentPost?.id,
+              postSubredditName: parentPost?.subreddit_name,
+              postAuthorUsername: parentPost?.author_username,
+              postTitle: parentPost?.title,
+            };
+          })
+        );
+
+        return res
+          .status(201)
+          .json({ comments: userCommentsWithParentComment });
+      } catch (error) {
+        return res.status(501).json({ message: "server error" });
+      }
+    }
+
     return res.status(501).json({ message: "server error" });
   }
 }

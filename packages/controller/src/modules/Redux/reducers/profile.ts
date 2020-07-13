@@ -15,6 +15,18 @@ export type profileReducerState = {
     user_vote: number;
     createdAt: string;
   }[];
+  comments: {
+    commentId: string;
+    commentAuthorId: string;
+    commentAuthorUsername: string;
+    commentContent: string[];
+    commentCreatedAt: string;
+    commentVoteValue: number;
+    postId: string;
+    postSubredditName: string;
+    postAuthorUsername: string;
+    postTitle: string;
+  }[];
   message: {
     status: number;
     text: string;
@@ -30,6 +42,7 @@ export const profileReducer = (
       createdAt: "",
     },
     posts: [],
+    comments: [],
     message: {
       status: 0,
       text: "",
@@ -57,6 +70,15 @@ export const profileReducer = (
     case ActionTypes.GET_PROFILE_DOWNVOTED_POSTS_COMPLETED:
       return { ...state, ...action.payload };
     case ActionTypes.GET_PROFILE_DOWNVOTED_POSTS_FAILED:
+      return {
+        ...state,
+        ...{
+          message: { status: action.payload.status, text: action.payload.text },
+        },
+      };
+    case ActionTypes.GET_PROFILE_COMMENTS_COMPLETED:
+      return { ...state, ...action.payload };
+    case ActionTypes.GET_PROFILE_COMMENTS_FAILED:
       return {
         ...state,
         ...{
