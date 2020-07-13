@@ -239,7 +239,9 @@ class UserController {
     }
 
     if (user instanceof User) {
-      const userComments = await user.getComments();
+      const userComments = await user.getComments({
+        order: [["createdAt", "DESC"]],
+      });
 
       try {
         const userCommentsWithParentComment = await Promise.all(
