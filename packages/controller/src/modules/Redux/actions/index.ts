@@ -68,6 +68,12 @@ import {
   getPreviewSearchResults,
 } from "./search";
 
+import {
+  getHomepagePosts,
+  getHomepagePostsCompletedAction,
+  getHomepagePostsFailed,
+} from "./homepage";
+
 export const allActions = {
   signinUser,
   signupUser,
@@ -124,6 +130,9 @@ export const allActions = {
   getPreviewSearchResultFailed,
   getPreviewSearchResultsCompletedAction,
   getPreviewSearchResults,
+  getHomepagePosts,
+  getHomepagePostsCompletedAction,
+  getHomepagePostsFailed,
 };
 
 export * from "./types";

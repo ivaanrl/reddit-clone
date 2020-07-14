@@ -1,10 +1,15 @@
+import { useDispatch } from "react-redux";
+import { allActions } from "../Redux";
+
 interface Props {
-  children: (data: { getPosts: () => string | null }) => JSX.Element;
+  children: (data: { getPosts: () => void }) => JSX.Element;
 }
 
 export const HomepageController = (props: Props) => {
+  const dispatch = useDispatch();
+
   const getPosts = () => {
-    return null;
+    dispatch(allActions.getHomepagePosts());
   };
 
   return props.children({ getPosts });

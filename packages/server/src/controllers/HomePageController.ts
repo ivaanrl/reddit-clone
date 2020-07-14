@@ -4,6 +4,7 @@ import "../services/passport";
 import sequelize from "../models";
 import { findCurrentUser } from "../helpers";
 import { User } from "../models/User";
+import { Post } from "../models/Post";
 
 @controller("/api/homepage")
 class HomePageController {
@@ -53,6 +54,13 @@ class HomePageController {
       }
     }
 
-    return res.status(201).json({ homePagePosts: posts });
+    const finalPostsArray: Post[] = [];
+    posts.forEach((post: any, index: number) => {
+      if (posts.length - 1 !== index) {
+        finalPostsArray.push(post[0]);
+      }
+    });
+
+    return res.status(201).json({ posts: finalPostsArray });
   }
 }

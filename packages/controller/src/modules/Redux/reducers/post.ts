@@ -111,9 +111,11 @@ export const fullPostReducer = (
     case ActionTypes.REMOVE_FULL_POST_ERRORS:
       return {
         ...state,
-        message: {
-          status: 0,
-          text: "",
+        ...{
+          message: {
+            status: 0,
+            text: "",
+          },
         },
       };
     default:

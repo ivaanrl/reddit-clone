@@ -34,6 +34,7 @@ const PostView = (props: Props) => {
     user_vote,
     index,
   } = props.postInfo;
+
   const { sanitizeContent, formatDate, vote } = props;
 
   return (
