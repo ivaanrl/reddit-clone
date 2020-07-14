@@ -11,4 +11,16 @@
   &:hover {
     @include theme-aware("border-color", "text-main");
   }
+  z-index: 1000;
+}
+
+.searchbar-results-container {
+  z-index: 1000;
+  width: 100%;
+  max-width: 768px;
+  min-height: 50px;
+  border: 1px solid;
+  border-radius: 4px;
+  @include theme-aware("border-color", "color-line");
+  @include theme-aware("background-color", "color-card");
 }

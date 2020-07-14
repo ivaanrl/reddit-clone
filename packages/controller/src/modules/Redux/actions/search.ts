@@ -6,9 +6,15 @@ export const getPreviewSearchResults = (searchValue: string) => ({
   payload: searchValue,
 });
 
-export const getPreviewSearchResultsCompletedAction = (searchResult: any) => ({
+export const getPreviewSearchResultsCompletedAction = (
+  searchPreviewResult: {
+    name: string;
+    adultContent: boolean;
+    memberCount: number;
+  }[]
+) => ({
   type: ActionTypes.GET_PREVIEW_SEARCH_RESULTS_COMPLETED,
-  payload: searchResult,
+  payload: searchPreviewResult,
 });
 
 export const getPreviewSearchResultFailed = (error: {

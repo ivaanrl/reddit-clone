@@ -1,9 +1,17 @@
 import { BaseAction, ActionTypes } from "../actions";
 
-export type searchReducerState = {};
+export type searchReducerState = {
+  searchPreviewResults: {
+    name: string;
+    adultContent: boolean;
+    memberCount: number;
+  }[];
+};
 
 export const searchReducer = (
-  state: searchReducerState = {},
+  state: searchReducerState = {
+    searchPreviewResults: [],
+  },
   action: BaseAction
 ) => {
   switch (action.type) {

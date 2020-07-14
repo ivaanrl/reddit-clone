@@ -23,14 +23,15 @@ export function* getPreviewSearchResults(searchInfo: {
       getPreviewSearchResultsRequest,
       searchInfo.payload
     );
+    console.log(searchPreviewResults);
     yield put(
-      getPreviewSearchResultsCompletedAction(searchPreviewResults.response.body)
+      getPreviewSearchResultsCompletedAction(searchPreviewResults.body)
     );
   } catch (error) {
     yield put(
       getPreviewSearchResultFailed({
         status: error.status,
-        text: error.response.message,
+        text: error.response.body.message,
       })
     );
   }

@@ -1,0 +1,44 @@
+@import "../../../../color-palette";
+
+.search-preview-result-container {
+  display: flex;
+  flex-direction: column;
+  @include theme-aware("background-color", "color-card");
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  &:hover {
+    cursor: pointer;
+    @include theme-aware("background-color", "color-line");
+  }
+}
+
+.search-preview-result-info-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.search-preview-result-name {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  @include theme-aware("color", "text-main");
+}
+
+.search-preview-result-member-count {
+  font-size: 12px;
+  font-weight: 400;
+  @include theme-aware("color", "text-muted");
+}
+
+.search-preview-result-nsfw {
+  border: 1px solid $nsfw;
+  font-size: 12px;
+  color: $nsfw;
+  border-radius: 4px;
+  margin-left: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}

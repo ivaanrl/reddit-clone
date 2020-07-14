@@ -30,6 +30,7 @@ const NavbarView = (props: Props) => {
 
   const [svgColor, setSvgColor] = useState("#FFFFFF");
   const [redditLogoColor, setRedditLogoColor] = useState("#D7DADC");
+
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null
   );
