@@ -15,6 +15,7 @@ import {
   getThemeFromLocalStorage,
   setThemeInLocalStorage,
 } from "../../../shared/localStorage";
+import SearchBarConnector from "../searchbar/SearchBarConnector";
 
 interface Props {
   search: (searchValue: string) => string | null;
@@ -165,6 +166,11 @@ const NavbarView = (props: Props) => {
     }
   };
 
+  const [searchValue, setSearchValue] = useState<string>("");
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
+
   return (
     <React.Fragment>
       <div className="navbar-container">
@@ -213,7 +219,7 @@ const NavbarView = (props: Props) => {
           </div>
         </div>
         <div className="navbar-search">
-          <input className="navbar-search-input" placeholder="Search"></input>
+          <SearchBarConnector />
           {user.username ? (
             <>
               <a className="navbar-svg-link" href="/">

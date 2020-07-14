@@ -62,6 +62,12 @@ import {
   removeProfileMessages,
 } from "./profile";
 
+import {
+  getPreviewSearchResultFailed,
+  getPreviewSearchResultsCompletedAction,
+  getPreviewSearchResults,
+} from "./search";
+
 export const allActions = {
   signinUser,
   signupUser,
@@ -115,6 +121,9 @@ export const allActions = {
   replyCommentInProfileCompletedAction,
   replyCommentInProfile,
   removeProfileMessages,
+  getPreviewSearchResultFailed,
+  getPreviewSearchResultsCompletedAction,
+  getPreviewSearchResults,
 };
 
 export * from "./types";

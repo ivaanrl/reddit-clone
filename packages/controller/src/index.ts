@@ -28,3 +28,4 @@ export * from "./modules/ProfileUserDescriptionController";
 export * from "./modules/ProfileSectionBarController";
 export * from "./modules/ProfileCommentController";
 export * from "./modules/ProfileCommentsController";
+export * from "./modules/SearchBarController";

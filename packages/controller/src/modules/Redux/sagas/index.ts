@@ -29,6 +29,8 @@ import {
   watchReplyCommentInProfile,
 } from "./profile.sagas";
 
+import { watchGetSearchPreview } from "./search.sagas";
+
 export const rootSaga = function* root() {
   yield all([
     fork(watchUserSignup),
@@ -51,5 +53,6 @@ export const rootSaga = function* root() {
     fork(watchProfilePosts),
     fork(watchProfileSaved),
     fork(watchReplyCommentInProfile),
+    fork(watchGetSearchPreview),
   ]);
 };
