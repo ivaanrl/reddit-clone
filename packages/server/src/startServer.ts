@@ -8,6 +8,7 @@ import "./controllers/SubredditController";
 import "./controllers/PostController";
 import "./controllers/UserController";
 import "./controllers/SearchController";
+import "./controllers/HomePageController";
 import { AppRouter } from "./AppRouter";
 import { initDB } from "../config/initDB";
 import cpg from "connect-pg-simple";

@@ -4,13 +4,13 @@ import { vote } from "./helpers/vote";
 export interface Post {
   id: string;
   author_id: string;
+  author_username: string;
   title: string;
   content: string[];
   createdAt: string;
   updatedAt: string;
   subreddit_name: string;
   votes: number;
-  author_username: string;
   user_vote: number;
 }
 
