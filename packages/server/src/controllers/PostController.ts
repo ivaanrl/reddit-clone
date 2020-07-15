@@ -12,6 +12,7 @@ import { Comment } from "../models/Comment";
 import uniqid from "uniqid";
 import sequelize from "../models";
 import { getChildren, CommentWithReply } from "../helpers/post";
+import { getCommentsWithVotesQuery } from "./queries/Post";
 
 const {
   post_created_successfully,
@@ -62,7 +63,6 @@ class PostController {
   @post("/vote")
   @use(requireLogin)
   async VotePost(req: Request, res: Response) {
-    //const postId = parseInt(req.params.id, 10);
     const { voteValue, postId } = req.body;
 
     const user = await findCurrentUser(req.user);
@@ -108,7 +108,6 @@ class PostController {
 
             return res.status(201).json({ message: vote_removed });
           } catch (error) {
-            console.log(error);
             return res.status(501).json({ message: server_error });
           }
         }
@@ -139,7 +138,6 @@ class PostController {
           return res.status(201).json({ message: comment_saved });
         }
       } catch (error) {
-        console.log(error);
         return res.status(501).json({ message: server_error });
       }
     }
@@ -159,7 +157,23 @@ class PostController {
 
       if (post instanceof Post) {
         let voteValue = 0;
-        let postComments: Comment[];
+        //let postComments: Comment[];
+        let postComments: [
+          {
+            path: string | string[];
+            id: string;
+            author_id: string;
+            author_username: string;
+            content: string[];
+            post_id: string;
+            comment_id: string;
+            createdAt: string;
+            updatedAt: string;
+            user_vote: number;
+            voteValue: number;
+          }[],
+          unknown[]
+        ];
         let postsWithChildren: CommentWithReply[];
         let user_vote = 0;
         let user = await findCurrentUser(req.user);
@@ -181,40 +195,38 @@ class PostController {
             voteValue += vote.value;
           });
 
-          postComments = (
+          /*postComments = (
             await sequelize.query(`
           SELECT * FROM comments WHERE path <@ '${post.id}'
           `)
-          )[0] as Comment[];
+          )[0] as Comment[]; */
+
+          postComments = await getCommentsWithVotesQuery(
+            (user as User).id,
+            post.id
+          );
 
           let maxPathLength = -1;
 
-          const postCommentsWithReplies = postComments.map((comment) => {
+          const postCommentsWithReplies = postComments[0].map((comment) => {
             comment.path = (comment.path as string).split(".");
             if (comment.path.length > maxPathLength) {
               maxPathLength = comment.path.length;
             }
 
             const newCommentWithReply = new CommentWithReply({ ...comment });
-            newCommentWithReply.setDataValue("user_vote", 0);
-            newCommentWithReply.setDataValue("voteValue", 0);
+            newCommentWithReply.setDataValue("user_vote", comment.user_vote);
+            newCommentWithReply.setDataValue("voteValue", comment.voteValue);
             newCommentWithReply.setDataValue("replies", []);
 
             return newCommentWithReply;
           });
 
-          let user_id = "";
-          if (user instanceof User) {
-            user_id = user.id;
-          }
-
           postsWithChildren = await getChildren(
             postCommentsWithReplies,
-            maxPathLength,
-            user_id
+            maxPathLength
           );
         } catch (error) {
-          console.log(error);
           return res.status(505).json({ message: error_getting_post });
         }
 
@@ -244,7 +256,6 @@ class PostController {
         });
       }
     } catch (error) {
-      console.log(error);
       return res.status(404).json({ message: post_not_found });
     }
     return res.status(501).json({ message: server_error });
@@ -253,7 +264,6 @@ class PostController {
   @post("/replyComment")
   @use(requireLogin)
   async replyComment(req: Request, res: Response) {
-    console.log("replyyy");
     const { commentId, content } = req.body;
 
     const user = await findCurrentUser(req.user);
@@ -282,7 +292,6 @@ class PostController {
             .json({ message: comment_saved, reply: newComment });
         }
       } catch (error) {
-        console.log(error);
         return res.status(501).json({ message: server_error });
       }
     }

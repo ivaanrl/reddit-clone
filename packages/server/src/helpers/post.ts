@@ -8,8 +8,7 @@ export class CommentWithReply extends Comment {
 
 export const getChildren = async (
   commentsLeft: CommentWithReply[],
-  pathLength: number,
-  user_id: string
+  pathLength: number
 ): Promise<CommentWithReply[]> => {
   if (pathLength < 2) {
     return commentsLeft;
@@ -19,29 +18,6 @@ export const getChildren = async (
     if (commentsLeft[i].path.length === pathLength) {
       for (let j = 0; j < commentsLeft.length; j++) {
         if (commentsLeft[i].comment_id === commentsLeft[j].id) {
-          if (commentsLeft[j].path.length === 2) {
-            const commentVotes = await commentsLeft[j].getVotes();
-            let voteValue = 0;
-            commentVotes.forEach((vote) => {
-              voteValue += vote.value;
-              if (vote.author_id === user_id) {
-                commentsLeft[j].setDataValue("user_vote", vote.value);
-              }
-            });
-
-            commentsLeft[j].setDataValue("voteValue", voteValue);
-          }
-
-          const commentVotes = await commentsLeft[i].getVotes();
-          let voteValue = 0;
-          commentVotes.forEach((vote) => {
-            voteValue += vote.value;
-            if (vote.author_id === user_id) {
-              commentsLeft[i].setDataValue("user_vote", vote.value);
-            }
-          });
-
-          commentsLeft[i].setDataValue("voteValue", voteValue);
           const newReplies = commentsLeft[j].getDataValue("replies");
           newReplies.push(commentsLeft[i]);
 
@@ -57,5 +33,5 @@ export const getChildren = async (
     }
   }
 
-  return getChildren(commentsLeft, pathLength - 1, user_id);
+  return getChildren(commentsLeft, pathLength - 1);
 };
