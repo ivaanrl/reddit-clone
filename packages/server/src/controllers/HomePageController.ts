@@ -46,13 +46,19 @@ class HomePageController {
       try {
         posts = await sequelize.query(
           `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content,
-                    posts."createdAt", posts."updatedAt", posts.subreddit_name, votes.vote_count, user_vote.value as user_vote
+                    posts."createdAt", posts."updatedAt", posts.subreddit_name, 
+                    votes.vote_count as votes, comments.comment_count
                 FROM posts
             LEFT JOIN (
             SELECT votes.post_id, COALESCE (SUM(votes.value) +  1, 1) as vote_count
                 FROM votes
                 GROUP BY votes.post_id
                 ) AS votes ON votes.post_id = posts.id
+            INNER JOIN (
+                SELECT COUNT(comments.post_id) as comment_count, comments.post_id 
+                FROM comments
+                GROUP BY comments.post_id 
+            ) AS comments ON comments.post_id = posts.id
             ORDER BY (NOW() - posts."createdAt") / vote_count`
         );
       } catch (error) {

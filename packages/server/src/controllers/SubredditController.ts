@@ -9,6 +9,7 @@ import { User_Subreddit } from "../models/User_Subreddit";
 import { Op } from "sequelize";
 import { getSubreddit, findCurrentUser, createSub } from "../helpers";
 import { Vote } from "../models/Vote";
+import sequelize from "../models";
 
 const {
   server_error,
@@ -55,15 +56,57 @@ class SubrredditController {
   @get("/getSubreddit/:name")
   async getSubreddit(req: Request, res: Response) {
     const { name } = req.params;
-    const subreddit = await getSubreddit(name);
+    const subreddit = await getSubreddit(name); //solved with query
+    console.log(req.user);
     const user = await findCurrentUser(req.user);
 
+    console.log(user);
+    if (user instanceof User) {
+      const subredditQuery = await sequelize.query(`
+      SELECT subreddits.name, subreddits.owner_id, subreddits.topics, subreddits.description,
+      subreddits."adultContent", subreddits.private,subreddits."createdAt",
+      subreddits."updatedAt", users_subreddits.role, subreddit_mods.mods,user_count.joined
+      FROM subreddits 
+      LEFT JOIN (
+        SELECT COALESCE(role,'') as role, "SubredditName" FROM users_subreddits
+        WHERE username='${user.username}' AND "SubredditName"='${name}'
+        ) AS users_subreddits 
+        ON users_subreddits."SubredditName" = subreddits.name
+      INNER JOIN(
+        SELECT  array_agg(username) as mods FROM users_subreddits
+        WHERE role='own' OR role='adm'
+        ) AS subreddit_mods 
+        ON users_subreddits."SubredditName" = subreddits.name
+      INNER JOIN(
+        SELECT COUNT(DISTINCT username) as joined , "SubredditName"  FROM users_subreddits
+        WHERE "SubredditName"='${name}'
+        GROUP BY "SubredditName"
+        ) AS user_count ON user_count."SubredditName" = subreddits.name
+      WHERE subreddits.name='${name}'`);
+
+      console.log("NEW SUBREDDIT", subredditQuery[0]);
+
+      const postQuery = await sequelize.query(`
+      SELECT * FROM posts
+      LEFT JOIN (
+        SELECT votes.post_id, COALESCE(SUM(votes.value) + 1, 1) as vote_count
+        FROM votes
+        GROUP BY votes.post_id
+      ) AS votes on votes.post_id = posts.id
+      LEFT JOIN (
+        SELECT COALESCE(value,0) as user_vote, post_id FROM votes
+        WHERE author_id = '${user.id}'
+      ) AS user_vote ON user_vote.post_id = posts.id
+      WHERE subreddit_name='${name}'`);
+    }
+
     if (subreddit instanceof Subreddit) {
-      const joinedUsers = await subreddit.getUsers();
-      const joined = joinedUsers.length;
-      let isUserJoined = false;
+      const joinedUsers = await subreddit.getUsers(); //solved with query
+      const joined = joinedUsers.length; //solved with query
+      let isUserJoined = false; //solved with query ??
 
       if (user instanceof User) {
+        //solved with query
         const user_subreddit = await User_Subreddit.findOne({
           where: {
             username: user.username,
@@ -86,6 +129,7 @@ class SubrredditController {
 
       const modsArray: string[] = [];
       const mods = await User_Subreddit.findAll({
+        //solved with query
         where: {
           SubredditName: subreddit.name,
           [Op.or]: [
@@ -100,6 +144,7 @@ class SubrredditController {
       });
 
       mods.forEach((mod) => {
+        //solved with query
         modsArray.push(mod.username);
       });
 

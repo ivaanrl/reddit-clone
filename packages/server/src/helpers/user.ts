@@ -8,6 +8,7 @@ const {
 } = subredditResponseMessages;
 
 export const findCurrentUser = async (user: any) => {
+  console.log("finding userrrrrr");
   try {
     return await User.findOne({
       where: {
@@ -15,6 +16,7 @@ export const findCurrentUser = async (user: any) => {
       },
     });
   } catch (error) {
+    console.log(error);
     return { error: server_error };
   }
 };
