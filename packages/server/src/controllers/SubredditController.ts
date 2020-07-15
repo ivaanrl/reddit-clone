@@ -60,7 +60,6 @@ class SubrredditController {
   @get("/getSubreddit/:name")
   async getSubreddit(req: Request, res: Response) {
     const { name } = req.params;
-    const subreddit = await getSubreddit(name); //solved with query
     const user = await findCurrentUser(req.user);
     let subredditResult;
     if (user instanceof User) {
@@ -110,7 +109,6 @@ class SubrredditController {
         subredditResult = { ...subredditResult, ...{ posts: postQuery[0] } };
         return res.status(201).json(subredditResult);
       } catch (error) {
-        console.log(error);
         return res.status(501).json({ message: server_error });
       }
     }
@@ -151,7 +149,6 @@ class SubrredditController {
   @use(requireLogin)
   async joinOrLeaveSubreddit(req: Request, res: Response) {
     const { subName } = req.body;
-    console.log(subName);
     const user = await findCurrentUser(req.user);
     if (user instanceof User) {
       let userFollow;
@@ -163,7 +160,6 @@ class SubrredditController {
           },
         });
       } catch (error) {
-        console.log(error);
         return res.status(501).json({ message: "Internal Server Error" });
       }
 
@@ -176,7 +172,6 @@ class SubrredditController {
             },
           });
         } catch (error) {
-          console.log(error);
           return res.status(501).json({ message: "Internal Server Error" });
         }
 
@@ -195,7 +190,6 @@ class SubrredditController {
             .status(201)
             .json({ message: "User succesfully joined", userJoined: true });
         } catch (error) {
-          console.log(error);
           return res.status(501).json({ message: "Internal Server Error" });
         }
       }
