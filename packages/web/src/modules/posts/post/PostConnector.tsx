@@ -15,6 +15,7 @@ interface Props {
     id: string;
     user_vote: number;
     index: number;
+    comment_count: number;
   };
 }
 

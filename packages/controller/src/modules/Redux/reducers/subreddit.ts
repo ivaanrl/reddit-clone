@@ -12,6 +12,7 @@ export interface Post {
   subreddit_name: string;
   votes: number;
   user_vote: number;
+  comment_count: number;
 }
 
 export type subredditState = {

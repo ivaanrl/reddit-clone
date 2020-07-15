@@ -18,6 +18,7 @@ interface Props {
     id: string;
     user_vote: number;
     index: number;
+    comment_count: number;
   };
   vote: (id: string, voteValue: number, index: number) => void;
 }
@@ -33,6 +34,7 @@ const PostView = (props: Props) => {
     id,
     user_vote,
     index,
+    comment_count,
   } = props.postInfo;
 
   const { sanitizeContent, formatDate, vote } = props;
@@ -81,7 +83,7 @@ const PostView = (props: Props) => {
             className="comments bottom-bar-container"
           >
             <i className="fa fa-comment  bottom-bar-icon" />
-            <div className="text">X comments</div>
+            <div className="text">{comment_count} comments</div>
           </NavLink>
           <div className="save bottom-bar-container">
             <i className="fa fa-bookmark bottom-bar-icon" />

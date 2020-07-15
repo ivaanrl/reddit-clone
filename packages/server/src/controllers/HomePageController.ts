@@ -16,7 +16,8 @@ class HomePageController {
       try {
         posts = await sequelize.query(
           `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content,
-                  posts."createdAt", posts."updatedAt", posts.subreddit_name, votes.vote_count, user_vote.value as user_vote
+                  posts."createdAt", posts."updatedAt", posts.subreddit_name, votes.vote_count as votes,
+                  user_vote.value as user_vote, comments.comment_count
               FROM posts
               LEFT JOIN (
               SELECT votes.post_id, COALESCE (SUM(votes.value) +  1, 1) as vote_count
@@ -31,6 +32,11 @@ class HomePageController {
                   SELECT value, post_id FROM votes
                   WHERE author_id = '${currentUser.id}'
               ) AS user_vote ON user_vote.post_id = posts.id
+              INNER JOIN (
+                SELECT COUNT(comments.post_id) as comment_count, comments.post_id 
+                FROM comments
+                GROUP BY comments.post_id 
+              ) AS comments ON comments.post_id = posts.id
               ORDER BY (NOW() - posts."createdAt") / vote_count`
         );
       } catch (error) {
@@ -57,6 +63,7 @@ class HomePageController {
     const finalPostsArray: Post[] = [];
     posts.forEach((post: any, index: number) => {
       if (posts.length - 1 !== index) {
+        post[0].votes -= 1; //I added one to result to avoid dividing by 0 on postgresql. This line removes it
         finalPostsArray.push(post[0]);
       }
     });
