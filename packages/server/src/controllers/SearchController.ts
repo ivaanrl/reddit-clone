@@ -8,7 +8,6 @@ import { Op } from "sequelize";
 class SearchController {
   @get("/:searchValue")
   async previewSearch(req: Request, res: Response) {
-    console.log("searchh");
     const searchValue = req.params.searchValue;
 
     try {
@@ -29,7 +28,6 @@ class SearchController {
         })
       );
 
-      console.log("aaa");
       return res.status(201).json({ searchPreviewResults: searchResult });
     } catch (error) {
       return res.status(501).json({ message: "Server error" });
