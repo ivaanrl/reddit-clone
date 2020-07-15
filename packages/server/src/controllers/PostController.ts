@@ -12,7 +12,7 @@ import { Comment } from "../models/Comment";
 import uniqid from "uniqid";
 import sequelize from "../models";
 import { getChildren, CommentWithReply } from "../helpers/post";
-import { getCommentsWithVotesQuery } from "./queries/Post";
+import { getCommentsWithVotesQuery } from "./queries/PostQueries";
 
 const {
   post_created_successfully,

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import { get, controller, use, post } from "./decorators";
 import "../services/passport";
 import { User } from "../models/User";
@@ -7,6 +7,12 @@ import { findCurrentUser } from "../helpers";
 import { Vote } from "../models/Vote";
 import { Post } from "../models/Post";
 import { requireSameUser } from "../middleware/requireSameUser";
+import sequelize from "../models";
+import {
+  getProfilePostsByNewQuery,
+  getProfileUpvotesByNewQuery,
+  getProfileDownvotesByNewQuery,
+} from "./queries/UserProfileQueries";
 
 @controller("/api/user")
 class UserController {
@@ -41,7 +47,7 @@ class UserController {
     const username = req.params.username;
     const order = req.query.order;
     let user;
-    const currentUser = findCurrentUser(req.user);
+    const currentUser = await findCurrentUser(req.user);
     try {
       user = await User.findOne({ where: { username } });
     } catch (error) {
@@ -50,39 +56,14 @@ class UserController {
 
     if (user instanceof User) {
       try {
-        const userPosts = await user.getPosts({
-          order: [["createdAt", "DESC"]],
-        });
-
-        const userPostsArray = await Promise.all(
-          userPosts.map(async (userPost) => {
-            const postVotes = await userPost.getVotes();
-            let voteCount = 0;
-            let userVote = 0;
-
-            postVotes.forEach((vote) => {
-              voteCount += vote.value;
-              if (
-                currentUser instanceof User &&
-                currentUser.id === vote.author_id
-              ) {
-                userVote = vote.value;
-              }
-            });
-
-            const { id, subreddit_name, title, createdAt } = userPost;
-
-            return {
-              id,
-              subreddit_name,
-              title,
-              createdAt,
-              voteCount,
-              userVote,
-            };
-          })
+        const userPosts = await getProfilePostsByNewQuery(
+          (currentUser as User).id,
+          user.id
         );
-        return res.status(201).json({ posts: userPostsArray });
+
+        console.log(userPosts);
+
+        return res.status(201).json({ posts: userPosts[0] });
       } catch (error) {
         console.log(error);
         return res.status(501).json({ message: "Server internal error" });
@@ -97,7 +78,6 @@ class UserController {
   @use(requireSameUser)
   async getUpvotes(req: Request, res: Response) {
     const username = req.params.username;
-    const currentUser = await findCurrentUser(req.user);
 
     let user;
     try {
@@ -108,52 +88,10 @@ class UserController {
 
     if (user instanceof User) {
       try {
-        const upvotes = await Vote.findAll({
-          where: {
-            author_id: user.id,
-            value: 1,
-          },
-        });
+        const upvotedPosts = await getProfileUpvotesByNewQuery(user.id);
 
-        const upvotedPostsWithoutVotes = await Promise.all(
-          upvotes.map(async (upvote) => {
-            return await Post.findOne({ where: { id: upvote.post_id } });
-          })
-        );
-        const upvotedPosts = await Promise.all(
-          upvotedPostsWithoutVotes.map(async (post) => {
-            if (post instanceof Post) {
-              const postVotes = await post.getVotes();
-              let voteCount = 0;
-              let userVote = 0;
-
-              postVotes.forEach((vote) => {
-                voteCount += vote.value;
-                if (
-                  currentUser instanceof User &&
-                  currentUser.id === vote.author_id
-                ) {
-                  userVote = vote.value;
-                }
-              });
-
-              const { id, title, createdAt, updatedAt, subreddit_name } = post;
-              return {
-                id,
-                title,
-                createdAt,
-                updatedAt,
-                subreddit_name,
-                voteCount,
-                userVote,
-              };
-            }
-            return null;
-          })
-        );
-        return res.status(201).json({ posts: upvotedPosts });
+        return res.status(201).json({ posts: upvotedPosts[0] });
       } catch (error) {
-        console.log(error);
         return res.status(501).json({ message: "server error" });
       }
     }
@@ -165,7 +103,6 @@ class UserController {
   @use(requireSameUser)
   async getDownvotes(req: Request, res: Response) {
     const username = req.params.username;
-    const currentUser = await findCurrentUser(req.user);
 
     let user;
     try {
@@ -176,52 +113,10 @@ class UserController {
 
     if (user instanceof User) {
       try {
-        const downvotes = await Vote.findAll({
-          where: {
-            author_id: user.id,
-            value: -1,
-          },
-        });
+        const downvotedPosts = await getProfileDownvotesByNewQuery(user.id);
 
-        const downvotedPostsWithoutVotes = await Promise.all(
-          downvotes.map(async (downvote) => {
-            return await Post.findOne({ where: { id: downvote.post_id } });
-          })
-        );
-        const downvotedPosts = await Promise.all(
-          downvotedPostsWithoutVotes.map(async (post) => {
-            if (post instanceof Post) {
-              const postVotes = await post.getVotes();
-              let voteCount = 0;
-              let userVote = 0;
-
-              postVotes.forEach((vote) => {
-                voteCount += vote.value;
-                if (
-                  currentUser instanceof User &&
-                  currentUser.id === vote.author_id
-                ) {
-                  userVote = vote.value;
-                }
-              });
-
-              const { id, title, createdAt, updatedAt, subreddit_name } = post;
-              return {
-                id,
-                title,
-                createdAt,
-                updatedAt,
-                subreddit_name,
-                voteCount,
-                userVote,
-              };
-            }
-            return null;
-          })
-        );
-        return res.status(201).json({ posts: downvotedPosts });
+        return res.status(201).json({ posts: downvotedPosts[0] });
       } catch (error) {
-        console.log(error);
         return res.status(501).json({ message: "server error" });
       }
     }
