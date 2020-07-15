@@ -10,6 +10,10 @@ import { Op } from "sequelize";
 import { getSubreddit, findCurrentUser, createSub } from "../helpers";
 import { Vote } from "../models/Vote";
 import sequelize from "../models";
+import {
+  getSubredditSignedInQuery,
+  getSubredditPostsSignedInQuery,
+} from "./queries/SubredditQueries";
 
 const {
   server_error,
@@ -57,165 +61,58 @@ class SubrredditController {
   async getSubreddit(req: Request, res: Response) {
     const { name } = req.params;
     const subreddit = await getSubreddit(name); //solved with query
-    console.log(req.user);
     const user = await findCurrentUser(req.user);
-
-    console.log(user);
+    let subredditResult;
     if (user instanceof User) {
-      const subredditQuery = await sequelize.query(`
-      SELECT subreddits.name, subreddits.owner_id, subreddits.topics, subreddits.description,
-      subreddits."adultContent", subreddits.private,subreddits."createdAt",
-      subreddits."updatedAt", users_subreddits.role, subreddit_mods.mods,user_count.joined
-      FROM subreddits 
-      LEFT JOIN (
-        SELECT COALESCE(role,'') as role, "SubredditName" FROM users_subreddits
-        WHERE username='${user.username}' AND "SubredditName"='${name}'
-        ) AS users_subreddits 
-        ON users_subreddits."SubredditName" = subreddits.name
-      INNER JOIN(
-        SELECT  array_agg(username) as mods FROM users_subreddits
-        WHERE role='own' OR role='adm'
-        ) AS subreddit_mods 
-        ON users_subreddits."SubredditName" = subreddits.name
-      INNER JOIN(
-        SELECT COUNT(DISTINCT username) as joined , "SubredditName"  FROM users_subreddits
-        WHERE "SubredditName"='${name}'
-        GROUP BY "SubredditName"
-        ) AS user_count ON user_count."SubredditName" = subreddits.name
-      WHERE subreddits.name='${name}'`);
+      try {
+        const subredditQuery = await getSubredditSignedInQuery(
+          user.username,
+          name
+        );
 
-      console.log("NEW SUBREDDIT", subredditQuery[0]);
+        const {
+          sub_name,
+          owner_id,
+          topics,
+          description,
+          adultContent,
+          joined,
+          createdAt,
+          updatedAt,
+          mods,
+          role,
+        } = subredditQuery[0][0];
 
-      const postQuery = await sequelize.query(`
-      SELECT * FROM posts
-      LEFT JOIN (
-        SELECT votes.post_id, COALESCE(SUM(votes.value) + 1, 1) as vote_count
-        FROM votes
-        GROUP BY votes.post_id
-      ) AS votes on votes.post_id = posts.id
-      LEFT JOIN (
-        SELECT COALESCE(value,0) as user_vote, post_id FROM votes
-        WHERE author_id = '${user.id}'
-      ) AS user_vote ON user_vote.post_id = posts.id
-      WHERE subreddit_name='${name}'`);
-    }
+        let isUserJoined = false;
 
-    if (subreddit instanceof Subreddit) {
-      const joinedUsers = await subreddit.getUsers(); //solved with query
-      const joined = joinedUsers.length; //solved with query
-      let isUserJoined = false; //solved with query ??
-
-      if (user instanceof User) {
-        //solved with query
-        const user_subreddit = await User_Subreddit.findOne({
-          where: {
-            username: user.username,
-            SubredditName: subreddit.name,
-          },
-        });
-        if (user_subreddit) {
+        if (role) {
           isUserJoined = true;
         }
+
+        subredditResult = {
+          name: sub_name,
+          owner_id,
+          topics,
+          description,
+          adultContent,
+          joined,
+          createdAt,
+          mods,
+          isUserJoined,
+        };
+      } catch (error) {
+        return res.status(501).json({ message: server_error });
       }
 
-      const {
-        name,
-        owner_id,
-        topics,
-        description,
-        adultContent,
-        createdAt,
-      } = subreddit;
+      try {
+        const postQuery = await getSubredditPostsSignedInQuery(user.id, name);
 
-      const modsArray: string[] = [];
-      const mods = await User_Subreddit.findAll({
-        //solved with query
-        where: {
-          SubredditName: subreddit.name,
-          [Op.or]: [
-            {
-              role: "own",
-            },
-            {
-              role: "adm",
-            },
-          ],
-        },
-      });
-
-      mods.forEach((mod) => {
-        //solved with query
-        modsArray.push(mod.username);
-      });
-
-      const posts = await subreddit.getPosts({
-        order: [["createdAt", "DESC"]],
-      });
-      const postsArray: {
-        id: string;
-        author_id: string;
-        title: string;
-        content: string[];
-        createdAt: Date;
-        updatedAt: Date;
-        subreddit_name: string;
-      }[] = await Promise.all(
-        posts.map(async (post) => {
-          let userVote;
-          if (user instanceof User) {
-            userVote = await Vote.findOne({
-              where: {
-                author_id: user.id,
-                post_id: post.id,
-              },
-            });
-          }
-          const votes = await post.getVotes();
-          let voteValue = 0;
-          votes.forEach((vote) => {
-            voteValue += vote.value;
-          });
-          const {
-            id,
-            author_id,
-            title,
-            content,
-            createdAt,
-            updatedAt,
-            subreddit_name,
-            author_username,
-          } = post;
-          return {
-            id,
-            author_id,
-            author_username,
-            title,
-            content,
-            createdAt,
-            updatedAt,
-            subreddit_name,
-            votes: voteValue,
-            user_vote: userVote?.value,
-          };
-        })
-      );
-
-      const sub = {
-        name,
-        owner_id,
-        topics,
-        description,
-        adultContent,
-        joined,
-        isUserJoined,
-        createdAt,
-        mods: modsArray,
-        posts: postsArray,
-      };
-
-      return res.status(201).json(sub);
-    } else if (subreddit === { error: server_error }) {
-      return res.status(501).json({ success: false, message: server_error });
+        subredditResult = { ...subredditResult, ...{ posts: postQuery[0] } };
+        return res.status(201).json(subredditResult);
+      } catch (error) {
+        console.log(error);
+        return res.status(501).json({ message: server_error });
+      }
     }
 
     return res.status(404).json({ message: server_error });
