@@ -7,18 +7,20 @@ export const getSubredditSignedInQuery = async (
   return (await sequelize.query(`
     SELECT subreddits.name as sub_name, subreddits.owner_id, subreddits.topics, subreddits.description,
     subreddits."adultContent", subreddits.private,subreddits."createdAt",
-    subreddits."updatedAt", users_subreddits.role, subreddit_mods.mods,user_count.joined
+    subreddits."updatedAt", COALESCE(users_subreddits.role, '') AS role,
+    subreddit_mods.mods, user_count.joined
     FROM subreddits 
     LEFT JOIN (
-      SELECT COALESCE(role,'') as role, "SubredditName" FROM users_subreddits
+      SELECT role, "SubredditName" FROM users_subreddits
       WHERE username='${username}' AND "SubredditName"='${subredditName}'
       ) AS users_subreddits 
       ON users_subreddits."SubredditName" = subreddits.name
     INNER JOIN(
-      SELECT  array_agg(username) as mods FROM users_subreddits
-      WHERE (role='own' OR role='adm') AND "SubredditName"='${subredditName}'
+      SELECT  array_agg(username) as mods, "SubredditName" FROM users_subreddits
+        WHERE (role='own' OR role='mod') AND "SubredditName"='${subredditName}'
+        GROUP BY "SubredditName"
       ) AS subreddit_mods 
-      ON users_subreddits."SubredditName" = subreddits.name
+      ON subreddit_mods."SubredditName" = subreddits.name
     INNER JOIN(
       SELECT COUNT(DISTINCT username) as joined , "SubredditName"  FROM users_subreddits
       WHERE "SubredditName"='${subredditName}'
