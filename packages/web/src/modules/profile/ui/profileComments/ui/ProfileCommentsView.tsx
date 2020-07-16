@@ -16,7 +16,7 @@ const ProfileCommentsView = (props: Props) => {
   useEffect(() => {
     const username = location.pathname.split("/")[2];
     getComments(username);
-  }, []);
+  }, [getComments, location]);
 
   return (
     <div className="profile-container">

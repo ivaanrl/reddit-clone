@@ -3,7 +3,6 @@ import "./ProfileSectionBar.scss";
 import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
-import { profile } from "console";
 
 const ProfileSectionBarView = () => {
   const location = useLocation();

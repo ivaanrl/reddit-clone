@@ -6,7 +6,6 @@ import ProfileSidebarConnector from "./profileSidebar/ProfileSidebarConnector";
 import ProfileSectionBarConnector from "./profileSectionBar/ProfileSectionBarConnector";
 import ProfileUpvotedConnector from "./profileUpvoted/ProfileUpvotedConnector";
 import ProfileDownvotedConnector from "./profileDowvoted/ProfileDownvotedConnector";
-import ProfileCommentsView from "./profileComments/ui/ProfileCommentsView";
 import ProfileCommentsConnector from "./profileComments/ProfileCommentsConnector";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
@@ -51,7 +50,7 @@ const ProfileView = (props: Props) => {
     if (userProfile.userInfo.username !== username) {
       getProfile(username);
     }
-  }, [location, getProfile]);
+  }, [location, getProfile, userProfile.userInfo.username]);
 
   return (
     <div>

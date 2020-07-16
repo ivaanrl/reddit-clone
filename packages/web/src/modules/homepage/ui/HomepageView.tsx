@@ -11,7 +11,7 @@ const HomepageView = (props: Props) => {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [getPosts]);
 
   return (
     <div className="homepage-container">

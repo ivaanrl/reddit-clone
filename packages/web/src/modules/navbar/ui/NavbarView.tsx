@@ -167,11 +167,6 @@ const NavbarView = (props: Props) => {
     }
   };
 
-  const [searchValue, setSearchValue] = useState<string>("");
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-  };
-
   return (
     <React.Fragment>
       <div className="navbar-container">

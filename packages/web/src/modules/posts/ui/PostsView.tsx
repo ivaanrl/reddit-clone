@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Posts.scss";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";

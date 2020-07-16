@@ -29,29 +29,6 @@ const SubredditView = (props: Props) => {
     </button>
   );
 
-  useEffect(() => {
-    if (isUserJoined) {
-      setJoinButton(
-        <button
-          className="sidebar-main-button join-leave-button"
-          onMouseEnter={handleMouseEnter}
-          onClick={handleJoinOrLeave}
-        >
-          JOINED
-        </button>
-      );
-    } else {
-      setJoinButton(
-        <button
-          className="sidebar-secondary-button join-leave-button"
-          onClick={handleJoinOrLeave}
-        >
-          JOIN
-        </button>
-      );
-    }
-  }, [isUserJoined, name]);
-
   const handleMouseEnter = () => {
     setJoinButton(
       <button
@@ -76,6 +53,29 @@ const SubredditView = (props: Props) => {
       </button>
     );
   };
+
+  useEffect(() => {
+    if (isUserJoined) {
+      setJoinButton(
+        <button
+          className="sidebar-main-button join-leave-button"
+          onMouseEnter={handleMouseEnter}
+          onClick={handleJoinOrLeave}
+        >
+          JOINED
+        </button>
+      );
+    } else {
+      setJoinButton(
+        <button
+          className="sidebar-secondary-button join-leave-button"
+          onClick={handleJoinOrLeave}
+        >
+          JOIN
+        </button>
+      );
+    }
+  }, [isUserJoined, name]);
 
   useEffect(() => {
     getSubreddit(pathname.split("/")[2]);

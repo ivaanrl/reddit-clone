@@ -18,7 +18,7 @@ const ProfileUpvotedView = (props: Props) => {
   useEffect(() => {
     const username = location.pathname.split("/")[2];
     getUpvotes(username);
-  }, []);
+  }, [getUpvotes, location]);
 
   return (
     <React.Fragment>

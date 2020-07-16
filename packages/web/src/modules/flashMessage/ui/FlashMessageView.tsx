@@ -40,7 +40,7 @@ const FlashMessageView = (props: Props) => {
     }
 
     setTimeout(() => removeError(name), 10000);
-  }, [status]);
+  }, [status, name, removeError]);
 
   const handleClose = () => {
     removeError(name);

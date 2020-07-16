@@ -16,7 +16,7 @@ const ProfilePostsView = (props: Props) => {
   useEffect(() => {
     const username = location.pathname.split("/")[2];
     getProfilePosts(username);
-  }, []);
+  }, [getProfilePosts, location]);
 
   return (
     <div className="profile-container">

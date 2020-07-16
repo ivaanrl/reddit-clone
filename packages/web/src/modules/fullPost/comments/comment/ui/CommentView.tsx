@@ -55,7 +55,7 @@ const CommentView = (props: Props) => {
     if (index > 3 && depth > 5) {
       setShowComment(false);
     }
-  }, []);
+  }, [depth, index, voteValue]);
 
   const handleComment = () => {
     if (textEditor[0].children[0].text === "") return;

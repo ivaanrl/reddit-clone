@@ -28,14 +28,6 @@ const SearchBarView = (props: Props) => {
     }
   };
 
-  const modifiyWidthInFn = ({ state }: any) => {
-    state.styles.popper.width = `${state.rects.reference.width}px`;
-  };
-
-  const modifiyWidthInEffect = ({ state }: any) => {
-    state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
-  };
-
   const sameWidth = React.useMemo(
     () => ({
       name: "sameWidth",

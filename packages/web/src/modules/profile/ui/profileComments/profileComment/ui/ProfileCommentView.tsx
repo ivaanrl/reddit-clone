@@ -24,7 +24,7 @@ const ProfileCommentView = (props: Props) => {
   const {
     comment,
     commentId,
-    commentAuthorId,
+    //commentAuthorId,
     commentAuthorUsername,
     commentContent,
     commentCreatedAt,

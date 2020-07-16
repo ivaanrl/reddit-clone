@@ -6,7 +6,7 @@ import "./ProfileUserDescription.scss";
 const ProfileUserDescriptionView = () => {
   const userInfo = useSelector((state: State) => state.profile.userInfo);
 
-  const { id, username, karma, createdAt } = userInfo;
+  const { username, karma, createdAt } = userInfo;
 
   return (
     <div className="profile-description-container">

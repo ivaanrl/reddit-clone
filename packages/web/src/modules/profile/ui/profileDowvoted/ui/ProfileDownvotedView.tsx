@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import ProfilePostConnector from "../../../profilePost/ProfilePostConnector";
@@ -17,7 +17,7 @@ const ProfileDownvotedView = (props: Props) => {
   useEffect(() => {
     const username = history.location.pathname.split("/")[2];
     getDownvotes(username);
-  }, [history]);
+  }, [history, getDownvotes]);
   return (
     <React.Fragment>
       {userProfile.userInfo.username === currentUser.username ? (
