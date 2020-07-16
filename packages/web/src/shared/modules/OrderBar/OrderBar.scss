@@ -1,0 +1,59 @@
+@import "../../../color-palette";
+
+.order-bar-container {
+  @include theme-aware("background-color", "color-card");
+  border: 1px solid;
+  @include theme-aware("border-color", "color-line");
+  border-radius: 4px;
+  height: 56px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 30px;
+  margin-top: 20px;
+}
+
+.order-bar-sort-option-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  font-size: 14px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-radius: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  span {
+    @include theme-aware("color", "text-muted");
+  }
+
+  .order-bar-icon {
+    @include theme-aware("fill", "text-muted");
+  }
+
+  &:hover {
+    @include theme-aware("background-color", "input-background");
+  }
+}
+
+.order-bar-sort-option-container-active {
+  @extend .order-bar-sort-option-container;
+  @include theme-aware("background-color", "input-background");
+  span {
+    @include theme-aware("color", "text-main");
+  }
+
+  .order-bar-icon {
+    @include theme-aware("fill", "text-main");
+  }
+}
+
+.order-bar-icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 5px;
+  @include theme-aware("fill", "highlight-selection");
+}

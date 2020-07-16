@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import ProfilePostConnector from "../../../profilePost/ProfilePostConnector";
+import ProfileOrderPostsBarConnector from "./ProfileOrderPostsBarConnector";
 
 interface Props {
   getProfilePosts: (username: string) => void;
@@ -20,6 +21,7 @@ const ProfilePostsView = (props: Props) => {
 
   return (
     <div className="profile-container">
+      <ProfileOrderPostsBarConnector />
       {profilePosts.map((profilePost, index) => {
         const {
           id,

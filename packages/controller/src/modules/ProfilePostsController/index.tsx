@@ -10,7 +10,7 @@ interface Props {
 export const ProfilePostsController = (props: Props) => {
   const dispatch = useDispatch();
   const getProfilePosts = (username: string) => {
-    dispatch(allActions.getProfilePosts(username));
+    //dispatch(allActions.getProfilePosts(username));
   };
 
   return props.children({ getProfilePosts });

@@ -69,7 +69,7 @@ export function* replyCommentInProfile(commentInfo: {
 
 export function* getProfilePosts(profileInfo: {
   type: string;
-  payload: string;
+  payload: { username: string; order: string };
 }) {
   try {
     const profileReponse = yield call(
@@ -273,13 +273,17 @@ export const getProfileSavedRequest = (username: string) => {
   return response;
 };
 
-export const getProfilePostsRequest = (username: string) => {
+export const getProfilePostsRequest = (info: {
+  username: string;
+  order: string;
+}) => {
+  const { order, username } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
-      .query({ order: "new" })
+      .query({ order })
       .get(APIUrl + "/user/getPosts/" + username);
   } catch (error) {
     response = error.response;

@@ -21,9 +21,9 @@ export const getProfileFailed = (error: { status: number; text: string }) => ({
   payload: error,
 });
 
-export const getProfilePosts = (username: string) => ({
+export const getProfilePosts = (username: string, order: string) => ({
   type: ActionTypes.GET_PROFILE_POSTS,
-  payload: username,
+  payload: { username, order },
 });
 
 export const getProfilePostsCompletedAction = (
