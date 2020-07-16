@@ -91,7 +91,7 @@ const ProfileCommentView = (props: Props) => {
         </NavLink>
         &nbsp;
         <div className="profile-parent-post-postedby">
-          Posted by &nbsp;
+          Posted by&nbsp;
           <NavLink to={`/u/${postAuthorUsername}`}>
             u/{postAuthorUsername}
           </NavLink>

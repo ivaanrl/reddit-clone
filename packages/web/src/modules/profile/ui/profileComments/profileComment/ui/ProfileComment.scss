@@ -50,6 +50,7 @@
 .profile-parent-post-postedby {
   @include theme-aware("color", "text-muted");
   a {
+    @include theme-aware("color", "text-muted");
     &:hover {
       text-decoration: underline;
     }

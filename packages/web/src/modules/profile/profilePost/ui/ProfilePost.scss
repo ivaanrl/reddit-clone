@@ -2,10 +2,7 @@
 
 a {
   text-decoration: none;
-}
-
-a:visited {
-  @include theme-aware("color", "text-muted");
+  //@include theme-aware("color", "text-main");
 }
 
 .vote-container {
@@ -29,20 +26,34 @@ a:visited {
 .profile-post-info {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .profile-post-title {
   font-size: 16px;
+  @include theme-aware("color", "text-main");
+  &:visited {
+    @include theme-aware("color", "text-muted");
+  }
 }
 
 .profile-post-small-text {
   display: flex;
   flex-direction: row;
   font-size: 12px;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .profile-post-subreddit-name {
   @include theme-aware("color", "text-main");
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.profile-post-posted-by {
+  @include theme-aware("color", "text-muted");
 }
 
 .profile-post-image-container {

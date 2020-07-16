@@ -7,8 +7,8 @@ export const getProfilePostsByNewQuery = async (
   return await sequelize.query(`
     SELECT posts.id,posts.author_username,posts.title,
     posts."createdAt", posts."updatedAt", posts.subreddit_name,
-    COALESCE(vote_sum.value,0) AS vote_value, 
-    COALESCE(user_vote.value,0) AS user_vote
+    COALESCE(vote_sum.value,0) AS "voteCount", 
+    COALESCE(user_vote.value,0) AS "user_vote"
     FROM posts
     LEFT JOIN (
         SELECT value, post_id FROM votes
@@ -26,7 +26,7 @@ export const getProfilePostsByNewQuery = async (
 export const getProfileUpvotesByNewQuery = async (userId: string) => {
   return await sequelize.query(`
   SELECT posts.id, posts.title, posts."createdAt", posts."updatedAt", 
-    posts.subreddit_name, votes.value AS voteCount, votes.value AS userVote 
+    posts.subreddit_name, votes.value AS "voteCount", votes.value AS "userVote" 
   FROM votes
   INNER JOIN posts 
     ON votes.post_id = posts.id
@@ -37,7 +37,7 @@ export const getProfileUpvotesByNewQuery = async (userId: string) => {
 export const getProfileDownvotesByNewQuery = async (userId: string) => {
   return await sequelize.query(`
   SELECT posts.id, posts.title, posts."createdAt", posts."updatedAt", 
-    posts.subreddit_name, votes.value AS voteCount, votes.value AS userVote 
+    posts.subreddit_name, votes.value AS "voteCount", votes.value AS "userVote" 
   FROM votes
   INNER JOIN posts 
     ON votes.post_id = posts.id

@@ -47,20 +47,27 @@ const ProfilePostView = (props: Props) => {
       <div className="profile-post-image-container">
         <div className="profile-post-image"></div>
       </div>
-      <NavLink
-        to={`/r/${subredditName}/post/${id}`}
-        className="profile-post-info"
-      >
-        <div className="profile-post-title">{title}</div>
+      <div className="profile-post-info">
+        <NavLink
+          to={`/r/${subredditName}/post/${id}`}
+          className="profile-post-title"
+        >
+          {title}
+        </NavLink>
         <div className="profile-post-small-text">
-          <div className="profile-post-subreddit-name">r/{subredditName}</div>
+          <NavLink
+            to={`/r/${subredditName}`}
+            className="profile-post-subreddit-name"
+          >
+            r/{subredditName}
+          </NavLink>
           &nbsp;
           <div className="profile-post-posted-by">
             Posted by u/{profileInfo.username} {formatDate(createdAt)}
           </div>
         </div>
         <div className="bottom-bar"></div>
-      </NavLink>
+      </div>
     </div>
   );
 };
