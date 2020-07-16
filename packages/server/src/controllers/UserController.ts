@@ -9,7 +9,7 @@ import { Post } from "../models/Post";
 import { requireSameUser } from "../middleware/requireSameUser";
 import sequelize from "../models";
 import {
-  getProfilePostsByNewQuery,
+  getProfilePostsQuery,
   getProfileUpvotesByNewQuery,
   getProfileDownvotesByNewQuery,
 } from "./queries/UserProfileQueries";
@@ -19,7 +19,6 @@ class UserController {
   @get("/getProfile/:username")
   async getProfile(req: Request, res: Response) {
     const username = req.params.username;
-    const order = req.query.order;
 
     try {
       const user = await User.findOne({ where: { username } });
@@ -45,7 +44,7 @@ class UserController {
   @get("/getPosts/:username")
   async getProfilePosts(req: Request, res: Response) {
     const username = req.params.username;
-    const order = req.query.order;
+    const order = req.query.order as string;
     let user;
     const currentUser = await findCurrentUser(req.user);
     try {
@@ -56,12 +55,11 @@ class UserController {
 
     if (user instanceof User) {
       try {
-        const userPosts = await getProfilePostsByNewQuery(
+        const userPosts = await getProfilePostsQuery(
           (currentUser as User).id,
-          user.id
+          user.id,
+          order
         );
-
-        console.log(userPosts);
 
         return res.status(201).json({ posts: userPosts[0] });
       } catch (error) {
