@@ -4,14 +4,11 @@ import "../services/passport";
 import { User } from "../models/User";
 import { requireLogin } from "../middleware/requireLogin";
 import { findCurrentUser } from "../helpers";
-import { Vote } from "../models/Vote";
 import { Post } from "../models/Post";
 import { requireSameUser } from "../middleware/requireSameUser";
-import sequelize from "../models";
 import {
   getProfilePostsQuery,
-  getProfileUpvotesQuery,
-  getProfileDownvotesByNewQuery,
+  getProfileVotedPostQuery,
 } from "./queries/UserProfileQueries";
 
 @controller("/api/user")
@@ -90,10 +87,11 @@ class UserController {
 
     if (user instanceof User) {
       try {
-        const upvotedPosts = await getProfileUpvotesQuery(
+        const upvotedPosts = await getProfileVotedPostQuery(
           user.id,
           order,
-          sortTime
+          sortTime,
+          1
         );
 
         console.log(upvotedPosts[0]);
@@ -111,6 +109,8 @@ class UserController {
   @use(requireSameUser)
   async getDownvotes(req: Request, res: Response) {
     const username = req.params.username;
+    const order = req.query.order as string;
+    const sortTime = req.query.time as string;
 
     let user;
     try {
@@ -121,7 +121,12 @@ class UserController {
 
     if (user instanceof User) {
       try {
-        const downvotedPosts = await getProfileDownvotesByNewQuery(user.id);
+        const downvotedPosts = await getProfileVotedPostQuery(
+          user.id,
+          order,
+          sortTime,
+          -1
+        );
 
         return res.status(201).json({ posts: downvotedPosts[0] });
       } catch (error) {

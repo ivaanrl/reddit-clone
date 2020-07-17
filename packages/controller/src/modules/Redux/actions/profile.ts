@@ -73,9 +73,13 @@ export const getProfileUpvotedPostsFailed = (error: {
   payload: error,
 });
 
-export const getProfileDownvotedPosts = (username: string) => ({
+export const getProfileDownvotedPosts = (
+  username: string,
+  order: string,
+  time: string
+) => ({
   type: ActionTypes.GET_PROFILE_DOWNVOTED_POSTS,
-  payload: username,
+  payload: { username, order, time },
 });
 
 export const getProfileDownvotedPostsCompletedAction = (userPosts: Post[]) => ({

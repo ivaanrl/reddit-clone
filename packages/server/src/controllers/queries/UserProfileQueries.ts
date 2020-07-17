@@ -102,48 +102,58 @@ const getProfilePostsByNew = async (currentUserId: string, userId: string) => {
 `);
 };
 
-export const getProfileUpvotesQuery = async (
+export const getProfileVotedPostQuery = async (
   userId: string,
   order: string,
-  sortTime: string
+  sortTime: string,
+  value: number
 ) => {
   switch (order) {
     case "new":
-      return await getProfileUpvotesByNew(userId);
+      return await getProfileVotedPostsByNew(userId, value);
     case "top":
-      return await getProfileUpvotesByTop(userId, sortTime);
+      return await getProfileVotedPostsByTop(userId, sortTime, value);
+    case "hot":
+      return await getProfileVotedPostsByHot(userId, value);
     default:
-      return await getProfileUpvotesByNew(userId);
+      return await getProfileVotedPostsByNew(userId, value);
   }
 };
 
-export const getProfileUpvotesByNew = async (userId: string) => {
+export const getProfileVotedPostsByNew = async (
+  userId: string,
+  value: number
+) => {
   return await sequelize.query(`
   SELECT DISTINCT posts.id, posts.title, posts."createdAt", posts."updatedAt", 
     posts.subreddit_name, votes.value AS "voteCount", votes.value AS "userVote" 
   FROM votes
   INNER JOIN posts 
     ON votes.post_id = posts.id
-  WHERE votes.author_id= '${userId}' AND value = 1
+  WHERE votes.author_id= '${userId}' AND value = ${value}
   ORDER BY "createdAt" DESC
     `);
 };
 
-export const getProfileUpvotedByHot = async (userId: string) => {
+export const getProfileVotedPostsByHot = async (
+  userId: string,
+  value: number
+) => {
   return await sequelize.query(`
-  SELECT DISTINCT posts.id, posts.title, posts."createdAt", posts."updatedAt", 
+  SELECT  posts.id, posts.title, posts."createdAt", posts."updatedAt", 
     posts.subreddit_name, votes.value AS "voteCount", votes.value AS "userVote" 
   FROM votes
   INNER JOIN posts 
     ON votes.post_id = posts.id
-  WHERE votes.author_id= '${userId}' AND value = 1
+  WHERE votes.author_id= '${userId}' AND value = ${value}
   ORDER BY (NOW() - posts."createdAt") / votes.value DESC
     `);
 };
 
-export const getProfileUpvotesByTop = async (
+export const getProfileVotedPostsByTop = async (
   userId: string,
-  sortTime: string
+  sortTime: string,
+  value: number
 ) => {
   const whereQuery = getWhereQuery(sortTime, userId);
 
@@ -153,17 +163,6 @@ export const getProfileUpvotesByTop = async (
   FROM votes
   INNER JOIN posts 
     ON votes.post_id = posts.id
-  ${whereQuery} AND value = 1
-    `);
-};
-
-export const getProfileDownvotesByNewQuery = async (userId: string) => {
-  return await sequelize.query(`
-  SELECT posts.id, posts.title, posts."createdAt", posts."updatedAt", 
-    posts.subreddit_name, votes.value AS "voteCount", votes.value AS "userVote" 
-  FROM votes
-  INNER JOIN posts 
-    ON votes.post_id = posts.id
-  WHERE votes.author_id= '${userId}' AND value = -1
+  ${whereQuery} AND value = ${value}
     `);
 };

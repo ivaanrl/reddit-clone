@@ -109,7 +109,7 @@ export function* getProfileSaved(profileInfo: {
 
 export function* getProfileDownvoted(profileInfo: {
   type: string;
-  payload: string;
+  payload: { username: string; order: string; time: string };
 }) {
   try {
     const profileReponse = yield call(
@@ -251,13 +251,19 @@ export const getProfileUpvotedRequest = (info: {
   return response;
 };
 
-export const getProfileDownvotedRequest = (username: string) => {
+export const getProfileDownvotedRequest = (info: {
+  username: string;
+  order: string;
+  time: string;
+}) => {
+  const { username, order, time } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
-      .get(APIUrl + "/user/getDownvotes/" + username);
+      .get(APIUrl + "/user/getDownvotes/" + username)
+      .query({ order, time });
   } catch (error) {
     response = error.response;
   }

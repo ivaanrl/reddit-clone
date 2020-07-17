@@ -4,24 +4,16 @@ import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import ProfilePostConnector from "../../../profilePost/ProfilePostConnector";
 import ProfileUnauthorized from "../../profileUnauthorized/ProfileUnauthorized";
+import ProfileOrderDownvotedBarConnector from "./ProfileOrderDownvotedBarConnector";
 
-interface Props {
-  getDownvotes: (username: string) => void;
-}
-
-const ProfileDownvotedView = (props: Props) => {
-  const { getDownvotes } = props;
-  const history = useHistory();
+const ProfileDownvotedView = () => {
   const currentUser = useSelector((state: State) => state.auth);
   const userProfile = useSelector((state: State) => state.profile);
-  useEffect(() => {
-    const username = history.location.pathname.split("/")[2];
-    getDownvotes(username);
-  }, [history, getDownvotes]);
   return (
     <React.Fragment>
       {userProfile.userInfo.username === currentUser.username ? (
         <div className="profile-container">
+          <ProfileOrderDownvotedBarConnector />
           {userProfile.posts.map((downvotedPost, index) => {
             const {
               id,

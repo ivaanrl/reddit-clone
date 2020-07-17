@@ -5,9 +5,7 @@ import ProfileDownvotedView from "./ui/ProfileDownvotedView";
 const ProfileDownvotedConnector = () => {
   return (
     <ProfileDowvotedPostsController>
-      {({ getDownvotes }) => (
-        <ProfileDownvotedView getDownvotes={getDownvotes} />
-      )}
+      {() => <ProfileDownvotedView />}
     </ProfileDowvotedPostsController>
   );
 };
