@@ -1,23 +1,11 @@
-import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React from "react";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import ProfilePostConnector from "../../../profilePost/ProfilePostConnector";
 import ProfileOrderPostsBarConnector from "./ProfileOrderPostsBarConnector";
 
-interface Props {
-  getProfilePosts: (username: string) => void;
-}
-
-const ProfilePostsView = (props: Props) => {
-  const { getProfilePosts } = props;
-  const location = useLocation();
+const ProfilePostsView = () => {
   const profilePosts = useSelector((state: State) => state.profile.posts);
-
-  useEffect(() => {
-    const username = location.pathname.split("/")[2];
-    getProfilePosts(username);
-  }, [getProfilePosts, location]);
 
   return (
     <div className="profile-container">

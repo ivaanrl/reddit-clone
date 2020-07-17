@@ -10,7 +10,7 @@ import { requireSameUser } from "../middleware/requireSameUser";
 import sequelize from "../models";
 import {
   getProfilePostsQuery,
-  getProfileUpvotesByNewQuery,
+  getProfileUpvotesQuery,
   getProfileDownvotesByNewQuery,
 } from "./queries/UserProfileQueries";
 
@@ -45,6 +45,8 @@ class UserController {
   async getProfilePosts(req: Request, res: Response) {
     const username = req.params.username;
     const order = req.query.order as string;
+    const sortTime = req.query.time as string;
+
     let user;
     const currentUser = await findCurrentUser(req.user);
     try {
@@ -58,12 +60,12 @@ class UserController {
         const userPosts = await getProfilePostsQuery(
           (currentUser as User).id,
           user.id,
-          order
+          order,
+          sortTime
         );
 
         return res.status(201).json({ posts: userPosts[0] });
       } catch (error) {
-        console.log(error);
         return res.status(501).json({ message: "Server internal error" });
       }
     } else {
@@ -76,6 +78,8 @@ class UserController {
   @use(requireSameUser)
   async getUpvotes(req: Request, res: Response) {
     const username = req.params.username;
+    const order = req.query.order as string;
+    const sortTime = req.query.time as string;
 
     let user;
     try {
@@ -86,7 +90,13 @@ class UserController {
 
     if (user instanceof User) {
       try {
-        const upvotedPosts = await getProfileUpvotesByNewQuery(user.id);
+        const upvotedPosts = await getProfileUpvotesQuery(
+          user.id,
+          order,
+          sortTime
+        );
+
+        console.log(upvotedPosts[0]);
 
         return res.status(201).json({ posts: upvotedPosts[0] });
       } catch (error) {

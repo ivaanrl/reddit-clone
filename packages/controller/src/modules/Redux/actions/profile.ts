@@ -21,9 +21,13 @@ export const getProfileFailed = (error: { status: number; text: string }) => ({
   payload: error,
 });
 
-export const getProfilePosts = (username: string, order: string) => ({
+export const getProfilePosts = (
+  username: string,
+  order: string,
+  time: string
+) => ({
   type: ActionTypes.GET_PROFILE_POSTS,
-  payload: { username, order },
+  payload: { username, order, time },
 });
 
 export const getProfilePostsCompletedAction = (
@@ -47,9 +51,13 @@ export const getProfilePostsFailed = (error: {
   payload: error,
 });
 
-export const getProfileUpvotedPosts = (username: string) => ({
+export const getProfileUpvotedPosts = (
+  username: string,
+  order: string,
+  time: string
+) => ({
   type: ActionTypes.GET_PROFILE_UPVOTED_POSTS,
-  payload: username,
+  payload: { username, order, time },
 });
 
 export const getProfileUpvotedPostsCompletedAction = (userPosts: Post[]) => ({

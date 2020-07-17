@@ -5,7 +5,7 @@ import ProfileUpvotedView from "./ui/ProfileUpvotedView";
 const ProfileUpvotedConnector = () => {
   return (
     <ProfileUpvotedPostsController>
-      {({ getUpvotes }) => <ProfileUpvotedView getUpvotes={getUpvotes} />}
+      {() => <ProfileUpvotedView />}
     </ProfileUpvotedPostsController>
   );
 };

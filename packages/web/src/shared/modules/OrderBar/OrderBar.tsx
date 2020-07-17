@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import "./OrderBar.scss";
+import { usePopper } from "react-popper";
+import OutsideAlerter from "../../outsideAlerter";
 
 interface Props {
-  getPosts: (username: string, order: string) => void;
+  getPosts: (username: string, order: string, time: string) => void;
 }
 
 const OrderBar = (props: Props) => {
@@ -12,16 +14,76 @@ const OrderBar = (props: Props) => {
 
   useEffect(() => {
     const sortOrder = location.search.split("&")[0].split("=")[1];
-    /*const timeSort =
+    const timeSort =
       location.search.split("&").length > 1
         ? location.search.split("&")[1].split("=")[1]
-        : "all_time"; */
+        : "all_time";
     setActiveOption(sortOrder);
+    const timeSortFormatted = timeSort
+      .split("_")
+      .map((str) => str.charAt(0).toUpperCase() + str.slice(1));
+    setTopTimeSort(timeSortFormatted.join(" "));
     const username = location.pathname.split("/")[2];
-    getPosts(username, sortOrder);
+    getPosts(username, sortOrder, timeSort);
   }, [location]);
 
   const [activeOption, setActiveOption] = useState("new");
+  const [topTimeSort, setTopTimeSort] = useState("");
+  const topTimeSortOptions = [
+    "Today",
+    "This Week",
+    "This Month",
+    "This Year",
+    "All Time",
+  ];
+
+  const sameWidth = React.useMemo(
+    () => ({
+      name: "sameWidth",
+      enabled: true,
+      phase: "beforeWrite" as
+        | "beforeWrite"
+        | "beforeRead"
+        | "read"
+        | "afterRead"
+        | "beforeMain"
+        | "main"
+        | "afterMain"
+        | "write"
+        | "afterWrite"
+        | undefined,
+      requires: ["computeStyles"],
+      fn: ({ state }: any) => {
+        state.styles.popper.width = `${state.rects.reference.width}px`;
+      },
+      effect: ({ state }: any) => () => {
+        state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
+      },
+    }),
+    []
+  );
+
+  const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
+    null
+  );
+  const [popperElement, setPopperElement] = useState<HTMLElement | null>();
+  const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    modifiers: [
+      sameWidth,
+      {
+        name: "preventOverflow",
+        options: {
+          boundary: referenceElement as HTMLElement,
+        },
+      },
+    ],
+  });
+
+  const handleTimeOptionClick = () => {
+    if (!popoverOpen) setPopoverOpen(true);
+  };
 
   return (
     <div className="order-bar-container">
@@ -87,6 +149,51 @@ const OrderBar = (props: Props) => {
         </svg>
         <span>Top</span>
       </Link>
+      {activeOption === "top" ? (
+        <div
+          className="order-bar-sort-option-container-active-bigger prever-reopen-order-bar"
+          ref={setReferenceElement}
+          onClick={handleTimeOptionClick}
+        >
+          <div className="order-bar-selected-option-container prever-reopen-order-bar">
+            <span>{topTimeSort}</span>{" "}
+            <i className="fa fa-caret-down order-bar-dropdown-arrow prever-reopen-order-bar"></i>
+          </div>
+          {popoverOpen ? (
+            <OutsideAlerter
+              setPopoverOpen={setPopoverOpen}
+              notCloseClass="prever-reopen-order-bar"
+            >
+              <div
+                className="order-bar-top-time-options-container"
+                ref={setPopperElement}
+                style={styles.popper}
+                {...attributes.popper}
+              >
+                {topTimeSortOptions.map((option) => {
+                  const timeSort = option
+                    .split(" ")
+                    .map((str) => str.charAt(0).toLowerCase() + str.slice(1));
+                  const timeSortFormatted = timeSort.join("_");
+                  return (
+                    <Link
+                      to={`${location.pathname}?sort=top&t=${timeSortFormatted}`}
+                      className={
+                        option === topTimeSort
+                          ? "order-bar-top-time-option-container-active"
+                          : "order-bar-top-time-option-container"
+                      }
+                      onClick={() => setPopoverOpen(false)}
+                    >
+                      {option}
+                    </Link>
+                  );
+                })}
+              </div>
+            </OutsideAlerter>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 };

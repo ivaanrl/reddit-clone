@@ -69,7 +69,7 @@ export function* replyCommentInProfile(commentInfo: {
 
 export function* getProfilePosts(profileInfo: {
   type: string;
-  payload: { username: string; order: string };
+  payload: { username: string; order: string; time: string };
 }) {
   try {
     const profileReponse = yield call(
@@ -129,7 +129,7 @@ export function* getProfileDownvoted(profileInfo: {
 
 export function* getProfileUpvoted(profileInfo: {
   type: string;
-  payload: string;
+  payload: { username: string; order: string; time: string };
 }) {
   try {
     const profileReponse = yield call(
@@ -231,13 +231,19 @@ export const getProfileCommentsRequest = (username: string) => {
   return response;
 };
 
-export const getProfileUpvotedRequest = (username: string) => {
+export const getProfileUpvotedRequest = (info: {
+  username: string;
+  order: string;
+  time: string;
+}) => {
+  const { username, order, time } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
-      .get(APIUrl + "/user/getUpvotes/" + username);
+      .get(APIUrl + "/user/getUpvotes/" + username)
+      .query({ order, time });
   } catch (error) {
     response = error.response;
   }
@@ -276,14 +282,15 @@ export const getProfileSavedRequest = (username: string) => {
 export const getProfilePostsRequest = (info: {
   username: string;
   order: string;
+  time: string;
 }) => {
-  const { order, username } = info;
+  const { order, username, time } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
-      .query({ order })
+      .query({ order, time })
       .get(APIUrl + "/user/getPosts/" + username);
   } catch (error) {
     response = error.response;

@@ -5,9 +5,7 @@ import ProfilePostsView from "./ui/ProfilePostsView";
 const ProfilePostsConnector = () => {
   return (
     <ProfilePostsController>
-      {({ getProfilePosts }) => (
-        <ProfilePostsView getProfilePosts={getProfilePosts} />
-      )}
+      {({}) => <ProfilePostsView />}
     </ProfilePostsController>
   );
 };
