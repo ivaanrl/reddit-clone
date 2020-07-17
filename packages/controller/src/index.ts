@@ -32,3 +32,4 @@ export * from "./modules/SearchBarController";
 export * from "./modules/ProfileOrderPostsBarController";
 export * from "./modules/ProfileOrderUpvotedBarController";
 export * from "./modules/ProfileOrderDownvotedBarController";
+export * from "./modules/ProfileOrderCommentsBarController";

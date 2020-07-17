@@ -3,23 +3,14 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import ProfileCommentConnector from "../profileComment/ProfileCommentConnector";
+import ProfileOrderCommentsBarConnector from "./ProfileOrderCommentsBarConnector";
 
-interface Props {
-  getComments: (username: string) => void;
-}
-
-const ProfileCommentsView = (props: Props) => {
-  const { getComments } = props;
-  const location = useLocation();
+const ProfileCommentsView = () => {
   const profileComments = useSelector((state: State) => state.profile.comments);
-
-  useEffect(() => {
-    const username = location.pathname.split("/")[2];
-    getComments(username);
-  }, [getComments, location]);
 
   return (
     <div className="profile-container">
+      <ProfileOrderCommentsBarConnector />
       {profileComments.map((comment) => {
         const {
           commentId,

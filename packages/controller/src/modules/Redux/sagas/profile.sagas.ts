@@ -149,7 +149,7 @@ export function* getProfileUpvoted(profileInfo: {
 
 export function* getProfileComments(profileInfo: {
   type: string;
-  payload: string;
+  payload: { username: string; order: string; time: string };
 }) {
   try {
     const profileReponse = yield call(
@@ -217,13 +217,19 @@ export const getProfileRequest = (username: string) => {
   return response;
 };
 
-export const getProfileCommentsRequest = (username: string) => {
+export const getProfileCommentsRequest = (info: {
+  username: string;
+  order: string;
+  time: string;
+}) => {
+  const { username, order, time } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
-      .get(APIUrl + "/user/getProfileComments/" + username);
+      .get(APIUrl + "/user/getProfileComments/" + username)
+      .query({ order, time });
   } catch (error) {
     response = error.response;
   }

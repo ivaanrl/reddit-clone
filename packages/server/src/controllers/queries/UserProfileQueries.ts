@@ -40,7 +40,7 @@ const getProfilePostsByTop = async (
       GROUP BY post_id
   ) AS vote_sum ON vote_sum.post_id = posts.id
   ${whereQuery}
-  ORDER BY (NOW() - posts."createdAt") / vote_count DESC
+  ORDER BY vote_count DESC
   `);
 };
 
@@ -164,5 +164,128 @@ export const getProfileVotedPostsByTop = async (
   INNER JOIN posts 
     ON votes.post_id = posts.id
   ${whereQuery} AND value = ${value}
+  ORDER BY votes.value DESC
     `);
+};
+
+export const getProfileCommentsQuery = async (
+  userId: string,
+  order: string,
+  sortTime: string
+) => {
+  console.log(sortTime);
+  switch (order) {
+    case "new":
+      return await getProfileCommentsByNew(userId);
+    case "top":
+      return await getProfileCommentsByTop(userId, sortTime);
+
+    case "hot":
+      return await getProfileCommentsByHot(userId);
+    default:
+      return await getProfileCommentsByNew(userId);
+  }
+};
+
+const getProfileCommentsByTop = async (userId: string, sortTime: string) => {
+  const whereQuery = getWhereQuery(sortTime, userId);
+
+  return (await sequelize.query(`
+  SELECT comments.id AS "commentId", comments.author_id AS "commentAuthorId",
+    comments.author_username AS "commentAuthorUsername",
+    comments.content AS "commentContent", comments."createdAt" AS "commentCreatedAt",
+    COALESCE(votes.votes_value,0) AS "commentVoteValue", posts.id AS "postId", 
+    posts.subreddit_name AS "postSubredditName",
+	  posts.author_username AS "postAuthorUsername", posts.title AS "postTitle"
+  FROM comments 
+  LEFT JOIN(
+    SELECT SUM(votes.value) as votes_value, votes.post_id FROM votes
+    GROUP BY votes.post_id
+  ) AS votes ON votes.post_id = comments.id
+  INNER JOIN posts 
+  ON comments.post_id = posts.id
+  ${whereQuery}
+  ORDER BY "commentVoteValue" DESC
+  `)) as [
+    {
+      commentId: string;
+      commentAuthorId: string;
+      commentAuthorUsername: string;
+      commentContent: string;
+      commentCreatedAt: string;
+      commentVoteValue: string;
+      postId: string;
+      postSubredditName: string;
+      postAuthorUsername: string;
+      postTitle: string;
+    }[],
+    unknown[]
+  ];
+};
+
+const getProfileCommentsByNew = async (userId: string) => {
+  return (await sequelize.query(`
+  SELECT comments.id AS "commentId", comments.author_id AS "commentAuthorId",
+    comments.author_username AS "commentAuthorUsername",
+    comments.content AS "commentContent", comments."createdAt" AS "commentCreatedAt",
+    COALESCE(votes.votes_value,0) AS "commentVoteValue", posts.id AS "postId", 
+    posts.subreddit_name AS "postSubredditName",
+	  posts.author_username AS "postAuthorUsername", posts.title AS "postTitle"
+  FROM comments 
+  LEFT JOIN(
+    SELECT SUM(votes.value) as votes_value, votes.post_id FROM votes
+    GROUP BY votes.post_id
+  ) AS votes ON votes.post_id = comments.id
+  INNER JOIN posts 
+  ON comments.post_id = posts.id
+  WHERE comments.author_id = '${userId}'
+  `)) as [
+    {
+      commentId: string;
+      commentAuthorId: string;
+      commentAuthorUsername: string;
+      commentContent: string;
+      commentCreatedAt: string;
+      commentVoteValue: string;
+      postId: string;
+      postSubredditName: string;
+      postAuthorUsername: string;
+      postTitle: string;
+    }[],
+    unknown[]
+  ];
+};
+
+const getProfileCommentsByHot = async (userId: string) => {
+  return (await sequelize.query(`
+  SELECT comments.id AS "commentId", comments.author_id AS "commentAuthorId",
+    comments.author_username AS "commentAuthorUsername",
+    comments.content AS "commentContent", comments."createdAt" AS "commentCreatedAt",
+    COALESCE(votes.votes_value,0) AS "commentVoteValue", posts.id AS "postId", 
+    posts.subreddit_name AS "postSubredditName",
+	  posts.author_username AS "postAuthorUsername", posts.title AS "postTitle"
+  FROM comments 
+  LEFT JOIN(
+    SELECT SUM(votes.value) as votes_value, votes.post_id FROM votes
+    GROUP BY votes.post_id
+  ) AS votes ON votes.post_id = comments.id
+  INNER JOIN posts 
+  ON comments.post_id = posts.id
+  WHERE comments.author_id = '${userId}'
+  ORDER BY (NOW() - comments."createdAt") / COALESCE(votes.votes_value,1) DESC
+  `)) as [
+    {
+      commentId: string;
+      commentAuthorId: string;
+      commentAuthorUsername: string;
+      commentContent: string;
+      commentCreatedAt: string;
+      commentVoteValue: string;
+      postId: string;
+      postSubredditName: string;
+      postAuthorUsername: string;
+      postTitle: string;
+    }[],
+    unknown[]
+  ];
 };

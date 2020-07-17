@@ -113,9 +113,13 @@ export const getProfileSavedPostsFailed = (error: {
   payload: error,
 });
 
-export const getProfileComments = (username: string) => ({
+export const getProfileComments = (
+  username: string,
+  order: string,
+  time: string
+) => ({
   type: ActionTypes.GET_PROFILE_COMMENTS,
-  payload: username,
+  payload: { username, order, time },
 });
 
 export const getProfileCommentsCompletedAction = (userPosts: Post[]) => ({

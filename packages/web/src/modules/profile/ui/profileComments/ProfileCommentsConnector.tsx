@@ -5,7 +5,7 @@ import ProfileCommentsView from "./ui/ProfileCommentsView";
 const ProfileCommentsConnector = () => {
   return (
     <ProfileCommentsController>
-      {({ getComments }) => <ProfileCommentsView getComments={getComments} />}
+      {() => <ProfileCommentsView />}
     </ProfileCommentsController>
   );
 };
