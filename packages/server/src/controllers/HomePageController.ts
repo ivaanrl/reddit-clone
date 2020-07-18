@@ -18,8 +18,6 @@ class HomePageController {
     let posts;
     if (currentUser instanceof User) {
       try {
-        console.log("#####################", order);
-        console.log(sortTime);
         posts = await getHomepagePostsQuery(
           currentUser.username,
           currentUser.id,

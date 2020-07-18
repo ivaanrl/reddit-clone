@@ -11,11 +11,12 @@ interface Props {
     time: string
   ) => void;
   getPostsHomepage?: (order: string, time: string) => void;
+  defaultSort: string;
 }
 
 const OrderBar = (props: Props) => {
   const location = useLocation();
-  const { getPostsHomepage, getPostsWithUsername } = props;
+  const { getPostsHomepage, getPostsWithUsername, defaultSort } = props;
 
   useEffect(() => {
     const sortOrder = location.search.split("&")[0].split("=")[1];
@@ -23,7 +24,7 @@ const OrderBar = (props: Props) => {
       location.search.split("&").length > 1
         ? location.search.split("&")[1].split("=")[1]
         : "all_time";
-    sortOrder ? setActiveOption(sortOrder) : setActiveOption("new");
+    sortOrder ? setActiveOption(sortOrder) : setActiveOption(defaultSort);
     const timeSortFormatted = timeSort
       .split("_")
       .map((str) => str.charAt(0).toUpperCase() + str.slice(1));
@@ -35,7 +36,7 @@ const OrderBar = (props: Props) => {
       const username = location.pathname.split("/")[2];
       getPostsWithUsername(username, sortOrder, timeSort);
     }
-  }, [location, getPostsHomepage, getPostsWithUsername]);
+  }, [location, getPostsHomepage, getPostsWithUsername, defaultSort]);
 
   const [activeOption, setActiveOption] = useState("new");
   const [topTimeSort, setTopTimeSort] = useState("");
@@ -98,6 +99,24 @@ const OrderBar = (props: Props) => {
   return (
     <div className="order-bar-container">
       <Link
+        to={`${location.pathname}?sort=hot`}
+        className={
+          activeOption === "hot"
+            ? "order-bar-sort-option-container-active"
+            : "order-bar-sort-option-container"
+        }
+      >
+        <svg
+          className="order-bar-hot-icon order-bar-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
+          <title>Hot</title>
+          <path d="M10.31.61a.5.5,0,0,0-.61,0C9.41.83,2.75,6.07,2.75,11.47a8.77,8.77,0,0,0,3.14,6.91.5.5,0,0,0,.75-.64,3.84,3.84,0,0,1-.55-2A7.2,7.2,0,0,1,10,9.56a7.2,7.2,0,0,1,3.91,6.23,3.84,3.84,0,0,1-.55,2,.5.5,0,0,0,.75.64,8.77,8.77,0,0,0,3.14-6.91C17.25,6.07,10.59.83,10.31.61Z"></path>
+        </svg>{" "}
+        <span>Hot</span>
+      </Link>
+      <Link
         to={`${location.pathname}?sort=new`}
         className={
           activeOption === "new"
@@ -118,24 +137,6 @@ const OrderBar = (props: Props) => {
           </g>
         </svg>{" "}
         <span>New</span>{" "}
-      </Link>
-      <Link
-        to={`${location.pathname}?sort=hot`}
-        className={
-          activeOption === "hot"
-            ? "order-bar-sort-option-container-active"
-            : "order-bar-sort-option-container"
-        }
-      >
-        <svg
-          className="order-bar-hot-icon order-bar-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-        >
-          <title>Hot</title>
-          <path d="M10.31.61a.5.5,0,0,0-.61,0C9.41.83,2.75,6.07,2.75,11.47a8.77,8.77,0,0,0,3.14,6.91.5.5,0,0,0,.75-.64,3.84,3.84,0,0,1-.55-2A7.2,7.2,0,0,1,10,9.56a7.2,7.2,0,0,1,3.91,6.23,3.84,3.84,0,0,1-.55,2,.5.5,0,0,0,.75.64,8.77,8.77,0,0,0,3.14-6.91C17.25,6.07,10.59.83,10.31.61Z"></path>
-        </svg>{" "}
-        <span>Hot</span>
       </Link>
       <Link
         to={`${location.pathname}?sort=top&t=all_time`}

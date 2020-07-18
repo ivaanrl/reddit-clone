@@ -5,7 +5,9 @@ import OrderBar from "../../../../../shared/modules/OrderBar/OrderBar";
 const ProfileOrderPostsBarConnector = () => {
   return (
     <ProfileOrderPostsBarController>
-      {({ getPosts }) => <OrderBar getPostsWithUsername={getPosts} />}
+      {({ getPosts }) => (
+        <OrderBar getPostsWithUsername={getPosts} defaultSort="new" />
+      )}
     </ProfileOrderPostsBarController>
   );
 };

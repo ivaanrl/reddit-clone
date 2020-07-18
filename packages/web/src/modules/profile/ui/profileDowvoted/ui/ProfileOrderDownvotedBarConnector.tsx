@@ -5,7 +5,9 @@ import OrderBar from "../../../../../shared/modules/OrderBar/OrderBar";
 const ProfileOrderDownvotedBarConnector = () => {
   return (
     <ProfileOrderDownvotedBarController>
-      {({ getDownvoted }) => <OrderBar getPostsWithUsername={getDownvoted} />}
+      {({ getDownvoted }) => (
+        <OrderBar getPostsWithUsername={getDownvoted} defaultSort="new" />
+      )}
     </ProfileOrderDownvotedBarController>
   );
 };

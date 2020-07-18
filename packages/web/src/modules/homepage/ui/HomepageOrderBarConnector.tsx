@@ -5,7 +5,9 @@ import { HomepageOrderController } from "@reddit-clone/controller";
 const HomepageOrderBarConnector = () => {
   return (
     <HomepageOrderController>
-      {({ getPosts }) => <OrderBar getPostsHomepage={getPosts} />}
+      {({ getPosts }) => (
+        <OrderBar getPostsHomepage={getPosts} defaultSort="hot" />
+      )}
     </HomepageOrderController>
   );
 };
