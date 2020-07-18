@@ -7,9 +7,7 @@ import "./HomepageConnector.scss";
 const HomepageConnector = () => {
   return (
     <div className="main-container">
-      <HomepageController>
-        {({ getPosts }) => <HomepageView getPosts={getPosts} />}
-      </HomepageController>
+      <HomepageController>{() => <HomepageView />}</HomepageController>
       <SidebarConnector />
     </div>
   );

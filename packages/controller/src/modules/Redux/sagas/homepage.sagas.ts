@@ -11,9 +11,12 @@ export function* watchGetHomepagePosts() {
   yield takeEvery(ActionTypes.GET_HOMEPAGE_POSTS, getHomepagePosts);
 }
 
-export function* getHomepagePosts(_info: { type: string }) {
+export function* getHomepagePosts(info: {
+  type: string;
+  payload: { order: string; time: string };
+}) {
   try {
-    const homepageResponse = yield call(getHomepagePostsRequest);
+    const homepageResponse = yield call(getHomepagePostsRequest, info.payload);
 
     yield put(getHomepagePostsCompletedAction(homepageResponse.body));
   } catch (error) {
@@ -26,14 +29,18 @@ export function* getHomepagePosts(_info: { type: string }) {
   }
 }
 
-export const getHomepagePostsRequest = () => {
+export const getHomepagePostsRequest = (info: {
+  order: string;
+  time: string;
+}) => {
+  const { order, time } = info;
   let response;
-
   try {
     response = superagent
       .agent()
       .withCredentials()
-      .get(APIUrl + "/homepage/getPosts");
+      .get(APIUrl + "/homepage/getPosts")
+      .query({ order, time });
   } catch (error) {
     response = error.response;
   }

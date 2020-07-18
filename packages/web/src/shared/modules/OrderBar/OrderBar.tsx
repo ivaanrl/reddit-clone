@@ -5,12 +5,17 @@ import { usePopper } from "react-popper";
 import OutsideAlerter from "../../outsideAlerter";
 
 interface Props {
-  getPosts: (username: string, order: string, time: string) => void;
+  getPostsWithUsername?: (
+    username: string,
+    order: string,
+    time: string
+  ) => void;
+  getPostsHomepage?: (order: string, time: string) => void;
 }
 
 const OrderBar = (props: Props) => {
   const location = useLocation();
-  const { getPosts } = props;
+  const { getPostsHomepage, getPostsWithUsername } = props;
 
   useEffect(() => {
     const sortOrder = location.search.split("&")[0].split("=")[1];
@@ -18,13 +23,18 @@ const OrderBar = (props: Props) => {
       location.search.split("&").length > 1
         ? location.search.split("&")[1].split("=")[1]
         : "all_time";
-    setActiveOption(sortOrder);
+    sortOrder ? setActiveOption(sortOrder) : setActiveOption("new");
     const timeSortFormatted = timeSort
       .split("_")
       .map((str) => str.charAt(0).toUpperCase() + str.slice(1));
     setTopTimeSort(timeSortFormatted.join(" "));
-    const username = location.pathname.split("/")[2];
-    getPosts(username, sortOrder, timeSort);
+
+    if (getPostsHomepage) {
+      getPostsHomepage(sortOrder, timeSort);
+    } else if (getPostsWithUsername) {
+      const username = location.pathname.split("/")[2];
+      getPostsWithUsername(username, sortOrder, timeSort);
+    }
   }, [location]);
 
   const [activeOption, setActiveOption] = useState("new");

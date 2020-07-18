@@ -1,20 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Homepage.scss";
 import PostsConnector from "../../posts/PostsConnector";
+import HomepageOrderBarConnector from "./HomepageOrderBarConnector";
 
-interface Props {
-  getPosts: () => void;
-}
-
-const HomepageView = (props: Props) => {
-  const { getPosts } = props;
-
-  useEffect(() => {
-    getPosts();
-  }, [getPosts]);
-
+const HomepageView = () => {
   return (
     <div className="homepage-container">
+      <HomepageOrderBarConnector />
       <PostsConnector />
     </div>
   );

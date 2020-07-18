@@ -45,7 +45,6 @@ const getProfilePostsByTop = async (
 };
 
 const getWhereQuery = (sortTime: string, userId: string) => {
-  console.log(sortTime);
   switch (sortTime) {
     case "all_time":
       return `WHERE posts.author_id='${userId}'`;

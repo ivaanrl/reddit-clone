@@ -4,7 +4,6 @@ import "../services/passport";
 import { User } from "../models/User";
 import { requireLogin } from "../middleware/requireLogin";
 import { findCurrentUser } from "../helpers";
-import { Post } from "../models/Post";
 import { requireSameUser } from "../middleware/requireSameUser";
 import {
   getProfilePostsQuery,
