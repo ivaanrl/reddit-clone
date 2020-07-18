@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React from "react";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import ProfileCommentConnector from "../profileComment/ProfileCommentConnector";
