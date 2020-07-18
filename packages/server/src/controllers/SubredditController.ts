@@ -8,11 +8,9 @@ import { requireLogin } from "../middleware/requireLogin";
 import { User_Subreddit } from "../models/User_Subreddit";
 import { Op } from "sequelize";
 import { getSubreddit, findCurrentUser, createSub } from "../helpers";
-import { Vote } from "../models/Vote";
-import sequelize from "../models";
 import {
   getSubredditSignedInQuery,
-  getSubredditPostsSignedInQuery,
+  getSubredditPostsQuery,
 } from "./queries/SubredditQueries";
 
 const {
@@ -60,6 +58,9 @@ class SubrredditController {
   @get("/getSubreddit/:name")
   async getSubreddit(req: Request, res: Response) {
     const { name } = req.params;
+    const order = req.query.order as string;
+    const sortTime = req.query.time as string;
+
     const user = await findCurrentUser(req.user);
     let subredditResult;
     if (user instanceof User) {
@@ -104,11 +105,17 @@ class SubrredditController {
       }
 
       try {
-        const postQuery = await getSubredditPostsSignedInQuery(user.id, name);
+        const postQuery = await getSubredditPostsQuery(
+          user.id,
+          name,
+          order,
+          sortTime
+        );
 
         subredditResult = { ...subredditResult, ...{ posts: postQuery[0] } };
         return res.status(201).json(subredditResult);
       } catch (error) {
+        console.log(error);
         return res.status(501).json({ message: server_error });
       }
     }

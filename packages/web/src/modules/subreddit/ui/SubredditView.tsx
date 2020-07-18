@@ -2,18 +2,16 @@ import React, { useEffect, useState } from "react";
 import "./Subreddit.scss";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
-import { useHistory } from "react-router-dom";
 import SubredditSidebarConnector from "../sidebar/SubredditSidebarConnector";
 import PostsConnector from "../../posts/PostsConnector";
+import SubredditOrderConnector from "./SubredditOrderConnector";
 
 interface Props {
-  getSubreddit: (subName: string) => void;
   joinOrLeaveSubreddit: (subName: string) => void;
 }
 
 const SubredditView = (props: Props) => {
-  const { getSubreddit, joinOrLeaveSubreddit } = props;
-  const { pathname } = useHistory().location;
+  const { joinOrLeaveSubreddit } = props;
   const { name, isUserJoined } = useSelector((state: State) => state.subreddit);
 
   const handleJoinOrLeave = () => {
@@ -77,10 +75,6 @@ const SubredditView = (props: Props) => {
     }
   }, [isUserJoined, name]);
 
-  useEffect(() => {
-    getSubreddit(pathname.split("/")[2]);
-  }, [pathname, getSubreddit]);
-
   return (
     <React.Fragment>
       <div className="subreddit-header">
@@ -106,6 +100,7 @@ const SubredditView = (props: Props) => {
       </div>
       <div className="main-container">
         <div className="homepage-container">
+          <SubredditOrderConnector />
           <PostsConnector />
         </div>
         <SubredditSidebarConnector />

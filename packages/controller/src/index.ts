@@ -34,3 +34,4 @@ export * from "./modules/ProfileOrderUpvotedBarController";
 export * from "./modules/ProfileOrderDownvotedBarController";
 export * from "./modules/ProfileOrderCommentsBarController";
 export * from "./modules/HomepageOrderController";
+export * from "./modules/SubredditOrderController";

@@ -36,7 +36,7 @@ const OrderBar = (props: Props) => {
       const username = location.pathname.split("/")[2];
       getPostsWithUsername(username, sortOrder, timeSort);
     }
-  }, [location, getPostsHomepage, getPostsWithUsername, defaultSort]);
+  }, [location, defaultSort]);
 
   const [activeOption, setActiveOption] = useState("new");
   const [topTimeSort, setTopTimeSort] = useState("");

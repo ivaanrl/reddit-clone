@@ -5,11 +5,8 @@ import SubredditView from "./ui/SubredditView";
 const SubredditConnector = () => {
   return (
     <SubredditController>
-      {({ getSubreddit, joinOrLeaveSubreddit }) => (
-        <SubredditView
-          getSubreddit={getSubreddit}
-          joinOrLeaveSubreddit={joinOrLeaveSubreddit}
-        />
+      {({ joinOrLeaveSubreddit }) => (
+        <SubredditView joinOrLeaveSubreddit={joinOrLeaveSubreddit} />
       )}
     </SubredditController>
   );

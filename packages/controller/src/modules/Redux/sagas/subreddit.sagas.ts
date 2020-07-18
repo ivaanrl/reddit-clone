@@ -21,7 +21,10 @@ export function* watchJoinOrLeaveSubreddit() {
   yield takeEvery(ActionTypes.JOIN_LEAVE_SUBREDDIT, joinOrLeaveSubreddit);
 }
 
-export function* getSubreddit(subInfo: { type: string; payload: string }) {
+export function* getSubreddit(subInfo: {
+  type: string;
+  payload: { subName: string; order: string; time: string };
+}) {
   try {
     const subResponse = yield call(getSubredditRequest, subInfo.payload);
 
@@ -62,13 +65,19 @@ export const joinOrLeaveRequest = (subName: string) => {
   return response;
 };
 
-export const getSubredditRequest = (subName: string) => {
+export const getSubredditRequest = (info: {
+  subName: string;
+  order: string;
+  time: string;
+}) => {
+  const { subName, order, time } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
-      .get(APIUrl + "/subreddit/getSubreddit/" + subName);
+      .get(APIUrl + "/subreddit/getSubreddit/" + subName)
+      .query({ order, time });
   } catch (error) {
     response = error.response;
   }
