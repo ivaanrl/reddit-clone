@@ -21,6 +21,7 @@ interface Props {
     comment_count: number;
   };
   vote: (id: string, voteValue: number, index: number) => void;
+  showSubredditName: boolean;
 }
 
 const PostView = (props: Props) => {
@@ -37,7 +38,7 @@ const PostView = (props: Props) => {
     comment_count,
   } = props.postInfo;
 
-  const { sanitizeContent, formatDate, vote } = props;
+  const { sanitizeContent, formatDate, vote, showSubredditName } = props;
 
   return (
     <div className="post-container">
@@ -56,6 +57,14 @@ const PostView = (props: Props) => {
           className="main-content"
         >
           <div className="create-date" title="post-create-date">
+            {showSubredditName ? (
+              <NavLink
+                to={`/r/${subreddit_name}`}
+                className="post-link-to-subreddit"
+              >
+                r/{subreddit_name}&nbsp;
+              </NavLink>
+            ) : null}
             <div className="postedBy">Posted by </div>&nbsp;
             <NavLink to={`/u/${author_username}`} className="post-navlink">
               {author_username}

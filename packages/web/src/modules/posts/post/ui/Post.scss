@@ -146,3 +146,11 @@
     text-decoration: underline;
   }
 }
+
+.post-link-to-subreddit {
+  @include theme-aware("color", "text-main");
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

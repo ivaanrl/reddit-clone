@@ -17,6 +17,7 @@ interface Props {
     index: number;
     comment_count: number;
   };
+  showSubredditName: boolean;
 }
 
 const PostConnector = (props: Props) => {
@@ -28,6 +29,7 @@ const PostConnector = (props: Props) => {
           formatDate={formatDate}
           sanitizeContent={sanitizeContent}
           vote={vote}
+          showSubredditName={props.showSubredditName}
         />
       )}
     </PostController>

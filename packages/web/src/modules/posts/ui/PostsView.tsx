@@ -13,7 +13,13 @@ const PostsView = () => {
     <div className="posts-container" title="posts">
       {subreddit.posts && location.length > 1 ? (
         subreddit.posts.map((post, index) => {
-          return <PostConnector key={index} postInfo={{ ...post, index }} />;
+          return (
+            <PostConnector
+              key={index}
+              postInfo={{ ...post, index }}
+              showSubredditName={false}
+            />
+          );
         })
       ) : (
         <div>
@@ -24,7 +30,13 @@ const PostsView = () => {
       )}
       {homepage.posts
         ? homepage.posts.map((post, index) => {
-            return <PostConnector key={index} postInfo={{ ...post, index }} />;
+            return (
+              <PostConnector
+                key={index}
+                postInfo={{ ...post, index }}
+                showSubredditName={true}
+              />
+            );
           })
         : null}
     </div>
