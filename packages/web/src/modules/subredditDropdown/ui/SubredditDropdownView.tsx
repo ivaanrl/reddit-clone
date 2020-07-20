@@ -2,22 +2,34 @@ import React, { useEffect, useState } from "react";
 import "./SubredditDropdown.scss";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
-import { useHistory, useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { usePopper } from "react-popper";
 import OutsideAlerter from "../../../shared/outsideAlerter";
+import RedditFeedHome from "./RedditFeedOptions/RedditFeedHome";
+import SubredditDropdownDefaultSVG from "../../../shared/svgs/SubredditDropdownDefaultSVG";
+import SubredditDropdownHomeSVG from "../../../shared/svgs/SubredditDropdownHomeSVG";
 
-const SubredditDropdownView = () => {
+interface Props {
+  showRedditFeed: boolean;
+}
+
+const SubredditDropdownView = (props: Props) => {
+  const { showRedditFeed } = props;
   const subsOptions = useSelector((state: State) => state.auth.userSubs);
-  //const history = useHistory();
   const location = useLocation();
+  const [selectedSubredditIcon, setSelectedSubredditIcon] = useState(
+    <SubredditDropdownHomeSVG />
+  );
   const [selectedSubreddit, setSelectedSubreddit] = useState("Home");
 
   useEffect(() => {
     const pathname = location.pathname.split("/");
     if (pathname.length > 2) {
       setSelectedSubreddit(pathname[2]);
+      setSelectedSubredditIcon(<SubredditDropdownDefaultSVG />);
     } else {
       setSelectedSubreddit("Home");
+      setSelectedSubredditIcon(<SubredditDropdownHomeSVG />);
     }
   }, [location]);
 
@@ -52,7 +64,7 @@ const SubredditDropdownView = () => {
         ref={setReferenceElement}
       >
         <div className="subreddit-dropdown-icon-name-container prevent-reopen-subreddit-dropdown">
-          <div className="subreddit-dropdown-icon prevent-reopen-subreddit-dropdown"></div>
+          {selectedSubredditIcon}
           <div className="subreddit-dropdown-selected-name prevent-reopen-subreddit-dropdown">
             {selectedSubreddit}
           </div>
@@ -70,6 +82,15 @@ const SubredditDropdownView = () => {
             style={styles.poppper}
             {...attributes.poppper}
           >
+            {showRedditFeed ? (
+              <React.Fragment>
+                <div className="subreddit-dropdown-options-subtitle">
+                  REDDIT FEEDS
+                </div>
+                <RedditFeedHome setPopoverOpen={setPopoverOpen} />
+              </React.Fragment>
+            ) : null}
+
             <div className="subreddit-dropdown-options-subtitle">
               MY COMMUNITIES
             </div>
@@ -80,7 +101,7 @@ const SubredditDropdownView = () => {
                   className="subreddit-dropdown-option-container"
                   onClick={() => setPopoverOpen(false)}
                 >
-                  <div className="subreddit-dropdown-icon"></div>
+                  <SubredditDropdownDefaultSVG />
                   <div className="subreddit-dropdown-option-name">
                     {option.name}
                   </div>

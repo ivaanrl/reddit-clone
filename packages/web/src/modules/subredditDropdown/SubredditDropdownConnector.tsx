@@ -2,10 +2,15 @@ import React from "react";
 import { SubredditDropdownController } from "@reddit-clone/controller";
 import SubredditDropdownView from "./ui/SubredditDropdownView";
 
-const SubredditDropdownConnector = () => {
+interface Props {
+  showRedditFeeds: boolean;
+}
+
+const SubredditDropdownConnector = (props: Props) => {
+  const { showRedditFeeds } = props;
   return (
     <SubredditDropdownController>
-      {() => <SubredditDropdownView />}
+      {() => <SubredditDropdownView showRedditFeed={showRedditFeeds} />}
     </SubredditDropdownController>
   );
 };

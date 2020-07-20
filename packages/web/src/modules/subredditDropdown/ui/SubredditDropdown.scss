@@ -36,13 +36,6 @@
   @include theme-aware("color", "text-muted");
 }
 
-.subreddit-dropdown-icon {
-  height: 22px;
-  width: 22px;
-  border-radius: 100%;
-  background-color: $link-color;
-}
-
 .subreddit-dropdown-options-container {
   box-sizing: border-box;
   padding: 15px;
@@ -67,6 +60,7 @@
 .subreddit-dropdown-option-name {
   @include theme-aware("color", "text-main");
   margin-left: 10px;
+  font-size: 14px;
 }
 
 .subreddit-dropdown-options-subtitle {

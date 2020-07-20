@@ -1,0 +1,16 @@
+@import "../../color-palette";
+
+.subreddit-dropdown-icon {
+  max-height: 22px;
+  max-width: 22px;
+  border-radius: 100%;
+  fill: $link-color;
+}
+
+.subreddit-dropdown-icon-default {
+  @extend .subreddit-dropdown-icon;
+  box-sizing: border-box;
+  fill: #ffffff;
+  border: 1px solid #ffffff;
+  padding: 2px;
+}

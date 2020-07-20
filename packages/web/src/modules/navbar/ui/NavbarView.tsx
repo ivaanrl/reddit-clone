@@ -205,7 +205,7 @@ const NavbarView = (props: Props) => {
             </a>
           </div>
           <div className="navbar-subreddit-dropdown-container">
-            <SubredditDropdownConnector />
+            <SubredditDropdownConnector showRedditFeeds={true} />
           </div>
         </div>
         <div className="navbar-search">
