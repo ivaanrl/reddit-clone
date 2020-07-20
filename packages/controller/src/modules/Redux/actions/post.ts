@@ -1,10 +1,15 @@
 import { ActionTypes } from "./types";
 
-export const createPost = (post: {
-  subName: string;
-  title: string;
-  content: string[];
-}) => ({
+export const createPost = (
+  post:
+    | {
+        subName: string;
+        title: string;
+        content: string[];
+        type: string;
+      }
+    | { subName: string; title: string; link: string; type: string }
+) => ({
   type: ActionTypes.CREATE_POST,
   payload: post,
 });
