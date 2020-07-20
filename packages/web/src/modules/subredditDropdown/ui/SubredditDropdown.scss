@@ -1,0 +1,79 @@
+@import "../../../color-palette";
+
+.navbar-subreddit-dropdown {
+  box-sizing: border-box;
+  width: 100%;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.subreddit-dropdown-selected {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border: 1px solid;
+  border-radius: 4px;
+  @include theme-aware("border-color", "color-card");
+  &:hover {
+    @include theme-aware("border-color", "color-line");
+  }
+}
+
+.subreddit-dropdown-icon-name-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.subreddit-dropdown-selected-name {
+  @include theme-aware("color", "text-main");
+  margin-left: 10px;
+}
+
+.subreddit-dropdown-caret-down {
+  @include theme-aware("color", "text-muted");
+}
+
+.subreddit-dropdown-icon {
+  height: 22px;
+  width: 22px;
+  border-radius: 100%;
+  background-color: $link-color;
+}
+
+.subreddit-dropdown-options-container {
+  box-sizing: border-box;
+  padding: 15px;
+  width: 278px;
+  max-height: 480px;
+  overflow-y: scroll;
+  @include theme-aware("background-color", "color-card");
+}
+
+.subreddit-dropdown-option-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 5px;
+  &:hover {
+    cursor: pointer;
+    @include theme-aware("background-color", "input-background");
+  }
+}
+
+.subreddit-dropdown-option-name {
+  @include theme-aware("color", "text-main");
+  margin-left: 10px;
+}
+
+.subreddit-dropdown-options-subtitle {
+  font-size: 10px;
+  font-weight: 500;
+  @include theme-aware("color", "text-muted");
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+}

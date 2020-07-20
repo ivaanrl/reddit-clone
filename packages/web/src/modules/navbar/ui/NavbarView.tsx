@@ -16,6 +16,7 @@ import {
   setThemeInLocalStorage,
 } from "../../../shared/localStorage";
 import SearchBarConnector from "../searchbar/SearchBarConnector";
+import SubredditDropdownConnector from "../../subredditDropdown/SubredditDropdownConnector";
 
 interface Props {
   search: (searchValue: string) => string | null;
@@ -203,15 +204,8 @@ const NavbarView = (props: Props) => {
               </svg>
             </a>
           </div>
-          <div className="navbar-subreddit-dropdown" title="subredditDropdown">
-            <Select
-              className="react-select"
-              classNamePrefix="react-select"
-              placeholder="Select subreddit..."
-              defaultValue={getDefaultValue()}
-              options={subsOptions}
-              onChange={handleSubredditDropdownChange}
-            />
+          <div className="navbar-subreddit-dropdown-container">
+            <SubredditDropdownConnector />
           </div>
         </div>
         <div className="navbar-search">
