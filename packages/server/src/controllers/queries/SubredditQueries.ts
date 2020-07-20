@@ -58,7 +58,7 @@ export const getSubredditPostsQuery = async (
     case "top":
       return await getSubredditPostsByTop(userId, subredditName, sortTime);
     default:
-      return await getSubredditPostsByNew(userId, subredditName);
+      return await getSubredditPostsByHot(userId, subredditName);
   }
 };
 

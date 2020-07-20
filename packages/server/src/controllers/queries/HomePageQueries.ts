@@ -14,7 +14,7 @@ export const getHomepagePostsQuery = async (
     case "top":
       return await getHomepagePostsByTop(username, userId, sortTime);
     default:
-      return await getHomepagePostsByNew(username, userId);
+      return await getHomepagePostsByHot(username, userId);
   }
 };
 
