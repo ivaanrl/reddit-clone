@@ -7,29 +7,44 @@ import { usePopper } from "react-popper";
 import OutsideAlerter from "../../../shared/outsideAlerter";
 import RedditFeedHome from "./RedditFeedOptions/RedditFeedHome";
 import SubredditDropdownDefaultSVG from "../../../shared/svgs/SubredditDropdownDefaultSVG";
-import SubredditDropdownHomeSVG from "../../../shared/svgs/SubredditDropdownHomeSVG";
+import SubredditDropdownCreatePostSVG from "../../../shared/svgs/SubredditDropdownCreatePostSVG";
 
 interface Props {
-  showRedditFeed: boolean;
+  isNavbarDropdown: boolean;
+  defaultIcon: JSX.Element;
+  defaultText: string;
+  useSameWidth: boolean;
+  addToRedirectPath: string;
 }
 
 const SubredditDropdownView = (props: Props) => {
-  const { showRedditFeed } = props;
+  const {
+    isNavbarDropdown,
+    defaultIcon,
+    defaultText,
+    useSameWidth,
+    addToRedirectPath,
+  } = props;
   const subsOptions = useSelector((state: State) => state.auth.userSubs);
   const location = useLocation();
-  const [selectedSubredditIcon, setSelectedSubredditIcon] = useState(
-    <SubredditDropdownHomeSVG />
+  const [selectedSubredditIcon, setSelectedSubredditIcon] = useState<
+    JSX.Element
+  >(defaultIcon);
+  const [selectedSubreddit, setSelectedSubreddit] = useState<string>(
+    defaultText
   );
-  const [selectedSubreddit, setSelectedSubreddit] = useState("Home");
 
   useEffect(() => {
     const pathname = location.pathname.split("/");
-    if (pathname.length > 2) {
+    if (pathname.includes("submit") && isNavbarDropdown) {
+      setSelectedSubreddit("Create Post");
+      setSelectedSubredditIcon(<SubredditDropdownCreatePostSVG />);
+    } else if (pathname.length > 2) {
       setSelectedSubreddit(pathname[2]);
       setSelectedSubredditIcon(<SubredditDropdownDefaultSVG />);
     } else {
-      setSelectedSubreddit("Home");
-      setSelectedSubredditIcon(<SubredditDropdownHomeSVG />);
+      setSelectedSubreddit(defaultText);
+      setSelectedSubredditIcon(defaultIcon);
     }
   }, [location]);
 
@@ -39,8 +54,35 @@ const SubredditDropdownView = (props: Props) => {
   const [popperElement, setPopperElement] = useState<HTMLElement | null>();
   const [popoverOpen, setPopoverOpen] = useState(false);
 
+  const sameWidth = React.useMemo(
+    () => ({
+      name: "sameWidth",
+      enabled: useSameWidth,
+      phase: "beforeWrite" as
+        | "beforeWrite"
+        | "beforeRead"
+        | "read"
+        | "afterRead"
+        | "beforeMain"
+        | "main"
+        | "afterMain"
+        | "write"
+        | "afterWrite"
+        | undefined,
+      requires: ["computeStyles"],
+      fn: ({ state }: any) => {
+        state.styles.popper.width = `${state.rects.reference.width}px`;
+      },
+      effect: ({ state }: any) => () => {
+        state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
+      },
+    }),
+    []
+  );
+
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     modifiers: [
+      sameWidth,
       {
         name: "preventOverflow",
         options: {
@@ -82,7 +124,7 @@ const SubredditDropdownView = (props: Props) => {
             style={styles.poppper}
             {...attributes.poppper}
           >
-            {showRedditFeed ? (
+            {isNavbarDropdown ? (
               <React.Fragment>
                 <div className="subreddit-dropdown-options-subtitle">
                   REDDIT FEEDS
@@ -97,7 +139,7 @@ const SubredditDropdownView = (props: Props) => {
             {subsOptions.map((option) => {
               return (
                 <Link
-                  to={`/r/${option.name}`}
+                  to={`/r/${option.name}/${addToRedirectPath}`}
                   className="subreddit-dropdown-option-container"
                   onClick={() => setPopoverOpen(false)}
                 >

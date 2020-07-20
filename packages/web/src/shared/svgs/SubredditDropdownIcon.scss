@@ -14,3 +14,13 @@
   border: 1px solid #ffffff;
   padding: 2px;
 }
+
+.subreddit-dropdown-choose-community {
+  height: 22px;
+  width: 22px;
+  border: 1px solid;
+  border-style: dashed;
+  border-radius: 100%;
+  @include theme-aware("background-color", "color-card");
+  @include theme-aware("border-color", "highlight-selection");
+}

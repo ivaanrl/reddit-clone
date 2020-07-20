@@ -3,7 +3,13 @@
 .create-post-container {
   box-sizing: border-box;
   padding: 24px;
-  width: 100%;
+  width: 45%;
+}
+
+.create-post-main-title {
+  @include theme-aware("color", "text-main");
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .create-post-select-container {

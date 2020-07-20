@@ -7,8 +7,6 @@ import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import SignupFormConnector from "../../signupForm/SignupFormConnector";
 import SigninFormConnector from "../../signinForm/SigninFormConnector";
-import Select, { ActionMeta, ValueType } from "react-select";
-import { getSubredditsForDropdown } from "../../../shared/getSubredditsForDropdown";
 import { useHistory } from "react-router-dom";
 import {
   deleteUserFromLocalStorage,
@@ -17,6 +15,7 @@ import {
 } from "../../../shared/localStorage";
 import SearchBarConnector from "../searchbar/SearchBarConnector";
 import SubredditDropdownConnector from "../../subredditDropdown/SubredditDropdownConnector";
+import SubredditDropdownHomeSVG from "../../../shared/svgs/SubredditDropdownHomeSVG";
 
 interface Props {
   search: (searchValue: string) => string | null;
@@ -27,7 +26,6 @@ const NavbarView = (props: Props) => {
   const user = useSelector((state: State) => state.auth);
   const { signoutUser } = props;
   const history = useHistory();
-  const subsOptions = getSubredditsForDropdown(user.userSubs, true);
 
   const [svgColor, setSvgColor] = useState("#FFFFFF");
   const [redditLogoColor, setRedditLogoColor] = useState("#D7DADC");
@@ -140,34 +138,6 @@ const NavbarView = (props: Props) => {
     deleteUserFromLocalStorage();
   };
 
-  const handleSubredditDropdownChange = (
-    value: ValueType<{ value: string; label: string }>,
-    actionMeta: ActionMeta<{ value: string; label: string }>
-  ) => {
-    const selected = value as { value: string; label: string };
-    if (selected.value === "home") {
-      history.push("");
-    } else {
-      history.push(`/r/${selected.value}`);
-    }
-  };
-
-  const getDefaultValue = () => {
-    const { pathname } = history.location;
-    if (pathname === "/") {
-      return {
-        value: "home",
-        label: "Home",
-      };
-    } else {
-      const sub = pathname.split("/")[2];
-      return {
-        value: sub,
-        label: sub,
-      };
-    }
-  };
-
   return (
     <React.Fragment>
       <div className="navbar-container">
@@ -205,7 +175,13 @@ const NavbarView = (props: Props) => {
             </a>
           </div>
           <div className="navbar-subreddit-dropdown-container">
-            <SubredditDropdownConnector showRedditFeeds={true} />
+            <SubredditDropdownConnector
+              isNavbarDropdown={true}
+              defaultText="Home"
+              defaultIcon={<SubredditDropdownHomeSVG />}
+              useSameWidth={false}
+              addToRedirectPath=""
+            />
           </div>
         </div>
         <div className="navbar-search">

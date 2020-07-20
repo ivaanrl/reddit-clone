@@ -16,6 +16,7 @@
   padding: 8px;
   border: 1px solid;
   border-radius: 4px;
+  @include theme-aware("background-color", "color-card");
   @include theme-aware("border-color", "color-card");
   &:hover {
     @include theme-aware("border-color", "color-line");
@@ -39,7 +40,8 @@
 .subreddit-dropdown-options-container {
   box-sizing: border-box;
   padding: 15px;
-  width: 278px;
+  min-width: 278px;
+  //max-width: 278px;
   max-height: 480px;
   overflow-y: scroll;
   @include theme-aware("background-color", "color-card");
