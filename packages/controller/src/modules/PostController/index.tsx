@@ -5,7 +5,7 @@ import { formatDate } from "../../shared/formatDate";
 
 interface Props {
   children: (data: {
-    sanitizeContent: (content: string[]) => { __html: string };
+    sanitizeContent: (content: string[] | null) => { __html: string };
     formatDate: (date: string) => string;
     vote: (id: string, voteValue: number, index: number) => void;
   }) => JSX.Element;

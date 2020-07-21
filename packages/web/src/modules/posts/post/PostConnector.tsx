@@ -6,7 +6,7 @@ interface Props {
   postInfo: {
     author_id: string;
     author_username: string;
-    content: string[];
+    content: string[] | null;
     createdAt: string;
     updatedAt: string;
     subreddit_name: string;
@@ -16,6 +16,8 @@ interface Props {
     user_vote: number;
     index: number;
     comment_count: number;
+    link: string | null;
+    type: string;
   };
   showSubredditName: boolean;
 }

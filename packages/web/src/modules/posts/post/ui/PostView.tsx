@@ -2,14 +2,15 @@ import React from "react";
 import "./Post.scss";
 import { NavLink } from "react-router-dom";
 import Vote from "../../vote/Vote";
+import { ReactTinyLink } from "react-tiny-link";
 
 interface Props {
-  sanitizeContent: (content: string[]) => { __html: string };
+  sanitizeContent: (content: string[] | null) => { __html: string };
   formatDate: (date: string) => string;
   postInfo: {
     author_id: string;
     author_username: string;
-    content: string[];
+    content: string[] | null;
     createdAt: string;
     updatedAt: string;
     subreddit_name: string;
@@ -19,6 +20,8 @@ interface Props {
     user_vote: number;
     index: number;
     comment_count: number;
+    link: string | null;
+    type: string;
   };
   vote: (id: string, voteValue: number, index: number) => void;
   showSubredditName: boolean;
@@ -36,6 +39,8 @@ const PostView = (props: Props) => {
     user_vote,
     index,
     comment_count,
+    type,
+    link,
   } = props.postInfo;
 
   const { sanitizeContent, formatDate, vote, showSubredditName } = props;
@@ -52,8 +57,8 @@ const PostView = (props: Props) => {
         child={false}
       />
       <div className="main-content">
-        <NavLink
-          to={`/r/${subreddit_name}/post/${id}`}
+        <div
+          // to={`/r/${subreddit_name}/post/${id}`
           className="main-content"
         >
           <div className="create-date" title="post-create-date">
@@ -80,12 +85,23 @@ const PostView = (props: Props) => {
           <div className="title" title="post-title">
             {title}
           </div>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={sanitizeContent(content)}
-            title="post-content"
-          />
-        </NavLink>
+          {type === "post" ? (
+            <div
+              className="content"
+              dangerouslySetInnerHTML={sanitizeContent(content)}
+              title="post-content"
+            />
+          ) : null}
+          {type === "link" ? (
+            <ReactTinyLink
+              cardSize="small"
+              showGraphic={true}
+              maxLine={2}
+              minLine={1}
+              url={link}
+            />
+          ) : null}
+        </div>
         <div className="bottom-bar">
           <NavLink
             to={`/r/${subreddit_name}/post/${id}`}

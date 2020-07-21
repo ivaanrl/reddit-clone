@@ -30,7 +30,7 @@ const sanitizeOptions = {
   enforceHtmlBoundary: false,
 };
 
-export const sanitizeContent = (content: string[]) => {
+export const sanitizeContent = (content: string[] | null) => {
   if (content === null) {
     return { __html: sanitizeHTML(""), sanitizeOptions };
   }
