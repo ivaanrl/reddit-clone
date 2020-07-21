@@ -22,21 +22,21 @@ export const CreatePostController = (props: Props) => {
     content?: string[],
     link?: string
   ) => {
-    if (content) {
-      dispatch(
-        allActions.createPost({
-          subName,
-          title,
-          content,
-          type,
-        })
-      );
-    } else if (link) {
+    if (link) {
       dispatch(
         allActions.createPost({
           subName,
           title,
           link,
+          type,
+        })
+      );
+    } else if (content) {
+      dispatch(
+        allActions.createPost({
+          subName,
+          title,
+          content,
           type,
         })
       );

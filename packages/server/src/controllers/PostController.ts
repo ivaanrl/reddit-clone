@@ -10,8 +10,11 @@ import { Vote } from "../models/Vote";
 import { Post } from "../models/Post";
 import { Comment } from "../models/Comment";
 import uniqid from "uniqid";
-import sequelize from "../models";
-import { getChildren, CommentWithReply } from "../helpers/post";
+import {
+  getChildren,
+  CommentWithReply,
+  handleCreatePost,
+} from "../helpers/post";
 import { getCommentsWithVotesQuery } from "./queries/PostQueries";
 
 const {
@@ -32,20 +35,25 @@ class PostController {
   @post("/createPost")
   @use(requireLogin)
   async CreatePost(req: Request, res: Response) {
-    const { subName, title, content } = req.body;
+    const { subName, title, content, link, type } = req.body;
+
+    console.log(req.body);
 
     const sub = await getSubreddit(subName);
     const user = await findCurrentUser(req.user);
     if (user instanceof User && sub instanceof Subreddit) {
       try {
         const id = uniqid() + uniqid();
-        const post = await user.createPost({
+
+        const post = await handleCreatePost(
+          user,
           id,
-          author_username: user.username,
           content,
           title,
-          subreddit_name: sub.name,
-        });
+          sub,
+          link,
+          type
+        );
 
         if (post) {
           return res.status(201).json({ message: post_created_successfully });
@@ -53,7 +61,7 @@ class PostController {
           return res.status(401).json({ message: non_specified_error });
         }
       } catch (error) {
-        console.log(error);
+        //console.log("error", error);
         return res.status(401).json({ message: non_specified_error });
       }
     }

@@ -16,7 +16,9 @@ export class Post extends Model {
   public author_username!: string;
   public subreddit_name!: string;
   public title!: string;
-  public content!: string[];
+  public content: string[];
+  public link: string;
+  public type!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -53,6 +55,14 @@ Post.init(
     },
     content: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
+    },
+    link: {
+      type: DataTypes.TEXT,
+    },
+    type: {
+      type: DataTypes.STRING(7),
+      allowNull: false,
+      defaultValue: "post",
     },
   },
   {

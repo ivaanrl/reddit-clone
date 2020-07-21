@@ -6,13 +6,15 @@ export interface Post {
   author_id: string;
   author_username: string;
   title: string;
-  content: string[];
+  content: string[] | null;
   createdAt: string;
   updatedAt: string;
   subreddit_name: string;
   votes: number;
   user_vote: number;
   comment_count: number;
+  link: string | null;
+  type: string;
 }
 
 export type subredditState = {

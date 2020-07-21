@@ -44,7 +44,9 @@ export function* createPost(post: {
   payload: {
     subName: string;
     title: string;
-    content: string[];
+    type: string;
+    content?: string[];
+    link?: string;
   };
 }) {
   try {
@@ -201,7 +203,9 @@ export const commentFullPostRequest = (post: {
 export const createPostRequest = (post: {
   subName: string;
   title: string;
-  content: string[];
+  type: string;
+  content?: string[];
+  link?: string;
 }) => {
   let response;
   try {

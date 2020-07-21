@@ -69,7 +69,8 @@ const getSubredditPostsByHot = async (
   return (await sequelize.query(`
     SELECT posts.id, posts.author_id, posts.author_username, posts.title,
           posts.content, posts."createdAt", posts."updatedAt", posts.subreddit_name,
-          COALESCE(vote_count,0) as votes, COALESCE(user_vote,0) as user_vote,
+          posts.link, posts.type, COALESCE(vote_count,0) as votes,
+          COALESCE(user_vote,0) as user_vote,
           COALESCE(comment_count,1) as comment_count
     FROM posts
     LEFT JOIN (
@@ -116,8 +117,9 @@ const getSubredditPostsByNew = async (
 ) => {
   return (await sequelize.query(`
     SELECT posts.id, posts.author_id, posts.author_username, posts.title,
-          posts.content, posts."createdAt", posts."updatedAt", posts.subreddit_name,
-          COALESCE(vote_count,0) as votes, COALESCE(user_vote,0) as user_vote,
+          posts.content, posts."createdAt", posts."updatedAt", posts.subreddit_name, 
+          posts.link, posts.type, COALESCE(vote_count,0) as votes, 
+          COALESCE(user_vote,0) as user_vote,
           COALESCE(comment_count,1) as comment_count
     FROM posts
     LEFT JOIN (
@@ -161,7 +163,8 @@ const getSubredditPostsByTop = async (
   return (await sequelize.query(`
     SELECT posts.id, posts.author_id, posts.author_username, posts.title,
           posts.content, posts."createdAt", posts."updatedAt", posts.subreddit_name,
-          COALESCE(vote_count,1) as votes, COALESCE(user_vote,0) as user_vote,
+          posts.link, posts.type, COALESCE(vote_count,1) as votes,
+          COALESCE(user_vote,0) as user_vote,
           COALESCE(comment_count,1) as comment_count
     FROM posts
     LEFT JOIN (

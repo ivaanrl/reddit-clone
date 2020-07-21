@@ -10,7 +10,13 @@ import SubredditDropdownChooseCommunity from "../../../shared/svgs/SubredditDrop
 import CreatesPostNavbarConnector from "./createPostNavbar/CreatesPostNavbarConnector";
 
 interface Props {
-  createPost: (subName: string, title: string, content: string[]) => void;
+  createPost: (
+    subName: string,
+    title: string,
+    type: string,
+    content?: string[],
+    link?: string
+  ) => void;
 }
 
 const CreatePostView = (props: Props) => {
@@ -47,16 +53,6 @@ const CreatePostView = (props: Props) => {
         handlePostSubmit();
         break;
     }
-    const serialized: string[][] = [];
-    textEditorValue.forEach((node: Node) => {
-      serialized.push(HTMLSerializer(node));
-    });
-
-    const formatted = serialized.map((arr) => {
-      return arr.join("||");
-    });
-
-    createPost(sub.name, titleValue, formatted);
   };
 
   const handlePostSubmit = () => {
@@ -69,10 +65,12 @@ const CreatePostView = (props: Props) => {
       return arr.join("||");
     });
 
-    createPost(sub.name, titleValue, formatted);
+    createPost(sub.name, titleValue, "post", formatted);
   };
 
-  const handleLinkSubmit = () => {};
+  const handleLinkSubmit = () => {
+    createPost(sub.name, titleValue, "link", [], linkValue);
+  };
 
   const [activeOption, setActiveOption] = useState<string>("post");
 
