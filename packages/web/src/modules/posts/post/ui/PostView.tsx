@@ -1,6 +1,6 @@
 import React from "react";
 import "./Post.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import Vote from "../../vote/Vote";
 import { ReactTinyLink } from "react-tiny-link";
 
@@ -43,6 +43,8 @@ const PostView = (props: Props) => {
     link,
   } = props.postInfo;
 
+  const history = useHistory();
+
   const { sanitizeContent, formatDate, vote, showSubredditName } = props;
 
   return (
@@ -58,8 +60,8 @@ const PostView = (props: Props) => {
       />
       <div className="main-content">
         <div
-          // to={`/r/${subreddit_name}/post/${id}`
           className="main-content"
+          onClick={() => history.push(`/r/${subreddit_name}/post/${id}`)}
         >
           <div className="create-date" title="post-create-date">
             {showSubredditName ? (

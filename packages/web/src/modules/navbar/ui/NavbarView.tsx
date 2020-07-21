@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import SignupFormConnector from "../../signupForm/SignupFormConnector";
 import SigninFormConnector from "../../signinForm/SigninFormConnector";
-import { useHistory } from "react-router-dom";
 import {
   deleteUserFromLocalStorage,
   getThemeFromLocalStorage,
@@ -25,7 +24,6 @@ interface Props {
 const NavbarView = (props: Props) => {
   const user = useSelector((state: State) => state.auth);
   const { signoutUser } = props;
-  const history = useHistory();
 
   const [svgColor, setSvgColor] = useState("#FFFFFF");
   const [redditLogoColor, setRedditLogoColor] = useState("#D7DADC");

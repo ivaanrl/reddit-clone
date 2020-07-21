@@ -46,7 +46,7 @@ const SubredditDropdownView = (props: Props) => {
       setSelectedSubreddit(defaultText);
       setSelectedSubredditIcon(defaultIcon);
     }
-  }, [location]);
+  }, [location, defaultIcon, defaultText, isNavbarDropdown, useSameWidth]);
 
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null
@@ -77,7 +77,7 @@ const SubredditDropdownView = (props: Props) => {
         state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
       },
     }),
-    []
+    [useSameWidth]
   );
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
