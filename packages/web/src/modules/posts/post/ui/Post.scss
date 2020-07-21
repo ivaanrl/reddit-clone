@@ -29,6 +29,10 @@
 
     @include theme-aware("color", "text-main");
   }
+
+  .react_tinylink_card_media {
+    border-radius: 4px;
+  }
 }
 
 .votes-sidebar {

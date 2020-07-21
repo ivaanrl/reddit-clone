@@ -25,7 +25,7 @@ const getHomepagePostsByTop = async (
 ) => {
   const whereQuery = getWhereQuery(sortTime);
   return await sequelize.query(
-    `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content,
+    `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content, posts.link, posts.type,
             posts."createdAt", posts."updatedAt", posts.subreddit_name, COALESCE(votes.vote_count,0) AS votes,
             COALESCE(user_vote.value,0) AS user_vote, COALESCE(comments.comment_count,0) AS comment_count
     FROM posts
@@ -42,7 +42,7 @@ const getHomepagePostsByTop = async (
         SELECT value, post_id FROM votes
         WHERE author_id = '${id}'
     ) AS user_vote ON user_vote.post_id = posts.id
-    INNER JOIN (
+    LEFT JOIN (
         SELECT COUNT(comments.post_id) as comment_count, comments.post_id 
         FROM comments
         GROUP BY comments.post_id 
@@ -54,7 +54,7 @@ const getHomepagePostsByTop = async (
 
 const getHomepagePostsByNew = async (username: string, id: string) => {
   return await sequelize.query(
-    `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content,
+    `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content, posts.link, posts.type,
             posts."createdAt", posts."updatedAt", posts.subreddit_name, COALESCE(votes.vote_count,0) AS votes,
             COALESCE(user_vote.value,0) AS user_vote, COALESCE(comments.comment_count,0) AS comment_count
     FROM posts
@@ -71,7 +71,7 @@ const getHomepagePostsByNew = async (username: string, id: string) => {
         SELECT value, post_id FROM votes
         WHERE author_id = '${id}'
     ) AS user_vote ON user_vote.post_id = posts.id
-    INNER JOIN (
+    LEFT JOIN (
         SELECT COUNT(comments.post_id) as comment_count, comments.post_id 
         FROM comments
         GROUP BY comments.post_id 
@@ -82,7 +82,7 @@ const getHomepagePostsByNew = async (username: string, id: string) => {
 
 const getHomepagePostsByHot = async (username: string, id: string) => {
   return await sequelize.query(
-    `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content,
+    `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content,posts.link, posts.type,
             posts."createdAt", posts."updatedAt", posts.subreddit_name, COALESCE(votes.vote_count,0) AS votes,
             COALESCE(user_vote.value,0) AS user_vote, COALESCE(comments.comment_count,0) AS comment_count
     FROM posts
@@ -99,7 +99,7 @@ const getHomepagePostsByHot = async (username: string, id: string) => {
         SELECT value, post_id FROM votes
         WHERE author_id = '${id}'
     ) AS user_vote ON user_vote.post_id = posts.id
-    INNER JOIN (
+    LEFT JOIN (
         SELECT COUNT(comments.post_id) as comment_count, comments.post_id 
         FROM comments
         GROUP BY comments.post_id 
