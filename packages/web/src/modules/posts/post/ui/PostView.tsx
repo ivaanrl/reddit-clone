@@ -14,7 +14,7 @@ interface Props {
     createdAt: string;
     updatedAt: string;
     subreddit_name: string;
-    votes: number;
+    votes: string;
     title: string;
     id: string;
     user_vote: number;
@@ -23,7 +23,8 @@ interface Props {
     link: string | null;
     type: string;
   };
-  vote: (id: string, voteValue: number, index: number) => void;
+  reducer: string;
+  vote: (id: string, voteValue: number, index: number, reducer: string) => void;
   showSubredditName: boolean;
 }
 
@@ -45,7 +46,13 @@ const PostView = (props: Props) => {
 
   const history = useHistory();
 
-  const { sanitizeContent, formatDate, vote, showSubredditName } = props;
+  const {
+    sanitizeContent,
+    formatDate,
+    vote,
+    showSubredditName,
+    reducer,
+  } = props;
 
   return (
     <div className="post-container">
@@ -57,6 +64,7 @@ const PostView = (props: Props) => {
         votePost={vote}
         showCount={true}
         child={false}
+        reducer={reducer}
       />
       <div className="main-content">
         <div

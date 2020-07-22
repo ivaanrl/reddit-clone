@@ -18,6 +18,7 @@ const PostsView = () => {
               key={index}
               postInfo={{ ...post, index }}
               showSubredditName={false}
+              reducer="subreddit"
             />
           );
         })
@@ -35,6 +36,7 @@ const PostsView = () => {
                 key={index}
                 postInfo={{ ...post, index }}
                 showSubredditName={true}
+                reducer="homepage"
               />
             );
           })

@@ -10,7 +10,7 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
   subreddit_name: string;
-  votes: number;
+  votes: string;
   user_vote: number;
   comment_count: number;
   link: string | null;
@@ -82,10 +82,10 @@ export const subredditReducer = (
       const { user_vote, votes } = vote(
         postToEdit.user_vote,
         value,
-        postToEdit.votes
+        parseInt(postToEdit.votes, 10)
       );
 
-      postToEdit.votes = votes;
+      postToEdit.votes = votes.toString();
       postToEdit.user_vote = user_vote;
       return { ...state, ...stateCopy };
     case ActionTypes.JOIN_LEAVE_SUBREDDIT_COMPLETED:

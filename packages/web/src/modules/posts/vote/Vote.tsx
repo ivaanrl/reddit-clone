@@ -5,10 +5,16 @@ interface Props {
   id?: string;
   path?: string[];
   index?: number;
-  votes: number;
+  votes: string | number;
   user_vote: number;
+  reducer?: string;
   voteComment?: (path: string[], voteValue: number) => void;
-  votePost?: (id: string, voteValue: number, index: number) => void;
+  votePost?: (
+    id: string,
+    voteValue: number,
+    index: number,
+    reducer: string
+  ) => void;
   voteFullPost?: (id: string, voteValue: number) => void;
   showCount: boolean;
   child: boolean;
@@ -22,6 +28,7 @@ const Vote = (props: Props) => {
     id,
     index,
     votes,
+    reducer,
     user_vote,
     voteFullPost,
     showCount,
@@ -42,8 +49,8 @@ const Vote = (props: Props) => {
   }, [user_vote]);
 
   const handleVote = (voteValue: number) => {
-    if (votePost && (index || index === 0) && id) {
-      votePost(id, voteValue, index);
+    if (votePost && reducer && (index || index === 0) && id) {
+      votePost(id, voteValue, index, reducer);
     } else if (voteFullPost && id) {
       voteFullPost(id, voteValue);
     } else if (voteComment && path) {

@@ -9,6 +9,7 @@ import {
   commentFullPostCompletedAction,
   replyCommentCompletedAction,
   voteCommentCompletedAction,
+  updateHomepagePostVotes,
 } from "../actions/post";
 
 export function* watchCreatePost() {
@@ -67,16 +68,36 @@ export function* getFullPost(post: { type: string; payload: string }) {
 
 export function* votePost(postInfo: {
   type: string;
-  payload: { voteValue: number; postId: string; index: number };
+  payload: {
+    voteValue: number;
+    postId: string;
+    index: number;
+    reducer: string;
+  };
 }) {
   try {
-    yield call(votePostRequest, postInfo.payload);
-    yield put(
-      updatePostVotes({
-        index: postInfo.payload.index,
-        value: postInfo.payload.voteValue,
-      })
-    );
+    const response = yield call(votePostRequest, postInfo.payload);
+
+    switch (response.body.reducerToEdit) {
+      case "subreddit":
+        yield put(
+          updatePostVotes({
+            index: postInfo.payload.index,
+            value: postInfo.payload.voteValue,
+          })
+        );
+        break;
+      case "homepage":
+        yield put(
+          updateHomepagePostVotes({
+            index: postInfo.payload.index,
+            value: postInfo.payload.voteValue,
+          })
+        );
+        break;
+      default:
+        return;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -87,7 +108,10 @@ export function* voteFullPost(postInfo: {
   payload: { voteValue: number; postId: string };
 }) {
   try {
-    yield call(votePostRequest, postInfo.payload);
+    yield call(votePostRequest, {
+      ...postInfo.payload,
+      ...{ reducer: "fullpost" },
+    });
     yield put(updateFullPostVotes(postInfo.payload.voteValue));
   } catch (error) {
     console.log(error);
@@ -238,9 +262,11 @@ export const getFullPostRequest = (postId: string) => {
 export const votePostRequest = ({
   voteValue,
   postId,
+  reducer,
 }: {
   voteValue: number;
   postId: string;
+  reducer: string;
 }) => {
   let response;
   try {
@@ -248,7 +274,7 @@ export const votePostRequest = ({
       .agent()
       .withCredentials()
       .post(APIUrl + "/post/vote/")
-      .send({ voteValue, postId });
+      .send({ voteValue, postId, reducer });
   } catch (error) {
     response = error.response;
   }

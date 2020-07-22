@@ -10,7 +10,7 @@ interface Props {
     createdAt: string;
     updatedAt: string;
     subreddit_name: string;
-    votes: number;
+    votes: string;
     title: string;
     id: string;
     user_vote: number;
@@ -19,6 +19,7 @@ interface Props {
     link: string | null;
     type: string;
   };
+  reducer: string;
   showSubredditName: boolean;
 }
 
@@ -32,6 +33,7 @@ const PostConnector = (props: Props) => {
           sanitizeContent={sanitizeContent}
           vote={vote}
           showSubredditName={props.showSubredditName}
+          reducer={props.reducer}
         />
       )}
     </PostController>

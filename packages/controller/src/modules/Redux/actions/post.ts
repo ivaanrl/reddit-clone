@@ -18,6 +18,7 @@ export const votePost = (voteInfo: {
   postId: string;
   voteValue: number;
   index: number;
+  reducer: string;
 }) => ({
   type: ActionTypes.VOTE_POST,
   payload: voteInfo,
@@ -28,6 +29,14 @@ export const updatePostVotes = (voteInfo: {
   value: number;
 }) => ({
   type: ActionTypes.UPDATE_POST_VOTES,
+  payload: voteInfo,
+});
+
+export const updateHomepagePostVotes = (voteInfo: {
+  index: number;
+  value: number;
+}) => ({
+  type: ActionTypes.UPDATE_HOMEPAGE_POST_VOTES,
   payload: voteInfo,
 });
 

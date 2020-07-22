@@ -71,7 +71,7 @@ class PostController {
   @post("/vote")
   @use(requireLogin)
   async VotePost(req: Request, res: Response) {
-    const { voteValue, postId } = req.body;
+    const { voteValue, postId, reducer } = req.body;
 
     const user = await findCurrentUser(req.user);
     if (user instanceof User) {
@@ -94,7 +94,9 @@ class PostController {
             post_id: postId,
           });
 
-          return res.status(201).json({ message: post_upvoted });
+          return res
+            .status(201)
+            .json({ message: post_upvoted, reducerToEdit: reducer });
         } catch (error) {
           return res.status(501).json({ message: server_error });
         }
@@ -104,7 +106,7 @@ class PostController {
             value: voteValue,
           });
           const message = voteValue === 1 ? post_upvoted : post_downvoted;
-          return res.status(201).json({ message });
+          return res.status(201).json({ message, reducerToEdit: reducer });
         } else {
           try {
             await Vote.destroy({
@@ -114,7 +116,9 @@ class PostController {
               },
             });
 
-            return res.status(201).json({ message: vote_removed });
+            return res
+              .status(201)
+              .json({ message: vote_removed, reducerToEdit: reducer });
           } catch (error) {
             return res.status(501).json({ message: server_error });
           }
