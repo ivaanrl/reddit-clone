@@ -100,6 +100,12 @@ export const profileReducer = (
           text: "",
         },
       };
+
+    case ActionTypes.CLEAR_PROFILE_POSTS:
+      return {
+        ...state,
+        ...{ posts: [], comments: [] },
+      };
     default:
       return state;
   }

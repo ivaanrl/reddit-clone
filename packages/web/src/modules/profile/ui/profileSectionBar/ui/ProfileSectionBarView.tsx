@@ -4,7 +4,12 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 
-const ProfileSectionBarView = () => {
+interface Props {
+  clearReducer: () => void;
+}
+
+const ProfileSectionBarView = (props: Props) => {
+  const { clearReducer } = props;
   const location = useLocation();
   const currentUser = useSelector((state: State) => state.auth);
   const user = useSelector((state: State) => state.profile);
@@ -18,6 +23,7 @@ const ProfileSectionBarView = () => {
   }
 
   useEffect(() => {
+    clearReducer();
     const section = location.pathname.split("/")[3];
     setActiveSection(section);
   }, [location]);

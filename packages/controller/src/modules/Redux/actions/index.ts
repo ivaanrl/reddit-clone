@@ -35,6 +35,7 @@ import {
   voteComment,
   voteCommentCompletedAction,
   removeFullPostErrors,
+  updateHomepagePostVotes,
 } from "./post";
 
 import {
@@ -60,6 +61,7 @@ import {
   replyCommentInProfileCompletedAction,
   replyCommentInProfile,
   removeProfileMessages,
+  clearProfilePosts,
 } from "./profile";
 
 import {
@@ -133,6 +135,8 @@ export const allActions = {
   getHomepagePosts,
   getHomepagePostsCompletedAction,
   getHomepagePostsFailed,
+  clearProfilePosts,
+  updateHomepagePostVotes,
 };
 
 export * from "./types";

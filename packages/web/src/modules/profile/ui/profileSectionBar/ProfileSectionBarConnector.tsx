@@ -5,7 +5,9 @@ import ProfileSectionBarView from "./ui/ProfileSectionBarView";
 const ProfileSectionBarConnector = () => {
   return (
     <ProfileSectionBarController>
-      {() => <ProfileSectionBarView />}
+      {({ clearReducer }) => (
+        <ProfileSectionBarView clearReducer={clearReducer} />
+      )}
     </ProfileSectionBarController>
   );
 };

@@ -125,7 +125,7 @@ export const getProfileVotedPostsByNew = async (
 ) => {
   return await sequelize.query(`
   SELECT DISTINCT posts.id, posts.title, posts."createdAt", posts."updatedAt", 
-    posts.subreddit_name, votes.value AS "voteCount", votes.value AS "userVote" 
+    posts.subreddit_name, votes.value AS "voteCount", votes.value AS "user_vote" 
   FROM votes
   INNER JOIN posts 
     ON votes.post_id = posts.id
@@ -140,7 +140,7 @@ export const getProfileVotedPostsByHot = async (
 ) => {
   return await sequelize.query(`
   SELECT  posts.id, posts.title, posts."createdAt", posts."updatedAt", 
-    posts.subreddit_name, votes.value AS "voteCount", votes.value AS "userVote" 
+    posts.subreddit_name, votes.value AS "voteCount", votes.value AS "user_vote" 
   FROM votes
   INNER JOIN posts 
     ON votes.post_id = posts.id
@@ -158,7 +158,7 @@ export const getProfileVotedPostsByTop = async (
 
   return await sequelize.query(`
   SELECT DISTINCT posts.id, posts.title, posts."createdAt", posts."updatedAt", 
-    posts.subreddit_name, votes.value AS "voteCount", votes.value AS "userVote" 
+    posts.subreddit_name, votes.value AS "voteCount", votes.value AS "user_vote" 
   FROM votes
   INNER JOIN posts 
     ON votes.post_id = posts.id

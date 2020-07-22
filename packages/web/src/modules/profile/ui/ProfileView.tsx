@@ -17,9 +17,7 @@ interface Props {
 const ProfileView = (props: Props) => {
   const { getProfile } = props;
   const location = useLocation();
-  const [sectionToRender, setSectionToRender] = useState<JSX.Element>(
-    <ProfilePostsConnector />
-  );
+  const [sectionToRender, setSectionToRender] = useState<JSX.Element>();
 
   const userProfile = useSelector((state: State) => state.profile);
 

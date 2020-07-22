@@ -34,16 +34,20 @@ const Vote = (props: Props) => {
     showCount,
     child,
   } = props;
-  const [upvoteActive, setUpvoteActive] = useState(false);
-  const [downvoteActive, setDownvoteActive] = useState(false);
+
+  //true for upvote
+  //false for downvote
+  //null for no vote
+  const [voteColor, setVoteColor] = useState<boolean | null>(null);
+
   const [voteCountClass, setVoteCountClass] = useState("vote-count");
 
   useEffect(() => {
     if (user_vote === 1) {
-      setUpvoteActive(true);
+      setVoteColor(true);
       setVoteCountClass("vote-count-upvote");
     } else if (user_vote === -1) {
-      setDownvoteActive(true);
+      setVoteColor(false);
       setVoteCountClass("vote-count-downvote");
     }
   }, [user_vote]);
@@ -58,19 +62,17 @@ const Vote = (props: Props) => {
     }
 
     if (voteValue === 1) {
-      if (upvoteActive) {
+      if (voteColor) {
         setVoteCountClass("vote-count");
       } else {
         setVoteCountClass("vote-count-upvote");
       }
-      setUpvoteActive(!upvoteActive);
-      setDownvoteActive(false);
+      setVoteColor(true);
     } else {
-      downvoteActive
+      voteColor === false
         ? setVoteCountClass("vote-count")
         : setVoteCountClass("vote-count-downvote");
-      setUpvoteActive(false);
-      setDownvoteActive(!downvoteActive);
+      setVoteColor(false);
     }
   };
 
@@ -82,7 +84,7 @@ const Vote = (props: Props) => {
         onClick={() => handleVote(1)}
       >
         <svg
-          className={upvoteActive ? "upvote-active" : "upvote"}
+          className={voteColor ? "upvote-active" : "upvote"}
           data-testid="upvote-svg"
           width="16"
           height="14"
@@ -105,7 +107,7 @@ const Vote = (props: Props) => {
       >
         <svg
           data-testid="downvote-svg"
-          className={downvoteActive ? "downvote-active" : "downvote"}
+          className={voteColor === false ? "downvote-active" : "downvote"}
           width="16"
           height="14"
           viewBox="0 0 16 14"

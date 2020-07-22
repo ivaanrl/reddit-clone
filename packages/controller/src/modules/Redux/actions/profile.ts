@@ -162,3 +162,7 @@ export const replyCommentInProfileFailed = (error: {
 export const removeProfileMessages = () => ({
   type: ActionTypes.REMOVE_PROFILE_MESSAGES,
 });
+
+export const clearProfilePosts = () => ({
+  type: ActionTypes.CLEAR_PROFILE_POSTS,
+});
