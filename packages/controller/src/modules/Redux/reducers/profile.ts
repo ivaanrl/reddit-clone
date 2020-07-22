@@ -1,4 +1,5 @@
 import { BaseAction, ActionTypes } from "../actions";
+import { vote } from "./helpers/vote";
 
 export type profileReducerState = {
   userInfo: {
@@ -11,7 +12,7 @@ export type profileReducerState = {
     id: string;
     subreddit_name: string;
     title: string;
-    voteCount: number;
+    voteCount: string;
     user_vote: number;
     createdAt: string;
   }[];
@@ -106,6 +107,19 @@ export const profileReducer = (
         ...state,
         ...{ posts: [], comments: [] },
       };
+    case ActionTypes.UPDATE_PROFILE_POST_VOTES:
+      const { index, value } = action.payload;
+      const stateCopy = { ...state };
+      const postToEdit = stateCopy.posts[index];
+      const { user_vote, votes } = vote(
+        postToEdit.user_vote,
+        value,
+        parseInt(postToEdit.voteCount, 10)
+      );
+
+      postToEdit.voteCount = votes.toString();
+      postToEdit.user_vote = user_vote;
+      return { ...state, ...stateCopy };
     default:
       return state;
   }

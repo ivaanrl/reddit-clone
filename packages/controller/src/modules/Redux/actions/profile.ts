@@ -166,3 +166,11 @@ export const removeProfileMessages = () => ({
 export const clearProfilePosts = () => ({
   type: ActionTypes.CLEAR_PROFILE_POSTS,
 });
+
+export const updateProfilePostVotes = (voteInfo: {
+  index: number;
+  value: number;
+}) => ({
+  type: ActionTypes.UPDATE_PROFILE_POST_VOTES,
+  payload: voteInfo,
+});

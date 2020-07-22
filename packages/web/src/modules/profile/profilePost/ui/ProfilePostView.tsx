@@ -9,12 +9,12 @@ interface Props {
   id: string;
   subredditName: string;
   title: string;
-  voteCount: number;
+  voteCount: string;
   userVote: number;
   index: number;
   createdAt: string;
   formatDate: (date: string) => string;
-  vote: (id: string, voteValue: number, index: number) => void;
+  vote: (id: string, voteValue: number, index: number, reducer: string) => void;
 }
 
 const ProfilePostView = (props: Props) => {
@@ -42,6 +42,7 @@ const ProfilePostView = (props: Props) => {
           votePost={vote}
           showCount={true}
           child={false}
+          reducer="profile"
         />
       </div>
       <div className="profile-post-image-container">

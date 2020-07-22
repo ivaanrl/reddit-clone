@@ -71,10 +71,24 @@
 }
 
 .content {
+  position: relative;
   font-size: 14px;
   @include theme-aware("color", "text-main");
-  max-width: 300px;
+  max-width: 95%;
   overflow-x: hidden;
+  max-height: 300px;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+.content:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 90px;
+  background: linear-gradient(transparent 150px, rgb(180, 172, 172));
 }
 
 .bottom-bar {

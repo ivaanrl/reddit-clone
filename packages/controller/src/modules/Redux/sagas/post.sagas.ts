@@ -11,6 +11,7 @@ import {
   voteCommentCompletedAction,
   updateHomepagePostVotes,
 } from "../actions/post";
+import { updateProfilePostVotes } from "../actions/profile";
 
 export function* watchCreatePost() {
   yield takeEvery(ActionTypes.CREATE_POST, createPost);
@@ -95,6 +96,13 @@ export function* votePost(postInfo: {
           })
         );
         break;
+      case "profile":
+        yield put(
+          updateProfilePostVotes({
+            index: postInfo.payload.index,
+            value: postInfo.payload.voteValue,
+          })
+        );
       default:
         return;
     }
@@ -156,6 +164,7 @@ export function* voteComment(comment: {
   payload: {
     path: string[];
     voteValue: number;
+    reducer: string;
   };
 }) {
   try {
@@ -169,8 +178,9 @@ export function* voteComment(comment: {
 export const voteCommentRequest = (commentInfo: {
   path: string[];
   voteValue: number;
+  reducer: string;
 }) => {
-  const { path, voteValue } = commentInfo;
+  const { path, voteValue, reducer } = commentInfo;
   let response;
 
   try {
@@ -178,7 +188,7 @@ export const voteCommentRequest = (commentInfo: {
       .agent()
       .withCredentials()
       .post(APIUrl + "/post/vote/")
-      .send({ voteValue, postId: path[path.length - 1] });
+      .send({ voteValue, postId: path[path.length - 1], reducer });
   } catch (error) {
     response = error.response;
   }

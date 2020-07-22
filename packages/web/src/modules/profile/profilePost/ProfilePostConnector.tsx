@@ -6,7 +6,7 @@ interface Props {
   id: string;
   subredditName: string;
   title: string;
-  voteCount: number;
+  voteCount: string;
   userVote: number;
   index: number;
   createdAt: string;
