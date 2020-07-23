@@ -18,6 +18,32 @@ const OrderBar = (props: Props) => {
   const location = useLocation();
   const { getPostsHomepage, getPostsWithUsername, defaultSort } = props;
 
+  window.addEventListener("scroll", function () {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 2000
+    ) {
+      const sortOrder = location.search.split("&")[0].split("=")[1];
+      const timeSort =
+        location.search.split("&").length > 1
+          ? location.search.split("&")[1].split("=")[1]
+          : "all_time";
+      sortOrder ? setActiveOption(sortOrder) : setActiveOption(defaultSort);
+      const timeSortFormatted = timeSort
+        .split("_")
+        .map((str) => str.charAt(0).toUpperCase() + str.slice(1));
+      setTopTimeSort(timeSortFormatted.join(" "));
+
+      if (getPostsHomepage) {
+        getPostsHomepage(sortOrder, timeSort);
+      } else if (getPostsWithUsername) {
+        const username = location.pathname.split("/")[2];
+        getPostsWithUsername(username, sortOrder, timeSort);
+      }
+      //show loading spinner and make fetch request to api
+    }
+  });
+
   useEffect(() => {
     const sortOrder = location.search.split("&")[0].split("=")[1];
     const timeSort =
