@@ -48,26 +48,28 @@ export const getSubredditPostsQuery = async (
   userId: string,
   subredditName: string,
   order: string,
-  sortTime: string
+  sortTime: string,
+  page: number
 ) => {
   switch (order) {
     case "new":
-      return await getSubredditPostsByNew(userId, subredditName);
+      return await getSubredditPostsByNew(userId, subredditName, page);
     case "hot":
-      return await getSubredditPostsByHot(userId, subredditName);
+      return await getSubredditPostsByHot(userId, subredditName, page);
     case "top":
-      return await getSubredditPostsByTop(userId, subredditName, sortTime);
+      return await getSubredditPostsByTop(
+        userId,
+        subredditName,
+        sortTime,
+        page
+      );
     default:
-      return await getSubredditPostsByHot(userId, subredditName);
+      return await getSubredditPostsByHot(userId, subredditName, page);
   }
 };
 
-const getSubredditPostsByHot = async (
-  userId: string,
-  subredditName: string
-) => {
-  return (await sequelize.query(`
-    SELECT posts.id, posts.author_id, posts.author_username, posts.title,
+const GET_SUBREDDIT_POSTS_INITIAL_TEXT = `
+SELECT posts.id, posts.author_id, posts.author_username, posts.title,
           posts.content, posts."createdAt", posts."updatedAt", posts.subreddit_name,
           posts.link, posts.type, COALESCE(vote_count,0) as votes,
           COALESCE(user_vote,0) as user_vote,
@@ -77,7 +79,17 @@ const getSubredditPostsByHot = async (
       SELECT votes.post_id, SUM(votes.value) as vote_count
       FROM votes
       GROUP BY votes.post_id
-    ) AS votes on votes.post_id = posts.id
+    ) AS votes on votes.post_id = posts.id`;
+
+const SUBREDDIT_POSTS_LIMIT = 10;
+
+const getSubredditPostsByHot = async (
+  userId: string,
+  subredditName: string,
+  page: number
+) => {
+  return (await sequelize.query(`
+    ${GET_SUBREDDIT_POSTS_INITIAL_TEXT}
     LEFT JOIN (
       SELECT COALESCE(value,0) as user_vote, post_id FROM votes
       WHERE author_id = '${userId}'
@@ -94,6 +106,7 @@ const getSubredditPostsByHot = async (
                                                                             ELSE COALESCE(vote_count,0) + 1 
                                                                             END 
       ASC
+      LIMIT ${SUBREDDIT_POSTS_LIMIT} OFFSET ${page * SUBREDDIT_POSTS_LIMIT}
     `)) as [
     {
       id: string;
@@ -113,20 +126,11 @@ const getSubredditPostsByHot = async (
 
 const getSubredditPostsByNew = async (
   userId: string,
-  subredditName: string
+  subredditName: string,
+  page: number
 ) => {
   return (await sequelize.query(`
-    SELECT posts.id, posts.author_id, posts.author_username, posts.title,
-          posts.content, posts."createdAt", posts."updatedAt", posts.subreddit_name, 
-          posts.link, posts.type, COALESCE(vote_count,0) as votes, 
-          COALESCE(user_vote,0) as user_vote,
-          COALESCE(comment_count,1) as comment_count
-    FROM posts
-    LEFT JOIN (
-      SELECT votes.post_id, SUM(votes.value) as vote_count
-      FROM votes
-      GROUP BY votes.post_id
-    ) AS votes on votes.post_id = posts.id
+  ${GET_SUBREDDIT_POSTS_INITIAL_TEXT}
     LEFT JOIN (
       SELECT COALESCE(value,0) as user_vote, post_id FROM votes
       WHERE author_id = '${userId}'
@@ -137,7 +141,10 @@ const getSubredditPostsByNew = async (
       GROUP BY comments.post_id
     ) AS comments ON comments.post_id = posts.id
     WHERE subreddit_name='${subredditName}' 
-    ORDER BY posts."createdAt" DESC`)) as [
+    ORDER BY posts."createdAt" DESC
+    LIMIT ${SUBREDDIT_POSTS_LIMIT} OFFSET ${
+    page * SUBREDDIT_POSTS_LIMIT
+  }`)) as [
     {
       id: string;
       author_id: string;
@@ -157,21 +164,12 @@ const getSubredditPostsByNew = async (
 const getSubredditPostsByTop = async (
   userId: string,
   subredditName: string,
-  sortTime: string
+  sortTime: string,
+  page: number
 ) => {
   const whereQuery = getWhereQuery(sortTime);
   return (await sequelize.query(`
-    SELECT posts.id, posts.author_id, posts.author_username, posts.title,
-          posts.content, posts."createdAt", posts."updatedAt", posts.subreddit_name,
-          posts.link, posts.type, COALESCE(vote_count,1) as votes,
-          COALESCE(user_vote,0) as user_vote,
-          COALESCE(comment_count,1) as comment_count
-    FROM posts
-    LEFT JOIN (
-      SELECT votes.post_id, SUM(votes.value) as vote_count
-      FROM votes
-      GROUP BY votes.post_id
-    ) AS votes on votes.post_id = posts.id
+  ${GET_SUBREDDIT_POSTS_INITIAL_TEXT}
     LEFT JOIN (
       SELECT COALESCE(value,0) as user_vote, post_id FROM votes
       WHERE author_id = '${userId}'
@@ -182,7 +180,10 @@ const getSubredditPostsByTop = async (
       GROUP BY comments.post_id
     ) AS comments ON comments.post_id = posts.id
     ${whereQuery} subreddit_name='${subredditName}' 
-    ORDER BY vote_count DESC`)) as [
+    ORDER BY vote_count DESC
+    LIMIT ${SUBREDDIT_POSTS_LIMIT} OFFSET ${
+    page * SUBREDDIT_POSTS_LIMIT
+  }`)) as [
     {
       id: string;
       author_id: string;

@@ -1,9 +1,14 @@
 import { ActionTypes } from "./types";
 import { Post } from "../reducers/subreddit";
 
-export const getSubreddit = (subName: string, order: string, time: string) => ({
+export const getSubreddit = (
+  subName: string,
+  order: string,
+  time: string,
+  page: number
+) => ({
   type: ActionTypes.GET_SUBREDDIT,
-  payload: { subName, order, time },
+  payload: { subName, order, time, page },
 });
 
 export const getSubredditCompletedAction = (subreddit: {

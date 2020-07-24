@@ -60,6 +60,7 @@ class SubrredditController {
     const { name } = req.params;
     const order = req.query.order as string;
     const sortTime = req.query.time as string;
+    const page = req.query.page as string;
 
     const user = await findCurrentUser(req.user);
     let subredditResult;
@@ -109,7 +110,8 @@ class SubrredditController {
           user.id,
           name,
           order,
-          sortTime
+          sortTime,
+          parseInt(page, 10)
         );
 
         subredditResult = { ...subredditResult, ...{ posts: postQuery[0] } };

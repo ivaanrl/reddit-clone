@@ -1,5 +1,5 @@
-import { ActionTypes, BaseAction } from "../actions";
-import { takeEvery, call, put } from "redux-saga/effects";
+import { ActionTypes } from "../actions";
+import { takeEvery, call, put, takeLeading } from "redux-saga/effects";
 import superagent from "superagent";
 import { APIUrl } from "../../../requestInfo";
 import {
@@ -10,7 +10,7 @@ import {
 } from "../actions/subreddit";
 
 export function* watchGetSubreddit() {
-  yield takeEvery(ActionTypes.GET_SUBREDDIT, getSubreddit);
+  yield takeLeading(ActionTypes.GET_SUBREDDIT, getSubreddit);
 }
 
 export function* watchCreateSubreddit() {
@@ -23,7 +23,7 @@ export function* watchJoinOrLeaveSubreddit() {
 
 export function* getSubreddit(subInfo: {
   type: string;
-  payload: { subName: string; order: string; time: string };
+  payload: { subName: string; order: string; time: string; page: number };
 }) {
   try {
     const subResponse = yield call(getSubredditRequest, subInfo.payload);
@@ -31,6 +31,7 @@ export function* getSubreddit(subInfo: {
     yield put(getSubredditCompletedAction(subResponse.body));
   } catch (error) {
     //failed to get sub
+    console.log(error);
     yield put(
       getSubredditFailed({
         status: error.status,
@@ -69,15 +70,16 @@ export const getSubredditRequest = (info: {
   subName: string;
   order: string;
   time: string;
+  page: number;
 }) => {
-  const { subName, order, time } = info;
+  const { subName, order, time, page } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
       .get(APIUrl + "/subreddit/getSubreddit/" + subName)
-      .query({ order, time });
+      .query({ order, time, page });
   } catch (error) {
     response = error.response;
   }

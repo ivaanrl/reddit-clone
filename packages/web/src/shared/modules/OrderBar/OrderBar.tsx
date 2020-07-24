@@ -30,6 +30,8 @@ const OrderBar = (props: Props) => {
 
   const homepagePage = useSelector((state: State) => state.homepage.page);
 
+  const subredditPage = useSelector((state: State) => state.subreddit.page);
+
   useEffect(() => {
     const sortOrder = location.search.split("&")[0].split("=")[1];
     const timeSort =
@@ -46,16 +48,19 @@ const OrderBar = (props: Props) => {
       getPostsHomepage(sortOrder, timeSort, homepagePage);
     } else if (getPostsWithUsername) {
       const username = location.pathname.split("/")[2];
-      getPostsWithUsername(username, sortOrder, timeSort, profilepage);
+      if (reducer === "profile")
+        getPostsWithUsername(username, sortOrder, timeSort, profilepage);
+      if (reducer === "subreddit")
+        getPostsWithUsername(username, sortOrder, timeSort, subredditPage);
     }
   }, [location, defaultSort]);
 
   const handleScroll = () => {
-    console.log("~#########################");
-
     if (reducer === "profile" && profilepage === 0)
       window.removeEventListener("scroll", handleScroll);
     if (reducer === "homepage" && homepagePage === 0)
+      window.removeEventListener("scroll", handleScroll);
+    if (reducer === "subreddit" && subredditPage === 0)
       window.removeEventListener("scroll", handleScroll);
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       const sortOrder = location.search.split("&")[0].split("=")[1];
@@ -73,7 +78,10 @@ const OrderBar = (props: Props) => {
         getPostsHomepage(sortOrder, timeSort, homepagePage);
       } else if (getPostsWithUsername) {
         const username = location.pathname.split("/")[2];
-        getPostsWithUsername(username, sortOrder, timeSort, profilepage);
+        if (reducer === "profile")
+          getPostsWithUsername(username, sortOrder, timeSort, profilepage);
+        if (reducer === "subreddit")
+          getPostsWithUsername(username, sortOrder, timeSort, subredditPage);
       }
       window.removeEventListener("scroll", handleScroll);
     }

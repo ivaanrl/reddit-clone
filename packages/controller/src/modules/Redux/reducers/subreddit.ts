@@ -33,6 +33,7 @@ export type subredditState = {
     status: number;
     text: string;
   };
+  page: number;
 };
 
 export const subredditReducer = (
@@ -52,12 +53,29 @@ export const subredditReducer = (
       status: 0,
       text: "",
     },
+    page: 0,
   },
   action: BaseAction
 ) => {
+  const stateCopy = { ...state };
   switch (action.type) {
     case ActionTypes.GET_SUBREDDIT_COMPLETED:
-      return { ...state, ...action.payload };
+      const subredditInfo = action.payload;
+      let statePosts = stateCopy.posts;
+      let pages = stateCopy.page;
+      pages++;
+
+      let newPosts: Post[] = subredditInfo.posts;
+
+      statePosts = statePosts.concat(
+        newPosts.filter((post) => statePosts.indexOf(post) < 0)
+      );
+
+      return {
+        ...state,
+        ...action.payload,
+        ...{ posts: statePosts, page: pages },
+      };
     case ActionTypes.GET_SUBREDDIT_FAILED:
       const { status, text } = action.payload;
       return {
@@ -77,7 +95,6 @@ export const subredditReducer = (
       return { ...state, ...action.payload };
     case ActionTypes.UPDATE_POST_VOTES:
       const { index, value } = action.payload;
-      const stateCopy = { ...state };
       const postToEdit = stateCopy.posts[index];
       const { user_vote, votes } = vote(
         postToEdit.user_vote,

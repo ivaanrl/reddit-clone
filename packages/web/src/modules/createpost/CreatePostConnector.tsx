@@ -14,7 +14,7 @@ const CreatePostConnector = () => {
 
   useEffect(() => {
     if (pathname.split("/").includes("r")) {
-      dispatch(allActions.getSubreddit(pathname.split("/")[2], "", ""));
+      dispatch(allActions.getSubreddit(pathname.split("/")[2], "", "", 0));
       setSidebar(<SubredditSidebarConnector />);
     } else {
       setSidebar(<SidebarConnector />);
