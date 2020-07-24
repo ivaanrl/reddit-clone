@@ -3,15 +3,25 @@ import { allActions } from "../Redux";
 
 interface Props {
   children: (data: {
-    getComments: (username: string, order: string, time: string) => void;
+    getComments: (
+      username: string,
+      order: string,
+      time: string,
+      page: number
+    ) => void;
   }) => JSX.Element;
 }
 
 export const ProfileOrderCommentsBarController = (props: Props) => {
   const dispatch = useDispatch();
 
-  const getComments = (username: string, order: string, time: string) => {
-    dispatch(allActions.getProfileComments(username, order, time));
+  const getComments = (
+    username: string,
+    order: string,
+    time: string,
+    page: number
+  ) => {
+    dispatch(allActions.getProfileComments(username, order, time, page));
   };
 
   return props.children({ getComments });

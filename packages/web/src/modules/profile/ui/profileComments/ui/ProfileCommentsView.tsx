@@ -10,7 +10,7 @@ const ProfileCommentsView = () => {
   return (
     <div className="profile-container">
       <ProfileOrderCommentsBarConnector />
-      {profileComments.map((comment) => {
+      {profileComments.map((comment, index) => {
         const {
           commentId,
           commentAuthorId,
@@ -36,6 +36,7 @@ const ProfileCommentsView = () => {
             postId={postId}
             postSubredditName={postSubredditName}
             postTitle={postTitle}
+            key={index}
           />
         );
       })}

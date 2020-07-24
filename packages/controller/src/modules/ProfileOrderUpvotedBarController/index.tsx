@@ -3,15 +3,25 @@ import { allActions } from "../Redux";
 
 interface Props {
   children: (data: {
-    getUpvoted: (username: string, order: string, time: string) => void;
+    getUpvoted: (
+      username: string,
+      order: string,
+      time: string,
+      page: number
+    ) => void;
   }) => JSX.Element;
 }
 
 export const ProfileOrderUpvotedBarController = (props: Props) => {
   const dispatch = useDispatch();
 
-  const getUpvoted = (username: string, order: string, time: string) => {
-    dispatch(allActions.getProfileUpvotedPosts(username, order, time));
+  const getUpvoted = (
+    username: string,
+    order: string,
+    time: string,
+    page: number
+  ) => {
+    dispatch(allActions.getProfileUpvotedPosts(username, order, time, page));
   };
 
   return props.children({ getUpvoted });

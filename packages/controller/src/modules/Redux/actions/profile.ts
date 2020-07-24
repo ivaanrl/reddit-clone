@@ -24,10 +24,11 @@ export const getProfileFailed = (error: { status: number; text: string }) => ({
 export const getProfilePosts = (
   username: string,
   order: string,
-  time: string
+  time: string,
+  page: number
 ) => ({
   type: ActionTypes.GET_PROFILE_POSTS,
-  payload: { username, order, time },
+  payload: { username, order, time, page },
 });
 
 export const getProfilePostsCompletedAction = (
@@ -54,10 +55,11 @@ export const getProfilePostsFailed = (error: {
 export const getProfileUpvotedPosts = (
   username: string,
   order: string,
-  time: string
+  time: string,
+  page: number
 ) => ({
   type: ActionTypes.GET_PROFILE_UPVOTED_POSTS,
-  payload: { username, order, time },
+  payload: { username, order, time, page },
 });
 
 export const getProfileUpvotedPostsCompletedAction = (userPosts: Post[]) => ({
@@ -76,10 +78,11 @@ export const getProfileUpvotedPostsFailed = (error: {
 export const getProfileDownvotedPosts = (
   username: string,
   order: string,
-  time: string
+  time: string,
+  page: number
 ) => ({
   type: ActionTypes.GET_PROFILE_DOWNVOTED_POSTS,
-  payload: { username, order, time },
+  payload: { username, order, time, page },
 });
 
 export const getProfileDownvotedPostsCompletedAction = (userPosts: Post[]) => ({
@@ -116,10 +119,11 @@ export const getProfileSavedPostsFailed = (error: {
 export const getProfileComments = (
   username: string,
   order: string,
-  time: string
+  time: string,
+  page: number
 ) => ({
   type: ActionTypes.GET_PROFILE_COMMENTS,
-  payload: { username, order, time },
+  payload: { username, order, time, page },
 });
 
 export const getProfileCommentsCompletedAction = (userPosts: Post[]) => ({

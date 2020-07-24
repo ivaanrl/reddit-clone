@@ -1,5 +1,5 @@
-import { ActionTypes, BaseAction } from "../actions";
-import { takeEvery, call, put } from "redux-saga/effects";
+import { ActionTypes } from "../actions";
+import { takeEvery, call, put, takeLeading } from "redux-saga/effects";
 import superagent from "superagent";
 import { APIUrl } from "../../../requestInfo";
 import {
@@ -24,15 +24,18 @@ export function* watchGetProfile() {
 }
 
 export function* watchGetProfileComments() {
-  yield takeEvery(ActionTypes.GET_PROFILE_COMMENTS, getProfileComments);
+  yield takeLeading(ActionTypes.GET_PROFILE_COMMENTS, getProfileComments);
 }
 
 export function* watchGetProfileUpvoted() {
-  yield takeEvery(ActionTypes.GET_PROFILE_UPVOTED_POSTS, getProfileUpvoted);
+  yield takeLeading(ActionTypes.GET_PROFILE_UPVOTED_POSTS, getProfileUpvoted);
 }
 
 export function* watchGetProfileDownvoted() {
-  yield takeEvery(ActionTypes.GET_PROFILE_DOWNVOTED_POSTS, getProfileDownvoted);
+  yield takeLeading(
+    ActionTypes.GET_PROFILE_DOWNVOTED_POSTS,
+    getProfileDownvoted
+  );
 }
 
 export function* watchProfileSaved() {
@@ -40,7 +43,7 @@ export function* watchProfileSaved() {
 }
 
 export function* watchProfilePosts() {
-  yield takeEvery(ActionTypes.GET_PROFILE_POSTS, getProfilePosts);
+  yield takeLeading(ActionTypes.GET_PROFILE_POSTS, getProfilePosts);
 }
 
 export function* watchReplyCommentInProfile() {
@@ -69,13 +72,16 @@ export function* replyCommentInProfile(commentInfo: {
 
 export function* getProfilePosts(profileInfo: {
   type: string;
-  payload: { username: string; order: string; time: string };
+  payload: { username: string; order: string; time: string; page: number };
 }) {
   try {
     const profileReponse = yield call(
       getProfilePostsRequest,
       profileInfo.payload
     );
+
+    console.log(profileReponse.body);
+
     yield put(getProfilePostsCompletedAction(profileReponse.body));
   } catch (error) {
     yield put(
@@ -109,7 +115,7 @@ export function* getProfileSaved(profileInfo: {
 
 export function* getProfileDownvoted(profileInfo: {
   type: string;
-  payload: { username: string; order: string; time: string };
+  payload: { username: string; order: string; time: string; page: number };
 }) {
   try {
     const profileReponse = yield call(
@@ -129,7 +135,7 @@ export function* getProfileDownvoted(profileInfo: {
 
 export function* getProfileUpvoted(profileInfo: {
   type: string;
-  payload: { username: string; order: string; time: string };
+  payload: { username: string; order: string; time: string; page: number };
 }) {
   try {
     const profileReponse = yield call(
@@ -149,7 +155,7 @@ export function* getProfileUpvoted(profileInfo: {
 
 export function* getProfileComments(profileInfo: {
   type: string;
-  payload: { username: string; order: string; time: string };
+  payload: { username: string; order: string; time: string; page: number };
 }) {
   try {
     const profileReponse = yield call(
@@ -159,6 +165,7 @@ export function* getProfileComments(profileInfo: {
 
     yield put(getProfileCommentsCompletedAction(profileReponse.body));
   } catch (error) {
+    console.log(error);
     yield put(
       getProfileCommentsFailed({
         status: error.status,
@@ -221,16 +228,18 @@ export const getProfileCommentsRequest = (info: {
   username: string;
   order: string;
   time: string;
+  page: number;
 }) => {
-  const { username, order, time } = info;
+  const { username, order, time, page } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
       .get(APIUrl + "/user/getProfileComments/" + username)
-      .query({ order, time });
+      .query({ order, time, page });
   } catch (error) {
+    console.log(error);
     response = error.response;
   }
 
@@ -241,15 +250,16 @@ export const getProfileUpvotedRequest = (info: {
   username: string;
   order: string;
   time: string;
+  page: number;
 }) => {
-  const { username, order, time } = info;
+  const { username, order, time, page } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
       .get(APIUrl + "/user/getUpvotes/" + username)
-      .query({ order, time });
+      .query({ order, time, page });
   } catch (error) {
     response = error.response;
   }
@@ -261,15 +271,16 @@ export const getProfileDownvotedRequest = (info: {
   username: string;
   order: string;
   time: string;
+  page: number;
 }) => {
-  const { username, order, time } = info;
+  const { username, order, time, page } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
       .get(APIUrl + "/user/getDownvotes/" + username)
-      .query({ order, time });
+      .query({ order, time, page });
   } catch (error) {
     response = error.response;
   }
@@ -295,14 +306,15 @@ export const getProfilePostsRequest = (info: {
   username: string;
   order: string;
   time: string;
+  page: number;
 }) => {
-  const { order, username, time } = info;
+  const { order, username, time, page } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
-      .query({ order, time })
+      .query({ order, time, page })
       .get(APIUrl + "/user/getPosts/" + username);
   } catch (error) {
     response = error.response;

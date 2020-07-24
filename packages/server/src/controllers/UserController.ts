@@ -43,6 +43,7 @@ class UserController {
     const username = req.params.username;
     const order = req.query.order as string;
     const sortTime = req.query.time as string;
+    const page = req.query.page as string;
 
     let user;
     const currentUser = await findCurrentUser(req.user);
@@ -58,7 +59,8 @@ class UserController {
           (currentUser as User).id,
           user.id,
           order,
-          sortTime
+          sortTime,
+          parseInt(page, 10)
         );
 
         return res.status(201).json({ posts: userPosts[0] });
@@ -77,6 +79,7 @@ class UserController {
     const username = req.params.username;
     const order = req.query.order as string;
     const sortTime = req.query.time as string;
+    const page = req.query.page as string;
 
     let user;
     try {
@@ -91,7 +94,8 @@ class UserController {
           user.id,
           order,
           sortTime,
-          1
+          1,
+          parseInt(page, 10)
         );
 
         console.log(upvotedPosts[0]);
@@ -111,6 +115,7 @@ class UserController {
     const username = req.params.username;
     const order = req.query.order as string;
     const sortTime = req.query.time as string;
+    const page = req.query.page as string;
 
     let user;
     try {
@@ -125,7 +130,8 @@ class UserController {
           user.id,
           order,
           sortTime,
-          -1
+          -1,
+          parseInt(page, 10)
         );
 
         return res.status(201).json({ posts: downvotedPosts[0] });
@@ -141,6 +147,7 @@ class UserController {
     const username = req.params.username;
     const order = req.query.order as string;
     const sortTime = req.query.time as string;
+    const page = req.query.page as string;
     let user;
     try {
       user = await User.findOne({ where: { username } });
@@ -157,7 +164,8 @@ class UserController {
         const userCommentsWithParentComment = await getProfileCommentsQuery(
           user.id,
           order,
-          sortTime
+          sortTime,
+          parseInt(page, 10)
         );
 
         return res
@@ -167,7 +175,6 @@ class UserController {
         return res.status(501).json({ message: "server error" });
       }
     }
-
     return res.status(501).json({ message: "server error" });
   }
 }
