@@ -15,12 +15,20 @@ interface Props {
   ) => void;
   getPostsHomepage?: (order: string, time: string, page: number) => void;
   defaultSort: string;
+  reducer: string;
 }
 
 const OrderBar = (props: Props) => {
   const location = useLocation();
-  const { getPostsHomepage, getPostsWithUsername, defaultSort } = props;
-  const page = useSelector((state: State) => state.profile.page);
+  const {
+    getPostsHomepage,
+    getPostsWithUsername,
+    defaultSort,
+    reducer,
+  } = props;
+  const profilepage = useSelector((state: State) => state.profile.page);
+
+  const homepagePage = useSelector((state: State) => state.homepage.page);
 
   useEffect(() => {
     const sortOrder = location.search.split("&")[0].split("=")[1];
@@ -35,19 +43,20 @@ const OrderBar = (props: Props) => {
     setTopTimeSort(timeSortFormatted.join(" "));
 
     if (getPostsHomepage) {
-      getPostsHomepage(sortOrder, timeSort, page);
+      getPostsHomepage(sortOrder, timeSort, homepagePage);
     } else if (getPostsWithUsername) {
       const username = location.pathname.split("/")[2];
-      getPostsWithUsername(username, sortOrder, timeSort, page);
+      getPostsWithUsername(username, sortOrder, timeSort, profilepage);
     }
   }, [location, defaultSort]);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-  }, [page]);
-
   const handleScroll = () => {
-    if (page === 0) window.removeEventListener("scroll", handleScroll);
+    console.log("~#########################");
+
+    if (reducer === "profile" && profilepage === 0)
+      window.removeEventListener("scroll", handleScroll);
+    if (reducer === "homepage" && homepagePage === 0)
+      window.removeEventListener("scroll", handleScroll);
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       const sortOrder = location.search.split("&")[0].split("=")[1];
       const timeSort =
@@ -61,14 +70,18 @@ const OrderBar = (props: Props) => {
       setTopTimeSort(timeSortFormatted.join(" "));
 
       if (getPostsHomepage) {
-        getPostsHomepage(sortOrder, timeSort, page);
+        getPostsHomepage(sortOrder, timeSort, homepagePage);
       } else if (getPostsWithUsername) {
         const username = location.pathname.split("/")[2];
-        getPostsWithUsername(username, sortOrder, timeSort, page);
+        getPostsWithUsername(username, sortOrder, timeSort, profilepage);
       }
       window.removeEventListener("scroll", handleScroll);
     }
   };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+  }, [homepagePage, profilepage, handleScroll]);
 
   const [activeOption, setActiveOption] = useState("new");
   const [topTimeSort, setTopTimeSort] = useState("");

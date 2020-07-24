@@ -10,6 +10,7 @@ export interface homepageReducerState {
     status: number;
     text: string;
   };
+  page: number;
 }
 
 export const homePageReducer = (
@@ -19,14 +20,25 @@ export const homePageReducer = (
       status: 0,
       text: "",
     },
+    page: 0,
   },
   action: BaseAction
 ) => {
+  const stateCopy = { ...state };
   switch (action.type) {
     case ActionTypes.GET_HOMEPAGE_POSTS_COMPLETED:
+      let statePosts = stateCopy.posts;
+      let pages = stateCopy.page;
+      pages++;
+
+      const newPosts: Post[] = action.payload.posts;
+      statePosts = statePosts.concat(
+        newPosts.filter((post) => statePosts.indexOf(post) < 0)
+      );
+
       return {
         ...state,
-        ...action.payload,
+        ...{ posts: statePosts, page: pages },
         ...{ message: { status: 0, text: "" } },
       };
     case ActionTypes.GET_HOMEPAGE_POSTS_FAILED:
@@ -38,7 +50,7 @@ export const homePageReducer = (
       };
     case ActionTypes.UPDATE_HOMEPAGE_POST_VOTES:
       const { index, value } = action.payload;
-      const stateCopy = { ...state };
+
       const postToEdit = stateCopy.posts[index];
       const { user_vote, votes } = vote(
         postToEdit.user_vote,

@@ -6,7 +6,11 @@ const ProfileOrderPostsBarConnector = () => {
   return (
     <ProfileOrderPostsBarController>
       {({ getPosts }) => (
-        <OrderBar getPostsWithUsername={getPosts} defaultSort="new" />
+        <OrderBar
+          getPostsWithUsername={getPosts}
+          defaultSort="new"
+          reducer="profile"
+        />
       )}
     </ProfileOrderPostsBarController>
   );

@@ -4,28 +4,25 @@ export const getHomepagePostsQuery = async (
   username: string,
   userId: string,
   order: string,
-  sortTime: string
+  sortTime: string,
+  page: number
 ) => {
   switch (order) {
     case "new":
-      return await getHomepagePostsByNew(username, userId);
+      return await getHomepagePostsByNew(username, userId, page);
     case "hot":
-      return await getHomepagePostsByHot(username, userId);
+      return await getHomepagePostsByHot(username, userId, page);
     case "top":
-      return await getHomepagePostsByTop(username, userId, sortTime);
+      return await getHomepagePostsByTop(username, userId, sortTime, page);
     default:
-      return await getHomepagePostsByHot(username, userId);
+      return await getHomepagePostsByHot(username, userId, page);
   }
 };
 
-const getHomepagePostsByTop = async (
-  username: string,
-  id: string,
-  sortTime: string
-) => {
-  const whereQuery = getWhereQuery(sortTime);
-  return await sequelize.query(
-    `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content, posts.link, posts.type,
+const HOMEPAGE_POSTS_LIMIT = 15;
+
+const GET_HOMEPAGE_POSTS_INITIAL_TEXT = `
+SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content, posts.link, posts.type,
             posts."createdAt", posts."updatedAt", posts.subreddit_name, COALESCE(votes.vote_count,0) AS votes,
             COALESCE(user_vote.value,0) AS user_vote, COALESCE(comments.comment_count,0) AS comment_count
     FROM posts
@@ -33,7 +30,17 @@ const getHomepagePostsByTop = async (
     SELECT votes.post_id, SUM(votes.value) as vote_count
     FROM votes
     GROUP BY votes.post_id
-    ) AS votes ON votes.post_id = posts.id
+    ) AS votes ON votes.post_id = posts.id`;
+
+const getHomepagePostsByTop = async (
+  username: string,
+  id: string,
+  sortTime: string,
+  page: number
+) => {
+  const whereQuery = getWhereQuery(sortTime);
+  return await sequelize.query(
+    `${GET_HOMEPAGE_POSTS_INITIAL_TEXT}
     LEFT JOIN (
         SELECT "SubredditName" as subreddit_name FROM users_subreddits
         WHERE username = '${username}'
@@ -48,11 +55,16 @@ const getHomepagePostsByTop = async (
         GROUP BY comments.post_id 
     ) AS comments ON comments.post_id = posts.id
     ${whereQuery}
-    ORDER BY vote_count DESC`
+    ORDER BY vote_count DESC
+    LIMIT ${HOMEPAGE_POSTS_LIMIT} OFFSET ${page * HOMEPAGE_POSTS_LIMIT}`
   );
 };
 
-const getHomepagePostsByNew = async (username: string, id: string) => {
+const getHomepagePostsByNew = async (
+  username: string,
+  id: string,
+  page: number
+) => {
   return await sequelize.query(
     `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content, posts.link, posts.type,
             posts."createdAt", posts."updatedAt", posts.subreddit_name, COALESCE(votes.vote_count,0) AS votes,
@@ -76,11 +88,16 @@ const getHomepagePostsByNew = async (username: string, id: string) => {
         FROM comments
         GROUP BY comments.post_id 
     ) AS comments ON comments.post_id = posts.id
-    ORDER BY posts."createdAt" DESC`
+    ORDER BY posts."createdAt" DESC
+    LIMIT ${HOMEPAGE_POSTS_LIMIT} OFFSET ${page * HOMEPAGE_POSTS_LIMIT}`
   );
 };
 
-const getHomepagePostsByHot = async (username: string, id: string) => {
+const getHomepagePostsByHot = async (
+  username: string,
+  id: string,
+  page: number
+) => {
   return await sequelize.query(
     `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content,posts.link, posts.type,
             posts."createdAt", posts."updatedAt", posts.subreddit_name, COALESCE(votes.vote_count,0) AS votes,
@@ -109,7 +126,8 @@ const getHomepagePostsByHot = async (username: string, id: string) => {
                                                                               WHEN 0 THEN -1 
                                                                               ELSE COALESCE(vote_count,0) + 1 
                                                                               END 
-      ASC`
+      ASC
+    LIMIT ${HOMEPAGE_POSTS_LIMIT} OFFSET ${page * HOMEPAGE_POSTS_LIMIT}`
   );
 };
 

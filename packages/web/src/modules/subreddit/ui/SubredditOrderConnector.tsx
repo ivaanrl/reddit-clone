@@ -5,7 +5,11 @@ const SubredditOrderConnector = () => {
   return (
     <SubredditOrderController>
       {({ getSubreddit }) => (
-        <OrderBar getPostsWithUsername={getSubreddit} defaultSort="hot" />
+        <OrderBar
+          getPostsWithUsername={getSubreddit}
+          defaultSort="hot"
+          reducer="subreddit"
+        />
       )}
     </SubredditOrderController>
   );

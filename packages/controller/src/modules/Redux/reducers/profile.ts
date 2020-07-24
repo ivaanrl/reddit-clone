@@ -59,8 +59,8 @@ export const profileReducer = (
       return { ...state, ...action.payload };
     case ActionTypes.GET_PROFILE_POSTS_COMPLETED:
       let statePosts = stateCopy.posts;
-      let Pages = stateCopy.page;
-      Pages++;
+      let pages = stateCopy.page;
+      pages++;
 
       const newPosts: {
         id: string;
@@ -76,7 +76,7 @@ export const profileReducer = (
 
       return {
         ...state,
-        ...{ posts: statePosts, page: Pages },
+        ...{ posts: statePosts, page: pages },
       };
     case ActionTypes.GET_PROFILE_POSTS_FAILED:
       const { status, text } = action.payload;

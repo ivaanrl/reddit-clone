@@ -6,7 +6,11 @@ const HomepageOrderBarConnector = () => {
   return (
     <HomepageOrderController>
       {({ getPosts }) => (
-        <OrderBar getPostsHomepage={getPosts} defaultSort="hot" />
+        <OrderBar
+          getPostsHomepage={getPosts}
+          defaultSort="hot"
+          reducer="homepage"
+        />
       )}
     </HomepageOrderController>
   );

@@ -1,9 +1,13 @@
 import { ActionTypes } from "./types";
 import { Post } from "../reducers/subreddit";
 
-export const getHomepagePosts = (order: string, time: string) => ({
+export const getHomepagePosts = (
+  order: string,
+  time: string,
+  page: number
+) => ({
   type: ActionTypes.GET_HOMEPAGE_POSTS,
-  payload: { order, time },
+  payload: { order, time, page },
 });
 
 export const getHomepagePostsCompletedAction = (posts: Post[]) => ({

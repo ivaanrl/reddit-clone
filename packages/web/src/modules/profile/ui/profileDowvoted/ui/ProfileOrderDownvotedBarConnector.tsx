@@ -6,7 +6,11 @@ const ProfileOrderDownvotedBarConnector = () => {
   return (
     <ProfileOrderDownvotedBarController>
       {({ getDownvoted }) => (
-        <OrderBar getPostsWithUsername={getDownvoted} defaultSort="new" />
+        <OrderBar
+          getPostsWithUsername={getDownvoted}
+          defaultSort="new"
+          reducer="profile"
+        />
       )}
     </ProfileOrderDownvotedBarController>
   );

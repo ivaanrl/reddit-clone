@@ -1,5 +1,5 @@
 import { ActionTypes } from "../actions";
-import { takeEvery, call, put } from "redux-saga/effects";
+import { takeEvery, call, put, takeLeading } from "redux-saga/effects";
 import superagent from "superagent";
 import { APIUrl } from "../../../requestInfo";
 import {
@@ -8,12 +8,12 @@ import {
 } from "../actions/homepage";
 
 export function* watchGetHomepagePosts() {
-  yield takeEvery(ActionTypes.GET_HOMEPAGE_POSTS, getHomepagePosts);
+  yield takeLeading(ActionTypes.GET_HOMEPAGE_POSTS, getHomepagePosts);
 }
 
 export function* getHomepagePosts(info: {
   type: string;
-  payload: { order: string; time: string };
+  payload: { order: string; time: string; page: number };
 }) {
   try {
     const homepageResponse = yield call(getHomepagePostsRequest, info.payload);
@@ -32,15 +32,16 @@ export function* getHomepagePosts(info: {
 export const getHomepagePostsRequest = (info: {
   order: string;
   time: string;
+  page: number;
 }) => {
-  const { order, time } = info;
+  const { order, time, page } = info;
   let response;
   try {
     response = superagent
       .agent()
       .withCredentials()
       .get(APIUrl + "/homepage/getPosts")
-      .query({ order, time });
+      .query({ order, time, page });
   } catch (error) {
     response = error.response;
   }
