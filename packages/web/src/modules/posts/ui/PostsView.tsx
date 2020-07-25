@@ -31,7 +31,9 @@ const PostsView = () => {
                 />
               );
             })}
-            {subreddit.isLoading && location.length >= 3 ? (
+            {subreddit.isLoading &&
+            subreddit.hasMorePosts &&
+            location.length >= 3 ? (
               <PostLoading />
             ) : null}
           </React.Fragment>
@@ -55,7 +57,9 @@ const PostsView = () => {
                 />
               );
             })}
-            {homepage.isLoading ? <PostLoading /> : null}
+            {homepage.isLoading && homepage.hasMorePosts ? (
+              <PostLoading />
+            ) : null}
           </React.Fragment>
         ) : null}
       </div>

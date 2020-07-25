@@ -35,6 +35,7 @@ export type subredditState = {
   };
   page: number;
   isLoading: boolean;
+  hasMorePosts: boolean;
 };
 
 export const subredditReducer = (
@@ -56,6 +57,7 @@ export const subredditReducer = (
     },
     page: 0,
     isLoading: true,
+    hasMorePosts: true,
   },
   action: BaseAction
 ) => {
@@ -66,7 +68,7 @@ export const subredditReducer = (
       let statePosts = stateCopy.posts;
       let pages = stateCopy.page;
       pages++;
-
+      const hasMore = subredditInfo.hasMore;
       let newPosts: Post[] = subredditInfo.posts;
 
       statePosts = statePosts.concat(
@@ -76,7 +78,12 @@ export const subredditReducer = (
       return {
         ...state,
         ...action.payload,
-        ...{ posts: statePosts, page: pages, isLoading: false },
+        ...{
+          posts: statePosts,
+          page: pages,
+          isLoading: false,
+          hasMorePosts: hasMore,
+        },
       };
     case ActionTypes.GET_SUBREDDIT_FAILED:
       const { status, text } = action.payload;

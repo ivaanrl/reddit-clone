@@ -9,7 +9,8 @@ import ProfilePostLoading from "../../../profilePost/ui/ProfilePostLoading";
 const ProfileDownvotedView = () => {
   const currentUser = useSelector((state: State) => state.auth);
   const userProfile = useSelector((state: State) => state.profile);
-  const isLoading = useSelector((state: State) => state.profile.isLoading);
+  const { isLoading, hasMore } = useSelector((state: State) => state.profile);
+
   return (
     <React.Fragment>
       {userProfile.userInfo.username === currentUser.username ? (
@@ -37,7 +38,7 @@ const ProfileDownvotedView = () => {
               />
             );
           })}
-          {isLoading ? (
+          {isLoading && hasMore ? (
             <React.Fragment>
               <ProfilePostLoading />
               <ProfilePostLoading />

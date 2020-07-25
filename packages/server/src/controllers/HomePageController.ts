@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
 import { get, controller, use, post } from "./decorators";
 import "../services/passport";
-import sequelize from "../models";
+import { HOMEPAGE_POSTS_LIMIT } from "./queries/HomePageQueries";
 import { findCurrentUser } from "../helpers";
 import { User } from "../models/User";
-import { Post } from "../models/Post";
 import { getHomepagePostsQuery } from "./queries/HomePageQueries";
-import { Console } from "console";
 
 @controller("/api/homepage")
 class HomePageController {
@@ -17,7 +15,6 @@ class HomePageController {
     const sortTime = req.query.time as string;
     const page = req.query.page as string;
 
-    console.log(page);
     let posts;
     if (currentUser instanceof User) {
       try {
@@ -45,6 +42,8 @@ class HomePageController {
       }
     }
 
-    return res.status(201).json({ posts: posts[0] });
+    const hasMore = posts[0].length === HOMEPAGE_POSTS_LIMIT;
+
+    return res.status(201).json({ posts: posts[0], hasMore });
   }
 }

@@ -7,7 +7,8 @@ import ProfilePostLoading from "../../../profilePost/ui/ProfilePostLoading";
 
 const ProfileCommentsView = () => {
   const profileComments = useSelector((state: State) => state.profile.comments);
-  const isLoading = useSelector((state: State) => state.profile.isLoading);
+  const { isLoading, hasMore } = useSelector((state: State) => state.profile);
+
   return (
     <div className="profile-container">
       <ProfileOrderCommentsBarConnector />
@@ -41,7 +42,7 @@ const ProfileCommentsView = () => {
           />
         );
       })}
-      {isLoading ? (
+      {isLoading && hasMore ? (
         <React.Fragment>
           <ProfilePostLoading />
           <ProfilePostLoading />

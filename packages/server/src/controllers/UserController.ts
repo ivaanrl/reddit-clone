@@ -9,6 +9,9 @@ import {
   getProfilePostsQuery,
   getProfileVotedPostQuery,
   getProfileCommentsQuery,
+  PROFILE_POSTS_LIMIT,
+  PROFILE_VOTED_LIMIT,
+  PROFILE_COMMENT_LIMIT,
 } from "./queries/UserProfileQueries";
 
 @controller("/api/user")
@@ -63,7 +66,9 @@ class UserController {
           parseInt(page, 10)
         );
 
-        return res.status(201).json({ posts: userPosts[0] });
+        const hasMore = userPosts[0].length === PROFILE_POSTS_LIMIT;
+
+        return res.status(201).json({ posts: userPosts[0], hasMore });
       } catch (error) {
         return res.status(501).json({ message: "Server internal error" });
       }
@@ -98,9 +103,9 @@ class UserController {
           parseInt(page, 10)
         );
 
-        console.log(upvotedPosts[0]);
+        const hasMore = upvotedPosts[0].length === PROFILE_VOTED_LIMIT;
 
-        return res.status(201).json({ posts: upvotedPosts[0] });
+        return res.status(201).json({ posts: upvotedPosts[0], hasMore });
       } catch (error) {
         return res.status(501).json({ message: "server error" });
       }
@@ -134,7 +139,9 @@ class UserController {
           parseInt(page, 10)
         );
 
-        return res.status(201).json({ posts: downvotedPosts[0] });
+        const hasMore = downvotedPosts[0].length === PROFILE_VOTED_LIMIT;
+
+        return res.status(201).json({ posts: downvotedPosts[0], hasMore });
       } catch (error) {
         return res.status(501).json({ message: "server error" });
       }
@@ -168,9 +175,12 @@ class UserController {
           parseInt(page, 10)
         );
 
+        const hasMore =
+          userCommentsWithParentComment[0].length === PROFILE_COMMENT_LIMIT;
+
         return res
           .status(201)
-          .json({ comments: userCommentsWithParentComment[0] });
+          .json({ comments: userCommentsWithParentComment[0], hasMore });
       } catch (error) {
         return res.status(501).json({ message: "server error" });
       }

@@ -81,7 +81,7 @@ SELECT posts.id, posts.author_id, posts.author_username, posts.title,
       GROUP BY votes.post_id
     ) AS votes on votes.post_id = posts.id`;
 
-const SUBREDDIT_POSTS_LIMIT = 10;
+export const SUBREDDIT_POSTS_LIMIT = 10;
 
 const getSubredditPostsByHot = async (
   userId: string,

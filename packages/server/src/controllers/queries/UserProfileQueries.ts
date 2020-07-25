@@ -19,7 +19,7 @@ export const getProfilePostsQuery = async (
   }
 };
 
-const PROFILE_POSTS_LIMIT = 10;
+export const PROFILE_POSTS_LIMIT = 10;
 
 const getProfilePostsByTop = async (
   currentUserId: string,
@@ -142,7 +142,7 @@ FROM votes
 INNER JOIN posts 
 ON votes.post_id = posts.id`;
 
-const PROFILE_VOTED_LIMIT = 10;
+export const PROFILE_VOTED_LIMIT = 10;
 
 export const getProfileVotedPostsByNew = async (
   userId: string,
@@ -219,7 +219,7 @@ LEFT JOIN(
 INNER JOIN posts 
 ON comments.post_id = posts.id`;
 
-const PROFILE_COMMENT_LIMIT = 10;
+export const PROFILE_COMMENT_LIMIT = 10;
 
 const getProfileCommentsByTop = async (
   userId: string,

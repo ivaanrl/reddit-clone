@@ -34,6 +34,7 @@ export type profileReducerState = {
   };
   page: 0;
   isLoading: boolean;
+  hasMore: boolean;
 };
 
 export const profileReducer = (
@@ -52,6 +53,7 @@ export const profileReducer = (
     },
     page: 0,
     isLoading: true,
+    hasMore: true,
   },
   action: BaseAction
 ) => {
@@ -63,6 +65,8 @@ export const profileReducer = (
       let statePosts = stateCopy.posts;
       let pages = stateCopy.page;
       pages++;
+
+      const hasMore = action.payload.hasMore;
 
       const newPosts: {
         id: string;
@@ -78,7 +82,12 @@ export const profileReducer = (
 
       return {
         ...state,
-        ...{ posts: statePosts, page: pages, isLoading: false },
+        ...{
+          posts: statePosts,
+          page: pages,
+          isLoading: false,
+          hasMore: hasMore,
+        },
       };
     case ActionTypes.GET_PROFILE_POSTS_FAILED:
       const { status, text } = action.payload;
@@ -87,6 +96,8 @@ export const profileReducer = (
       let stateUpvotedPosts = stateCopy.posts;
       let upvotedPages = stateCopy.page;
       upvotedPages++;
+
+      const hasMoreUpvoted = action.payload.hasMore;
 
       const newUpvotedPosts: {
         id: string;
@@ -102,7 +113,12 @@ export const profileReducer = (
 
       return {
         ...state,
-        ...{ posts: stateUpvotedPosts, page: upvotedPages, isLoading: false },
+        ...{
+          posts: stateUpvotedPosts,
+          page: upvotedPages,
+          isLoading: false,
+          hasMore: hasMoreUpvoted,
+        },
       };
     case ActionTypes.GET_PROFILE_UPVOTED_POSTS_FAILED:
       return {
@@ -115,6 +131,8 @@ export const profileReducer = (
       let stateDownvotedPosts = stateCopy.posts;
       let downvotedPages = stateCopy.page;
       downvotedPages++;
+
+      const hasMoreDownvoted = action.payload.hasMore;
 
       const newDownvotedPosts: {
         id: string;
@@ -130,7 +148,12 @@ export const profileReducer = (
 
       return {
         ...state,
-        ...{ posts: stateUpvotedPosts, page: downvotedPages, isLoading: false },
+        ...{
+          posts: stateUpvotedPosts,
+          page: downvotedPages,
+          isLoading: false,
+          hasMore: hasMoreDownvoted,
+        },
       };
     case ActionTypes.GET_PROFILE_DOWNVOTED_POSTS_FAILED:
       return {
@@ -144,6 +167,8 @@ export const profileReducer = (
       let commentsPage = stateCopy.page;
       commentsPage++;
 
+      const hasMoreComments = action.payload.hasMore;
+
       const newComments: {
         commentId: string;
         commentAuthorId: string;
@@ -156,13 +181,19 @@ export const profileReducer = (
         postAuthorUsername: string;
         postTitle: string;
       }[] = action.payload.comments;
+
       stateComments = stateComments.concat(
         newComments.filter((post) => stateComments.indexOf(post) < 0)
       );
 
       return {
         ...state,
-        ...{ comments: stateComments, page: commentsPage, isLoading: false },
+        ...{
+          comments: stateComments,
+          page: commentsPage,
+          isLoading: false,
+          hasMore: hasMoreComments,
+        },
       };
     case ActionTypes.GET_PROFILE_COMMENTS_FAILED:
       return {
@@ -190,7 +221,7 @@ export const profileReducer = (
     case ActionTypes.CLEAR_PROFILE_POSTS:
       return {
         ...state,
-        ...{ posts: [], comments: [], page: 0 },
+        ...{ posts: [], comments: [], page: 0, hasMore: true },
       };
     case ActionTypes.UPDATE_PROFILE_POST_VOTES:
       const { index, value } = action.payload;

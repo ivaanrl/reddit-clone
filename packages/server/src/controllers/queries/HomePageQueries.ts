@@ -19,7 +19,7 @@ export const getHomepagePostsQuery = async (
   }
 };
 
-const HOMEPAGE_POSTS_LIMIT = 15;
+export const HOMEPAGE_POSTS_LIMIT = 15;
 
 const GET_HOMEPAGE_POSTS_INITIAL_TEXT = `
 SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content, posts.link, posts.type,

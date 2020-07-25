@@ -11,6 +11,7 @@ import { getSubreddit, findCurrentUser, createSub } from "../helpers";
 import {
   getSubredditSignedInQuery,
   getSubredditPostsQuery,
+  SUBREDDIT_POSTS_LIMIT,
 } from "./queries/SubredditQueries";
 
 const {
@@ -114,7 +115,12 @@ class SubrredditController {
           parseInt(page, 10)
         );
 
-        subredditResult = { ...subredditResult, ...{ posts: postQuery[0] } };
+        const hasMore = postQuery[0].length === SUBREDDIT_POSTS_LIMIT;
+
+        subredditResult = {
+          ...subredditResult,
+          ...{ posts: postQuery[0], hasMore },
+        };
         return res.status(201).json(subredditResult);
       } catch (error) {
         console.log(error);

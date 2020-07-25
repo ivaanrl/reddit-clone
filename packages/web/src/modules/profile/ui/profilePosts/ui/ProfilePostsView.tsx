@@ -7,7 +7,7 @@ import ProfilePostLoading from "../../../profilePost/ui/ProfilePostLoading";
 
 const ProfilePostsView = () => {
   const profilePosts = useSelector((state: State) => state.profile.posts);
-  const isLoading = useSelector((state: State) => state.profile.isLoading);
+  const { isLoading, hasMore } = useSelector((state: State) => state.profile);
   return (
     <div className="profile-container">
       <ProfileOrderPostsBarConnector />
@@ -33,7 +33,7 @@ const ProfilePostsView = () => {
           />
         );
       })}
-      {isLoading ? (
+      {isLoading && hasMore ? (
         <React.Fragment>
           <ProfilePostLoading />
           <ProfilePostLoading />

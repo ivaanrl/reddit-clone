@@ -12,6 +12,7 @@ export interface homepageReducerState {
   };
   page: number;
   isLoading: boolean;
+  hasMorePosts: boolean;
 }
 
 export const homePageReducer = (
@@ -23,6 +24,7 @@ export const homePageReducer = (
     },
     page: 0,
     isLoading: true,
+    hasMorePosts: true,
   },
   action: BaseAction
 ) => {
@@ -33,6 +35,7 @@ export const homePageReducer = (
       let pages = stateCopy.page;
       pages++;
 
+      const hasMore: boolean = action.payload.hasMore;
       const newPosts: Post[] = action.payload.posts;
       statePosts = statePosts.concat(
         newPosts.filter((post) => statePosts.indexOf(post) < 0)
@@ -40,7 +43,12 @@ export const homePageReducer = (
 
       return {
         ...state,
-        ...{ posts: statePosts, page: pages, isLoading: false },
+        ...{
+          posts: statePosts,
+          page: pages,
+          isLoading: false,
+          hasMorePosts: hasMore,
+        },
         ...{ message: { status: 0, text: "" } },
       };
     case ActionTypes.GET_HOMEPAGE_POSTS_FAILED:
