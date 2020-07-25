@@ -3,10 +3,11 @@ import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import ProfilePostConnector from "../../../profilePost/ProfilePostConnector";
 import ProfileOrderPostsBarConnector from "./ProfileOrderPostsBarConnector";
+import ProfilePostLoading from "../../../profilePost/ui/ProfilePostLoading";
 
 const ProfilePostsView = () => {
   const profilePosts = useSelector((state: State) => state.profile.posts);
-
+  const isLoading = useSelector((state: State) => state.profile.isLoading);
   return (
     <div className="profile-container">
       <ProfileOrderPostsBarConnector />
@@ -32,6 +33,12 @@ const ProfilePostsView = () => {
           />
         );
       })}
+      {isLoading ? (
+        <React.Fragment>
+          <ProfilePostLoading />
+          <ProfilePostLoading />
+        </React.Fragment>
+      ) : null}
     </div>
   );
 };

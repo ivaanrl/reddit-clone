@@ -178,3 +178,7 @@ export const updateProfilePostVotes = (voteInfo: {
   type: ActionTypes.UPDATE_PROFILE_POST_VOTES,
   payload: voteInfo,
 });
+
+export const switchProfileLoadingState = () => ({
+  type: ActionTypes.SWITCH_PROFILE_LOADING_STATE,
+});

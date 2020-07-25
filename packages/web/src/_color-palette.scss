@@ -11,6 +11,7 @@ $themes: (
     highlight-selection-hover: #3394dc,
     highlight-selection-text-color: #ffffff,
     default-profile-picture-background: #d7dfe2,
+    loading-post-background: linear-gradient(90deg, black, #575454),
   ),
   dark: (
     color-background: #030303,
@@ -24,6 +25,7 @@ $themes: (
     highlight-selection-hover: #ffffff,
     highlight-selection-text-color: #1a1a1b,
     default-profile-picture-background: #818384,
+    loading-post-background: linear-gradient(90deg, #ffffff, #575454, blue, red),
   ),
 );
 

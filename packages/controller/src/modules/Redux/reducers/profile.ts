@@ -33,6 +33,7 @@ export type profileReducerState = {
     text: string;
   };
   page: 0;
+  isLoading: boolean;
 };
 
 export const profileReducer = (
@@ -50,6 +51,7 @@ export const profileReducer = (
       text: "",
     },
     page: 0,
+    isLoading: true,
   },
   action: BaseAction
 ) => {
@@ -76,7 +78,7 @@ export const profileReducer = (
 
       return {
         ...state,
-        ...{ posts: statePosts, page: pages },
+        ...{ posts: statePosts, page: pages, isLoading: false },
       };
     case ActionTypes.GET_PROFILE_POSTS_FAILED:
       const { status, text } = action.payload;
@@ -98,7 +100,10 @@ export const profileReducer = (
         newUpvotedPosts.filter((post) => stateUpvotedPosts.indexOf(post) < 0)
       );
 
-      return { ...state, ...{ posts: stateUpvotedPosts, page: upvotedPages } };
+      return {
+        ...state,
+        ...{ posts: stateUpvotedPosts, page: upvotedPages, isLoading: false },
+      };
     case ActionTypes.GET_PROFILE_UPVOTED_POSTS_FAILED:
       return {
         ...state,
@@ -125,7 +130,7 @@ export const profileReducer = (
 
       return {
         ...state,
-        ...{ posts: stateUpvotedPosts, page: downvotedPages },
+        ...{ posts: stateUpvotedPosts, page: downvotedPages, isLoading: false },
       };
     case ActionTypes.GET_PROFILE_DOWNVOTED_POSTS_FAILED:
       return {
@@ -157,7 +162,7 @@ export const profileReducer = (
 
       return {
         ...state,
-        ...{ comments: stateComments, page: commentsPage },
+        ...{ comments: stateComments, page: commentsPage, isLoading: false },
       };
     case ActionTypes.GET_PROFILE_COMMENTS_FAILED:
       return {
@@ -199,6 +204,9 @@ export const profileReducer = (
       postToEdit.voteCount = votes.toString();
       postToEdit.user_vote = user_vote;
       return { ...state, ...stateCopy };
+    case ActionTypes.SWITCH_PROFILE_LOADING_STATE:
+      //const loadingState = stateCopy.isLoading;
+      return { ...state, ...{ isLoading: true } };
     default:
       return state;
   }

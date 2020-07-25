@@ -1,0 +1,98 @@
+@import "../../../../color-palette";
+
+.profile-post-loading {
+  //@include theme-aware("background", "loading-post-background");
+  background: linear-gradient(90deg, #1a1a1b, #818384);
+  animation: movingGradient 1s ease infinite;
+  background-size: 200%;
+}
+
+@keyframes movingGradient {
+  0% {
+    background-position: 0%;
+  }
+  50% {
+    background-position: 50%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+a {
+  text-decoration: none;
+  //@include theme-aware("color", "text-main");
+}
+
+.vote-container {
+  padding-top: 8px;
+}
+
+.profile-post-loading-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid;
+  @include theme-aware("background-color", "color-card");
+  @include theme-aware("border-color", "color-line");
+}
+
+.profile-post-loading-container:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.profile-post-loading-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.profile-post-loading-title {
+  width: 80%;
+  height: 15px;
+  border-radius: 4px;
+}
+
+.profile-post-loading-small-text {
+  width: 20%;
+  height: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.profile-post-loading-image-container {
+  width: 80px;
+  height: 55px;
+  border-radius: 4px;
+  border: 1px solid;
+  margin-right: 20px;
+  margin-bottom: 4px;
+  @include theme-aware("border-color", "color-line");
+}
+
+.profile-post-loading-bottom-bar {
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-post-loading-bottom-bar-small {
+  border-radius: 4px;
+  height: 10px;
+  margin-right: 10px;
+  width: 5%;
+}
+
+.profile-post-loading-vertical-separator {
+  height: 10px;
+  width: 1px;
+  @include theme-aware("background-color", "color-line");
+}
+
+.profile-post-loading-bottom-bar-large {
+  border-radius: 4px;
+  height: 10px;
+  margin-left: 10px;
+  width: 20%;
+}

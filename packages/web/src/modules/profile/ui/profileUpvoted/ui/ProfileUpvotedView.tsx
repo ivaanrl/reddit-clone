@@ -4,10 +4,12 @@ import { State } from "@reddit-clone/controller";
 import ProfilePostConnector from "../../../profilePost/ProfilePostConnector";
 import ProfileUnauthorized from "../../profileUnauthorized/ProfileUnauthorized";
 import ProfileOrderUpvotedBarConnector from "./ProfileOrderUpvotedBarConnector";
+import ProfilePostLoading from "../../../profilePost/ui/ProfilePostLoading";
 
 const ProfileUpvotedView = () => {
   const currentUser = useSelector((state: State) => state.auth);
   const userProfile = useSelector((state: State) => state.profile);
+  const isLoading = useSelector((state: State) => state.profile.isLoading);
 
   return (
     <React.Fragment>
@@ -36,6 +38,12 @@ const ProfileUpvotedView = () => {
               />
             );
           })}
+          {isLoading ? (
+            <React.Fragment>
+              <ProfilePostLoading />
+              <ProfilePostLoading />
+            </React.Fragment>
+          ) : null}
         </div>
       ) : (
         <ProfileUnauthorized />

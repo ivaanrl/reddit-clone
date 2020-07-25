@@ -17,6 +17,7 @@ import {
   getProfilePostsFailed,
   replyCommentInProfileCompletedAction,
   replyCommentInProfileFailed,
+  switchProfileLoadingState,
 } from "../actions/profile";
 
 export function* watchGetProfile() {
@@ -75,13 +76,11 @@ export function* getProfilePosts(profileInfo: {
   payload: { username: string; order: string; time: string; page: number };
 }) {
   try {
+    yield put(switchProfileLoadingState());
     const profileReponse = yield call(
       getProfilePostsRequest,
       profileInfo.payload
     );
-
-    console.log(profileReponse.body);
-
     yield put(getProfilePostsCompletedAction(profileReponse.body));
   } catch (error) {
     yield put(
@@ -98,6 +97,7 @@ export function* getProfileSaved(profileInfo: {
   payload: string;
 }) {
   try {
+    yield put(switchProfileLoadingState());
     const profileReponse = yield call(
       getProfileSavedRequest,
       profileInfo.payload
@@ -118,6 +118,7 @@ export function* getProfileDownvoted(profileInfo: {
   payload: { username: string; order: string; time: string; page: number };
 }) {
   try {
+    yield put(switchProfileLoadingState());
     const profileReponse = yield call(
       getProfileDownvotedRequest,
       profileInfo.payload
@@ -138,6 +139,7 @@ export function* getProfileUpvoted(profileInfo: {
   payload: { username: string; order: string; time: string; page: number };
 }) {
   try {
+    yield put(switchProfileLoadingState());
     const profileReponse = yield call(
       getProfileUpvotedRequest,
       profileInfo.payload
@@ -158,6 +160,7 @@ export function* getProfileComments(profileInfo: {
   payload: { username: string; order: string; time: string; page: number };
 }) {
   try {
+    yield put(switchProfileLoadingState());
     const profileReponse = yield call(
       getProfileCommentsRequest,
       profileInfo.payload
