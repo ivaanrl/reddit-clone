@@ -34,6 +34,7 @@ export type subredditState = {
     text: string;
   };
   page: number;
+  isLoading: boolean;
 };
 
 export const subredditReducer = (
@@ -54,6 +55,7 @@ export const subredditReducer = (
       text: "",
     },
     page: 0,
+    isLoading: true,
   },
   action: BaseAction
 ) => {
@@ -74,7 +76,7 @@ export const subredditReducer = (
       return {
         ...state,
         ...action.payload,
-        ...{ posts: statePosts, page: pages },
+        ...{ posts: statePosts, page: pages, isLoading: false },
       };
     case ActionTypes.GET_SUBREDDIT_FAILED:
       const { status, text } = action.payload;
@@ -115,6 +117,8 @@ export const subredditReducer = (
           status: 0,
         },
       };
+    case ActionTypes.SWITCH_SUBREDDIT_LOADING_STATE:
+      return { ...state, ...{ isLoading: true } };
     default:
       return state;
   }

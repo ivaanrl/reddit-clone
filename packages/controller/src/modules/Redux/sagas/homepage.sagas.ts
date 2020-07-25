@@ -5,6 +5,7 @@ import { APIUrl } from "../../../requestInfo";
 import {
   getHomepagePostsCompletedAction,
   getHomepagePostsFailed,
+  switchHomepageLoadingStae,
 } from "../actions/homepage";
 
 export function* watchGetHomepagePosts() {
@@ -16,6 +17,7 @@ export function* getHomepagePosts(info: {
   payload: { order: string; time: string; page: number };
 }) {
   try {
+    yield put(switchHomepageLoadingStae());
     const homepageResponse = yield call(getHomepagePostsRequest, info.payload);
 
     yield put(getHomepagePostsCompletedAction(homepageResponse.body));

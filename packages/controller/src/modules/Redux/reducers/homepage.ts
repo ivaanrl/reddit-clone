@@ -11,6 +11,7 @@ export interface homepageReducerState {
     text: string;
   };
   page: number;
+  isLoading: boolean;
 }
 
 export const homePageReducer = (
@@ -21,6 +22,7 @@ export const homePageReducer = (
       text: "",
     },
     page: 0,
+    isLoading: true,
   },
   action: BaseAction
 ) => {
@@ -38,7 +40,7 @@ export const homePageReducer = (
 
       return {
         ...state,
-        ...{ posts: statePosts, page: pages },
+        ...{ posts: statePosts, page: pages, isLoading: false },
         ...{ message: { status: 0, text: "" } },
       };
     case ActionTypes.GET_HOMEPAGE_POSTS_FAILED:
@@ -61,6 +63,8 @@ export const homePageReducer = (
       postToEdit.votes = votes.toString();
       postToEdit.user_vote = user_vote;
       return { ...state, ...stateCopy };
+    case ActionTypes.SWITCH_HOMEPAGE_LOADING_STATE:
+      return { ...state, ...{ isLoading: true } };
     default:
       return state;
   }

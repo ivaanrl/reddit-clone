@@ -1,6 +1,6 @@
 @import "../../../../color-palette";
 
-.profile-post-loading {
+.post-loading {
   //@include theme-aware("background", "loading-post-background");
   background: linear-gradient(90deg, #1a1a1b, #818384);
   animation: movingGradient 1s ease infinite;

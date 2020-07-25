@@ -22,3 +22,7 @@ export const getHomepagePostsFailed = (error: {
   type: ActionTypes.GET_HOMEPAGE_POSTS_FAILED,
   payload: error,
 });
+
+export const switchHomepageLoadingStae = () => ({
+  type: ActionTypes.SWITCH_HOMEPAGE_LOADING_STATE,
+});

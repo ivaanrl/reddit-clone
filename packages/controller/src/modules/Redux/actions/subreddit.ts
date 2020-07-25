@@ -71,3 +71,7 @@ export const joinOrLeaveSubredditCompletedAction = (isUserJoined: boolean) => ({
 export const removeSubredditErrors = () => ({
   type: ActionTypes.REMOVE_SUBREDDIT_ERRORS,
 });
+
+export const switchSubredditLoadingState = () => ({
+  type: ActionTypes.SWITCH_SUBREDDIT_LOADING_STATE,
+});

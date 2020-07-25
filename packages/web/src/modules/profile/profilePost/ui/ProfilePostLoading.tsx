@@ -23,16 +23,16 @@ const ProfilePostLoading = () => {
           reducer=""
         />
       </div>
-      <div className="profile-post-loading-image-container profile-post-loading">
-        <div className="profile-post-loading-image profile-post-loading"></div>
+      <div className="profile-post-loading-image-container post-loading">
+        <div className="profile-post-loading-image post-loading"></div>
       </div>
       <div className="profile-post-info">
-        <div className="profile-post-loading-title profile-post-loading"></div>
-        <div className="profile-post-loading-small-text profile-post-loading"></div>
+        <div className="profile-post-loading-title post-loading"></div>
+        <div className="profile-post-loading-small-text post-loading"></div>
         <div className="profile-post-loading-bottom-bar">
-          <div className="profile-post-loading-bottom-bar-small profile-post-loading"></div>
+          <div className="profile-post-loading-bottom-bar-small post-loading"></div>
           <div className="profile-post-loading-vertical-separator "></div>
-          <div className="profile-post-loading-bottom-bar-large profile-post-loading"></div>
+          <div className="profile-post-loading-bottom-bar-large post-loading"></div>
         </div>
       </div>
     </div>

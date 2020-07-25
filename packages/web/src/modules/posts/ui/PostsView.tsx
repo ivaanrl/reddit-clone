@@ -5,6 +5,8 @@ import { State } from "@reddit-clone/controller";
 import PostConnector from "../post/PostConnector";
 import { useLocation } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroller";
+import ProfilePostLoading from "../../profile/profilePost/ui/ProfilePostLoading";
+import PostLoading from "../post/ui/PostLoading";
 
 const PostsView = () => {
   const location = useLocation().pathname.split("/");
@@ -17,26 +19,33 @@ const PostsView = () => {
       hasMore={true}
     >
       <div className="posts-container" title="posts">
-        {subreddit.posts && location.length > 1 ? (
-          subreddit.posts.map((post, index) => {
-            return (
-              <PostConnector
-                key={index}
-                postInfo={{ ...post, index }}
-                showSubredditName={false}
-                reducer="subreddit"
-              />
-            );
-          })
+        {subreddit.posts && location.length >= 3 ? (
+          <React.Fragment>
+            {subreddit.posts.map((post, index) => {
+              return (
+                <PostConnector
+                  key={index}
+                  postInfo={{ ...post, index }}
+                  showSubredditName={false}
+                  reducer="subreddit"
+                />
+              );
+            })}
+            {subreddit.isLoading && location.length >= 3 ? (
+              <PostLoading />
+            ) : null}
+          </React.Fragment>
         ) : (
           <div>
-            {location.length > 1 ? (
+            {location.length >= 3 ? (
               <div>There are no post in this subreddit...Yet</div>
             ) : null}
           </div>
         )}
-        {homepage.posts
-          ? homepage.posts.map((post, index) => {
+
+        {homepage.posts && location.length <= 2 ? (
+          <React.Fragment>
+            {homepage.posts.map((post, index) => {
               return (
                 <PostConnector
                   key={index}
@@ -45,8 +54,10 @@ const PostsView = () => {
                   reducer="homepage"
                 />
               );
-            })
-          : null}
+            })}
+            {homepage.isLoading ? <PostLoading /> : null}
+          </React.Fragment>
+        ) : null}
       </div>
     </InfiniteScroll>
   );

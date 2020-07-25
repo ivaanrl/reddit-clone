@@ -7,6 +7,7 @@ import {
   getSubredditFailed,
   createSubredditCompletedAction,
   joinOrLeaveSubredditCompletedAction,
+  switchSubredditLoadingState,
 } from "../actions/subreddit";
 
 export function* watchGetSubreddit() {
@@ -26,6 +27,7 @@ export function* getSubreddit(subInfo: {
   payload: { subName: string; order: string; time: string; page: number };
 }) {
   try {
+    yield put(switchSubredditLoadingState());
     const subResponse = yield call(getSubredditRequest, subInfo.payload);
 
     yield put(getSubredditCompletedAction(subResponse.body));
