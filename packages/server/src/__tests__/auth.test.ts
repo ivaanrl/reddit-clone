@@ -13,6 +13,7 @@ let username: string, password: string, email: string;
 beforeAll(async () => {
   username = Str.random();
   password = Str.random();
+
   email = Str.random();
 });
 
@@ -23,8 +24,10 @@ describe("User can create account, and then login", () => {
       password: password,
       email,
     });
+
     expect(res.status).toBe(201);
-    expect(res.data.message).toBe(user_created_successfully);
+
+    expect(res.data.text).toBe(user_created_successfully);
   });
 
   test("succesfully logs in with previous user", async () => {
@@ -34,7 +37,7 @@ describe("User can create account, and then login", () => {
     });
 
     expect(res.status).toBe(201);
-    expect(res.data.message).toBe(successful_login);
+    expect(res.data.text).toBe(successful_login);
   });
 });
 
@@ -52,7 +55,7 @@ describe("login fails with incorrect info", () => {
     }
 
     expect(res.status).toBe(401);
-    expect(res.data.message).toBe(invalid_combination);
+    expect(res.data.text).toBe(invalid_combination);
   });
 
   test("incorrect password", async () => {
@@ -67,7 +70,7 @@ describe("login fails with incorrect info", () => {
       res = error.response;
     }
     expect(res.status).toBe(401);
-    expect(res.data.message).toBe(invalid_combination);
+    expect(res.data.text).toBe(invalid_combination);
   });
 });
 
@@ -85,6 +88,6 @@ describe("singup fails with repeated info", () => {
     }
 
     expect(res.status).toBe(401);
-    expect(res.data.message).toBe(username_taken);
+    expect(res.data.text).toBe(username_taken);
   });
 });

@@ -62,10 +62,7 @@ passport.use(
       match = await compare(password, user.password);
     }
 
-    console.log(match);
-
     if (match) {
-      console.log("should serialize now");
       return done(null, {
         userid: user?.id,
         username: user?.username,
