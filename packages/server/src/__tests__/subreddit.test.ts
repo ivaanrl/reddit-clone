@@ -5,6 +5,7 @@ import { loginUser } from "../__testHelpers__/auth/loginUser";
 import { logoutUser } from "../__testHelpers__/auth/logoutUser";
 import { createSubreddit } from "../__testHelpers__/subreddits/createSubreddit";
 import { createPost } from "../__testHelpers__/posts/createPost";
+import { getSubreddit } from "../__testHelpers__/subreddits/getSubreddit";
 
 const {
   server_error,
@@ -17,6 +18,7 @@ beforeAll(async () => {
   username = Str.random();
   password = Str.random();
   email = Str.random();
+
   await loginUser(username, password, email);
 });
 
@@ -88,17 +90,7 @@ describe("user get subreddit", () => {
   });
 
   test("it returns the correct subreddit", async () => {
-    let res;
-    try {
-      res = await axios.get(
-        "http://localhost:5000/api/subreddit/getSubreddit/" + name,
-        {
-          withCredentials: true,
-        }
-      );
-    } catch (error) {
-      res = error.response;
-    }
+    const res = await getSubreddit(name, "new", "all_time", "0");
 
     expect(res.status).toBe(201);
     expect(res.data.name).toBe(name);
@@ -108,7 +100,7 @@ describe("user get subreddit", () => {
   });
 });
 
-describe("try to access protected route", () => {
+describe("try to access protected route while logged out", () => {
   beforeAll(async () => {
     await logoutUser();
   });
