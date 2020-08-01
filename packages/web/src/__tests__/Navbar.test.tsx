@@ -10,13 +10,18 @@ import {
 import { act } from "react-dom/test-utils";
 import NavbarView from "../modules/navbar/ui/NavbarView";
 import userEvent from "@testing-library/user-event";
-
-const mockSelector = jest.fn();
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import { rootReducer } from "@reddit-clone/controller";
 
 jest.mock("react-redux", () => ({
-  useSelector: () => mockSelector,
-  useDispatch: () => jest.fn(),
+  ...jest.requireActual("react-redux"),
 }));
+
+const rootStore = createStore(rootReducer);
+
+const mockSearch = jest.fn();
+const mockSignout = jest.fn();
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -24,11 +29,18 @@ jest.mock("react-router-dom", () => ({
     push: jest.fn(),
     location: { pathname: "need/to/find/how/to/test/useHistory" },
   }),
+  useLocation: () => ({
+    pathname: "/r/nodejs/post/184",
+  }),
 }));
 
 describe("Navbar UI is properly displayed", () => {
   beforeEach(() => {
-    render(<NavbarConnector />);
+    render(
+      <Provider store={rootStore}>
+        <NavbarConnector />
+      </Provider>
+    );
   });
 
   afterAll(() => {
@@ -37,6 +49,7 @@ describe("Navbar UI is properly displayed", () => {
 
   test("doesn't display username if not logged in", () => {
     const username = "username";
+
     expect(screen.queryByText(username)).toBe(null);
   });
 
@@ -58,7 +71,11 @@ describe("Navbar UI is properly displayed", () => {
 
 describe("userinfo popover behaves correctly", () => {
   beforeEach(() => {
-    render(<NavbarConnector />);
+    render(
+      <Provider store={rootStore}>
+        <NavbarConnector />
+      </Provider>
+    );
   });
 
   test("displays correctly on parent element click", async () => {
@@ -89,7 +106,11 @@ describe("userinfo popover behaves correctly", () => {
 
 describe("user can open login form", () => {
   beforeEach(() => {
-    render(<NavbarConnector />);
+    render(
+      <Provider store={rootStore}>
+        <NavbarConnector />
+      </Provider>
+    );
   });
 
   it("opens signup form", async () => {
@@ -117,12 +138,13 @@ describe("user can open login form", () => {
   });
 });
 
-const mockSearch = jest.fn();
-const mockSignout = jest.fn();
-
 describe("correct functions are called", () => {
   beforeEach(() => {
-    render(<NavbarView search={mockSearch} signoutUser={mockSignout} />);
+    render(
+      <Provider store={rootStore}>
+        <NavbarView search={mockSearch} signoutUser={mockSignout} />
+      </Provider>
+    );
   });
 
   test("users can logout", async () => {

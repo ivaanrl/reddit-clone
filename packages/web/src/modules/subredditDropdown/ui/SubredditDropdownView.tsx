@@ -46,7 +46,7 @@ const SubredditDropdownView = (props: Props) => {
       setSelectedSubreddit(defaultText);
       setSelectedSubredditIcon(defaultIcon);
     }
-  }, [location, defaultIcon, defaultText, isNavbarDropdown, useSameWidth]);
+  }, [defaultIcon, defaultText, isNavbarDropdown, useSameWidth]);
 
   const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null
