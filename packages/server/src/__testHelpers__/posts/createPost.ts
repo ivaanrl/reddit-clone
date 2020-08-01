@@ -8,7 +8,7 @@ export const createPost = async (subName: string) => {
     faker.lorem.words(parseInt(faker.random.alphaNumeric(10), 10)),
     faker.lorem.words(parseInt(faker.random.alphaNumeric(10), 10)),
   ];
-  const res = await axios.post(
+  await axios.post(
     "http://localhost:5000/api/post/createPost",
     {
       subName,

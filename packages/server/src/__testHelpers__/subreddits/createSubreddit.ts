@@ -6,7 +6,7 @@ export const createSubreddit = async (
   description: string,
   adultContent: boolean
 ) => {
-  const res = await axios.post(
+  await axios.post(
     "http://localhost:5000/api/subreddit/createSubreddit",
     {
       name,
