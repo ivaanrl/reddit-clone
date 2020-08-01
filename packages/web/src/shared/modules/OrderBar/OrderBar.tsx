@@ -39,19 +39,20 @@ const OrderBar = (props: Props) => {
         ? location.search.split("&")[1].split("=")[1]
         : "all_time";
     sortOrder ? setActiveOption(sortOrder) : setActiveOption(defaultSort);
+
     const timeSortFormatted = timeSort
       .split("_")
       .map((str) => str.charAt(0).toUpperCase() + str.slice(1));
     setTopTimeSort(timeSortFormatted.join(" "));
 
     if (getPostsHomepage) {
-      getPostsHomepage(sortOrder, timeSort, homepagePage);
+      getPostsHomepage(activeOption, timeSort, homepagePage);
     } else if (getPostsWithUsername) {
       const username = location.pathname.split("/")[2];
       if (reducer === "profile")
-        getPostsWithUsername(username, sortOrder, timeSort, profilepage);
+        getPostsWithUsername(username, activeOption, timeSort, profilepage);
       if (reducer === "subreddit")
-        getPostsWithUsername(username, sortOrder, timeSort, subredditPage);
+        getPostsWithUsername(username, activeOption, timeSort, subredditPage);
     }
   }, [location, defaultSort]);
 
@@ -150,7 +151,7 @@ const OrderBar = (props: Props) => {
   };
 
   return (
-    <div className="order-bar-container">
+    <div className="order-bar-container" title="order-bar-container">
       <Link
         to={`${location.pathname}?sort=hot`}
         className={

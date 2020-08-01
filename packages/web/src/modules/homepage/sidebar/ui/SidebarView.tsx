@@ -4,7 +4,7 @@ import "./Sidebar.scss";
 
 const SidebarView = () => {
   return (
-    <div className="sidebar-container">
+    <div className="sidebar-container" title="sidebar">
       <CreatePostCommunityConnector />
     </div>
   );

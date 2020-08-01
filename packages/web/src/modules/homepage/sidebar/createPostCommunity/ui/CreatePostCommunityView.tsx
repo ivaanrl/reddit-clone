@@ -16,7 +16,7 @@ const CreatePostCommunityView = () => {
 
   return (
     <React.Fragment>
-      <div className="create-container">
+      <div className="create-container" title="create-container">
         <div className="create-container-banner" />
         <div className="home-container">
           <div className="create-snoo"></div>
