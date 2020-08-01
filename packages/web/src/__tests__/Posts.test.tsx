@@ -3,8 +3,10 @@ import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import PostConnector from "../modules/posts/post/PostConnector";
+import { Props as PostConnectorProps } from "../modules/posts/post/PostConnector";
 
 const mockSelector = jest.fn();
+
 const mockDispatch = jest.fn();
 
 jest.mock("react-redux", () => ({
@@ -22,24 +24,31 @@ jest.mock("react-router-dom", () => ({
 
 let postConnector;
 
+const postConnectorProps: PostConnectorProps = {
+  postInfo: {
+    author_id: "author_id",
+    author_username: "username",
+    content: ["content"],
+    createdAt: "2020-06-18T15:46:47.121-03",
+    updatedAt: "2020-06-18T15:46:47.121-03",
+    subreddit_name: "nodejs",
+    votes: "0",
+    title: "title",
+    id: "125",
+    user_vote: 0,
+    index: 0,
+    comment_count: 23,
+    link: null,
+    type: "post",
+  },
+  reducer: "a",
+  showSubredditName: true,
+};
+
 beforeEach(() => {
   postConnector = render(
     <BrowserRouter>
-      <PostConnector
-        postInfo={{
-          author_id: "author_id",
-          author_username: "username",
-          content: ["content"],
-          createdAt: "2020-06-18T15:46:47.121-03",
-          updatedAt: "2020-06-18T15:46:47.121-03",
-          subreddit_name: "nodejs",
-          votes: 0,
-          title: "title",
-          id: "125",
-          user_vote: 0,
-          index: 0,
-        }}
-      />
+      <PostConnector {...postConnectorProps} />
     </BrowserRouter>
   );
 });

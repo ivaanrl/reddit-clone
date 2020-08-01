@@ -2,7 +2,7 @@ import React from "react";
 import { PostController } from "@reddit-clone/controller";
 import PostView from "./ui/PostView";
 
-interface Props {
+export interface Props {
   postInfo: {
     author_id: string;
     author_username: string;

@@ -1,17 +1,64 @@
 import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { ActionTypes } from "@reddit-clone/controller";
+import { ActionTypes, rootReducer } from "@reddit-clone/controller";
 import SubredditConnector from "../modules/subreddit/SubredditConnector";
 import { Router, BrowserRouter } from "react-router-dom";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import configureMockStore from "redux-mock-store";
 
 const mockSelector = jest.fn();
 const mockDispatch = jest.fn();
 const useLocation = jest.fn();
+
 jest.mock("react-redux", () => ({
-  useSelector: () => mockSelector,
-  useDispatch: () => mockDispatch,
+  ...jest.requireActual("react-redux"),
+  //useSelector: () => mockSelector,
+  //useDispatch: () => mockDispatch,
 }));
+
+const middlewares: any[] = [];
+const mockStore = configureMockStore(middlewares);
+const initialState = {
+  auth: {
+    username: "ivanrl",
+    email: "roldanlusichivan@gmail.com",
+    karma: 0,
+    userSubs: [],
+    message: {
+      status: 0,
+      text: 0,
+    },
+  },
+  subreddit: {
+    name: "nodejs",
+    owner_id: "",
+    topic: [],
+    description: "",
+    adultContent: false,
+    joined: 1,
+    isUserJoined: true,
+    createdAt: "2020-06-18T15:46:47.121-03",
+    updatedAt: "2020-06-18T15:46:47.121-03",
+    mods: ["ivanrl"],
+    message: {
+      status: 0,
+      text: "",
+    },
+    page: 0,
+    isLoading: true,
+    hasMorePosts: true,
+  },
+  homepage: {
+    page: 0,
+  },
+  profile: {
+    page: 0,
+  },
+};
+
+const mockedStore = mockStore(initialState);
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -19,13 +66,21 @@ jest.mock("react-router-dom", () => ({
     push: jest.fn(),
     location: { pathname: "/r/nodejs" },
   }),
+  useLocation: () => ({
+    pathname: "/r/nodejs/",
+    search: "",
+  }),
 }));
+
+const store = createStore(rootReducer);
 
 beforeEach(() => {
   render(
-    <BrowserRouter>
-      <SubredditConnector />
-    </BrowserRouter>
+    <Provider store={mockedStore}>
+      <BrowserRouter>
+        <SubredditConnector />
+      </BrowserRouter>
+    </Provider>
   );
 });
 
@@ -55,9 +110,9 @@ describe("renders properly", () => {
   });
 
   test("calls API for subreddit info", () => {
-    expect(mockDispatch).toHaveBeenCalledWith({
+    /*expect(store.dispatch).toHaveBeenCalledWith({
       type: ActionTypes.GET_SUBREDDIT,
-      payload: "nodejs",
-    });
+      payload: { subName: "nodejs", page: "0", time: "all_time", order: "hot" },
+    }); */
   });
 });
