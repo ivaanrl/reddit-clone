@@ -89,8 +89,68 @@ describe("user get subreddit", () => {
     }
   });
 
-  test("it returns the correct subreddit", async () => {
+  test("it returns the correct subreddit sorted by new", async () => {
     const res = await getSubreddit(name, "new", "all_time", "0");
+
+    expect(res.status).toBe(201);
+    expect(res.data.name).toBe(name);
+    expect(res.data.description).toBe(description);
+    expect(res.data.adultContent).toBe(adultContent);
+    expect(res.data.posts.length).toBeGreaterThan(3);
+  });
+
+  test("it returns the correct subreddit sorted by hot", async () => {
+    const res = await getSubreddit(name, "hot", "all_time", "0");
+
+    expect(res.status).toBe(201);
+    expect(res.data.name).toBe(name);
+    expect(res.data.description).toBe(description);
+    expect(res.data.adultContent).toBe(adultContent);
+    expect(res.data.posts.length).toBeGreaterThan(3);
+  });
+
+  test("it returns the correct subreddit sorted by top/all_time", async () => {
+    const res = await getSubreddit(name, "top", "all_time", "0");
+
+    expect(res.status).toBe(201);
+    expect(res.data.name).toBe(name);
+    expect(res.data.description).toBe(description);
+    expect(res.data.adultContent).toBe(adultContent);
+    expect(res.data.posts.length).toBeGreaterThan(3);
+  });
+
+  test("it returns the correct subreddit sorted by top/this_week", async () => {
+    const res = await getSubreddit(name, "top", "this_week", "0");
+
+    expect(res.status).toBe(201);
+    expect(res.data.name).toBe(name);
+    expect(res.data.description).toBe(description);
+    expect(res.data.adultContent).toBe(adultContent);
+    expect(res.data.posts.length).toBeGreaterThan(3);
+  });
+
+  test("it returns the correct subreddit sorted by top/this_month", async () => {
+    const res = await getSubreddit(name, "top", "this_month", "0");
+
+    expect(res.status).toBe(201);
+    expect(res.data.name).toBe(name);
+    expect(res.data.description).toBe(description);
+    expect(res.data.adultContent).toBe(adultContent);
+    expect(res.data.posts.length).toBeGreaterThan(3);
+  });
+
+  test("it returns the correct subreddit sorted by top/this_year", async () => {
+    const res = await getSubreddit(name, "top", "this_year", "0");
+
+    expect(res.status).toBe(201);
+    expect(res.data.name).toBe(name);
+    expect(res.data.description).toBe(description);
+    expect(res.data.adultContent).toBe(adultContent);
+    expect(res.data.posts.length).toBeGreaterThan(3);
+  });
+
+  test("it returns the correct subreddit sorted by top/today", async () => {
+    const res = await getSubreddit(name, "top", "today", "0");
 
     expect(res.status).toBe(201);
     expect(res.data.name).toBe(name);

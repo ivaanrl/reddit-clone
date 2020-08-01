@@ -5,9 +5,7 @@ import { createSubreddit } from "../__testHelpers__/subreddits/createSubreddit";
 import faker from "faker";
 import { postResponseMessages } from "../controllers/responseMessages/post";
 import { getSubreddit } from "../__testHelpers__/subreddits/getSubreddit";
-import { getUpvotes } from "../__testHelpers__/user/getUpvotes";
 import { createPost } from "../__testHelpers__/posts/createPost";
-import { getDownvotes } from "../__testHelpers__/user/getDownvotes";
 import { Post } from "../models/Post";
 
 const {

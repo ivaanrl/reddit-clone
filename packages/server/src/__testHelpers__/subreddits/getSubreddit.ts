@@ -1,5 +1,4 @@
 import axios from "axios";
-import { query } from "express";
 
 export const getSubreddit = async (
   name: string,
