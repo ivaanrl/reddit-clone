@@ -8,14 +8,11 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 
-const mockSelector = jest.fn();
 const mockDispatch = jest.fn();
-const useLocation = jest.fn();
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
-  //useSelector: () => mockSelector,
-  //useDispatch: () => mockDispatch,
+  useDispatch: () => mockDispatch,
 }));
 
 const middlewares: any[] = [];
@@ -58,7 +55,7 @@ const initialState = {
   },
 };
 
-const mockedStore = mockStore(initialState);
+const store = mockStore(initialState);
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -72,11 +69,9 @@ jest.mock("react-router-dom", () => ({
   }),
 }));
 
-const store = createStore(rootReducer);
-
 beforeEach(() => {
   render(
-    <Provider store={mockedStore}>
+    <Provider store={store}>
       <BrowserRouter>
         <SubredditConnector />
       </BrowserRouter>

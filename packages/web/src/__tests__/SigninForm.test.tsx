@@ -5,17 +5,43 @@ import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
 import SigninFormConnector from "../modules/signinForm/SigninFormConnector";
 import { ActionTypes } from "@reddit-clone/controller";
+import configureMockStore from "redux-mock-store";
+import { Provider } from "react-redux";
 
 const mockSelector = jest.fn();
 const mockDispatch = jest.fn();
+
 const mockCloseForm = jest.fn();
+
 jest.mock("react-redux", () => ({
-  useSelector: () => mockSelector,
+  ...jest.requireActual("react-redux"),
   useDispatch: () => mockDispatch,
 }));
 
+const middlewares: any[] = [];
+const mockStore = configureMockStore(middlewares);
+
+const initialState = {
+  auth: {
+    username: "ivanrl",
+    email: "roldanlusichivan@gmail.com",
+    karma: 0,
+    userSubs: [],
+    message: {
+      status: 0,
+      text: 0,
+    },
+  },
+};
+
+const store = mockStore(initialState);
+
 beforeEach(() => {
-  render(<SigninFormConnector closeForm={mockCloseForm} />);
+  render(
+    <Provider store={store}>
+      <SigninFormConnector closeForm={mockCloseForm} />
+    </Provider>
+  );
 });
 
 describe("form functions correctly", () => {
