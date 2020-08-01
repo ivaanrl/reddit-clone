@@ -16,6 +16,7 @@ import {
   handleCreatePost,
 } from "../helpers/post";
 import { getCommentsWithVotesQuery } from "./queries/PostQueries";
+import { Console } from "console";
 
 const {
   post_created_successfully,
@@ -36,8 +37,6 @@ class PostController {
   @use(requireLogin)
   async CreatePost(req: Request, res: Response) {
     const { subName, title, content, link, type } = req.body;
-
-    console.log(req.body);
 
     const sub = await getSubreddit(subName);
     const user = await findCurrentUser(req.user);
@@ -71,6 +70,7 @@ class PostController {
   @post("/vote")
   @use(requireLogin)
   async VotePost(req: Request, res: Response) {
+    console.log("VOTING############################");
     const { voteValue, postId, reducer } = req.body;
 
     const user = await findCurrentUser(req.user);
@@ -93,7 +93,6 @@ class PostController {
             value: voteValue,
             post_id: postId,
           });
-
           return res
             .status(201)
             .json({ message: post_upvoted, reducerToEdit: reducer });

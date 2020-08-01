@@ -17,6 +17,7 @@ const {
   comment_saved,
   vote_removed,
   post_downvoted,
+
   post_upvoted,
 } = postResponseMessages;
 
@@ -164,12 +165,12 @@ describe("voting works", () => {
     createdAt: string;
     updatedAt: string;
     subreddit_id: string;
-    votes: number;
+    votes: number | string;
     user_vote: number;
   }[];
   beforeAll(async () => {
     await createPost(subName);
-    subInfo = await getSubreddit(subName);
+    subInfo = await getSubreddit(subName, "new", "all_time", "0");
     subPosts = subInfo.data.posts;
   });
 
@@ -193,11 +194,13 @@ describe("voting works", () => {
     expect(res.status).toBe(201);
     expect(res.data.message).toBe("Post upvoted");
 
-    const upvotes = await getUpvotes();
+    const subInfoUpdated = await getSubreddit(subName, "new", "all_time", "0");
+    const subPostUpvoted =
+      subInfoUpdated.data.posts[subInfoUpdated.data.posts.length - 1];
+    firstPost.votes = "1";
+    firstPost.user_vote = 1;
 
-    firstPost.votes = 1;
-
-    expect(upvotes.data.upvotedPosts).toEqual([firstPost]);
+    expect(subPostUpvoted).toEqual(firstPost);
   });
 
   test("can downvote post", async () => {
@@ -220,10 +223,13 @@ describe("voting works", () => {
     expect(res.status).toBe(201);
     expect(res.data.message).toBe("Post downvoted");
 
-    const downvotes = await getDownvotes();
+    const subInfoUpdated = await getSubreddit(subName, "new", "all_time", "0");
+    const subPostDownvoted =
+      subInfoUpdated.data.posts[subInfoUpdated.data.posts.length - 1];
+    firstPost.votes = "-1";
+    firstPost.user_vote = -1;
 
-    firstPost.votes = -1;
-    expect(downvotes.data.downvotedPosts).toEqual([firstPost]);
+    expect(subPostDownvoted).toEqual(firstPost);
   });
 });
 
@@ -262,7 +268,7 @@ describe("can create comment", () => {
   }[];
   beforeAll(async () => {
     await createPost(subName);
-    subInfo = await getSubreddit(subName);
+    subInfo = await getSubreddit(subName, "new", "all_time", "0");
     subPosts = subInfo.data.posts;
   });
 
@@ -334,7 +340,7 @@ describe("can get full post", () => {
   }[];
   beforeAll(async () => {
     await createPost(subName);
-    subInfo = await getSubreddit(subName);
+    subInfo = await getSubreddit(subName, "new", "all_time", "0");
     subPosts = subInfo.data.posts;
   });
 
@@ -398,7 +404,7 @@ describe("throws unauthorized error", () => {
 
   beforeAll(async () => {
     await createPost(subName);
-    subInfo = await getSubreddit(subName);
+    subInfo = await getSubreddit(subName, "new", "all_time", "0");
     subPosts = subInfo.data.posts;
     await logoutUser();
   });
