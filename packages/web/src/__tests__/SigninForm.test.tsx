@@ -80,4 +80,11 @@ describe("form functions correctly", () => {
       },
     });
   });
+
+  test("close form button works", async () => {
+    const closeFormButton = screen.getByTitle("close-signin-form-button");
+
+    fireEvent.click(closeFormButton);
+    expect(mockCloseForm).toHaveBeenCalled();
+  });
 });

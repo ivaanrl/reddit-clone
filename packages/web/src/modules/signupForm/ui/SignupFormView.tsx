@@ -257,7 +257,11 @@ const SignupFormView = (props: Props) => {
             handleBlur={formik.handleBlur}
           />
         </form>
-        <button className="close-container" onClick={closeForm}>
+        <button
+          className="close-container"
+          onClick={closeForm}
+          title="close-signup-form-button"
+        >
           X
         </button>
       </div>

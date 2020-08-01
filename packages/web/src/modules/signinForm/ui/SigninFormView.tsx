@@ -109,7 +109,11 @@ const SigninFormView = (props: Props) => {
             </div>
           </div>
         </form>
-        <button className="close-container" onClick={closeForm}>
+        <button
+          className="close-container"
+          onClick={closeForm}
+          title="close-signin-form-button"
+        >
           X
         </button>
       </div>
