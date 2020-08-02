@@ -1,5 +1,4 @@
 import React from "react";
-import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import PostConnector from "../modules/posts/post/PostConnector";
@@ -75,15 +74,23 @@ describe("voting works", () => {
     const upvoteButton = screen.getByTestId("upvote-svg");
     fireEvent.click(upvoteButton);
 
-    expect(screen.getByTestId("upvote-svg")).toHaveClass("upvote-active");
-    expect(screen.getByTitle("vote-count")).toHaveClass("vote-count-upvote");
+    expect(screen.getByTestId("upvote-svg").classList).toContain(
+      "upvote-active"
+    );
+    expect(screen.getByTitle("vote-count").classList).toContain(
+      "vote-count-upvote"
+    );
   });
 
   test("downvote button dispatches correct action", () => {
     const downvote = screen.getByTestId("downvote-svg");
     fireEvent.click(downvote);
 
-    expect(screen.getByTestId("downvote-svg")).toHaveClass("downvote-active");
-    expect(screen.getByTitle("vote-count")).toHaveClass("vote-count-downvote");
+    expect(screen.getByTestId("downvote-svg").classList).toContain(
+      "downvote-active"
+    );
+    expect(screen.getByTitle("vote-count").classList).toContain(
+      "vote-count-downvote"
+    );
   });
 });

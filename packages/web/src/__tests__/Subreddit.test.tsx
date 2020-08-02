@@ -1,5 +1,4 @@
 import React from "react";
-import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { ActionTypes, rootReducer } from "@reddit-clone/controller";
 import SubredditConnector from "../modules/subreddit/SubredditConnector";

@@ -1,5 +1,4 @@
 import React from "react";
-import "@testing-library/jest-dom";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import FullPostView from "../modules/fullPost/ui/FullPostView";

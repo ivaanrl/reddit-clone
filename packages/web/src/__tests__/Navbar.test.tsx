@@ -1,6 +1,5 @@
 import NavbarConnector from "../modules/navbar/NavbarConnector";
 import React from "react";
-import "@testing-library/jest-dom";
 import {
   render,
   fireEvent,

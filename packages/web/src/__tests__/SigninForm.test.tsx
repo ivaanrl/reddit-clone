@@ -1,5 +1,4 @@
 import React from "react";
-import "@testing-library/jest-dom";
 import { render, fireEvent, screen } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
@@ -46,8 +45,8 @@ beforeEach(() => {
 
 describe("form functions correctly", () => {
   test("form is initially empty", () => {
-    expect(screen.getByAltText("username input")).toHaveAttribute("value", "");
-    expect(screen.getByAltText("password input")).toHaveAttribute("value", "");
+    expect(screen.getByAltText("username input").value).toBe("");
+    expect(screen.getByAltText("password input").value).toBe("");
   });
 
   test("user can fill in form", async () => {
@@ -58,8 +57,8 @@ describe("form functions correctly", () => {
       await userEvent.type(passwordInput, "73442332Ivan");
     });
 
-    expect(usernameInput).toHaveAttribute("value", "ivanrl");
-    expect(passwordInput).toHaveAttribute("value", "73442332Ivan");
+    expect(usernameInput.value).toBe("ivanrl");
+    expect(passwordInput.value).toBe("73442332Ivan");
   });
 
   test("signin function is called", async () => {

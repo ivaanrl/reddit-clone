@@ -124,7 +124,10 @@ const CreateCommunityView = (props: Props) => {
         >
           <label htmlFor="communityTopics">Topics</label>
           <small>This will help relevant users find your community. 0/25</small>
-          <div className="react-select-container">
+          <div
+            className="react-select-container"
+            data-testid="react-select-container"
+          >
             <Select
               className="react-select"
               classNamePrefix="react-select"

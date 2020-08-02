@@ -1,5 +1,4 @@
 import React from "react";
-import "@testing-library/jest-dom";
 import {
   render,
   fireEvent,
@@ -9,7 +8,6 @@ import {
 import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
 import { ActionTypes } from "@reddit-clone/controller";
-import SignupFormConnector from "../modules/signupForm/SignupFormConnector";
 import faker from "faker";
 import CreateCommunityConnector from "../modules/homepage/sidebar/createPostCommunity/createCommunity/CreateCommunityConnector";
 
@@ -17,26 +15,28 @@ const mockSelector = jest.fn();
 const mockDispatch = jest.fn();
 const mockCloseForm = jest.fn();
 jest.mock("react-redux", () => ({
-  useSelector: () => mockSelector,
+  ...jest.requireActual("react-redux"),
   useDispatch: () => mockDispatch,
 }));
 const DOWN_ARROW = { keyCode: 40 };
 
 test("can create subreddit", async () => {
-  const { getByLabelText, getByText } = render(
+  const { getByLabelText, getByText, getByTestId } = render(
     <CreateCommunityConnector closeForm={mockCloseForm} />
   );
 
   const name = faker.name.firstName();
   const description = faker.lorem.words(5);
 
-  const getSelectItem = async (getByLabelText: any, getByText: any) => async (
-    selectLabel: string,
-    itemText: string
-  ) => {
-    fireEvent.keyDown(getByLabelText(selectLabel), DOWN_ARROW);
-    await waitForElement(() => getByText(itemText));
-    fireEvent.click(getByText(itemText));
+  const getSelectItem = async (
+    getByText: any,
+    getByTestId: any,
+    getByLabelText: any
+  ) => async (selectLabel: string, itemText: string) => {
+    fireEvent.click(getByTestId(selectLabel));
+    fireEvent.keyDown(getByTestId(selectLabel), DOWN_ARROW);
+    await waitForElement(() => getByLabelText(itemText));
+    fireEvent.click(getByLabelText(itemText));
   };
 
   const nameInput = screen.getByLabelText("Name");
@@ -44,10 +44,14 @@ test("can create subreddit", async () => {
   const submitButton = screen.getByRole("button", { name: "CREATE COMMUNITY" });
 
   await act(async () => {
-    const selectItem = await getSelectItem(getByLabelText, getByText);
+    const selectItem = await getSelectItem(
+      getByText,
+      getByTestId,
+      getByLabelText
+    );
     await userEvent.type(nameInput, name);
     await userEvent.type(descriptionInput, description);
-    await selectItem("Topics", "Funny/Humor");
+    await selectItem("react-select-container", "Activism");
 
     fireEvent.click(submitButton);
   });

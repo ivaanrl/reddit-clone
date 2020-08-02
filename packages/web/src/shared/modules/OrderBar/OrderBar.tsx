@@ -20,6 +20,7 @@ interface Props {
 
 const OrderBar = (props: Props) => {
   const location = useLocation();
+  const [activeOption, setActiveOption] = useState("new");
   const {
     getPostsHomepage,
     getPostsWithUsername,
@@ -92,7 +93,6 @@ const OrderBar = (props: Props) => {
     window.addEventListener("scroll", handleScroll);
   }, [homepagePage, profilepage, handleScroll]);
 
-  const [activeOption, setActiveOption] = useState("new");
   const [topTimeSort, setTopTimeSort] = useState("");
   const topTimeSortOptions = [
     "Today",
@@ -153,6 +153,8 @@ const OrderBar = (props: Props) => {
   return (
     <div className="order-bar-container" title="order-bar-container">
       <Link
+        title="order-bar-option"
+        data-testid="order-bar-option-hot"
         to={`${location.pathname}?sort=hot`}
         className={
           activeOption === "hot"
@@ -171,6 +173,8 @@ const OrderBar = (props: Props) => {
         <span>Hot</span>
       </Link>
       <Link
+        title="order-bar-option"
+        data-testid="order-bar-option-new"
         to={`${location.pathname}?sort=new`}
         className={
           activeOption === "new"
@@ -193,6 +197,8 @@ const OrderBar = (props: Props) => {
         <span>New</span>{" "}
       </Link>
       <Link
+        title="order-bar-option"
+        data-testid="order-bar-option-top"
         to={`${location.pathname}?sort=top&t=all_time`}
         className={
           activeOption === "top"
@@ -230,6 +236,9 @@ const OrderBar = (props: Props) => {
               notCloseClass="prever-reopen-order-bar"
             >
               <div
+                role="order-bar-time-options-container"
+                title="order-bar-top-time-options"
+                data-testid="order-bar-top-time-options"
                 className="order-bar-top-time-options-container"
                 ref={setPopperElement}
                 style={styles.popper}
