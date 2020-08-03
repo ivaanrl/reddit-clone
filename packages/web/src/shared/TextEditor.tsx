@@ -307,6 +307,7 @@ const TextEditor = (props: Props) => {
             CANCEL
           </button>
           <button
+            data-testid="text-editor-comment-button"
             className="sidebar-secondary-button text-editor-comment-button"
             onClick={comment}
             disabled={value[0].children[0].text === ""}

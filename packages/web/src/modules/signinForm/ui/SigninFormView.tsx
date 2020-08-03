@@ -95,7 +95,11 @@ const SigninFormView = (props: Props) => {
                 <div className="spacer" />
               )}
 
-              <button type="submit" className="signin-button">
+              <button
+                type="submit"
+                className="signin-button"
+                data-testid="signin-form-button"
+              >
                 LOG IN
               </button>
               <small>

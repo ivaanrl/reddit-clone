@@ -74,12 +74,7 @@ const ProfileCommentView = (props: Props) => {
           {commentAuthorUsername}
         </div>
         &nbsp;
-        <div
-          className="profile-parent-post-commented-on"
-          role="profile-parent-post-commented-on"
-        >
-          commented on
-        </div>
+        <div className="profile-parent-post-commented-on">commented on</div>
         &nbsp;
         <NavLink
           to={`/r/${postSubredditName}/post/${postId}`}
@@ -97,10 +92,7 @@ const ProfileCommentView = (props: Props) => {
           r/{postSubredditName}
         </NavLink>
         &nbsp;
-        <div
-          className="profile-parent-post-postedby"
-          role="profile-parent-post-postedby"
-        >
+        <div className="profile-parent-post-postedby">
           Posted by&nbsp;
           <NavLink to={`/u/${postAuthorUsername}`}>
             u/{postAuthorUsername}
@@ -131,6 +123,7 @@ const ProfileCommentView = (props: Props) => {
             <div
               className="reply profile-bottom-bar-option"
               role="profile-comment-reply"
+              data-testid="profile-comment-reply"
               onClick={() => setShowTextEditor(!showTextEditor)}
             >
               Reply

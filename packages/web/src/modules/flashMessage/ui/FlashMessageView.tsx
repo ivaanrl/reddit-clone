@@ -50,6 +50,7 @@ const FlashMessageView = (props: Props) => {
     <animated.div
       style={containerSpringProps}
       className="flash-message-container"
+      data-testid="flash-message-container"
       onMouseEnter={() => setExpandButton(true)}
       onMouseLeave={() => setExpandButton(false)}
     >
