@@ -13,7 +13,7 @@ const mockDispatch = jest.fn();
 const mockCloseForm = jest.fn();
 
 jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
+  ...(jest.requireActual("react-redux") as {}),
   useDispatch: () => mockDispatch,
 }));
 

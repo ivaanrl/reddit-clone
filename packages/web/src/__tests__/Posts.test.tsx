@@ -14,7 +14,7 @@ jest.mock("react-redux", () => ({
 }));
 
 jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
+  ...(jest.requireActual("react-router-dom") as {}),
   useHistory: () => ({
     push: jest.fn(),
     location: { pathname: "/r/nodejs" },

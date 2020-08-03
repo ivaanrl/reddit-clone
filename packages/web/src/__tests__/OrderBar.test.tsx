@@ -17,7 +17,7 @@ const mockGetPostsWithUsername = jest.fn();
 const mockGetPostsHomepage = jest.fn();
 
 jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
+  ...(jest.requireActual("react-redux") as {}),
   useDispatch: () => mockDispatch,
 }));
 
@@ -25,7 +25,7 @@ const middlewares: any[] = [];
 const mockStore = configureMockStore(middlewares);
 
 jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
+  ...(jest.requireActual("react-router-dom") as {}),
   useHistory: () => ({
     push: jest.fn(),
     location: { pathname: "/r/nodejs" },

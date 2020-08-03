@@ -48,7 +48,7 @@ spy.mockReturnValue({
 });
 
 jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
+  ...(jest.requireActual("react-router-dom") as {}),
   useLocation: () => ({
     pathname: "/r/nodejs/post/184",
   }),

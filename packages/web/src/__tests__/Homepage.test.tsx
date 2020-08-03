@@ -14,7 +14,7 @@ import { ActionTypes } from "@reddit-clone/controller";
 const mockDispatch = jest.fn();
 
 jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
+  ...(jest.requireActual("react-redux") as {}),
   useDispatch: () => mockDispatch,
 }));
 
@@ -61,7 +61,7 @@ const initialState = {
 const store = mockStore(initialState);
 
 jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
+  ...(jest.requireActual("react-router-dom") as {}),
   useHistory: () => ({
     push: jest.fn(),
     location: { pathname: "/r/nodejs" },

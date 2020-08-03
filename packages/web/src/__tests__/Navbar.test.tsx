@@ -14,7 +14,7 @@ import { createStore } from "redux";
 import { rootReducer } from "@reddit-clone/controller";
 
 jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
+  ...(jest.requireActual("react-redux") as {}),
 }));
 
 const rootStore = createStore(rootReducer);
@@ -23,7 +23,7 @@ const mockSearch = jest.fn();
 const mockSignout = jest.fn();
 
 jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
+  ...(jest.requireActual("react-router-dom") as {}),
   useHistory: () => ({
     push: jest.fn(),
     location: { pathname: "need/to/find/how/to/test/useHistory" },
