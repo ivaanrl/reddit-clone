@@ -1,15 +1,11 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ActionTypes, rootReducer } from "@reddit-clone/controller";
-import SubredditConnector from "../modules/subreddit/SubredditConnector";
-import { Router, BrowserRouter } from "react-router-dom";
-import { createStore } from "redux";
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 import { authReducerState } from "@reddit-clone/controller/dist/modules/Redux/reducers/auth";
 import SubredditDropdownConnector from "../modules/subredditDropdown/SubredditDropdownConnector";
 import SubredditDropdownDefaultSVG from "../shared/svgs/SubredditDropdownDefaultSVG";
-import userEvent from "@testing-library/user-event";
 
 const userSubs = [
   { name: "nodejs", adultContent: false },
