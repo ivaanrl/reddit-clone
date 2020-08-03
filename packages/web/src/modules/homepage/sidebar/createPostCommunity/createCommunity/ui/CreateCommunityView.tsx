@@ -122,18 +122,22 @@ const CreateCommunityView = (props: Props) => {
           className="create-community-form-community-topics 
           create-community-form-input-container"
         >
-          <label htmlFor="communityTopics">Topics</label>
+          <label htmlFor="communityTopics" id="comTopLabel">
+            Topics
+          </label>
           <small>This will help relevant users find your community. 0/25</small>
           <div
             className="react-select-container"
             data-testid="react-select-container"
           >
             <Select
+              data-testid="react-select-container"
               className="react-select"
               classNamePrefix="react-select"
               isMulti
+              aria-labelledby="comTopLabel"
               name="communityTopics"
-              id="communityTopics"
+              //id="communityTopics"
               type="select"
               onBlur={() => formik.setFieldTouched("communityTopics", true)}
               onChange={(opt: any, e: any) => {
