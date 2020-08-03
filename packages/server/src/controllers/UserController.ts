@@ -18,6 +18,7 @@ import {
 class UserController {
   @get("/getProfile/:username")
   async getProfile(req: Request, res: Response) {
+    console.log("aa");
     const username = req.params.username;
 
     try {

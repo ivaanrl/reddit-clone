@@ -6,13 +6,14 @@ import ProfileOrderCommentsBarConnector from "./ProfileOrderCommentsBarConnector
 import ProfilePostLoading from "../../../profilePost/ui/ProfilePostLoading";
 
 const ProfileCommentsView = () => {
-  const profileComments = useSelector((state: State) => state.profile.comments);
-  const { isLoading, hasMore } = useSelector((state: State) => state.profile);
+  const { isLoading, hasMore, comments } = useSelector(
+    (state: State) => state.profile
+  );
 
   return (
     <div className="profile-container">
       <ProfileOrderCommentsBarConnector />
-      {profileComments.map((comment, index) => {
+      {comments.map((comment, index) => {
         const {
           commentId,
           commentAuthorId,
@@ -28,6 +29,7 @@ const ProfileCommentsView = () => {
 
         return (
           <ProfileCommentConnector
+            key={index}
             commentId={commentId}
             commentAuthorId={commentAuthorId}
             commentAuthorUsername={commentAuthorUsername}
@@ -38,7 +40,6 @@ const ProfileCommentsView = () => {
             postId={postId}
             postSubredditName={postSubredditName}
             postTitle={postTitle}
-            key={index}
           />
         );
       })}

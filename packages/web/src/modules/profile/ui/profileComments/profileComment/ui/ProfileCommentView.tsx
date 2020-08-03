@@ -67,18 +67,24 @@ const ProfileCommentView = (props: Props) => {
   };
 
   return (
-    <div className="profile-comment-container">
+    <div className="profile-comment-container" role="profile-comment-container">
       <div className="profile-parent-post-info">
         <i className="fa fa-comment profile-parent-post-comment-icon" />
         <div className="profile-parent-post-username">
           {commentAuthorUsername}
         </div>
         &nbsp;
-        <div className="profile-parent-post-commented-on">commented on</div>
+        <div
+          className="profile-parent-post-commented-on"
+          role="profile-parent-post-commented-on"
+        >
+          commented on
+        </div>
         &nbsp;
         <NavLink
           to={`/r/${postSubredditName}/post/${postId}`}
           className="profile-parent-post-title"
+          role="profile-parent-post-title"
         >
           {postTitle}
         </NavLink>
@@ -86,11 +92,15 @@ const ProfileCommentView = (props: Props) => {
         <NavLink
           to={`/r/${postSubredditName}`}
           className="profile-parent-post-subreddit"
+          role="profile-parent-post-subreddit"
         >
           r/{postSubredditName}
         </NavLink>
         &nbsp;
-        <div className="profile-parent-post-postedby">
+        <div
+          className="profile-parent-post-postedby"
+          role="profile-parent-post-postedby"
+        >
           Posted by&nbsp;
           <NavLink to={`/u/${postAuthorUsername}`}>
             u/{postAuthorUsername}
@@ -120,14 +130,18 @@ const ProfileCommentView = (props: Props) => {
           <div className="profile-bottom-bar">
             <div
               className="reply profile-bottom-bar-option"
+              role="profile-comment-reply"
               onClick={() => setShowTextEditor(!showTextEditor)}
             >
               Reply
             </div>
             <div className="save profile-bottom-bar-option">Save</div>
           </div>
-          {process.env.NODE_ENV !== "test" && showTextEditor ? (
-            <div className="profile-comment-text-editor-container">
+          {showTextEditor ? (
+            <div
+              className="profile-comment-text-editor-container"
+              role="profile-comment-text-editor-container"
+            >
               <TextEditor
                 value={textEditor}
                 setValue={setTextEditor}

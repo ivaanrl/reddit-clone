@@ -11,7 +11,7 @@ const ProfilePostLoading = () => {
   ) => {};
 
   return (
-    <div className="profile-post-loading-container">
+    <div className="profile-post-loading-container" role="loading-post">
       <div className="vote-container">
         <Vote
           id=""

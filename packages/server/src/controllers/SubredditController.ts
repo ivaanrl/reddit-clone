@@ -26,6 +26,7 @@ class SubrredditController {
   @use(requireLogin)
   async createSubreddit(req: Request, res: Response) {
     const { name, communityTopics, description, adultContent } = req.body;
+    console.log(communityTopics);
     const user = await findCurrentUser(req.user);
 
     if (user instanceof User) {

@@ -13,6 +13,7 @@
     "@types/node": "^12.12.42",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
+    "cypress": "^4.11.0",
     "emotion": "^10.0.27",
     "escape-html": "^1.0.3",
     "faker": "^4.1.0",
@@ -46,7 +47,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom-sixteen",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test cypress": "cypress run"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -64,6 +66,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/cypress": "^6.0.0",
     "@testing-library/react": "^10.2.0",
     "@testing-library/react-hooks": "^3.2.1",
     "@testing-library/user-event": "^11.2.1",
@@ -81,5 +84,20 @@
     "ramda": "^0.27.0",
     "react-select-event": "^5.0.0",
     "redux-mock-store": "^1.5.4"
+  },
+  "jest": {
+    "rootDir": "./src",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }

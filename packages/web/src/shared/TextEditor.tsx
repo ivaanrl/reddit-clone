@@ -331,6 +331,7 @@ const TextEditor = (props: Props) => {
 
   return (
     <Slate
+      role="text-editor-main"
       className="text-editor-main"
       editor={editor}
       value={value}
@@ -345,6 +346,7 @@ const TextEditor = (props: Props) => {
       >
         {topBar ? buttonContainer : null}
         <Editable
+          role="text-editor-main"
           className={
             cancel ? "text-editor-editable-small" : "text-editor-editable"
           }
