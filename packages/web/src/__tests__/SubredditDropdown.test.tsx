@@ -49,10 +49,6 @@ jest.mock("react-router-dom", () => ({
     push: jest.fn(),
     location: { pathname: "/" },
   }),
-  useLocation: () => ({
-    pathname: "/",
-    search: "",
-  }),
 }));
 
 describe("renders properly in navbar mode", () => {
@@ -153,6 +149,8 @@ describe("links work properly", () => {
     fireEvent.click(subredditDropdownOptions[0]);
 
     expect(location.pathname).toBe("/r/" + userSubs[0].name + "/");
+
+    expect(screen.getByText(userSubs[0].name)).not.toBe(null);
   });
 
   test("on normal mode", async () => {
@@ -181,5 +179,6 @@ describe("links work properly", () => {
     fireEvent.click(subredditDropdownOptions[0]);
 
     expect(location.pathname).toBe("/r/" + userSubs[0].name + "/");
+    expect(screen.getByText(userSubs[0].name)).not.toBe(null);
   });
 });
