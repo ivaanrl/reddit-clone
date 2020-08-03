@@ -102,6 +102,7 @@ const SubredditDropdownView = (props: Props) => {
       <div
         className="subreddit-dropdown-selected navbar-subreddit-dropdown prevent-reopen-subreddit-dropdown"
         title="subredditDropdown"
+        role="subredditDropdown"
         onClick={handleSelectedClick}
         ref={setReferenceElement}
       >
@@ -136,9 +137,11 @@ const SubredditDropdownView = (props: Props) => {
             <div className="subreddit-dropdown-options-subtitle">
               MY COMMUNITIES
             </div>
-            {subsOptions.map((option) => {
+            {subsOptions.map((option, index) => {
               return (
                 <Link
+                  key={index}
+                  role="subredditDropdownOption"
                   to={`/r/${option.name}/${addToRedirectPath}`}
                   className="subreddit-dropdown-option-container"
                   onClick={() => setPopoverOpen(false)}

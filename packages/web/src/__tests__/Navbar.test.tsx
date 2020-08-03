@@ -1,11 +1,6 @@
 import NavbarConnector from "../modules/navbar/NavbarConnector";
 import React from "react";
-import {
-  render,
-  fireEvent,
-  screen,
-  waitForElement,
-} from "@testing-library/react";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import NavbarView from "../modules/navbar/ui/NavbarView";
 import userEvent from "@testing-library/user-event";
@@ -83,7 +78,7 @@ describe("userinfo popover behaves correctly", () => {
 
     await act(async () => {
       fireEvent.click(screen.getByTestId(divTitle));
-      await waitForElement(() => screen.getByText(title));
+      await waitFor(() => screen.getByText(title));
     });
 
     expect(screen.getByText(title)).not.toBe(null);
@@ -95,7 +90,7 @@ describe("userinfo popover behaves correctly", () => {
 
     await act(async () => {
       fireEvent.click(screen.getByTestId(divTitle));
-      await waitForElement(() => screen.getByText(title));
+      await waitFor(() => screen.getByText(title));
       fireEvent.click(screen.getByTitle(divTitle));
     });
 
@@ -117,7 +112,7 @@ describe("user can open login form", () => {
     const openSignupButtonText = /SIGN UP/;
     await act(async () => {
       fireEvent.click(screen.getByText(openSignupButtonText));
-      await waitForElement(() => screen.getByText(signupFormButtonText));
+      await waitFor(() => screen.getByText(signupFormButtonText));
     });
 
     expect(screen.getByText(signupFormButtonText)).not.toBe(null);
@@ -129,7 +124,7 @@ describe("user can open login form", () => {
 
     await act(async () => {
       fireEvent.click(screen.getByText(openSignupButtonText));
-      await waitForElement(() => screen.getByText(closeFormButtonText));
+      await waitFor(() => screen.getByText(closeFormButtonText));
       fireEvent.click(screen.getByText(closeFormButtonText));
     });
 
@@ -149,7 +144,7 @@ describe("correct functions are called", () => {
   test("users can logout", async () => {
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: "SIGN IN" }));
-      await waitForElement(() => screen.getByTitle("signupform"));
+      await waitFor(() => screen.getByTitle("signupform"));
       const usernameInput = screen.getByAltText("username input");
       const passwordInput = screen.getByAltText("password input");
       await userEvent.type(usernameInput, "ivanrl");
