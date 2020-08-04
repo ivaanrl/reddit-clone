@@ -19,7 +19,7 @@ export const startServer = async () => {
 
   const { cookieSecret } = keys();
 
-  let whitelist = "http://localhost:3000";
+  let whitelist = "https://dev.mylocalsite.com:3000";
   whitelist =
     process.env.NODE_ENV === "test"
       ? (whitelist = "http://localhost")

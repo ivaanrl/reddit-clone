@@ -71,7 +71,6 @@ class PostController {
   @use(requireLogin)
   async VotePost(req: Request, res: Response) {
     const { voteValue, postId, reducer } = req.body;
-
     const user = await findCurrentUser(req.user);
     if (user instanceof User) {
       let vote;

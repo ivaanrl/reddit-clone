@@ -76,4 +76,4 @@ Comment.init(
 );
 
 Comment.hasMany(Comment, { sourceKey: "id", foreignKey: "comment_id" });
-Comment.hasMany(Vote, { sourceKey: "id", foreignKey: "post_id" });
+//Comment.hasMany(Vote, { sourceKey: "id", foreignKey: "post_id" });
