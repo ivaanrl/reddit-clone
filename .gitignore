@@ -13,3 +13,5 @@ dist
 *.log
 childrenex.js 
 example2.js 
+.cert
+ssl

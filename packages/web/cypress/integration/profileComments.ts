@@ -1,6 +1,6 @@
 describe("Profile comments work", () => {
   it("Can write and post a comment", () => {
-    cy.visit("http://localhost:3000/u/ivanrl/comments");
+    cy.visit("https://dev.mylocalsite.com:3000/u/ivanrl/comments");
 
     cy.logInUser();
 
@@ -15,7 +15,7 @@ describe("Profile comments work", () => {
   });
 
   it("can open and close textEditor", () => {
-    cy.visit("http://localhost:3000/u/ivanrl/comments");
+    cy.visit("https://dev.mylocalsite.com:3000/u/ivanrl/comments");
 
     cy.logInUser();
 
