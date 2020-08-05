@@ -99,6 +99,7 @@ const PostView = (props: Props) => {
             <NavLink
               to={`/u/${author_username}`}
               className="post-navlink not-navigate-to-full-post"
+              data-testid="post-nav-profile"
             >
               {author_username}
             </NavLink>
@@ -106,11 +107,16 @@ const PostView = (props: Props) => {
             <NavLink
               to={`/r/${subreddit_name}/post/${id}`}
               className="post-navlink not-navigate-to-full-post"
+              data-testid="post-date-nav-fullpost"
             >
               {formatDate(createdAt)}
             </NavLink>
           </div>
-          <div className="title" title="post-title">
+          <div
+            className="title"
+            title="post-title"
+            data-testid="post-title-nav-fullpost"
+          >
             {title}
           </div>
           {type === "post" ? (
@@ -134,6 +140,7 @@ const PostView = (props: Props) => {
           <NavLink
             to={`/r/${subreddit_name}/post/${id}`}
             className="comments bottom-bar-container not-navigate-to-full-post"
+            data-testid="post-bottombar-comment-nav-fullpost"
           >
             <i className="fa fa-comment  bottom-bar-icon not-navigate-to-full-post" />
             <div className="text not-navigate-to-full-post">
