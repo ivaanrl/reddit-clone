@@ -54,6 +54,21 @@ const PostView = (props: Props) => {
     reducer,
   } = props;
 
+  const handlePostClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    console.log((event.target as HTMLDivElement).classList);
+    if (
+      (event.target as HTMLDivElement).classList.contains(
+        "not-navigate-to-full-post"
+      )
+    ) {
+      return;
+    }
+
+    history.push(`/r/${subreddit_name}/post/${id}`);
+  };
+
   return (
     <div className="post-container">
       <Vote
@@ -67,11 +82,11 @@ const PostView = (props: Props) => {
         reducer={reducer}
       />
       <div className="main-content">
-        <div
-          className="main-content"
-          onClick={() => history.push(`/r/${subreddit_name}/post/${id}`)}
-        >
-          <div className="create-date" title="post-create-date">
+        <div className="main-content" onClick={handlePostClick}>
+          <div
+            className="create-date not-navigate-to-full-post"
+            title="post-create-date"
+          >
             {showSubredditName ? (
               <NavLink
                 to={`/r/${subreddit_name}`}
@@ -81,13 +96,16 @@ const PostView = (props: Props) => {
               </NavLink>
             ) : null}
             <div className="postedBy">Posted by </div>&nbsp;
-            <NavLink to={`/u/${author_username}`} className="post-navlink">
+            <NavLink
+              to={`/u/${author_username}`}
+              className="post-navlink not-navigate-to-full-post"
+            >
               {author_username}
             </NavLink>
             &nbsp;
             <NavLink
               to={`/r/${subreddit_name}/post/${id}`}
-              className="post-navlink"
+              className="post-navlink not-navigate-to-full-post"
             >
               {formatDate(createdAt)}
             </NavLink>
@@ -112,17 +130,19 @@ const PostView = (props: Props) => {
             />
           ) : null}
         </div>
-        <div className="bottom-bar">
+        <div className="bottom-bar not-navigate-to-full-post">
           <NavLink
             to={`/r/${subreddit_name}/post/${id}`}
-            className="comments bottom-bar-container"
+            className="comments bottom-bar-container not-navigate-to-full-post"
           >
-            <i className="fa fa-comment  bottom-bar-icon" />
-            <div className="text">{comment_count} comments</div>
+            <i className="fa fa-comment  bottom-bar-icon not-navigate-to-full-post" />
+            <div className="text not-navigate-to-full-post">
+              {comment_count} comments
+            </div>
           </NavLink>
-          <div className="save bottom-bar-container">
-            <i className="fa fa-bookmark bottom-bar-icon" />
-            <div className="text">Save</div>
+          <div className="save bottom-bar-container not-navigate-to-full-post">
+            <i className="fa fa-bookmark bottom-bar-icon not-navigate-to-full-post" />
+            <div className="text not-navigate-to-full-post">Save</div>
           </div>
         </div>
       </div>
