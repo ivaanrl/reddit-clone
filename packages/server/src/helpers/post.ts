@@ -125,22 +125,25 @@ const uploadFile = async (buffer: any, name: string, type: any) => {
 };
 
 export const handleCreateImagePost = async (
-  _user: User,
+  /*_user: User,
   _id: string,
   _image: any,
   _title: string,
-  _sub: Subreddit,
+  _sub: Subreddit, */
   request: Request
 ) => {
+  console.log("bbbbbbb");
   const form = new multiparty.Form();
 
   form.parse(request, async (error, _fields, files) => {
-    if (error) throw new Error(error.message);
+    if (error) {
+      return error;
+    }
 
     try {
       const path = files.file[0].path;
       const buffer = fs.readFileSync(path);
-      const type = fileType.fromBuffer(buffer);
+      const type = await fileType.fromBuffer(buffer);
       const timestamp = Date.now().toString();
       const fileName = `folder/${timestamp}-lg`;
       const data = await uploadFile(buffer, fileName, type);

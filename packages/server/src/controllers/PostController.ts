@@ -68,28 +68,28 @@ class PostController {
     return res.status(401).json({ message: non_specified_error });
   }
 
-  @post("createImagePost")
+  @post("/createImagePost")
   @use(requireLogin)
-  async createImagePOst(req: Request, res: Response) {
+  async createImagePOst(req: Request, _res: Response) {
     console.log(req.body);
     const { subName, title, image } = req.body;
 
     const sub = await getSubreddit(subName);
     const user = await findCurrentUser(req.user);
 
-    if (user instanceof User && sub instanceof Subreddit) {
-      const id = uniqid() + uniqid();
-      const post = await handleCreateImagePost(
-        user,
+    //if (user instanceof User && sub instanceof Subreddit) {
+    const id = uniqid() + uniqid();
+    const post = await handleCreateImagePost(
+      /*user,
         id,
         image,
         title,
-        sub,
-        req
-      );
-    }
+        sub, */
+      req
+    );
+    //}
 
-    return res.status(401).json({ message: non_specified_error });
+    //return res.status(401).json({ message: non_specified_error });
   }
 
   @post("/vote")

@@ -8,6 +8,7 @@ import { HTMLSerializer } from "../../../shared/HTMLSerializer";
 import SubredditDropdownConnector from "../../subredditDropdown/SubredditDropdownConnector";
 import SubredditDropdownChooseCommunity from "../../../shared/svgs/SubredditDropdownChooseCommunity";
 import CreatesPostNavbarConnector from "./createPostNavbar/CreatesPostNavbarConnector";
+import ImageUploader from "./ImageUploader";
 
 interface Props {
   createPost: (
@@ -123,6 +124,7 @@ const CreatePostView = (props: Props) => {
             placeholder="Text (optional)"
           />
         ) : null}
+        {activeOption === "image" ? <ImageUploader /> : null}
         {activeOption === "link" ? (
           <input
             type="text"
