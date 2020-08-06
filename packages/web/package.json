@@ -49,7 +49,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom-sixteen",
     "eject": "react-scripts eject",
-    "test cypress": "cypress run"
+    "cypress:open": "yarn run cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
