@@ -3,6 +3,9 @@ import { prodKeys } from "./prod";
 
 export interface Keys {
   cookieSecret: string;
+  AWS_SECRET_KEY: string;
+  AWS_ACCESS_KEY: string;
+  AWS_BUCKET: string;
 }
 
 export const keys = (): Keys => {

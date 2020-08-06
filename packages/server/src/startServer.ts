@@ -13,11 +13,12 @@ import { AppRouter } from "./AppRouter";
 import { initDB } from "../config/initDB";
 import cpg from "connect-pg-simple";
 import { Pool } from "pg";
+import aws from "aws-sdk";
 
 export const startServer = async () => {
   const app = express();
 
-  const { cookieSecret } = keys();
+  const { cookieSecret, AWS_ACCESS_KEY, AWS_BUCKET, AWS_SECRET_KEY } = keys();
 
   let whitelist = "https://dev.mylocalsite.com:3000";
   whitelist =

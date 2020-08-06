@@ -1,6 +1,13 @@
 import { Comment } from "../models/Comment";
-import { User } from "src/models/User";
-import { Subreddit } from "src/models/Subreddit";
+import { User } from "../models/User";
+import { Subreddit } from "../models/Subreddit";
+import aws from "aws-sdk";
+import fs from "fs";
+import fileType from "file-type";
+import bluebird from "bluebird";
+import multiparty from "multiparty";
+import { keys } from "../../config/keys";
+import { Request } from "express";
 
 export class CommentWithReply extends Comment {
   public user_vote!: number;
@@ -59,7 +66,7 @@ export const createPost = async (
 export const createLinkPost = async (
   user: User,
   id: string,
-  link: string,
+  image: any,
   title: string,
   sub: Subreddit,
   type: string
@@ -68,7 +75,7 @@ export const createLinkPost = async (
     return await user.createPost({
       id,
       author_username: user.username,
-      link,
+      link: image,
       title,
       subreddit_name: sub.name,
       type,
@@ -95,4 +102,51 @@ export const handleCreatePost = async (
     default:
       return await createPost(user, id, content, title, sub, type);
   }
+};
+
+aws.config.update({
+  accessKeyId: keys().AWS_ACCESS_KEY,
+  secretAccessKey: keys().AWS_SECRET_KEY,
+});
+
+aws.config.setPromisesDependency(bluebird);
+
+const s3 = new aws.S3();
+
+const uploadFile = async (buffer: any, name: string, type: any) => {
+  const params = {
+    ACL: "public-read",
+    Body: buffer,
+    Bucket: keys().AWS_BUCKET,
+    ContentType: type.mime,
+    Key: `${name}.${type.ext}`,
+  };
+  return await s3.upload(params).promise();
+};
+
+export const handleCreateImagePost = async (
+  _user: User,
+  _id: string,
+  _image: any,
+  _title: string,
+  _sub: Subreddit,
+  request: Request
+) => {
+  const form = new multiparty.Form();
+
+  form.parse(request, async (error, _fields, files) => {
+    if (error) throw new Error(error.message);
+
+    try {
+      const path = files.file[0].path;
+      const buffer = fs.readFileSync(path);
+      const type = fileType.fromBuffer(buffer);
+      const timestamp = Date.now().toString();
+      const fileName = `folder/${timestamp}-lg`;
+      const data = await uploadFile(buffer, fileName, type);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  });
 };
