@@ -17,7 +17,6 @@ import {
   handleCreateImagePost,
 } from "../helpers/post";
 import { getCommentsWithVotesQuery } from "./queries/PostQueries";
-import { Console } from "console";
 
 const {
   post_created_successfully,
@@ -71,7 +70,6 @@ class PostController {
   @post("/createImagePost")
   @use(requireLogin)
   async createImagePOst(req: Request, _res: Response) {
-    console.log(req.body);
     const { subName, title, image } = req.body;
 
     const sub = await getSubreddit(subName);

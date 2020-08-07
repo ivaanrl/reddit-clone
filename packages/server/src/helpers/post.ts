@@ -139,9 +139,10 @@ export const handleCreateImagePost = async (
     if (error) {
       return error;
     }
+    console.log("files", files);
 
     try {
-      const path = files.file[0].path;
+      const path = files.post[0].path;
       const buffer = fs.readFileSync(path);
       const type = await fileType.fromBuffer(buffer);
       const timestamp = Date.now().toString();
@@ -149,6 +150,7 @@ export const handleCreateImagePost = async (
       const data = await uploadFile(buffer, fileName, type);
       return data;
     } catch (error) {
+      console.log(error);
       return error;
     }
   });
