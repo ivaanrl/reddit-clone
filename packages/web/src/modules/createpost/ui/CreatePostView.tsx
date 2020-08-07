@@ -18,10 +18,16 @@ interface Props {
     content?: string[],
     link?: string
   ) => void;
+  createImagePost: (post: {
+    subName: string;
+    title: string;
+    type: string;
+    image: FileList;
+  }) => void;
 }
 
 const CreatePostView = (props: Props) => {
-  const { createPost } = props;
+  const { createPost, createImagePost } = props;
   const sub = useSelector((state: State) => state.subreddit);
   const history = useHistory();
   const location = useLocation();
@@ -49,6 +55,9 @@ const CreatePostView = (props: Props) => {
         break;
       case "link":
         handleLinkSubmit();
+        break;
+      case "image":
+        handleImageSubmit();
         break;
       default:
         handlePostSubmit();
@@ -85,6 +94,19 @@ const CreatePostView = (props: Props) => {
   }, [location]);
 
   const [linkValue, setLinkValue] = useState("");
+
+  const [file, setFile] = useState<FileList | null>(null);
+
+  const handleImageSubmit = () => {
+    if (!file) return;
+    alert("gonna create image post");
+    createImagePost({
+      subName: sub.name,
+      title: titleValue,
+      type: "image",
+      image: file,
+    });
+  };
 
   const handleLinkInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -124,7 +146,7 @@ const CreatePostView = (props: Props) => {
             placeholder="Text (optional)"
           />
         ) : null}
-        {activeOption === "image" ? <ImageUploader /> : null}
+        {activeOption === "image" ? <ImageUploader setFile={setFile} /> : null}
         {activeOption === "link" ? (
           <input
             type="text"

@@ -44,7 +44,7 @@
     "yup": "^0.29.1"
   },
   "scripts": {
-    "prestart": "rm ../../node_modules/webpack-dev-server/ssl/server.pem && cp -f ./ssl/server.pem ../../node_modules/webpack-dev-server/ssl",
+    "prestart": "cp -f ./ssl/server.pem ../../node_modules/webpack-dev-server/ssl",
     "start": "HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom-sixteen",

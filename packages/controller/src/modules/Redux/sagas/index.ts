@@ -12,6 +12,7 @@ import {
   watchCommentFullPost,
   watchReplyComment,
   watchVoteComment,
+  watchCreateImagePost,
 } from "./post.sagas";
 import {
   watchGetSubreddit,
@@ -57,5 +58,6 @@ export const rootSaga = function* root() {
     fork(watchReplyCommentInProfile),
     fork(watchGetSearchPreview),
     fork(watchGetHomepagePosts),
+    fork(watchCreateImagePost),
   ]);
 };

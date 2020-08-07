@@ -17,6 +17,10 @@ export function* watchCreatePost() {
   yield takeEvery(ActionTypes.CREATE_POST, createPost);
 }
 
+export function* watchCreateImagePost() {
+  yield takeEvery(ActionTypes.CREATE_IMAGE_POST, createImagePost);
+}
+
 export function* watchVotePost() {
   yield takeEvery(ActionTypes.VOTE_POST, votePost);
 }
@@ -53,6 +57,22 @@ export function* createPost(post: {
 }) {
   try {
     const response = yield call(createPostRequest, post.payload);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* createImagePost(post: {
+  type: string;
+  payload: {
+    subName: string;
+    title: string;
+    type: string;
+    image: FileList;
+  };
+}) {
+  try {
+    const response = yield call(createImagePostRequest, post.payload);
   } catch (error) {
     console.log(error);
   }
@@ -252,6 +272,31 @@ export const createPostRequest = (post: {
     response = error.response;
   }
 
+  return response;
+};
+
+export const createImagePostRequest = (post: {
+  subName: string;
+  title: string;
+  type: string;
+  image: FileList;
+}) => {
+  const { subName, title, type, image } = post;
+  let response;
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      //Need to be commented out so browser can add boundary
+      //.set("Content-Type", "multipart/form-data")
+      .post("http://localhost:5000/api/post/createImagePost")
+      .field("subName", subName)
+      .field("title", title)
+      .field("type", type)
+      .attach("files", image[0]);
+  } catch (error) {
+    response = error.response;
+  }
   return response;
 };
 

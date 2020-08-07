@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import superagent from "superagent";
+import React from "react";
 
-const ImageUploader = () => {
-  const [file, setFile] = useState<FileList | null>(null);
+interface Props {
+  setFile: (file: FileList | null) => void;
+}
 
-  const submitFile = (event: React.FormEvent<HTMLFormElement>) => {
+const ImageUploader = (props: Props) => {
+  const { setFile } = props;
+
+  /*const submitFile = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (file === null) return;
 
@@ -19,15 +22,14 @@ const ImageUploader = () => {
       .attach("file", file[0])
       .then((response) => console.log(response));
     alert("sentt");
-  };
+  }; */
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFile(event.target.files);
   };
 
   return (
-    <form onSubmit={submitFile}>
+    <form>
       <input type="file" onChange={handleFileUpload} />
-      <button type="submit">Send</button>
     </form>
   );
 };

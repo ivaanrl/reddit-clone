@@ -10,6 +10,12 @@ interface Props {
       content?: string[],
       link?: string
     ) => void;
+    createImagePost: (post: {
+      subName: string;
+      title: string;
+      type: string;
+      image: FileList;
+    }) => void;
   }) => JSX.Element;
 }
 
@@ -43,5 +49,14 @@ export const CreatePostController = (props: Props) => {
     }
   };
 
-  return props.children({ createPost });
+  const createImagePost = (post: {
+    subName: string;
+    title: string;
+    type: string;
+    image: FileList;
+  }) => {
+    dispatch(allActions.createImagePost(post));
+  };
+
+  return props.children({ createPost, createImagePost });
 };

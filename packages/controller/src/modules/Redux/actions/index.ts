@@ -36,6 +36,7 @@ import {
   voteCommentCompletedAction,
   removeFullPostErrors,
   updateHomepagePostVotes,
+  createImagePost,
 } from "./post";
 
 import {
@@ -137,6 +138,7 @@ export const allActions = {
   getHomepagePostsFailed,
   clearProfilePosts,
   updateHomepagePostVotes,
+  createImagePost,
 };
 
 export * from "./types";

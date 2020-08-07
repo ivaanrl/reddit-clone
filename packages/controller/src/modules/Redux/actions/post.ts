@@ -14,6 +14,16 @@ export const createPost = (
   payload: post,
 });
 
+export const createImagePost = (post: {
+  subName: string;
+  title: string;
+  type: string;
+  image: FileList;
+}) => ({
+  type: ActionTypes.CREATE_IMAGE_POST,
+  payload: post,
+});
+
 export const votePost = (voteInfo: {
   postId: string;
   voteValue: number;
