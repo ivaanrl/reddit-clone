@@ -8,6 +8,7 @@ import bluebird from "bluebird";
 import multiparty from "multiparty";
 import { keys } from "../../config/keys";
 import { Request } from "express";
+import { getSubreddit } from "./subreddit";
 
 export class CommentWithReply extends Comment {
   public user_vote!: number;
@@ -66,7 +67,7 @@ export const createPost = async (
 export const createLinkPost = async (
   user: User,
   id: string,
-  image: any,
+  link: string,
   title: string,
   sub: Subreddit,
   type: string
@@ -75,7 +76,7 @@ export const createLinkPost = async (
     return await user.createPost({
       id,
       author_username: user.username,
-      link: image,
+      link,
       title,
       subreddit_name: sub.name,
       type,
@@ -125,33 +126,70 @@ const uploadFile = async (buffer: any, name: string, type: any) => {
 };
 
 export const handleCreateImagePost = async (
-  /*_user: User,
-  _id: string,
-  _image: any,
-  _title: string,
-  _sub: Subreddit, */
+  user: User,
+  id: string,
   request: Request
 ) => {
-  console.log("bbbbbbb");
-  const form = new multiparty.Form();
+  let res;
 
-  form.parse(request, async (error, _fields, files) => {
+  const form = new multiparty.Form();
+  form.parse(request, async (error, fields, files) => {
     if (error) {
       return error;
     }
-    console.log("files", files);
+    const { title, subName } = fields;
+    const postType = fields.type;
+    const sub = await getSubreddit(subName[0]);
 
-    try {
-      const path = files.post[0].path;
-      const buffer = fs.readFileSync(path);
-      const type = await fileType.fromBuffer(buffer);
-      const timestamp = Date.now().toString();
-      const fileName = `folder/${timestamp}-lg`;
-      const data = await uploadFile(buffer, fileName, type);
-      return data;
-    } catch (error) {
-      console.log(error);
-      return error;
+    if (sub instanceof Subreddit) {
+      let imageLink: string;
+      try {
+        const path = files.files[0].path;
+        const buffer = fs.readFileSync(path);
+        const type = await fileType.fromBuffer(buffer);
+        const timestamp = Date.now().toString();
+        const fileName = `folder/${timestamp}-lg`;
+        const data = await uploadFile(buffer, fileName, type);
+        imageLink = data.Location;
+
+        res = await createImagePost(
+          user,
+          id,
+          title[0],
+          sub,
+          postType[0],
+          imageLink
+        );
+      } catch (error) {
+        res = error;
+        return error;
+      }
+    } else {
+      res = false;
     }
   });
+
+  return res;
+};
+
+export const createImagePost = async (
+  user: User,
+  id: string,
+  title: string,
+  sub: Subreddit,
+  type: string,
+  imageLink: string
+) => {
+  try {
+    return await user.createPost({
+      id,
+      author_username: user.username,
+      link: imageLink,
+      title,
+      subreddit_name: sub.name,
+      type,
+    });
+  } catch (error) {
+    return error;
+  }
 };

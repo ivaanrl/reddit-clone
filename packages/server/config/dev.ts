@@ -1,7 +1,7 @@
 export const devKeys = {
   cookieSecret: "ThisIsYourDevCookieSecret",
-  AWS_SECRET_KEY: "MAv+1AMLYN2eo/M1bhuwha8SGHQV7ovq9D7WSIIF",
-  AWS_ACCESS_KEY: "AKIAJKHR2HDETSF3HTHQ",
+  AWS_SECRET_KEY: "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",
+  AWS_ACCESS_KEY: "AKIAIMRA4VDRIK5TP2CQ",
   AWS_BUCKET: "reddit-clone-images",
 };
 

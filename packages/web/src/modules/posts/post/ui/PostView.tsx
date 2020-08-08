@@ -135,6 +135,9 @@ const PostView = (props: Props) => {
               url={link}
             />
           ) : null}
+          {type === "image" && link ? (
+            <img src={link} alt={"image for " + title} className="post-image" />
+          ) : null}
         </div>
         <div className="bottom-bar not-navigate-to-full-post">
           <NavLink
