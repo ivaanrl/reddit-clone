@@ -1,19 +1,35 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import {
+  AppearanceProvider,
+  useColorScheme,
+  Appearance,
+} from "react-native-appearance";
+import {
+  //useColorScheme,
+  View,
+  Text,
+  SafeAreaView,
+} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { darkTheme, lightTheme } from "./src/themes/themes";
+import OrderBar from "./src/shared/modules/orderBar/OrderBar";
+import Constants from "expo-constants";
 
-export default function App() {
+const App = () => {
+  const scheme = useColorScheme();
+  const statusBarHeight = Constants.statusBarHeight;
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <AppearanceProvider>
+      <NavigationContainer theme={scheme === "dark" ? darkTheme : lightTheme}>
+        <SafeAreaView>
+          <View style={{ marginTop: statusBarHeight }} />
+          <OrderBar defaultSort="new" />
+          <Text>Current theme is {scheme}</Text>
+        </SafeAreaView>
+      </NavigationContainer>
+    </AppearanceProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
