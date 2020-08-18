@@ -9,7 +9,7 @@ export interface ThemeColors {
   colorCard: string;
   colorLine: string;
   textMain: string;
-  textMUted: string;
+  textMuted: string;
   textFlair: string;
   inputBackground: string;
   highlightSelection: string;
@@ -24,6 +24,7 @@ export interface ThemeColors {
   textEditorButtonColor: string;
   upvoteColor: string;
   downvoteColor: string;
+  modalColor: string;
 }
 
 const sharedColors = {
@@ -36,6 +37,7 @@ const sharedColors = {
   textEditorButtonColorHover: "#dae0e6",
   upvoteColor: "#ff3300",
   downvoteColor: "#7193ec",
+  modalColor: "rgba(13, 13, 13, 0.65)",
 };
 
 export const lightTheme = {

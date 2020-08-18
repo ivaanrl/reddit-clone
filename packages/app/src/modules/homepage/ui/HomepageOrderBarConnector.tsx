@@ -4,7 +4,15 @@ import OrderBar from "../../../shared/modules/orderBar/OrderBar";
 
 const HomepageOrderBarConnector = () => {
   return (
-    <HomepageOrderController>{() => <OrderBar />}</HomepageOrderController>
+    <HomepageOrderController>
+      {({ getPosts }) => (
+        <OrderBar
+          getPostsHomepage={getPosts}
+          defaultSort="hot"
+          reducer="homepage"
+        />
+      )}
+    </HomepageOrderController>
   );
 };
 

@@ -1,6 +1,7 @@
-import { StyleSheet } from "react-native";
-import { ThemeColors } from "../themes/themes";
-
 export const small = {
-  width: 75,
+  width: 120,
+  marginBottom: 0,
+  marginTop: 0,
+  height: 30,
+  paddingLeft: 7,
 };

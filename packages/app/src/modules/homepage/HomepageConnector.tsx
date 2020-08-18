@@ -5,3 +5,5 @@ import HomepageView from "./ui/HomepageView";
 const HomepageConnector = () => {
   return <HomepageController>{() => <HomepageView />}</HomepageController>;
 };
+
+export default HomepageConnector;
