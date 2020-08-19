@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import React from "react";
 import {
   AppearanceProvider,
@@ -8,9 +9,10 @@ import {
   //useColorScheme,
   View,
   Text,
-  SafeAreaView,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { darkTheme, lightTheme } from "./src/themes/themes";
 import OrderBar from "./src/shared/modules/orderBar/OrderBar";
 import Constants from "expo-constants";
@@ -29,15 +31,21 @@ const App = () => {
   const scheme = useColorScheme();
   const statusBarHeight = Constants.statusBarHeight;
 
+  //<View style={{ marginTop: statusBarHeight }} />
+
+  const Stack = createStackNavigator();
+
   return (
     <Provider store={store}>
       <AppearanceProvider>
         <NavigationContainer theme={scheme === "dark" ? darkTheme : lightTheme}>
-          <SafeAreaView>
-            <View style={{ marginTop: statusBarHeight }} />
-            <HomepageConnector />
-            <Text>Current theme is {scheme}</Text>
-          </SafeAreaView>
+          <Stack.Navigator initialRouteName="Homepage">
+            <Stack.Screen
+              name="Homepage"
+              component={HomepageConnector}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
         </NavigationContainer>
       </AppearanceProvider>
     </Provider>

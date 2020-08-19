@@ -10,6 +10,7 @@ import { getHomepagePostsQuery } from "./queries/HomePageQueries";
 class HomePageController {
   @get("/getPosts")
   async getHomePagePosts(req: Request, res: Response) {
+    console.log("b");
     const currentUser = await findCurrentUser(req.user);
     const order = req.query.order as string;
     const sortTime = req.query.time as string;
@@ -44,6 +45,7 @@ class HomePageController {
 
     const hasMore = posts[0].length === HOMEPAGE_POSTS_LIMIT;
 
+    console.log("yay");
     return res.status(201).json({ posts: posts[0], hasMore });
   }
 }

@@ -16,3 +16,6 @@ example2.js
 .cert
 ssl
 dev.ts
+*.pem
+*.cert
+*.crt

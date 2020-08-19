@@ -13,21 +13,40 @@ import { AppRouter } from "./AppRouter";
 import { initDB } from "../config/initDB";
 import cpg from "connect-pg-simple";
 import { Pool } from "pg";
-import aws from "aws-sdk";
+import https from "https";
+import fs from "fs";
+import path from "path";
+import http from "http";
 
 export const startServer = async () => {
   const app = express();
 
   const { cookieSecret, AWS_ACCESS_KEY, AWS_BUCKET, AWS_SECRET_KEY } = keys();
 
-  let whitelist = "https://dev.mylocalsite.com:3000";
-  whitelist =
-    process.env.NODE_ENV === "test"
-      ? (whitelist = "http://localhost")
-      : whitelist;
+  const httpsOptions = {
+    key: fs.readFileSync(path.resolve(__dirname, "localhost.key")),
+    cert: fs.readFileSync(path.resolve(__dirname, "localhost.crt")),
+  };
+
+  const whitelist = [
+    "https://dev.mylocalsite.com:3000",
+    "http://localhost",
+    "http://localhost:19001/",
+    "http://192.168.0.45:19006/",
+    "http://192.168.0.33",
+    "https://192.168.0.33",
+  ];
 
   const corsOptions = {
-    origin: whitelist,
+    origin: function (origin: any, callback: any) {
+      if (whitelist.indexOf(origin) !== -1 || !origin) {
+        console.log(origin);
+        callback(null, true);
+      } else {
+        console.log(origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   };
 
@@ -78,9 +97,15 @@ export const startServer = async () => {
 
   let port = process.env.PORT || 5000;
 
-  app.listen(port, () => {
+  /*app.listen(port, () => {
     console.log("Listening on port ", port);
-  });
+  });*/
 
-  return app;
+  //return app;
+
+  const httpsServer = https.createServer(httpsOptions, app);
+
+  httpsServer.listen(port, () => {
+    console.log("Listening on port", port);
+  });
 };

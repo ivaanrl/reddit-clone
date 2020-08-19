@@ -22,12 +22,13 @@ export function* getHomepagePosts(info: {
 
     yield put(getHomepagePostsCompletedAction(homepageResponse.body));
   } catch (error) {
-    yield put(
+    /*yield put(
       getHomepagePostsFailed({
         status: error.response.status,
         text: error.response.body.message,
       })
-    );
+    ); */
+    console.log(error);
   }
 }
 

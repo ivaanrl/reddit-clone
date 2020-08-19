@@ -13,6 +13,10 @@ import { dropdownStyles } from "../../../styles";
 import { ThemeColors } from "../../../themes/themes";
 import { useSpring, animated } from "react-spring";
 import Constants from "expo-constants";
+import { useSelector } from "react-redux";
+import { State } from "@reddit-clone/controller";
+
+import superagent from "superagent";
 
 interface Props {
   getPostsWithUsername?: (
@@ -36,11 +40,28 @@ const OrderBar = (props: Props) => {
   const windowHeight = Dimensions.get("window").height;
   const colors = theme.colors as ThemeColors;
   const {
-    //getPostsHomepage,
+    getPostsHomepage,
     //getPostsWithUsername,
     defaultSort,
     //reducer,
   } = props;
+
+  const sendReq = async () => {
+    let response;
+    try {
+      response = await superagent
+        .agent()
+        .withCredentials()
+        .get("https://192.168.0.45:5000/api" + "/homepage/getPosts")
+        .query({});
+    } catch (error) {
+      //console.log(error);
+      response = error;
+    }
+    //console.log(response);
+    return response;
+  };
+  sendReq();
 
   const [activeOption, setActiveOption] = useState<string>(defaultSort);
 
@@ -49,6 +70,7 @@ const OrderBar = (props: Props) => {
       ...dropdownStyles.small,
       backgroundColor: colors.primary,
       justifyContent: "center",
+      zIndex: 0,
     },
     selectedOption: {
       color: colors.text,
@@ -97,6 +119,7 @@ const OrderBar = (props: Props) => {
       height: windowHeight - statusBarHeight,
       width: "100%",
       backgroundColor: colors.modalColor,
+      zIndex: 900,
     },
   });
 
@@ -117,6 +140,18 @@ const OrderBar = (props: Props) => {
   const capitalizeString = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
+
+  const homepagePage = useSelector((state: State) => state.homepage.page);
+
+  useEffect(() => {
+    const timeSort = "all_time"; //Have to set this up later
+    const sortOrder = ""; //Have to set this up later
+
+    if (getPostsHomepage) {
+      console.log("gonna send request");
+      getPostsHomepage(activeOption, timeSort, homepagePage);
+    }
+  }, [activeOption, defaultSort]);
 
   return (
     <React.Fragment>
@@ -140,7 +175,9 @@ const OrderBar = (props: Props) => {
             }}
           >
             <Text style={styles.dropdownOptionTitle}>SORT POST BY</Text>
-            <Text style={styles.dropdownOption}>Hot</Text>
+            <Text style={styles.dropdownOption} onPress={handleSelectClick}>
+              Hot
+            </Text>
             <Text style={styles.dropdownOption}>New</Text>
             <Text style={styles.dropdownOption}>Top</Text>
           </AnimatedView>
