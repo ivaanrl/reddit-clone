@@ -16,17 +16,16 @@ import { Pool } from "pg";
 import https from "https";
 import fs from "fs";
 import path from "path";
-import http from "http";
 
 export const startServer = async () => {
   const app = express();
 
-  const { cookieSecret, AWS_ACCESS_KEY, AWS_BUCKET, AWS_SECRET_KEY } = keys();
+  const { cookieSecret } = keys();
 
-  const httpsOptions = {
-    key: fs.readFileSync(path.resolve(__dirname, "localhost.key")),
-    cert: fs.readFileSync(path.resolve(__dirname, "localhost.crt")),
-  };
+  //const httpsOptions = {
+  //  key: fs.readFileSync(path.resolve(__dirname, "localhost.key")),
+  //  cert: fs.readFileSync(path.resolve(__dirname, "localhost.crt")),
+  //};
 
   const whitelist = [
     "https://dev.mylocalsite.com:3000",
@@ -35,6 +34,10 @@ export const startServer = async () => {
     "http://192.168.0.45:19006/",
     "http://192.168.0.33",
     "https://192.168.0.33",
+    "exp://192.168.0.45:19000",
+    "http://localhost:19002/",
+    /\.localhost\$/,
+    /[^]*/,
   ];
 
   const corsOptions = {
@@ -52,6 +55,15 @@ export const startServer = async () => {
 
   app.use(cors(corsOptions));
   app.options("*", cors());
+  app.use(function (_req, _res, next) {
+    /*res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    ); */
+    console.log("this is corssss");
+    next();
+  });
 
   app.use(express.json());
 
@@ -96,16 +108,13 @@ export const startServer = async () => {
   await initDB();
 
   let port = process.env.PORT || 5000;
+  app.listen(port, () => {
+    console.log("listening", port);
+  });
 
-  /*app.listen(port, () => {
-    console.log("Listening on port ", port);
-  });*/
-
-  //return app;
-
-  const httpsServer = https.createServer(httpsOptions, app);
+  /*const httpsServer = https.createServer(httpsOptions, app);
 
   httpsServer.listen(port, () => {
     console.log("Listening on port", port);
-  });
+  }); */
 };
