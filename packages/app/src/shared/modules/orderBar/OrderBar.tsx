@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 import { useTheme } from "@react-navigation/native";
 import { dropdownStyles } from "../../../styles";
 import { ThemeColors } from "../../../themes/themes";
-import { useSpring, animated } from "react-spring";
+import { useSpring, animated, useTransition } from "react-spring";
 import Constants from "expo-constants";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
@@ -32,6 +32,7 @@ interface Props {
 }
 
 const AnimatedView: any = animated(View);
+const AnimatedTouchableOpacity: any = animated(TouchableOpacity);
 
 const OrderBar = (props: Props) => {
   const theme = useTheme();
@@ -45,23 +46,6 @@ const OrderBar = (props: Props) => {
     defaultSort,
     //reducer,
   } = props;
-
-  const sendReq = async () => {
-    let response;
-    try {
-      response = await superagent
-        .agent()
-        .withCredentials()
-        .get("https://192.168.0.45:5000/api" + "/homepage/getPosts")
-        .query({});
-    } catch (error) {
-      //console.log(error);
-      response = error;
-    }
-    //console.log(response);
-    return response;
-  };
-  sendReq();
 
   const [activeOption, setActiveOption] = useState<string>(defaultSort);
 
@@ -119,7 +103,6 @@ const OrderBar = (props: Props) => {
       height: windowHeight - statusBarHeight,
       width: "100%",
       backgroundColor: colors.modalColor,
-      zIndex: 900,
     },
   });
 
@@ -128,7 +111,6 @@ const OrderBar = (props: Props) => {
   >(false);
 
   const dropdownAnimationProps = useSpring({
-    position: "absolute",
     opacity: drodpdownOptionsVisible ? 1 : 0,
     bottom: drodpdownOptionsVisible ? 0 : -200,
   });
@@ -146,19 +128,22 @@ const OrderBar = (props: Props) => {
   useEffect(() => {
     const timeSort = "all_time"; //Have to set this up later
     const sortOrder = ""; //Have to set this up later
-
+    console.log("a");
     if (getPostsHomepage) {
-      console.log("gonna send request");
       getPostsHomepage(activeOption, timeSort, homepagePage);
     }
   }, [activeOption, defaultSort]);
+
+  const handleSelectDropdownOption = (selectedOption: string) => {
+    setActiveOption(selectedOption);
+    setDropdownOptionsVisible(false);
+  };
 
   return (
     <React.Fragment>
       <View style={styles.container}>
         <TouchableOpacity onPress={handleSelectClick}>
           <Text style={styles.selectedOption}>
-            {" "}
             {capitalizeString(activeOption)}
           </Text>
         </TouchableOpacity>
@@ -175,11 +160,15 @@ const OrderBar = (props: Props) => {
             }}
           >
             <Text style={styles.dropdownOptionTitle}>SORT POST BY</Text>
-            <Text style={styles.dropdownOption} onPress={handleSelectClick}>
-              Hot
-            </Text>
-            <Text style={styles.dropdownOption}>New</Text>
-            <Text style={styles.dropdownOption}>Top</Text>
+            <TouchableOpacity onPress={() => handleSelectDropdownOption("How")}>
+              <Text style={styles.dropdownOption}>Hot</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleSelectDropdownOption("New")}>
+              <Text style={styles.dropdownOption}>New</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleSelectDropdownOption("Top")}>
+              <Text style={styles.dropdownOption}>Top</Text>
+            </TouchableOpacity>
           </AnimatedView>
         </TouchableOpacity>
       ) : null}
