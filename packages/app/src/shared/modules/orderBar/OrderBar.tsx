@@ -1,22 +1,18 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  Picker,
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  Modal,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { dropdownStyles } from "../../../styles";
 import { ThemeColors } from "../../../themes/themes";
-import { useSpring, animated, useTransition } from "react-spring";
+import { useSpring, animated } from "react-spring";
 import Constants from "expo-constants";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
-
-import superagent from "superagent";
 
 interface Props {
   getPostsWithUsername?: (
@@ -32,14 +28,12 @@ interface Props {
 }
 
 const AnimatedView: any = animated(View);
-const AnimatedTouchableOpacity: any = animated(TouchableOpacity);
 
 const OrderBar = (props: Props) => {
   const theme = useTheme();
-  const statusBarHeight = Constants.statusBarHeight;
-  const screenHeight = Dimensions.get("screen").height;
-  const windowHeight = Dimensions.get("window").height;
   const colors = theme.colors as ThemeColors;
+  const statusBarHeight = Constants.statusBarHeight;
+  const windowHeight = Dimensions.get("window").height;
   const {
     getPostsHomepage,
     //getPostsWithUsername,
