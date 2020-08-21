@@ -1,6 +1,6 @@
 import { formatDate } from "../../shared/formatDate";
 import { sanitizeContent } from "../../shared/sanitizePostHTML";
-import { allActions } from "../..";
+import { allActions } from "../Redux/actions";
 import { useDispatch } from "react-redux";
 
 interface Props {

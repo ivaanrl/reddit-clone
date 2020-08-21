@@ -48,6 +48,7 @@ const OrderBar = (props: Props) => {
   } = props;
 
   const [activeOption, setActiveOption] = useState<string>(defaultSort);
+  const [timeSort, setTimeSort] = useState<string>("all_time");
 
   const styles = StyleSheet.create({
     container: {
@@ -126,9 +127,6 @@ const OrderBar = (props: Props) => {
   const homepagePage = useSelector((state: State) => state.homepage.page);
 
   useEffect(() => {
-    const timeSort = "all_time"; //Have to set this up later
-    const sortOrder = ""; //Have to set this up later
-    console.log("a");
     if (getPostsHomepage) {
       getPostsHomepage(activeOption, timeSort, homepagePage);
     }

@@ -1,6 +1,6 @@
 import { formatDate } from "../../shared/formatDate";
 import { useDispatch } from "react-redux";
-import { allActions } from "../..";
+import { allActions } from "../Redux/actions";
 
 interface Props {
   children: (data: {
