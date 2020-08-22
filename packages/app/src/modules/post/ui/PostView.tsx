@@ -2,11 +2,11 @@ import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Vote from "../vote/Vote";
-import { postTitleFont } from "../../../styles/fontSizes";
 import HTML from "react-native-render-html";
 import { ThemeColors } from "../../../themes/themes";
 import { useTheme } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { postStyles, fontSizes } from "../../../styles";
 
 interface Props {
   sanitizeContent: (content: string[] | null) => { __html: string };
@@ -92,11 +92,9 @@ const PostView = (props: Props) => {
     dotSeparator: {},
     titleContainer: {},
     title: {
-      ...postTitleFont,
+      ...fontSizes.postTitleFont,
+      ...postStyles.title,
       color: colors.textMain,
-      paddingLeft: 5,
-      paddingTop: 10,
-      paddingBottom: 10,
     },
     postContainer: { paddingLeft: 5 },
     postContent: { color: colors.textMain },
@@ -105,18 +103,11 @@ const PostView = (props: Props) => {
       aspectRatio: 16 / 9,
     },
     bottomBarContainer: {
-      marginLeft: -2,
-      marginTop: 20,
-      marginBottom: 5,
-      flexDirection: "row",
-      justifyContent: "space-between",
+      ...postStyles.bottomBarMainContainer,
     },
     voteContainer: {},
     commentCountContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      flex: 1,
-      justifyContent: "center",
+      ...postStyles.bottomBarContainer,
     },
     commentCountIcon: {
       color: colors.textMuted,
@@ -124,13 +115,7 @@ const PostView = (props: Props) => {
       marginRight: 10,
     },
     savePostContainer: {},
-    bookmarkContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      flex: 1,
-      justifyContent: "center",
-      marginRight: 10,
-    },
+    bookmarkContainer: { ...postStyles.bottomBarContainer, marginRight: 10 },
     bookmarIcon: { color: colors.textMuted, fontSize: 15, marginRight: 10 },
     bottomBarText: {
       color: colors.textMuted,
