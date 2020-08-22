@@ -90,12 +90,23 @@ const PostView = (props: Props) => {
     dateText: { color: colors.textMuted },
     dotSeparator: {},
     titleContainer: {},
-    title: { ...postTitleFont, color: colors.textMain, paddingLeft: 5 },
+    title: {
+      ...postTitleFont,
+      color: colors.textMain,
+      paddingLeft: 5,
+      paddingTop: 10,
+      paddingBottom: 10,
+    },
     postContainer: { paddingLeft: 5 },
     postContent: { color: colors.textMain },
     imagePostContainer: {},
-    imagePost: {},
-    bottomBarContainer: { marginLeft: -2 },
+    imagePost: {
+      minHeight: 200,
+      maxHeight: 200,
+      minWidth: 200,
+      maxWidth: 500,
+    },
+    bottomBarContainer: { marginLeft: -2, marginTop: 20, marginBottom: 5 },
   });
 
   return (
