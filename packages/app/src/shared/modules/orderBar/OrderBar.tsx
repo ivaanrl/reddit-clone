@@ -13,6 +13,10 @@ import { useSpring, animated } from "react-spring";
 import Constants from "expo-constants";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
+import Icon from "react-native-vector-icons/FontAwesome";
+import HotSVG from "../../svgs/HotSVG";
+import TopSVG from "../../svgs/TopSVG";
+import NewSVG from "../../svgs/NewSVG";
 
 interface Props {
   getPostsWithUsername?: (
@@ -42,6 +46,10 @@ const OrderBar = (props: Props) => {
   } = props;
 
   const [activeOption, setActiveOption] = useState<string>(defaultSort);
+  const [activeOptionIcon, setActiveOptionIcon] = useState(
+    <HotSVG fillColor={colors.textMuted} />
+  );
+
   const [timeSort, setTimeSort] = useState<string>("all_time");
 
   const styles = StyleSheet.create({
@@ -50,11 +58,19 @@ const OrderBar = (props: Props) => {
       backgroundColor: colors.primary,
       justifyContent: "center",
       zIndex: 0,
+      marginTop: 10,
+      marginBottom: 10,
+      marginLeft: 5,
+    },
+    selectedOptionContainer: {
+      flexDirection: "row",
+      alignItems: "center",
     },
     selectedOption: {
-      color: colors.text,
+      color: colors.textMuted,
+      marginRight: 5,
     },
-    dropdownOptionContainer: {
+    dropdownOptionsContainer: {
       //...StyleSheet.absoluteFillObject,
       position: "absolute",
       left: 0,
@@ -65,17 +81,25 @@ const OrderBar = (props: Props) => {
       borderTopRightRadius: 4,
       backgroundColor: colors.card,
     },
-    dropdownOption: {
+    dropdownOptionContainer: {
+      flexDirection: "row",
+      alignItems: "center",
       paddingTop: 10,
       paddingBottom: 10,
       paddingLeft: 15,
-      backgroundColor: colors.card,
-      color: colors.textMain,
       marginRight: 10,
       marginLeft: 10,
+    },
+    dropdownOption: {
+      backgroundColor: colors.card,
       alignSelf: "stretch",
       textAlign: "left",
       justifyContent: "center",
+      marginLeft: 10,
+    },
+    dropdownOptionIconContainer: {
+      width: 15,
+      height: 15,
     },
     dropdownOptionTitle: {
       paddingLeft: 15,
@@ -98,6 +122,7 @@ const OrderBar = (props: Props) => {
       height: windowHeight - statusBarHeight,
       width: "100%",
       backgroundColor: colors.modalColor,
+      zIndex: 900,
     },
   });
 
@@ -124,6 +149,19 @@ const OrderBar = (props: Props) => {
     if (getPostsHomepage) {
       getPostsHomepage(activeOption, timeSort, homepagePage);
     }
+    switch (activeOption) {
+      case "hot":
+        setActiveOptionIcon(<HotSVG fillColor={colors.textMuted} />);
+        break;
+      case "top":
+        setActiveOptionIcon(<TopSVG fillColor={colors.textMuted} />);
+        break;
+      case "new":
+        setActiveOptionIcon(<NewSVG fillColor={colors.textMuted} />);
+        break;
+      default:
+        setActiveOptionIcon(<HotSVG fillColor={colors.textMuted} />);
+    }
   }, [activeOption, defaultSort]);
 
   const handleSelectDropdownOption = (selectedOption: string) => {
@@ -134,10 +172,17 @@ const OrderBar = (props: Props) => {
   return (
     <React.Fragment>
       <View style={styles.container}>
-        <TouchableOpacity onPress={handleSelectClick}>
+        <TouchableOpacity
+          onPress={handleSelectClick}
+          style={styles.selectedOptionContainer}
+        >
+          <View style={{ width: 15, height: 15, marginRight: 5 }}>
+            {activeOptionIcon}
+          </View>
           <Text style={styles.selectedOption}>
-            {capitalizeString(activeOption)}
+            {capitalizeString(activeOption)} posts
           </Text>
+          <Icon name="caret-down" color={colors.textMuted} />
         </TouchableOpacity>
       </View>
       {drodpdownOptionsVisible ? (
@@ -148,18 +193,72 @@ const OrderBar = (props: Props) => {
           <AnimatedView
             style={{
               ...dropdownAnimationProps,
-              ...styles.dropdownOptionContainer,
+              ...styles.dropdownOptionsContainer,
             }}
           >
             <Text style={styles.dropdownOptionTitle}>SORT POST BY</Text>
-            <TouchableOpacity onPress={() => handleSelectDropdownOption("How")}>
-              <Text style={styles.dropdownOption}>Hot</Text>
+            <TouchableOpacity
+              onPress={() => handleSelectDropdownOption("hot")}
+              style={styles.dropdownOptionContainer}
+            >
+              <View style={styles.dropdownOptionIconContainer}>
+                <HotSVG
+                  fillColor={
+                    activeOption === "hot" ? colors.textMain : colors.textMuted
+                  }
+                />
+              </View>
+              <Text
+                style={{
+                  ...styles.dropdownOption,
+                  color:
+                    activeOption === "hot" ? colors.textMain : colors.textMuted,
+                }}
+              >
+                Hot
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleSelectDropdownOption("New")}>
-              <Text style={styles.dropdownOption}>New</Text>
+            <TouchableOpacity
+              onPress={() => handleSelectDropdownOption("new")}
+              style={styles.dropdownOptionContainer}
+            >
+              <View style={styles.dropdownOptionIconContainer}>
+                <NewSVG
+                  fillColor={
+                    activeOption === "new" ? colors.textMain : colors.textMuted
+                  }
+                />
+              </View>
+              <Text
+                style={{
+                  ...styles.dropdownOption,
+                  color:
+                    activeOption === "new" ? colors.textMain : colors.textMuted,
+                }}
+              >
+                New
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleSelectDropdownOption("Top")}>
-              <Text style={styles.dropdownOption}>Top</Text>
+            <TouchableOpacity
+              onPress={() => handleSelectDropdownOption("top")}
+              style={styles.dropdownOptionContainer}
+            >
+              <View style={styles.dropdownOptionIconContainer}>
+                <TopSVG
+                  fillColor={
+                    activeOption === "top" ? colors.textMain : colors.textMuted
+                  }
+                />
+              </View>
+              <Text
+                style={{
+                  ...styles.dropdownOption,
+                  color:
+                    activeOption === "top" ? colors.textMain : colors.textMuted,
+                }}
+              >
+                Top
+              </Text>
             </TouchableOpacity>
           </AnimatedView>
         </TouchableOpacity>

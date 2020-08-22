@@ -6,6 +6,7 @@ import { postTitleFont } from "../../../styles/fontSizes";
 import HTML from "react-native-render-html";
 import { ThemeColors } from "../../../themes/themes";
 import { useTheme } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 interface Props {
   sanitizeContent: (content: string[] | null) => { __html: string };
@@ -103,7 +104,37 @@ const PostView = (props: Props) => {
     imagePost: {
       aspectRatio: 16 / 9,
     },
-    bottomBarContainer: { marginLeft: -2, marginTop: 20, marginBottom: 5 },
+    bottomBarContainer: {
+      marginLeft: -2,
+      marginTop: 20,
+      marginBottom: 5,
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    voteContainer: {},
+    commentCountContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      flex: 1,
+      justifyContent: "center",
+    },
+    commentCountIcon: {
+      color: colors.textMuted,
+      fontSize: 15,
+      marginRight: 10,
+    },
+    savePostContainer: {},
+    bookmarkContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      flex: 1,
+      justifyContent: "center",
+      marginRight: 10,
+    },
+    bookmarIcon: { color: colors.textMuted, fontSize: 15, marginRight: 10 },
+    bottomBarText: {
+      color: colors.textMuted,
+    },
   });
 
   return (
@@ -150,16 +181,26 @@ const PostView = (props: Props) => {
         </TouchableOpacity>
       ) : null}
       <View style={styles.bottomBarContainer}>
-        <Vote
-          id={id}
-          index={index}
-          votes={votes}
-          user_vote={user_vote}
-          votePost={vote}
-          showCount={true}
-          child={false}
-          reducer={reducer}
-        />
+        <View style={styles.voteContainer}>
+          <Vote
+            id={id}
+            index={index}
+            votes={votes}
+            user_vote={user_vote}
+            votePost={vote}
+            showCount={true}
+            child={false}
+            reducer={reducer}
+          />
+        </View>
+        <TouchableOpacity style={styles.commentCountContainer}>
+          <Icon name="comment" style={styles.commentCountIcon} />
+          <Text style={styles.bottomBarText}>{comment_count}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.bookmarkContainer}>
+          <Icon name="bookmark" style={styles.bookmarIcon} />
+          <Text style={styles.bottomBarText}>Save</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
