@@ -101,10 +101,7 @@ const PostView = (props: Props) => {
     postContent: { color: colors.textMain },
     imagePostContainer: {},
     imagePost: {
-      minHeight: 200,
-      maxHeight: 200,
-      minWidth: 200,
-      maxWidth: 500,
+      aspectRatio: 16 / 9,
     },
     bottomBarContainer: { marginLeft: -2, marginTop: 20, marginBottom: 5 },
   });
