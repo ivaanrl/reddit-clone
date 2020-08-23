@@ -4,11 +4,12 @@ import {
   NativeSyntheticEvent,
   TextInputChangeEventData,
   StyleSheet,
+  Dimensions,
 } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
-import { useTheme } from "@react-navigation/native";
+import { useTheme, useNavigation } from "@react-navigation/native";
 import { ThemeColors } from "../../../../themes/themes";
 import { inputStyles } from "../../../../styles";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -19,13 +20,16 @@ interface Props {
 
 const SearchBarView = (props: Props) => {
   const { search } = props;
+  const navigation = useNavigation();
   const theme = useTheme();
   const colors = theme.colors as ThemeColors;
+  const screenWidth = Math.round(Dimensions.get("window").width);
 
   const styles = StyleSheet.create({
     searchBarContainer: {
       flexDirection: "row",
       alignItems: "center",
+      width: screenWidth - 80,
     },
     searchBarIconContainer: {
       backgroundColor: colors.inputBackground,
@@ -46,6 +50,7 @@ const SearchBarView = (props: Props) => {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
       height: 37,
+      flex: 1,
     },
   });
 
@@ -65,19 +70,28 @@ const SearchBarView = (props: Props) => {
     }
   };
 
+  const navigateToSearchResults = () => {
+    navigation.navigate("searchResults");
+  };
+
   return (
-    <View style={styles.searchBarContainer}>
+    <TouchableOpacity
+      style={styles.searchBarContainer}
+      onPress={navigateToSearchResults}
+    >
       <View style={styles.searchBarIconContainer}>
         <Icon name="search" style={styles.searchBarIcon} />
       </View>
+
       <TextInput
         value={searchValue}
         onChange={handleSearchChange}
         style={styles.searchBarInput}
         placeholder="Search"
         placeholderTextColor={colors.textMuted}
+        onFocus={navigateToSearchResults}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 

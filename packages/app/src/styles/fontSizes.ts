@@ -3,3 +3,7 @@ export const postTitleFont = {
   fontWeight: "bold" as "bold",
   //makes typescript happy.
 };
+
+export const searchResultName = {
+  fontSize: 16,
+};

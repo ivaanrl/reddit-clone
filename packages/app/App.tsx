@@ -11,7 +11,11 @@ import {
   Text,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  StackHeaderProps,
+  StackHeaderLeftButtonProps,
+} from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { darkTheme, lightTheme } from "./src/themes/themes";
 import OrderBar from "./src/shared/modules/orderBar/OrderBar";
@@ -23,6 +27,8 @@ import createSagaMiddleware from "redux-saga";
 import { rootReducer, rootSaga } from "@reddit-clone/controller";
 import HeaderConnector from "./src/modules/header/HeaderConnector";
 import HomepageNavigator from "./src/modules/homepage/HomepageNavigator";
+import SearchResultsScreen from "./src/modules/header/searchBar/ui/SearchResultsScreen";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -46,8 +52,14 @@ const App = () => {
               name="Homepage"
               component={HomepageNavigator}
               options={{
-                //headerShown: false
-                headerTitle: () => <HeaderConnector />,
+                headerTitle: () => <HeaderConnector backButton={false} />,
+              }}
+            />
+            <Stack.Screen
+              name="searchResults"
+              component={SearchResultsScreen}
+              options={{
+                headerTitle: () => <HeaderConnector backButton={true} />,
               }}
             />
           </Stack.Navigator>

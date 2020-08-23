@@ -3,12 +3,13 @@ import { View } from "react-native";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import PostConnector from "../../../post/PostConnector";
+import { ScrollView } from "react-native-gesture-handler";
 
 const PostsView = () => {
   const homepage = useSelector((state: State) => state.homepage);
 
   return (
-    <View>
+    <ScrollView>
       {homepage.posts.map((post, index) => {
         return (
           <PostConnector
@@ -19,7 +20,7 @@ const PostsView = () => {
           />
         );
       })}
-    </View>
+    </ScrollView>
   );
 };
 
