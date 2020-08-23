@@ -58,7 +58,11 @@ const SearchBarView = (props: Props) => {
   const handleSearchChange = (
     event: NativeSyntheticEvent<TextInputChangeEventData>
   ) => {
-    setSearchValue(event.nativeEvent.text);
+    const searchValue = event.nativeEvent.text;
+    setSearchValue(searchValue);
+    if (searchValue.length > 0) {
+      search(searchValue);
+    }
   };
 
   return (

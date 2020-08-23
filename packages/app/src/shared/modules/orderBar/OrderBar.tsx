@@ -58,7 +58,7 @@ const OrderBar = (props: Props) => {
       backgroundColor: colors.primary,
       justifyContent: "center",
       zIndex: 0,
-      marginTop: 10,
+      marginTop: -15,
       marginBottom: 10,
       marginLeft: 5,
     },

@@ -22,6 +22,7 @@ import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import { rootReducer, rootSaga } from "@reddit-clone/controller";
 import HeaderConnector from "./src/modules/header/HeaderConnector";
+import HomepageNavigator from "./src/modules/homepage/HomepageNavigator";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -43,7 +44,7 @@ const App = () => {
           <Stack.Navigator initialRouteName="Homepage">
             <Stack.Screen
               name="Homepage"
-              component={HomepageConnector}
+              component={HomepageNavigator}
               options={{
                 //headerShown: false
                 headerTitle: () => <HeaderConnector />,
