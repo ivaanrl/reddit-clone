@@ -17,7 +17,6 @@ import SubredditDropdownConnector from "../../subredditDropdown/SubredditDropdow
 import SubredditDropdownHomeSVG from "../../../shared/svgs/SubredditDropdownHomeSVG";
 
 interface Props {
-  search: (searchValue: string) => string | null;
   signoutUser: () => void;
 }
 

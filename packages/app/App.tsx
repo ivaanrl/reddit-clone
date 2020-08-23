@@ -21,6 +21,7 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import { rootReducer, rootSaga } from "@reddit-clone/controller";
+import HeaderConnector from "./src/modules/header/HeaderConnector";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -43,7 +44,10 @@ const App = () => {
             <Stack.Screen
               name="Homepage"
               component={HomepageConnector}
-              options={{ headerShown: false }}
+              options={{
+                //headerShown: false
+                headerTitle: () => <HeaderConnector />,
+              }}
             />
           </Stack.Navigator>
         </NavigationContainer>
