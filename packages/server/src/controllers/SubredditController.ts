@@ -63,73 +63,87 @@ class SubrredditController {
     const order = req.query.order as string;
     const sortTime = req.query.time as string;
     const page = req.query.page as string;
+    console.log(page);
 
     const user = await findCurrentUser(req.user);
     let subredditResult;
-    if (user instanceof User) {
-      try {
-        const subredditQuery = await getSubredditSignedInQuery(
-          user.username,
-          name
-        );
+    let subredditQuery;
+    try {
+      if (user instanceof User) {
+        subredditQuery = await getSubredditSignedInQuery(user.username, name);
+      } else {
+        subredditQuery = await getSubredditSignedInQuery("", name);
+      }
+    } catch (error) {
+      return res.status(501).json({ message: server_error });
+    }
 
-        const {
-          sub_name,
-          owner_id,
-          topics,
-          description,
-          adultContent,
-          joined,
-          createdAt,
-          updatedAt,
-          mods,
-          role,
-        } = subredditQuery[0][0];
+    try {
+      const {
+        sub_name,
+        owner_id,
+        topics,
+        description,
+        adultContent,
+        joined,
+        createdAt,
+        updatedAt,
+        mods,
+        role,
+      } = subredditQuery[0][0];
 
-        let isUserJoined = false;
+      let isUserJoined = false;
 
-        if (role) {
-          isUserJoined = true;
-        }
-
-        subredditResult = {
-          name: sub_name,
-          owner_id,
-          topics,
-          description,
-          adultContent,
-          joined,
-          createdAt,
-          mods,
-          isUserJoined,
-        };
-      } catch (error) {
-        return res.status(501).json({ message: server_error });
+      if (role) {
+        isUserJoined = true;
       }
 
-      try {
-        const postQuery = await getSubredditPostsQuery(
+      subredditResult = {
+        name: sub_name,
+        owner_id,
+        topics,
+        description,
+        adultContent,
+        joined,
+        createdAt,
+        mods,
+        isUserJoined,
+      };
+    } catch (error) {
+      return res.status(501).json({ message: server_error });
+    }
+
+    try {
+      let postQuery;
+      if (user instanceof User) {
+        postQuery = await getSubredditPostsQuery(
           user.id,
           name,
           order,
           sortTime,
           parseInt(page, 10)
         );
-
-        const hasMore = postQuery[0].length === SUBREDDIT_POSTS_LIMIT;
-
-        subredditResult = {
-          ...subredditResult,
-          ...{ posts: postQuery[0], hasMore },
-        };
-        return res.status(201).json(subredditResult);
-      } catch (error) {
-        console.log(error);
-        return res.status(501).json({ message: server_error });
+      } else {
+        postQuery = await getSubredditPostsQuery(
+          "",
+          name,
+          order,
+          sortTime,
+          parseInt(page, 10)
+        );
       }
-    }
 
-    return res.status(404).json({ message: server_error });
+      const hasMore = postQuery[0].length === SUBREDDIT_POSTS_LIMIT;
+
+      subredditResult = {
+        ...subredditResult,
+        ...{ posts: postQuery[0], hasMore },
+      };
+      return res.status(201).json(subredditResult);
+    } catch (error) {
+      console.log("this is the error dudeee", error);
+      return res.status(501).json({ message: server_error });
+    }
   }
 
   @get("/test")

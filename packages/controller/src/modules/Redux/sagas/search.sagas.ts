@@ -23,7 +23,6 @@ export function* getPreviewSearchResults(searchInfo: {
       getPreviewSearchResultsRequest,
       searchInfo.payload
     );
-    console.log(searchPreviewResults);
     yield put(
       getPreviewSearchResultsCompletedAction(searchPreviewResults.body)
     );

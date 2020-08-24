@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   NativeSyntheticEvent,
@@ -7,9 +7,7 @@ import {
   Dimensions,
 } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { useSelector } from "react-redux";
-import { State } from "@reddit-clone/controller";
-import { useTheme, useNavigation } from "@react-navigation/native";
+import { useTheme, useNavigation, useRoute } from "@react-navigation/native";
 import { ThemeColors } from "../../../../themes/themes";
 import { inputStyles } from "../../../../styles";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -21,6 +19,7 @@ interface Props {
 const SearchBarView = (props: Props) => {
   const { search } = props;
   const navigation = useNavigation();
+  const route = useRoute();
   const theme = useTheme();
   const colors = theme.colors as ThemeColors;
   const screenWidth = Math.round(Dimensions.get("window").width);
@@ -54,11 +53,14 @@ const SearchBarView = (props: Props) => {
     },
   });
 
-  const searchPreviewResults = useSelector(
-    (state: State) => state.search.searchPreviewResults
-  );
-
   const [searchValue, setSearchValue] = useState<string>("");
+
+  useEffect(() => {
+    const params = route.params as { name: string };
+    if (params && params.name !== "") {
+      setSearchValue("r/" + params.name);
+    }
+  }, [route]);
 
   const handleSearchChange = (
     event: NativeSyntheticEvent<TextInputChangeEventData>

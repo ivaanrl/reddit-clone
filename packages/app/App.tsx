@@ -29,6 +29,8 @@ import HeaderConnector from "./src/modules/header/HeaderConnector";
 import HomepageNavigator from "./src/modules/homepage/HomepageNavigator";
 import SearchResultsScreen from "./src/modules/header/searchBar/ui/SearchResultsScreen";
 import Icon from "react-native-vector-icons/FontAwesome";
+import SubredditNavigator from "./src/modules/subreddit/SubredditNavigator";
+import SubredditHeaderConnector from "./src/modules/subreddit/subredditHeader/SubredditHeaderConnector";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -60,6 +62,13 @@ const App = () => {
               component={SearchResultsScreen}
               options={{
                 headerTitle: () => <HeaderConnector backButton={true} />,
+              }}
+            />
+            <Stack.Screen
+              name="subreddit"
+              component={SubredditNavigator}
+              options={{
+                headerTitle: () => <SubredditHeaderConnector />,
               }}
             />
           </Stack.Navigator>

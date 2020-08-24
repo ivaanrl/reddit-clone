@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import SearchResult from "./SearchResult";
-import { StackHeaderProps } from "@react-navigation/stack";
 
 const SearchResultsScreen = () => {
   const searchResults = useSelector(

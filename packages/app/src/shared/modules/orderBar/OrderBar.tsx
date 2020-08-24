@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import { useTheme } from "@react-navigation/native";
+import { useTheme, useRoute } from "@react-navigation/native";
 import { dropdownStyles } from "../../../styles";
 import { ThemeColors } from "../../../themes/themes";
 import { useSpring, animated } from "react-spring";
@@ -38,11 +38,12 @@ const OrderBar = (props: Props) => {
   const colors = theme.colors as ThemeColors;
   const statusBarHeight = Constants.statusBarHeight;
   const windowHeight = Dimensions.get("window").height;
+  const route = useRoute();
   const {
     getPostsHomepage,
-    //getPostsWithUsername,
+    getPostsWithUsername,
     defaultSort,
-    //reducer,
+    reducer,
   } = props;
 
   const [activeOption, setActiveOption] = useState<string>(defaultSort);
@@ -144,10 +145,26 @@ const OrderBar = (props: Props) => {
   };
 
   const homepagePage = useSelector((state: State) => state.homepage.page);
+  const subredditPage = useSelector((state: State) => state.subreddit.page);
+  const profilePage = useSelector((state: State) => state.profile.page);
 
   useEffect(() => {
     if (getPostsHomepage) {
       getPostsHomepage(activeOption, timeSort, homepagePage);
+    } else if (getPostsWithUsername) {
+      if (reducer === "profile") {
+      } else if (reducer === "subreddit") {
+        const params = route.params as { name: string };
+        if (params && params.name !== "") {
+          console.log("subpage", subredditPage);
+          getPostsWithUsername(
+            params.name,
+            activeOption,
+            timeSort,
+            subredditPage
+          );
+        }
+      }
     }
     switch (activeOption) {
       case "hot":
@@ -162,7 +179,7 @@ const OrderBar = (props: Props) => {
       default:
         setActiveOptionIcon(<HotSVG fillColor={colors.textMuted} />);
     }
-  }, [activeOption, defaultSort]);
+  }, [activeOption, defaultSort, route]);
 
   const handleSelectDropdownOption = (selectedOption: string) => {
     setActiveOption(selectedOption);

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { useTheme } from "@react-navigation/native";
+import { useTheme, useNavigation } from "@react-navigation/native";
 import { ThemeColors } from "../../../../themes/themes";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { fontSizes } from "../../../../styles";
@@ -15,6 +15,7 @@ const SearchResult = (props: Props) => {
   const { name, adultContent, memberCount } = props;
   const theme = useTheme();
   const colors = theme.colors as ThemeColors;
+  const navigation = useNavigation();
 
   const styles = StyleSheet.create({
     mainContainer: {
@@ -48,8 +49,12 @@ const SearchResult = (props: Props) => {
     },
   });
 
+  const handleResultClick = () => {
+    navigation.navigate("subreddit", { name: name });
+  };
+
   return (
-    <TouchableOpacity style={styles.mainContainer}>
+    <TouchableOpacity style={styles.mainContainer} onPress={handleResultClick}>
       <View style={styles.subredditImageContainer} />
       <View style={styles.nameAndMemberCountContainer}>
         <View style={styles.subredditNameContainer}>
