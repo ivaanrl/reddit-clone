@@ -3,13 +3,7 @@ import SubredditHeaderView from "./ui/SubredditHeaderView";
 import { SubredditController } from "@reddit-clone/controller";
 
 const SubredditHeaderConnector = () => {
-  return (
-    <SubredditController>
-      {({ joinOrLeaveSubreddit }) => (
-        <SubredditHeaderView joinOrLeaveSubreddit={joinOrLeaveSubreddit} />
-      )}
-    </SubredditController>
-  );
+  return <SubredditHeaderView />;
 };
 
 export default SubredditHeaderConnector;

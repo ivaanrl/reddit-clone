@@ -7,3 +7,8 @@ export const postTitleFont = {
 export const searchResultName = {
   fontSize: 16,
 };
+
+export const subredditHeaderNameFont = {
+  fontSize: 16,
+  fontWeight: "bold" as "bold",
+};

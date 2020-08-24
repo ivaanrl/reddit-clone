@@ -3,20 +3,21 @@ import { View } from "react-native";
 import { PostsController } from "@reddit-clone/controller";
 import SubredditOrderBarConnector from "./ui/SubredditOrderBarConnector";
 import PostsView from "./ui/PostsView";
-import { useRoute } from "@react-navigation/native";
 
-const PostsConnector = () => {
-  const route = useRoute();
-  console.log("lkanbd", route.params);
+interface Props {
+  setHeight: React.Dispatch<React.SetStateAction<number>>;
+}
 
+const PostsConnector = (props: Props) => {
+  const { setHeight } = props;
   return (
     <PostsController>
       {() => (
-        <React.Fragment>
+        <View>
           <View style={{ marginTop: 25 }} />
           <SubredditOrderBarConnector />
-          <PostsView />
-        </React.Fragment>
+          <PostsView setHeight={setHeight} />
+        </View>
       )}
     </PostsController>
   );

@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Vote from "../vote/Vote";
 import HTML from "react-native-render-html";
 import { ThemeColors } from "../../../themes/themes";
-import { useTheme } from "@react-navigation/native";
+import { useTheme, useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { postStyles, fontSizes } from "../../../styles";
 
@@ -33,6 +33,7 @@ interface Props {
 }
 
 const PostView = (props: Props) => {
+  const navigation = useNavigation();
   const theme = useTheme();
   const colors = theme.colors as ThemeColors;
   const {
@@ -57,6 +58,10 @@ const PostView = (props: Props) => {
     type,
     link,
   } = postInfo;
+
+  const handleSubredditNameClick = () => {
+    navigation.navigate("subreddit", { name: subreddit_name });
+  };
 
   const styles = StyleSheet.create({
     mainContainer: {
@@ -125,13 +130,22 @@ const PostView = (props: Props) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.subredditIcon}></TouchableOpacity>
+        {showSubredditName ? (
+          <TouchableOpacity style={styles.subredditIcon}></TouchableOpacity>
+        ) : null}
         <View style={styles.headerTextContainer}>
-          <TouchableOpacity style={styles.subredditNameContainer}>
-            <Text style={styles.subredditName}>{subreddit_name}</Text>
-          </TouchableOpacity>
+          {showSubredditName ? (
+            <TouchableOpacity
+              style={styles.subredditNameContainer}
+              onPress={handleSubredditNameClick}
+            >
+              <Text style={styles.subredditName}>{subreddit_name}</Text>
+            </TouchableOpacity>
+          ) : null}
           <View style={styles.postCreatedByInfo}>
-            <Text style={styles.postedBy}>Posted by </Text>
+            {showSubredditName ? (
+              <Text style={styles.postedBy}>Posted by </Text>
+            ) : null}
             <TouchableOpacity style={styles.authorUsername}>
               <Text style={styles.authorUsernameText}>
                 u/{author_username}{" "}
