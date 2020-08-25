@@ -5,18 +5,22 @@ import SubredditOrderBarConnector from "./ui/SubredditOrderBarConnector";
 import PostsView from "./ui/PostsView";
 
 interface Props {
-  setHeight: React.Dispatch<React.SetStateAction<number>>;
+  setHeaderHeight: any;
+  currentHeight: number;
 }
 
 const PostsConnector = (props: Props) => {
-  const { setHeight } = props;
+  const { setHeaderHeight, currentHeight } = props;
   return (
     <PostsController>
       {() => (
         <View>
           <View style={{ marginTop: 25 }} />
           <SubredditOrderBarConnector />
-          <PostsView setHeight={setHeight} />
+          <PostsView
+            setHeaderHeight={setHeaderHeight}
+            currentHeight={currentHeight}
+          />
         </View>
       )}
     </PostsController>

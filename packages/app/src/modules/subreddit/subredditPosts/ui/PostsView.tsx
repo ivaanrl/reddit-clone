@@ -7,59 +7,59 @@ import {
   FlatList,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  Dimensions,
+  Text,
+  View,
 } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import SubredditHeaderInfoConnector from "../../subredditHeaderInfo/SubredditHeaderInfoConnector";
 
 interface Props {
-  setHeight: React.Dispatch<React.SetStateAction<number>>;
+  setHeaderHeight: any;
+  currentHeight: number;
 }
 
 const PostsView = (props: Props) => {
-  const { setHeight } = props;
+  const { setHeaderHeight, currentHeight } = props;
   const subreddit = useSelector((state: State) => state.subreddit);
 
   const renderItem = ({ item, index }: any) => {
     return (
-      <React.Fragment>
-        <PostConnector
-          postInfo={{ ...item, index }}
-          reducer="subreddit"
-          showSubredditName={false}
-        />
-        <PostConnector
-          postInfo={{ ...item, index }}
-          reducer="subreddit"
-          showSubredditName={false}
-        />
-        <PostConnector
-          postInfo={{ ...item, index }}
-          reducer="subreddit"
-          showSubredditName={false}
-        />
-      </React.Fragment>
+      <PostConnector
+        postInfo={{ ...item, index }}
+        reducer="subreddit"
+        showSubredditName={false}
+      />
     );
   };
 
   const [scrollDistance, setScrollDistance] = useState(0);
+  let prevValue = 200;
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollDistance = event.nativeEvent.contentOffset.y;
-    //setScrollDistance(scrollDistance);
     if (scrollDistance > 200) {
-      setHeight(0);
+      setHeaderHeight({ height: 0 });
     } else {
-      setHeight(200 - scrollDistance);
+      if (
+        event.nativeEvent.velocity &&
+        event.nativeEvent.velocity.y > 3 &&
+        !(event.nativeEvent.velocity.y < 0)
+      ) {
+        setHeaderHeight({ height: 0 });
+        return;
+      }
+      setHeaderHeight({ height: (200 - scrollDistance) / 200 });
     }
   };
 
   return (
-    <React.Fragment>
-      <FlatList
-        data={subreddit.posts}
-        renderItem={renderItem}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-      />
-    </React.Fragment>
+    <FlatList
+      scrollEventThrottle={1}
+      data={subreddit.posts}
+      renderItem={renderItem}
+      onScroll={handleScroll}
+    />
   );
 };
 
@@ -89,3 +89,12 @@ export default PostsView;
       })}
     </ScrollView>
     */
+
+/*
+<FlatList
+        scrollEventThrottle={16}
+        data={subreddit.posts}
+        renderItem={renderItem}
+        onScroll={handleScroll}
+      />
+ */
