@@ -127,6 +127,10 @@ const PostView = (props: Props) => {
     },
   });
 
+  const handlePostPress = () => {
+    navigation.navigate("fullpost", { id });
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerContainer}>
@@ -161,7 +165,10 @@ const PostView = (props: Props) => {
       </TouchableOpacity>
 
       {type === "post" ? (
-        <TouchableOpacity style={styles.postContainer}>
+        <TouchableOpacity
+          style={styles.postContainer}
+          onPress={handlePostPress}
+        >
           <HTML
             tagsStyles={{
               i: {

@@ -1,26 +1,10 @@
 import "react-native-gesture-handler";
 import React from "react";
-import {
-  AppearanceProvider,
-  useColorScheme,
-  Appearance,
-} from "react-native-appearance";
-import {
-  //useColorScheme,
-  View,
-  Text,
-} from "react-native";
+import { AppearanceProvider, useColorScheme } from "react-native-appearance";
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  createStackNavigator,
-  StackHeaderProps,
-  StackHeaderLeftButtonProps,
-} from "@react-navigation/stack";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { createStackNavigator } from "@react-navigation/stack";
 import { darkTheme, lightTheme } from "./src/themes/themes";
-import OrderBar from "./src/shared/modules/orderBar/OrderBar";
 import Constants from "expo-constants";
-import HomepageConnector from "./src/modules/homepage/HomepageConnector";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
@@ -28,9 +12,9 @@ import { rootReducer, rootSaga } from "@reddit-clone/controller";
 import HeaderConnector from "./src/modules/header/HeaderConnector";
 import HomepageNavigator from "./src/modules/homepage/HomepageNavigator";
 import SearchResultsScreen from "./src/modules/header/searchBar/ui/SearchResultsScreen";
-import Icon from "react-native-vector-icons/FontAwesome";
 import SubredditNavigator from "./src/modules/subreddit/SubredditNavigator";
 import SubredditHeaderConnector from "./src/modules/subreddit/subredditHeader/SubredditHeaderConnector";
+import FullPostConnector from "./src/modules/fullpost/FullPostConnector";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -71,6 +55,7 @@ const App = () => {
                 headerTitle: () => <SubredditHeaderConnector />,
               }}
             />
+            <Stack.Screen name="fullpost" component={FullPostConnector} />
           </Stack.Navigator>
         </NavigationContainer>
       </AppearanceProvider>
