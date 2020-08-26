@@ -1,103 +1,46 @@
-import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { useTheme, useRoute } from "@react-navigation/native";
 import { ThemeColors } from "../../themes/themes";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import PostsConnector from "./subredditPosts/PostsConnector";
 import SubredditAbout from "./subredditInfo/SubredditAbout";
 import SubredditHeaderInfoConnector from "./subredditHeaderInfo/SubredditHeaderInfoConnector";
-import {
-  View,
-  StyleSheet,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-} from "react-native";
-import {
-  useSpring,
-  animated,
-  interpolate,
-  AnimatedValue,
-  InterpolationChain,
-} from "react-spring";
-import { ScrollView } from "react-native-gesture-handler";
+import { Animated } from "react-native";
 
 const Tab = createMaterialTopTabNavigator();
-const AnimatedView: any = animated(View);
+
+const MAX_HEADER_HEIGHT = 200;
+const MIN_HEADER_HEIGHT = 0;
 
 const SubredditNavigator = () => {
   const theme = useTheme();
   const colors = theme.colors as ThemeColors;
   const route = useRoute();
-  //const [headerHeight, setHeaderHeight] = useState(200);
-  let prevValue = 0;
 
-  const [{ height }, setHeaderHeight] = useSpring(() => ({
-    immediate: true,
-    opacity: 1,
-    height: 1,
-  }));
+  const [scrollY, _] = useState(new Animated.Value(0));
 
-  const styles = StyleSheet.create({
-    subredditHeader: {},
+  const headerHeight = scrollY.interpolate({
+    inputRange: [0, MAX_HEADER_HEIGHT - MIN_HEADER_HEIGHT],
+    outputRange: [MAX_HEADER_HEIGHT, MIN_HEADER_HEIGHT],
+    extrapolate: "clamp",
+  });
+
+  const headerOpacity = scrollY.interpolate({
+    inputRange: [0, MAX_HEADER_HEIGHT - MIN_HEADER_HEIGHT],
+    outputRange: [1, 0],
+    extrapolate: "clamp",
   });
 
   return (
     <>
-      <AnimatedView
+      <Animated.View
         style={{
-          height: height.interpolate({
-            range: [
-              0,
-              0.1,
-              0.15,
-              0.2,
-              0.25,
-              0.3,
-              0.35,
-              0.4,
-              0.45,
-              0.5,
-              0.55,
-              0.6,
-              0.65,
-              0.7,
-              0.75,
-              0.8,
-              0.85,
-              0.9,
-              0.95,
-              1,
-            ],
-            output: [
-              0,
-              20,
-              30,
-              40,
-              50,
-              60,
-              70,
-              80,
-              90,
-              100,
-              110,
-              120,
-              130,
-              140,
-              150,
-              160,
-              170,
-              180,
-              190,
-              200,
-            ],
-          }),
-          opacity: height.interpolate({
-            range: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-            output: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-          }),
+          height: headerHeight,
+          opacity: headerOpacity,
         }}
       >
         <SubredditHeaderInfoConnector />
-      </AnimatedView>
+      </Animated.View>
 
       <Tab.Navigator
         initialRouteName="Posts"
@@ -110,12 +53,14 @@ const SubredditNavigator = () => {
             marginLeft: 60,
           },
         }}
+        style={{
+          marginTop: 1,
+        }}
       >
         <Tab.Screen name="Posts" initialParams={route.params}>
           {() => {
             return PostsConnector({
-              setHeaderHeight,
-              currentHeight: height.getValue() as number,
+              scrollY: scrollY,
             });
           }}
         </Tab.Screen>

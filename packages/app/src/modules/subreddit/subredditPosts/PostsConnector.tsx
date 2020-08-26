@@ -1,26 +1,22 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Animated } from "react-native";
 import { PostsController } from "@reddit-clone/controller";
 import SubredditOrderBarConnector from "./ui/SubredditOrderBarConnector";
 import PostsView from "./ui/PostsView";
 
 interface Props {
-  setHeaderHeight: any;
-  currentHeight: number;
+  scrollY: Animated.Value;
 }
 
 const PostsConnector = (props: Props) => {
-  const { setHeaderHeight, currentHeight } = props;
+  const { scrollY } = props;
   return (
     <PostsController>
       {() => (
         <View>
           <View style={{ marginTop: 25 }} />
           <SubredditOrderBarConnector />
-          <PostsView
-            setHeaderHeight={setHeaderHeight}
-            currentHeight={currentHeight}
-          />
+          <PostsView scrollY={scrollY} />
         </View>
       )}
     </PostsController>
