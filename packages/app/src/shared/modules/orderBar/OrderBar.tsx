@@ -156,6 +156,7 @@ const OrderBar = (props: Props) => {
       } else if (reducer === "subreddit") {
         const params = route.params as { name: string };
         if (params && params.name !== "") {
+          console.log(params.name);
           getPostsWithUsername(
             params.name,
             activeOption,

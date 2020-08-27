@@ -8,6 +8,8 @@ import { ThemeColors } from "../../../themes/themes";
 import HTML from "react-native-render-html";
 import Vote from "../../post/vote/Vote";
 import Icon from "react-native-vector-icons/FontAwesome";
+import CommentsConnector from "../comments/CommentsConnector";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface Props {
   getFullPost: (postId: string) => void;
@@ -25,6 +27,7 @@ const FullPostView = (props: Props) => {
     mainContainer: {
       flexDirection: "column",
       padding: 10,
+      backgroundColor: colors.colorCard,
     },
     subredditInfoContainer: {
       flexDirection: "row",
@@ -113,7 +116,7 @@ const FullPostView = (props: Props) => {
   }, [getFullPost, route, route.params]);
 
   return (
-    <View style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer}>
       <View style={styles.subredditInfoContainer}>
         <View style={styles.subredditImageContainer}>
           <View style={styles.subredditImage} />
@@ -144,6 +147,7 @@ const FullPostView = (props: Props) => {
             },
             p: { color: colors.textMain },
             b: { color: colors.textMain },
+            color: colors.textMain,
           }}
           html={sanitizeContent(content).__html}
         />
@@ -168,7 +172,10 @@ const FullPostView = (props: Props) => {
           <Text style={styles.bottomBarText}>Save</Text>
         </TouchableOpacity>
       </View>
-    </View>
+      <View style={{ height: 20 }} />
+      <CommentsConnector />
+      <View style={{ height: 20 }} />
+    </ScrollView>
   );
 };
 

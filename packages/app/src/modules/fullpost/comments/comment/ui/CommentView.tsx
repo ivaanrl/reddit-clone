@@ -57,12 +57,20 @@ const CommentView = (props: Props) => {
 
   const styles = StyleSheet.create({
     mainContainer: {},
-    mainContainerChild: {},
+    mainContainerChild: {
+      borderLeftWidth: 1,
+      borderLeftColor: colors.colorLine,
+      paddingLeft: 10,
+      paddingTop: 10,
+    },
     headerContainer: {
       flexDirection: "row",
       flexWrap: "nowrap",
+      alignItems: "center",
     },
-    profilePicContainer: {},
+    profilePicContainer: {
+      marginRight: 10,
+    },
     profilePic: {
       height: 15,
       width: 15,
@@ -105,51 +113,123 @@ const CommentView = (props: Props) => {
     bottomBarText: {
       color: colors.textMuted,
     },
+    repliesContainer: {
+      flexDirection: "column",
+      paddingLeft: 10,
+    },
+    hiddenCommentPreviewContainer: {
+      lineHeight: 20,
+      maxHeight: 20,
+    },
   });
 
+  const handleLongPress = () => {
+    setShowComment(!showComment);
+  };
+
+  const handleHiddenCommentPress = () => {
+    setShowComment(true);
+  };
+
   return (
-    <View style={child ? styles.mainContainerChild : styles.mainContainer}>
-      <View style={styles.headerContainer}>
-        <View style={styles.profilePicContainer}>
-          <View style={styles.profilePic} />
-        </View>
-        <Text style={styles.username}>{author_username}</Text>
-        <View style={styles.dotSeparator} />
-        <Text style={styles.createdAt}> {formatDate(updatedAt)}</Text>
-      </View>
-      <View style={styles.contentContainer}>
-        <HTML
-          tagsStyles={{
-            i: {
-              color: colors.textMain,
-            },
-            p: { color: colors.textMain },
-            b: { color: colors.textMain },
-          }}
-          html={sanitizeContent(content).__html}
-        />
-      </View>
-      <View style={styles.bottomBarContainer}>
-        <View style={styles.voteContainer}>
-          <Vote
-            path={path}
-            index={index}
-            votes={voteValue}
-            user_vote={user_vote}
-            voteComment={vote}
-            showCount={false}
-            child={child}
-          />
-        </View>
-        <TouchableOpacity style={styles.commentCountContainer}>
-          <Icon name="comment" style={styles.commentCountIcon} />
+    <React.Fragment>
+      {showComment ? (
+        <TouchableOpacity
+          style={child ? styles.mainContainerChild : styles.mainContainer}
+          activeOpacity={1}
+          onLongPress={handleLongPress}
+        >
+          <View style={styles.headerContainer}>
+            <View style={styles.profilePicContainer}>
+              <View style={styles.profilePic} />
+            </View>
+            <Text style={styles.username}>{author_username}</Text>
+            <View style={styles.dotSeparator} />
+            <Text style={styles.createdAt}> {formatDate(updatedAt)}</Text>
+          </View>
+          <View style={styles.contentContainer}>
+            <HTML
+              tagsStyles={{
+                i: {
+                  color: colors.textMain,
+                },
+                p: { color: colors.textMain },
+                b: { color: colors.textMain },
+              }}
+              html={sanitizeContent(content).__html}
+            />
+          </View>
+          <View style={styles.bottomBarContainer}>
+            <View style={styles.voteContainer}>
+              <Vote
+                path={path}
+                index={index}
+                votes={voteValue}
+                user_vote={user_vote}
+                voteComment={vote}
+                showCount={false}
+                child={child}
+              />
+            </View>
+            <TouchableOpacity style={styles.commentCountContainer}>
+              <Icon name="comment" style={styles.commentCountIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.bookmarkContainer}>
+              <Icon name="bookmark" style={styles.bookmarIcon} />
+              <Text style={styles.bottomBarText}>Save</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.repliesContainer}>
+            {replies.map((reply, index) => {
+              if (reply) {
+                return (
+                  <CommentView
+                    key={index}
+                    comment={comment}
+                    vote={vote}
+                    formatDate={formatDate}
+                    sanitizeContent={sanitizeContent}
+                    index={index}
+                    commentInfo={reply}
+                    child={true}
+                    depth={depth + 1}
+                  />
+                );
+              }
+            })}
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bookmarkContainer}>
-          <Icon name="bookmark" style={styles.bookmarIcon} />
-          <Text style={styles.bottomBarText}>Save</Text>
+      ) : (
+        <TouchableOpacity
+          onPress={handleHiddenCommentPress}
+          onLongPress={handleHiddenCommentPress}
+          style={child ? styles.mainContainerChild : styles.mainContainer}
+          activeOpacity={1}
+        >
+          <View style={styles.headerContainer}>
+            <View style={styles.profilePicContainer}>
+              <View style={styles.profilePic} />
+            </View>
+            <Text style={styles.username}>{author_username}</Text>
+            <View style={styles.dotSeparator} />
+            <Text style={styles.createdAt}> {formatDate(updatedAt)}</Text>
+            <View style={styles.dotSeparator} />
+            <View style={styles.hiddenCommentPreviewContainer}>
+              <HTML
+                tagsStyles={{
+                  i: {
+                    color: colors.textMuted,
+                  },
+                  p: { color: colors.textMuted },
+                  b: { color: colors.textMuted },
+                }}
+                html={sanitizeContent(content).__html}
+              />
+            </View>
+          </View>
         </TouchableOpacity>
-      </View>
-    </View>
+      )}
+    </React.Fragment>
   );
 };
 

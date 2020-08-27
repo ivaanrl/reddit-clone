@@ -101,7 +101,7 @@ const PostView = (props: Props) => {
       ...postStyles.title,
       color: colors.textMain,
     },
-    postContainer: { paddingLeft: 5 },
+    postContainer: { paddingLeft: 5, maxHeight: 250 },
     postContent: { color: colors.textMain },
     imagePostContainer: {},
     imagePost: {
@@ -164,7 +164,7 @@ const PostView = (props: Props) => {
         <Text style={styles.title}>{title}</Text>
       </TouchableOpacity>
 
-      {type === "post" ? (
+      {type === "post" && content ? (
         <TouchableOpacity
           style={styles.postContainer}
           onPress={handlePostPress}
