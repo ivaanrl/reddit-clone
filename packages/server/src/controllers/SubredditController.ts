@@ -63,7 +63,6 @@ class SubrredditController {
     const order = req.query.order as string;
     const sortTime = req.query.time as string;
     const page = req.query.page as string;
-    console.log(page);
 
     const user = await findCurrentUser(req.user);
     let subredditResult;
