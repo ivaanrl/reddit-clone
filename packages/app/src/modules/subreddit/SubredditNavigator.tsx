@@ -53,9 +53,6 @@ const SubredditNavigator = () => {
             marginLeft: 60,
           },
         }}
-        style={{
-          marginTop: 1,
-        }}
       >
         <Tab.Screen name="Posts" initialParams={route.params}>
           {() => {

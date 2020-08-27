@@ -15,6 +15,7 @@ import SearchResultsScreen from "./src/modules/header/searchBar/ui/SearchResults
 import SubredditNavigator from "./src/modules/subreddit/SubredditNavigator";
 import SubredditHeaderConnector from "./src/modules/subreddit/subredditHeader/SubredditHeaderConnector";
 import FullPostConnector from "./src/modules/fullpost/FullPostConnector";
+import ProfileNavigator from "./src/modules/profile/ProfileNavigator";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -56,6 +57,7 @@ const App = () => {
               }}
             />
             <Stack.Screen name="fullpost" component={FullPostConnector} />
+            <Stack.Screen name="profile" component={ProfileNavigator} />
           </Stack.Navigator>
         </NavigationContainer>
       </AppearanceProvider>

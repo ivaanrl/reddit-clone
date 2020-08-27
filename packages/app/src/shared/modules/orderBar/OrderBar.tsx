@@ -153,10 +153,19 @@ const OrderBar = (props: Props) => {
       getPostsHomepage(activeOption, timeSort, homepagePage);
     } else if (getPostsWithUsername) {
       if (reducer === "profile") {
+        const params = route.params as { username: string };
+        console.log("aa", params);
+        if (params && params.username !== "") {
+          getPostsWithUsername(
+            params.username,
+            activeOption,
+            timeSort,
+            profilePage
+          );
+        }
       } else if (reducer === "subreddit") {
         const params = route.params as { name: string };
         if (params && params.name !== "") {
-          console.log(params.name);
           getPostsWithUsername(
             params.name,
             activeOption,
