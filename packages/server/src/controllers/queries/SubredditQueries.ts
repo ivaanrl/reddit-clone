@@ -73,7 +73,7 @@ SELECT posts.id, posts.author_id, posts.author_username, posts.title,
           posts.content, posts."createdAt", posts."updatedAt", posts.subreddit_name,
           posts.link, posts.type, COALESCE(vote_count,0) as votes,
           COALESCE(user_vote,0) as user_vote,
-          COALESCE(comment_count,1) as comment_count
+          COALESCE(comment_count,0) as comment_count
     FROM posts
     LEFT JOIN (
       SELECT votes.post_id, SUM(votes.value) as vote_count

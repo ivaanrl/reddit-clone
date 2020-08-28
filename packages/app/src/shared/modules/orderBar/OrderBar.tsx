@@ -154,7 +154,6 @@ const OrderBar = (props: Props) => {
     } else if (getPostsWithUsername) {
       if (reducer === "profile") {
         const params = route.params as { username: string };
-        console.log("aa", params);
         if (params && params.username !== "") {
           getPostsWithUsername(
             params.username,

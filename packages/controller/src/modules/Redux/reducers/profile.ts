@@ -1,5 +1,6 @@
 import { BaseAction, ActionTypes } from "../actions";
 import { vote } from "./helpers/vote";
+import { Post } from "./subreddit";
 
 export type profileReducerState = {
   userInfo: {
@@ -8,14 +9,7 @@ export type profileReducerState = {
     karma: number;
     createdAt: string;
   };
-  posts: {
-    id: string;
-    subreddit_name: string;
-    title: string;
-    voteCount: string;
-    user_vote: number;
-    createdAt: string;
-  }[];
+  posts: Post[];
   comments: {
     commentId: string;
     commentAuthorId: string;
@@ -68,14 +62,7 @@ export const profileReducer = (
 
       const hasMore = action.payload.hasMore;
 
-      const newPosts: {
-        id: string;
-        subreddit_name: string;
-        title: string;
-        voteCount: string;
-        user_vote: number;
-        createdAt: string;
-      }[] = action.payload.posts;
+      const newPosts: Post[] = action.payload.posts;
       statePosts = statePosts.concat(
         newPosts.filter((post) => statePosts.indexOf(post) < 0)
       );
@@ -99,14 +86,7 @@ export const profileReducer = (
 
       const hasMoreUpvoted = action.payload.hasMore;
 
-      const newUpvotedPosts: {
-        id: string;
-        subreddit_name: string;
-        title: string;
-        voteCount: string;
-        user_vote: number;
-        createdAt: string;
-      }[] = action.payload.posts;
+      const newUpvotedPosts: Post[] = action.payload.posts;
       stateUpvotedPosts = stateUpvotedPosts.concat(
         newUpvotedPosts.filter((post) => stateUpvotedPosts.indexOf(post) < 0)
       );
@@ -134,14 +114,7 @@ export const profileReducer = (
 
       const hasMoreDownvoted = action.payload.hasMore;
 
-      const newDownvotedPosts: {
-        id: string;
-        subreddit_name: string;
-        title: string;
-        voteCount: string;
-        user_vote: number;
-        createdAt: string;
-      }[] = action.payload.posts;
+      const newDownvotedPosts: Post[] = action.payload.posts;
       stateUpvotedPosts = stateDownvotedPosts.concat(
         newDownvotedPosts.filter((post) => stateUpvotedPosts.indexOf(post) < 0)
       );
@@ -229,10 +202,10 @@ export const profileReducer = (
       const { user_vote, votes } = vote(
         postToEdit.user_vote,
         value,
-        parseInt(postToEdit.voteCount, 10)
+        parseInt(postToEdit.votes, 10)
       );
 
-      postToEdit.voteCount = votes.toString();
+      postToEdit.votes = votes.toString();
       postToEdit.user_vote = user_vote;
       return { ...state, ...stateCopy };
     case ActionTypes.SWITCH_PROFILE_LOADING_STATE:

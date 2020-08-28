@@ -97,10 +97,10 @@ const getProfilePostsByNew = async (
   page: number
 ) => {
   return await sequelize.query(`
-    SELECT posts.id,posts.author_username,posts.title,
-    posts."createdAt", posts."updatedAt", posts.subreddit_name,
-    COALESCE(vote_sum.vote_count,0) AS "voteCount", 
-    COALESCE(user_vote.value,0) AS "user_vote"
+    SELECT posts.id,posts.author_username,posts.title, posts.author_id, posts.content,posts.link,posts.type,
+      posts."createdAt", posts."updatedAt", posts.subreddit_name, COALESCE(comments.comment_count,0) as comment_count,
+      COALESCE(vote_sum.vote_count,0) AS "votes", 
+      COALESCE(user_vote.value,0) AS "user_vote"
     FROM posts
     LEFT JOIN (
         SELECT value, post_id FROM votes
@@ -110,6 +110,11 @@ const getProfilePostsByNew = async (
         SELECT SUM(value) as vote_count, post_id FROM votes
         GROUP BY post_id
     ) AS vote_sum ON vote_sum.post_id = posts.id
+    LEFT JOIN (
+      SELECT COUNT(comments.post_id) as comment_count, comments.post_id
+      FROM comments
+      GROUP BY comments.post_id
+    ) AS comments ON comments.post_id = posts.id
     WHERE author_id='${userId}'
     ORDER BY "createdAt" DESC
     LIMIT ${PROFILE_POSTS_LIMIT} OFFSET ${page * PROFILE_POSTS_LIMIT}

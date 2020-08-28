@@ -174,6 +174,7 @@ class UserController {
         const hasMore =
           userCommentsWithParentComment[0].length === PROFILE_COMMENT_LIMIT;
 
+        console.log(userCommentsWithParentComment[0]);
         return res
           .status(201)
           .json({ comments: userCommentsWithParentComment[0], hasMore });
