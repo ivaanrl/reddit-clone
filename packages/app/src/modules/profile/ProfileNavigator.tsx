@@ -3,11 +3,10 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useTheme, useRoute } from "@react-navigation/native";
 import { ThemeColors } from "../../themes/themes";
 import ProfilePostsConnector from "./profilePosts/ProfilePostsConnector";
-import { TabView } from "react-native-tab-view";
-import ProfileCommentsView from "./profileComments/ui/ProfileCommentsView";
 import ProfileCommentsConnector from "./profileComments/ProfileCommentsConnector";
 import Animated from "react-native-reanimated";
 import ProfileHeader from "./profileHeader/ProfileHeader";
+import { ProfileController } from "@reddit-clone/controller";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,7 +18,15 @@ const ProfileNavigator = () => {
 
   return (
     <React.Fragment>
-      <ProfileHeader scrollY={scrollY} />
+      <ProfileController>
+        {({ getProfile }) => (
+          <ProfileHeader
+            scrollY={scrollY}
+            getProfile={getProfile}
+            routeParams={route.params as { username: string }}
+          />
+        )}
+      </ProfileController>
       <Tab.Navigator
         initialRouteName="Posts"
         tabBarOptions={{
@@ -35,11 +42,9 @@ const ProfileNavigator = () => {
         <Tab.Screen name="Posts" initialParams={route.params}>
           {() => <ProfilePostsConnector scrollY={scrollY} />}
         </Tab.Screen>
-        <Tab.Screen
-          name="Comments"
-          initialParams={route.params}
-          component={ProfileCommentsConnector}
-        />
+        <Tab.Screen name="Comments" initialParams={route.params}>
+          {() => <ProfileCommentsConnector scrollY={scrollY} />}
+        </Tab.Screen>
         <Tab.Screen name="Home" initialParams={route.params}>
           {() => <ProfilePostsConnector scrollY={scrollY} />}
         </Tab.Screen>
