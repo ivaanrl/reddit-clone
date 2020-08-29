@@ -57,7 +57,14 @@ const App = () => {
               }}
             />
             <Stack.Screen name="fullpost" component={FullPostConnector} />
-            <Stack.Screen name="profile" component={ProfileNavigator} />
+            <Stack.Screen
+              name="profile"
+              options={{
+                headerShown: false,
+              }}
+            >
+              {() => <ProfileNavigator />}
+            </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </AppearanceProvider>

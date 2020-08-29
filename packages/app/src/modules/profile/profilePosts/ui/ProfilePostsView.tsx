@@ -4,12 +4,27 @@ import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import PostConnector from "../../../post/PostConnector";
 import { ScrollView } from "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
+import { onScrollEvent } from "react-native-redash";
 
-const ProfilePostsView = () => {
+interface Props {
+  scrollY: Animated.Value<number>;
+}
+
+const ProfilePostsView = ({ scrollY }: Props) => {
   const userProfile = useSelector((state: State) => state.profile);
 
   return (
-    <ScrollView>
+    <Animated.ScrollView
+      onScroll={Animated.event(
+        [
+          {
+            nativeEvent: { contentOffset: { y: scrollY } },
+          },
+        ],
+        { useNativeDriver: false }
+      )}
+    >
       {userProfile.posts.map((post, index) => {
         return (
           <PostConnector
@@ -20,7 +35,7 @@ const ProfilePostsView = () => {
           />
         );
       })}
-    </ScrollView>
+    </Animated.ScrollView>
   );
 };
 

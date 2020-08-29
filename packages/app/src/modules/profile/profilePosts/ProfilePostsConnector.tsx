@@ -2,15 +2,20 @@ import React from "react";
 import ProfilePostsView from "./ui/ProfilePostsView";
 import { ProfilePostsController } from "@reddit-clone/controller";
 import ProfilePostsOrderBarConnector from "./ui/ProfilePostsOrderBarConnector";
+import Animated from "react-native-reanimated";
 
-const ProfilePostsConnector = () => {
+interface Props {
+  scrollY: Animated.Value<number>;
+}
+
+const ProfilePostsConnector = ({ scrollY }: Props) => {
   return (
     <ProfilePostsController>
       {({}) => {
         return (
           <React.Fragment>
             <ProfilePostsOrderBarConnector />
-            <ProfilePostsView />
+            <ProfilePostsView scrollY={scrollY} />
           </React.Fragment>
         );
       }}
