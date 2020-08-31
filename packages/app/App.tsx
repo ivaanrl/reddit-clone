@@ -16,6 +16,8 @@ import SubredditNavigator from "./src/modules/subreddit/SubredditNavigator";
 import SubredditHeaderConnector from "./src/modules/subreddit/subredditHeader/SubredditHeaderConnector";
 import FullPostConnector from "./src/modules/fullpost/FullPostConnector";
 import ProfileNavigator from "./src/modules/profile/ProfileNavigator";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import CustomDrawerContent from "./src/CustomDrawerContent";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
@@ -29,12 +31,63 @@ const App = () => {
   //<View style={{ marginTop: statusBarHeight }} />
 
   const Stack = createStackNavigator();
+  const Drawer = createDrawerNavigator();
 
   return (
     <Provider store={store}>
       <AppearanceProvider>
         <NavigationContainer theme={scheme === "dark" ? darkTheme : lightTheme}>
-          <Stack.Navigator initialRouteName="Homepage">
+          <Drawer.Navigator
+            initialRouteName="stackNavigator"
+            drawerContent={CustomDrawerContent}
+          >
+            <Drawer.Screen name="stackNavigator">
+              {() => (
+                <Stack.Navigator initialRouteName="Homepage">
+                  <Stack.Screen
+                    name="Homepage"
+                    component={HomepageNavigator}
+                    options={{
+                      headerTitle: () => <HeaderConnector backButton={false} />,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="searchResults"
+                    component={SearchResultsScreen}
+                    options={{
+                      headerTitle: () => <HeaderConnector backButton={true} />,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="subreddit"
+                    component={SubredditNavigator}
+                    options={{
+                      headerTitle: () => <SubredditHeaderConnector />,
+                    }}
+                  />
+                  <Stack.Screen name="fullpost" component={FullPostConnector} />
+                  <Stack.Screen
+                    name="profile"
+                    options={{
+                      headerShown: false,
+                    }}
+                  >
+                    {() => <ProfileNavigator />}
+                  </Stack.Screen>
+                </Stack.Navigator>
+              )}
+            </Drawer.Screen>
+          </Drawer.Navigator>
+        </NavigationContainer>
+      </AppearanceProvider>
+    </Provider>
+  );
+};
+
+export default App;
+
+/*
+<Stack.Navigator initialRouteName="Homepage">
             <Stack.Screen
               name="Homepage"
               component={HomepageNavigator}
@@ -65,11 +118,4 @@ const App = () => {
             >
               {() => <ProfileNavigator />}
             </Stack.Screen>
-          </Stack.Navigator>
-        </NavigationContainer>
-      </AppearanceProvider>
-    </Provider>
-  );
-};
-
-export default App;
+          </Stack.Navigator>*/
