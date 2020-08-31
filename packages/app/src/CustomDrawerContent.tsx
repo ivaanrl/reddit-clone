@@ -1,12 +1,28 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { darkTheme, lightTheme } from "./themes/themes";
+import { useSelector } from "react-redux";
+import { State } from "@reddit-clone/controller";
 
 interface Props {
-  scheme: string;
+  scheme: string | undefined | null;
+  userAuth: {
+    username: string;
+    email: string;
+    karma: number;
+    userSubs: {
+      name: string;
+      adultContent: boolean;
+    }[];
+    message: {
+      status: number;
+      text: string;
+    };
+  };
 }
 
 const CustomDrawerContent = ({ scheme }: Props) => {
+  //const a = useSelector((state: State) => state.auth);
   const { colors } = scheme === "dark" ? darkTheme : lightTheme;
 
   const styles = StyleSheet.create({
