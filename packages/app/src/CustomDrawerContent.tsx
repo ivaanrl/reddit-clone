@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { darkTheme, lightTheme } from "./themes/themes";
-import { useSelector } from "react-redux";
-import { State } from "@reddit-clone/controller";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 interface Props {
   scheme: string | undefined | null;
@@ -21,14 +20,15 @@ interface Props {
   };
 }
 
-const CustomDrawerContent = ({ scheme }: Props) => {
-  //const a = useSelector((state: State) => state.auth);
+const CustomDrawerContent = ({ scheme, userAuth }: Props) => {
   const { colors } = scheme === "dark" ? darkTheme : lightTheme;
 
   const styles = StyleSheet.create({
     mainContainer: {
       padding: 10,
       paddingTop: 50,
+      borderWidth: 1,
+      flex: 1,
     },
     pictureAndUserNameContainer: {
       flexDirection: "column",
@@ -80,8 +80,11 @@ const CustomDrawerContent = ({ scheme }: Props) => {
       color: "grey",
       fontSize: 12,
     },
-    navigationOptionsContainer: {},
+    navigationOptionsContainer: {
+      flexGrow: 1,
+    },
     navigationOptionContainer: {
+      paddingLeft: 10,
       paddingTop: 10,
       paddingBottom: 10,
       flexDirection: "row",
@@ -93,7 +96,12 @@ const CustomDrawerContent = ({ scheme }: Props) => {
     },
     navigationOptionText: {
       fontWeight: "bold",
-      fontSize: 14,
+      fontSize: 16,
+    },
+    iconStyle: {
+      marginRight: 10,
+      fontSize: 16,
+      color: colors.textMuted,
     },
   });
 
@@ -101,13 +109,13 @@ const CustomDrawerContent = ({ scheme }: Props) => {
     <View style={styles.mainContainer}>
       <View style={styles.pictureAndUserNameContainer}>
         <View style={styles.profilePicture} />
-        <Text style={styles.usernameText}>u/Ivaanrl</Text>
+        <Text style={styles.usernameText}>u/{userAuth.username}</Text>
       </View>
       <View style={styles.karmaAndCreatedContainer}>
         <View style={styles.karmaContainer}>
           <View style={styles.karmaIcon}></View>
           <View style={styles.karmaAndCreatedTextContainer}>
-            <Text style={styles.karmaAndCreatedText}>3000</Text>
+            <Text style={styles.karmaAndCreatedText}>{userAuth.karma}</Text>
             <Text style={styles.karmaAndCreatedSubtext}>Karma</Text>
           </View>
         </View>
@@ -121,8 +129,29 @@ const CustomDrawerContent = ({ scheme }: Props) => {
       </View>
       <View style={styles.navigationOptionsContainer}>
         <View style={styles.navigationOptionContainer}>
-          <View style={styles.navigationOptionIcon}></View>
+          <Icon name="users" style={styles.iconStyle} />
           <Text style={styles.navigationOptionText}>My profile</Text>
+        </View>
+        <View style={styles.navigationOptionContainer}>
+          <Icon
+            name="bookmark"
+            style={{ ...styles.iconStyle, marginLeft: 2, marginRight: 13 }}
+          />
+          <Text style={styles.navigationOptionText}>Saved</Text>
+        </View>
+        <View style={styles.navigationOptionContainer}>
+          <Icon name="slideshare" style={styles.iconStyle} />
+          <Text style={styles.navigationOptionText}>Create a community</Text>
+        </View>
+        <View
+          style={{
+            ...styles.navigationOptionContainer,
+            position: "absolute",
+            bottom: 0,
+          }}
+        >
+          <Icon name="sign-out" style={styles.iconStyle} />
+          <Text style={styles.navigationOptionText}>Sign out</Text>
         </View>
       </View>
     </View>

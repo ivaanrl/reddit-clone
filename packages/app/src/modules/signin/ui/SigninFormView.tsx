@@ -1,27 +1,25 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
-import superagent from "superagent";
-import { signupValidationSchema } from "@reddit-clone/common";
-import { Formik, FormikErrors } from "formik";
+import {
+  View,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+} from "react-native";
 import { useTheme, useNavigation } from "@react-navigation/native";
 import { ThemeColors } from "../../../themes/themes";
-import Animated from "react-native-reanimated";
-import CustomTextField from "../../../shared/modules/CustomTextField/CustomTextField";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
+import { FormikErrors, Formik } from "formik";
+import { usernamePasswordValidationSchema } from "@reddit-clone/common";
+import CustomTextField from "../../../shared/modules/CustomTextField/CustomTextField";
+import { LinearGradient } from "expo-linear-gradient";
 import { State } from "@reddit-clone/controller";
 
 interface Props {
-  checkEmailAvailability: (email: string) => Promise<superagent.Response>;
-  submitForm: (values: {
-    email: string;
-    password: string;
-    username: string;
-  }) => void;
+  signin: (values: { username: string; password: string }) => void;
 }
 
-const SignupFormView = ({ checkEmailAvailability, submitForm }: Props) => {
+const SigninFormView = ({ signin }: Props) => {
   const theme = useTheme();
   const colors = theme.colors as ThemeColors;
   const userAuth = useSelector((state: State) => state.auth);
@@ -87,40 +85,37 @@ const SignupFormView = ({ checkEmailAvailability, submitForm }: Props) => {
 
   const handleSubmit = async (
     values: {
-      email: string;
       username: string;
       password: string;
     },
     setErrors: (
       errors: FormikErrors<{
-        email: string;
         username: string;
         password: string;
       }>
     ) => void
   ) => {
-    const emailResponse = await checkEmailAvailability(values.email);
-    if (!emailResponse.body) {
-      setErrors({ email: "Email is already taken." });
-      return;
-    }
-    submitForm(values);
-    if (userAuth.message.status === 201 || !userAuth.message) {
+    signin(values);
+    if (
+      userAuth.message.status === 201 ||
+      !userAuth.message ||
+      userAuth.message.status === 0
+    ) {
       navigation.navigate("Homepage");
     }
   };
 
   const handleRedirectToLogin = () => {
-    navigation.navigate("signinScreen");
+    navigation.navigate("signupScreen");
   };
 
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.title}>Create an account</Text>
       <Formik
-        initialValues={{ email: "", username: "", password: "" }}
+        initialValues={{ username: "", password: "" }}
         onSubmit={() => {}}
-        validationSchema={signupValidationSchema}
+        validationSchema={usernamePasswordValidationSchema}
       >
         {({
           handleChange,
@@ -132,28 +127,6 @@ const SignupFormView = ({ checkEmailAvailability, submitForm }: Props) => {
           setErrors,
         }) => (
           <View style={styles.formContainer}>
-            <CustomTextField
-              handleBlur={handleBlur}
-              handleChange={handleChange}
-              value={values.email}
-              name="email"
-              label="Email"
-              textInputStyle={styles.textInput}
-              containerStyle={styles.inputContainer}
-              labelStyle={styles.labelStyle}
-              color={colors.textMain}
-              highlightColor={colors.highlightSelection}
-              errorColor={colors.error}
-              labelColor={colors.textMuted}
-              errors={errors.email}
-              touched={touched.email}
-              textInputProperties={{
-                autoCapitalize: "none",
-                autoCompleteType: "email",
-                keyboardType: "email-address",
-                autoCorrect: false,
-              }}
-            />
             <CustomTextField
               handleBlur={handleBlur}
               handleChange={handleChange}
@@ -198,12 +171,12 @@ const SignupFormView = ({ checkEmailAvailability, submitForm }: Props) => {
               }}
             />
             <View style={styles.redirectLoginContainer}>
-              <Text style={styles.redirectLoginText}>Already a Reddit?</Text>
+              <Text style={styles.redirectLoginText}>New to Reddit?</Text>
               <TouchableOpacity
                 activeOpacity={1}
                 onPress={handleRedirectToLogin}
               >
-                <Text style={styles.redirectLoginLink}>Log in</Text>
+                <Text style={styles.redirectLoginLink}>Sign up</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
@@ -241,4 +214,4 @@ const SignupFormView = ({ checkEmailAvailability, submitForm }: Props) => {
   );
 };
 
-export default SignupFormView;
+export default SigninFormView;

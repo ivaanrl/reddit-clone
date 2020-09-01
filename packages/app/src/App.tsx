@@ -17,17 +17,19 @@ import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import CustomDrawerSignedOut from "../CustomDrawerSignedOut";
 import SignupFormConnector from "./modules/signup/SignupFormConnector";
+import SigninFormConnector from "./modules/signin/SigninFormConnector";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import Icon from "react-native-vector-icons/FontAwesome";
+
+const Tab = createMaterialBottomTabNavigator();
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const App = () => {
   const scheme = useColorScheme();
   const statusBarHeight = Constants.statusBarHeight;
 
-  //<View style={{ marginTop: statusBarHeight }} />
-
-  const Stack = createStackNavigator();
-  const Drawer = createDrawerNavigator();
   const userAuth = useSelector((state: State) => state.auth);
-  //const navigation = useNavigation();
 
   return (
     <NavigationContainer theme={scheme === "dark" ? darkTheme : lightTheme}>
@@ -35,7 +37,7 @@ const App = () => {
         initialRouteName="stackNavigator"
         drawerContent={(props) => {
           return userAuth.username != "" ? (
-            CustomDrawerContent({ scheme, userAuth })
+            <CustomDrawerContent scheme={scheme} userAuth={userAuth} />
           ) : (
             <CustomDrawerSignedOut scheme={scheme} {...props} />
           );
@@ -43,42 +45,90 @@ const App = () => {
       >
         <Drawer.Screen name="stackNavigator">
           {() => (
-            <Stack.Navigator initialRouteName="Homepage">
-              <Stack.Screen
-                name="Homepage"
-                component={HomepageNavigator}
+            <Tab.Navigator
+              labeled={false}
+              activeColor={
+                scheme === "dark"
+                  ? darkTheme.colors.textMain
+                  : lightTheme.colors.textMain
+              }
+              inactiveColor={
+                scheme === "dark"
+                  ? darkTheme.colors.textMuted
+                  : lightTheme.colors.textMuted
+              }
+              barStyle={{
+                backgroundColor:
+                  scheme === "dark"
+                    ? darkTheme.colors.colorCard
+                    : lightTheme.colors.colorCard,
+                height: 45,
+                borderTopWidth: 1,
+                borderTopColor:
+                  scheme === "dark"
+                    ? darkTheme.colors.colorLine
+                    : lightTheme.colors.colorLine,
+              }}
+            >
+              <Tab.Screen
+                name="home"
                 options={{
-                  headerTitle: () => <HeaderConnector backButton={false} />,
-                }}
-              />
-              <Stack.Screen
-                name="searchResults"
-                component={SearchResultsScreen}
-                options={{
-                  headerTitle: () => <HeaderConnector backButton={true} />,
-                }}
-              />
-              <Stack.Screen
-                name="subreddit"
-                component={SubredditNavigator}
-                options={{
-                  headerTitle: () => <SubredditHeaderConnector />,
-                }}
-              />
-              <Stack.Screen name="fullpost" component={FullPostConnector} />
-              <Stack.Screen
-                name="profile"
-                options={{
-                  headerShown: false,
+                  tabBarIcon: () => (
+                    <Icon name="user" style={{ fontSize: 25 }} />
+                  ),
                 }}
               >
-                {() => <ProfileNavigator />}
-              </Stack.Screen>
-              <Stack.Screen
-                name="signupScreen"
-                component={SignupFormConnector}
-              />
-            </Stack.Navigator>
+                {() => (
+                  <Stack.Navigator initialRouteName="Homepage">
+                    <Stack.Screen
+                      name="Homepage"
+                      component={HomepageNavigator}
+                      options={{
+                        headerTitle: () => (
+                          <HeaderConnector backButton={false} />
+                        ),
+                      }}
+                    />
+                    <Stack.Screen
+                      name="searchResults"
+                      component={SearchResultsScreen}
+                      options={{
+                        headerTitle: () => (
+                          <HeaderConnector backButton={true} />
+                        ),
+                      }}
+                    />
+                    <Stack.Screen
+                      name="subreddit"
+                      component={SubredditNavigator}
+                      options={{
+                        headerTitle: () => <SubredditHeaderConnector />,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="fullpost"
+                      component={FullPostConnector}
+                    />
+                    <Stack.Screen
+                      name="profile"
+                      options={{
+                        headerShown: false,
+                      }}
+                    >
+                      {() => <ProfileNavigator />}
+                    </Stack.Screen>
+                    <Stack.Screen
+                      name="signupScreen"
+                      component={SignupFormConnector}
+                    />
+                    <Stack.Screen
+                      name="signinScreen"
+                      component={SigninFormConnector}
+                    />
+                  </Stack.Navigator>
+                )}
+              </Tab.Screen>
+            </Tab.Navigator>
           )}
         </Drawer.Screen>
       </Drawer.Navigator>
