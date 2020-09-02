@@ -23,6 +23,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import CreatePostConnector from "./modules/createPost/CreatePostConnector";
 import privateMessagesConnector from "./modules/privateMessages/privateMessagesConnector";
 import StackNavigator from "./StackNavigator";
+import CreateTextPostConnector from "./modules/createPost/createTextPost/CreateTextPostConnector";
+import CommunityPicker from "./modules/createPost/ui/CommunityPicker";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -49,7 +51,11 @@ const App = () => {
         <Drawer.Screen name="stackNavigator">
           {() => <StackNavigator />}
         </Drawer.Screen>
-        <Drawer.Screen name="createTextPost" component={CreatePostConnector} />
+        <Drawer.Screen
+          name="createTextPost"
+          component={CreateTextPostConnector}
+        />
+        <Drawer.Screen name="communityPicker" component={CommunityPicker} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

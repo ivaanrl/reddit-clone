@@ -1,8 +1,8 @@
 import * as React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useTheme, useNavigation } from "@react-navigation/native";
-import { ThemeColors } from "../../../themes/themes";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { ThemeColors } from "../../../../themes/themes";
 
 interface Props {
   createPost: (
@@ -12,15 +12,9 @@ interface Props {
     content?: string[],
     link?: string
   ) => void;
-  createImagePost: (post: {
-    subName: string;
-    title: string;
-    type: string;
-    image: FileList;
-  }) => void;
 }
 
-const CreatePostView = ({ createImagePost, createPost }: Props) => {
+const CreateTextPostView = ({ createPost }: Props) => {
   const theme = useTheme();
   const colors = theme.colors as ThemeColors;
   const navigation = useNavigation();
@@ -29,6 +23,7 @@ const CreatePostView = ({ createImagePost, createPost }: Props) => {
     mainContainer: {
       backgroundColor: colors.colorCard,
       flex: 1,
+      marginTop: 100,
     },
     communityPickContainer: {},
     communityPickIcon: {},
@@ -42,11 +37,7 @@ const CreatePostView = ({ createImagePost, createPost }: Props) => {
       <TouchableOpacity
         activeOpacity={1}
         style={styles.communityPickContainer}
-        onPress={() =>
-          navigation.navigate("communityPicker", {
-            previousRoute: "createTextPost",
-          })
-        }
+        onPress={() => navigation.navigate("communityPicker")}
       >
         <View style={styles.communityPickIcon} />
         <Text style={styles.communityPickText}>hola</Text>
@@ -55,4 +46,4 @@ const CreatePostView = ({ createImagePost, createPost }: Props) => {
   );
 };
 
-export default CreatePostView;
+export default CreateTextPostView;

@@ -139,10 +139,6 @@ const StackNavigator = () => {
                 name="signinScreen"
                 component={SigninFormConnector}
               />
-              <Stack.Screen
-                name="communityPicker"
-                component={CommunityPicker}
-              />
             </Stack.Navigator>
           )}
         </Tab.Screen>
