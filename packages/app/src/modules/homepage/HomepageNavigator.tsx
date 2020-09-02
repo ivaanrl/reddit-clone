@@ -1,7 +1,7 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import HomepageConnector from "./HomepageConnector";
-import { useTheme } from "@react-navigation/native";
+import { useTheme, useNavigation } from "@react-navigation/native";
 import { ThemeColors } from "../../themes/themes";
 
 const Tab = createMaterialTopTabNavigator();

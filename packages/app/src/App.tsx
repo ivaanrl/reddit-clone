@@ -49,6 +49,7 @@ const App = () => {
         <Drawer.Screen name="stackNavigator">
           {() => <StackNavigator />}
         </Drawer.Screen>
+        <Drawer.Screen name="createTextPost" component={CreatePostConnector} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
