@@ -52,6 +52,7 @@ const CommunityPicker = () => {
   });
 
   const [prevRoute, setPrevRoute] = useState<string>("");
+
   useEffect(() => {
     if (
       route.params &&
