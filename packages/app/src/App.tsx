@@ -25,6 +25,7 @@ import privateMessagesConnector from "./modules/privateMessages/privateMessagesC
 import StackNavigator from "./StackNavigator";
 import CreateTextPostConnector from "./modules/createPost/createTextPost/CreateTextPostConnector";
 import CommunityPicker from "./modules/createPost/ui/CommunityPicker";
+import CreateImagePostConnector from "./modules/createPost/createImagePost/CreateImagePostConnector";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -56,6 +57,10 @@ const App = () => {
           component={CreateTextPostConnector}
         />
         <Drawer.Screen name="communityPicker" component={CommunityPicker} />
+        <Drawer.Screen
+          name="createImagePost"
+          component={CreateImagePostConnector}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

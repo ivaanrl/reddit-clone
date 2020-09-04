@@ -98,8 +98,11 @@ const CreatePostSlideMenu = React.forwardRef(
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={hideMenu}
               style={styles.optionContainer}
+              onPress={() => {
+                navigation.navigate("createImagePost");
+                hideMenu();
+              }}
             >
               <View style={styles.iconContainer}>
                 <MaterialIcon name="image" style={styles.icon} />
