@@ -65,6 +65,7 @@ const CommunityPicker = () => {
   const userSubs = useSelector((state: State) => state.auth.userSubs);
 
   const handleClick = (name: string) => {
+    console.log(prevRoute);
     navigation.navigate(prevRoute, { communityPicked: name });
   };
 

@@ -89,8 +89,10 @@ const CreateImagePostView = ({ createImagePost }: Props) => {
       color: colors.textMain,
     },
     imageDisplay: {
-      aspectRatio: 16 / 9,
-      width: "50%",
+      alignSelf: "center",
+      marginTop: 10,
+      width: "60%",
+      height: "50%",
     },
     headerContainer: {
       flexDirection: "row",
@@ -186,7 +188,7 @@ const CreateImagePostView = ({ createImagePost }: Props) => {
         style={styles.communityPickContainer}
         onPress={() =>
           navigation.navigate("communityPicker", {
-            previousRoute: "createTextPost",
+            previousRoute: "createImagePost",
           })
         }
       >

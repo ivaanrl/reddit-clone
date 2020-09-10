@@ -26,6 +26,8 @@ import StackNavigator from "./StackNavigator";
 import CreateTextPostConnector from "./modules/createPost/createTextPost/CreateTextPostConnector";
 import CommunityPicker from "./modules/createPost/ui/CommunityPicker";
 import CreateImagePostConnector from "./modules/createPost/createImagePost/CreateImagePostConnector";
+import CreateLinkPostConnector from "./modules/createPost/createLinkPost/CreateLinkPostConnector";
+import AuthProtection from "./modules/authProtection/AuthProtection";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -61,6 +63,11 @@ const App = () => {
           name="createImagePost"
           component={CreateImagePostConnector}
         />
+        <Drawer.Screen
+          name="createLinkPost"
+          component={CreateLinkPostConnector}
+        />
+        <Drawer.Screen name="userNotAuth" component={AuthProtection} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

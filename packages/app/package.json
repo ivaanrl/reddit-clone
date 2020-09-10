@@ -40,6 +40,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^2.15.1",
     "react-native-themed-styles": "^0.0.4",
+    "react-native-url-preview": "^1.1.9",
     "react-native-vector-icons": "^7.0.0",
     "react-native-web": "~0.11.7",
     "react-native-webview": "9.4.0",

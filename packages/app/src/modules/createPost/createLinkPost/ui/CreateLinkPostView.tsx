@@ -12,12 +12,13 @@ interface Props {
     subName: string,
     title: string,
     type: string,
-    content?: string[],
-    link?: string
+    content?: string[] | undefined,
+    link?: string | undefined
   ) => void;
 }
 
-const CreateTextPostView = ({ createPost }: Props) => {
+const CreateLinkPostView = ({ createPost }: Props) => {
+  const linkRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
   const theme = useTheme();
   const colors = theme.colors as ThemeColors;
   const navigation = useNavigation();
@@ -41,12 +42,17 @@ const CreateTextPostView = ({ createPost }: Props) => {
   }, [route.params]);
 
   useEffect(() => {
-    if (communityPicked !== "Choose a community" && title !== "") {
+    if (
+      communityPicked !== "Choose a community" &&
+      title !== "" &&
+      content !== "" &&
+      content.match(linkRegex)
+    ) {
       setPostButtonDisabled(false);
     } else {
       setPostButtonDisabled(true);
     }
-  }, [title, communityPicked]);
+  }, [title, communityPicked, content]);
 
   const styles = StyleSheet.create({
     mainContainer: {
@@ -88,7 +94,6 @@ const CreateTextPostView = ({ createPost }: Props) => {
       color: colors.textMain,
     },
     contentTextInput: {
-      flex: 1,
       backgroundColor: colors.inputBackground,
       color: colors.textMain,
     },
@@ -121,7 +126,7 @@ const CreateTextPostView = ({ createPost }: Props) => {
   });
 
   const handlePost = () => {
-    createPost(communityPicked, title, "post", [content]);
+    createPost(communityPicked, title, "link", [], content);
   };
 
   return (
@@ -133,7 +138,7 @@ const CreateTextPostView = ({ createPost }: Props) => {
         >
           <Icon name="close" style={styles.cancelIcon} />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Text Post</Text>
+        <Text style={styles.headerText}>Link Post</Text>
         <TouchableOpacity
           style={styles.headerButtonContainer}
           activeOpacity={1}
@@ -155,7 +160,7 @@ const CreateTextPostView = ({ createPost }: Props) => {
         style={styles.communityPickContainer}
         onPress={() =>
           navigation.navigate("communityPicker", {
-            previousRoute: "createTextPost",
+            previousRoute: "createLinkPost",
           })
         }
       >
@@ -183,7 +188,7 @@ const CreateTextPostView = ({ createPost }: Props) => {
       />
       <TextInput
         style={styles.contentTextInput}
-        placeholder="Your text post (optional)"
+        placeholder="https://"
         placeholderTextColor={colors.textMuted}
         value={content}
         onChangeText={(text) => setContent(text)}
@@ -192,4 +197,4 @@ const CreateTextPostView = ({ createPost }: Props) => {
   );
 };
 
-export default CreateTextPostView;
+export default CreateLinkPostView;

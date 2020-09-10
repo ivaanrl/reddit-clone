@@ -19,7 +19,7 @@ import privateMessagesConnector from "./modules/privateMessages/privateMessagesC
 import Constants from "expo-constants";
 import { createStackNavigator } from "@react-navigation/stack";
 import CommunityPicker from "./modules/createPost/ui/CommunityPicker";
-import { EventArg } from "@react-navigation/native";
+import { EventArg, useNavigation } from "@react-navigation/native";
 import Animated, {
   Extrapolate,
   TransitioningView,
@@ -32,6 +32,7 @@ const Stack = createStackNavigator();
 const StackNavigator = () => {
   const scheme = useColorScheme();
   const statusBarHeight = Constants.statusBarHeight;
+  const navigation = useNavigation();
 
   const userAuth = useSelector((state: State) => state.auth);
 
@@ -51,6 +52,10 @@ const StackNavigator = () => {
   const showCreatePostMenu = (e: EventArg<"tabPress", true, undefined>) => {
     e.preventDefault();
     //createPostMenuPosition.setValue(1);
+    if (userAuth.username === "") {
+      navigation.navigate("userNotAuth");
+      return;
+    }
     if (ref && ref.current) {
       ref.current?.animateNextTransition();
       setCreatePostMenuPosition(0);

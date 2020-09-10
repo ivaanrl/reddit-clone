@@ -7,6 +7,7 @@ import { ThemeColors } from "../../../themes/themes";
 import { useTheme, useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { postStyles, fontSizes } from "../../../styles";
+import RNUrlPreview from "react-native-url-preview";
 
 interface Props {
   sanitizeContent: (content: string[] | null) => { __html: string };
@@ -180,6 +181,11 @@ const PostView = (props: Props) => {
             html={sanitizeContent(content).__html}
           />
         </TouchableOpacity>
+      ) : null}
+      {type === "link" && link ? (
+        <View>
+          <Text>Need to find a way to preview links on mobile</Text>
+        </View>
       ) : null}
       {type === "image" && link ? (
         <TouchableOpacity style={styles.imagePostContainer}>
