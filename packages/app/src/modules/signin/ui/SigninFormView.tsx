@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Dimensions,
@@ -14,6 +14,7 @@ import { usernamePasswordValidationSchema } from "@reddit-clone/common";
 import CustomTextField from "../../../shared/modules/CustomTextField/CustomTextField";
 import { LinearGradient } from "expo-linear-gradient";
 import { State } from "@reddit-clone/controller";
+import AsyncStorage from "@react-native-community/async-storage";
 
 interface Props {
   signin: (values: { username: string; password: string }) => void;
@@ -96,14 +97,18 @@ const SigninFormView = ({ signin }: Props) => {
     ) => void
   ) => {
     signin(values);
-    if (
-      userAuth.message.status === 201 ||
-      !userAuth.message ||
-      userAuth.message.status === 0
-    ) {
+  };
+
+  useEffect(() => {
+    if (userAuth.email && userAuth.email !== "") {
+      (async function () {
+        try {
+          await AsyncStorage.setItem("userInfo", JSON.stringify(userAuth));
+        } catch (error) {}
+      })();
       navigation.navigate("Homepage");
     }
-  };
+  }, [userAuth]);
 
   const handleRedirectToLogin = () => {
     navigation.navigate("signupScreen");

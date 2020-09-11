@@ -1,7 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { darkTheme, lightTheme } from "./themes/themes";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { useDispatch } from "react-redux";
+import { allActions } from "@reddit-clone/controller";
+import AsyncStorage from "@react-native-community/async-storage";
 
 interface Props {
   scheme: string | undefined | null;
@@ -22,6 +25,7 @@ interface Props {
 
 const CustomDrawerContent = ({ scheme, userAuth }: Props) => {
   const { colors } = scheme === "dark" ? darkTheme : lightTheme;
+  const dispatch = useDispatch();
 
   const styles = StyleSheet.create({
     mainContainer: {
@@ -105,6 +109,11 @@ const CustomDrawerContent = ({ scheme, userAuth }: Props) => {
     },
   });
 
+  const handleSignout = async () => {
+    await AsyncStorage.removeItem("userInfo");
+    dispatch(allActions.signoutUser());
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.pictureAndUserNameContainer}>
@@ -143,7 +152,8 @@ const CustomDrawerContent = ({ scheme, userAuth }: Props) => {
           <Icon name="slideshare" style={styles.iconStyle} />
           <Text style={styles.navigationOptionText}>Create a community</Text>
         </View>
-        <View
+        <TouchableOpacity
+          onPress={handleSignout}
           style={{
             ...styles.navigationOptionContainer,
             position: "absolute",
@@ -152,7 +162,7 @@ const CustomDrawerContent = ({ scheme, userAuth }: Props) => {
         >
           <Icon name="sign-out" style={styles.iconStyle} />
           <Text style={styles.navigationOptionText}>Sign out</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

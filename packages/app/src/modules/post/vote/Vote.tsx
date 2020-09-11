@@ -3,8 +3,10 @@ import { View, StyleSheet, Text } from "react-native";
 import * as SVG from "react-native-svg";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { voteButton } from "../../../styles/vote";
-import { useTheme } from "@react-navigation/native";
+import { useTheme, useNavigation } from "@react-navigation/native";
 import { ThemeColors } from "../../../themes/themes";
+import { useSelector } from "react-redux";
+import { State } from "@reddit-clone/controller";
 
 interface Props {
   id?: string;
@@ -29,6 +31,9 @@ const Vote = (props: Props) => {
   const { SvgXml } = SVG;
   const theme = useTheme();
   const colors = theme.colors as ThemeColors;
+  const userAuth = useSelector((state: State) => state.auth);
+  const navigation = useNavigation();
+
   const {
     votePost,
     path,
@@ -63,6 +68,10 @@ const Vote = (props: Props) => {
   }, [user_vote]);
 
   const handleVote = (voteValue: number) => {
+    if (userAuth.username === "") {
+      navigation.navigate("userNotAuth");
+      return;
+    }
     if (votePost && reducer && (index || index === 0) && id) {
       votePost(id, voteValue, index, reducer);
     } else if (voteFullPost && id) {
