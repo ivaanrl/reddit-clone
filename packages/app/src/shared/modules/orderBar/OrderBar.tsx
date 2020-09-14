@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -17,6 +17,12 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import HotSVG from "../../svgs/HotSVG";
 import TopSVG from "../../svgs/TopSVG";
 import NewSVG from "../../svgs/NewSVG";
+import Animated, {
+  Extrapolate,
+  Transition,
+  Transitioning,
+  TransitioningView,
+} from "react-native-reanimated";
 
 interface Props {
   getPostsWithUsername?: (
@@ -26,7 +32,6 @@ interface Props {
     page: number
   ) => void;
   getPostsHomepage?: (order: string, time: string, page: number) => void;
-
   defaultSort: string;
   reducer: string;
 }
@@ -72,7 +77,6 @@ const OrderBar = (props: Props) => {
       marginRight: 5,
     },
     dropdownOptionsContainer: {
-      //...StyleSheet.absoluteFillObject,
       position: "absolute",
       left: 0,
       right: 0,
@@ -120,10 +124,13 @@ const OrderBar = (props: Props) => {
     },
     dropdownModal: {
       position: "absolute",
-      height: windowHeight - statusBarHeight,
+      height: "100%",
+      top: 0,
+      marginTop: -25,
       width: "100%",
       backgroundColor: colors.modalColor,
-      zIndex: 900,
+      zIndex: 9000,
+      elevation: 5,
     },
   });
 
@@ -131,10 +138,22 @@ const OrderBar = (props: Props) => {
     boolean
   >(false);
 
-  const dropdownAnimationProps = useSpring({
-    opacity: drodpdownOptionsVisible ? 1 : 0,
-    bottom: drodpdownOptionsVisible ? 0 : -200,
-  });
+  const ref = useRef<TransitioningView>();
+  const transition = <Transition.Change interpolation="easeInOut" />;
+  const [opacity, setOpacity] = useState<number>(0);
+  const [bottom, setBottom] = useState<number>(0);
+
+  useEffect(() => {
+    if (drodpdownOptionsVisible) {
+      ref.current?.animateNextTransition();
+      setOpacity(1);
+      setBottom(0);
+    } else {
+      ref.current?.animateNextTransition();
+      setOpacity(0);
+      setBottom(-200);
+    }
+  }, [drodpdownOptionsVisible]);
 
   const handleSelectClick = () => {
     setDropdownOptionsVisible(!drodpdownOptionsVisible);
@@ -215,11 +234,14 @@ const OrderBar = (props: Props) => {
           style={styles.dropdownModal}
           onPress={handleSelectClick}
         >
-          <AnimatedView
+          <Transitioning.View
             style={{
-              ...dropdownAnimationProps,
               ...styles.dropdownOptionsContainer,
+              opacity: opacity,
+              bottom: bottom,
             }}
+            ref={ref}
+            transition={transition}
           >
             <Text style={styles.dropdownOptionTitle}>SORT POST BY</Text>
             <TouchableOpacity
@@ -285,7 +307,7 @@ const OrderBar = (props: Props) => {
                 Top
               </Text>
             </TouchableOpacity>
-          </AnimatedView>
+          </Transitioning.View>
         </TouchableOpacity>
       ) : null}
     </React.Fragment>
