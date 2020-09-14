@@ -2,13 +2,6 @@ import React, { useEffect } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { darkTheme, lightTheme } from "./themes/themes";
 import CustomDrawerContent from "./CustomDrawerContent";
-import HomepageNavigator from "./modules/homepage/HomepageNavigator";
-import HeaderConnector from "./modules/header/HeaderConnector";
-import SearchResultsScreen from "./modules/header/searchBar/ui/SearchResultsScreen";
-import SubredditNavigator from "./modules/subreddit/SubredditNavigator";
-import SubredditHeaderConnector from "./modules/subreddit/subredditHeader/SubredditHeaderConnector";
-import FullPostConnector from "./modules/fullpost/FullPostConnector";
-import ProfileNavigator from "./modules/profile/ProfileNavigator";
 import { useColorScheme, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -16,12 +9,8 @@ import Constants from "expo-constants";
 import { useDispatch, useSelector } from "react-redux";
 import { allActions, State } from "@reddit-clone/controller";
 import CustomDrawerSignedOut from "../CustomDrawerSignedOut";
-import SignupFormConnector from "./modules/signup/SignupFormConnector";
-import SigninFormConnector from "./modules/signin/SigninFormConnector";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome";
-import CreatePostConnector from "./modules/createPost/CreatePostConnector";
-import privateMessagesConnector from "./modules/privateMessages/privateMessagesConnector";
 import StackNavigator from "./StackNavigator";
 import CreateTextPostConnector from "./modules/createPost/createTextPost/CreateTextPostConnector";
 import CommunityPicker from "./modules/createPost/ui/CommunityPicker";
@@ -29,6 +18,7 @@ import CreateImagePostConnector from "./modules/createPost/createImagePost/Creat
 import CreateLinkPostConnector from "./modules/createPost/createLinkPost/CreateLinkPostConnector";
 import AuthProtection from "./modules/authProtection/AuthProtection";
 import AsyncStorage from "@react-native-community/async-storage";
+import * as SplashScreen from "expo-splash-screen";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -40,6 +30,15 @@ const App = () => {
   const dispatch = useDispatch();
 
   const userAuth = useSelector((state: State) => state.auth);
+  const homePostsLoading = useSelector(
+    (state: State) => state.homepage.isLoading
+  );
+
+  /*useEffect(() => {
+    (async function () {
+      await SplashScreen.preventAutoHideAsync();
+    })();
+  }, []); */
 
   useEffect(() => {
     getStoredUser();
