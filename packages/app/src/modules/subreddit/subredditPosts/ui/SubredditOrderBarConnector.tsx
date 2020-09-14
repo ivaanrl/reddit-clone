@@ -5,9 +5,10 @@ import OrderBar from "../../../../shared/modules/orderBar/OrderBar";
 const SubredditOrderBarConnector = () => {
   return (
     <SubredditOrderController>
-      {({ getSubreddit }) => (
+      {({ getSubreddit, clearPosts }) => (
         <OrderBar
           getPostsWithUsername={getSubreddit}
+          clearPosts={clearPosts}
           defaultSort="hot"
           reducer="subreddit"
         />

@@ -26,3 +26,7 @@ export const getHomepagePostsFailed = (error: {
 export const switchHomepageLoadingStae = () => ({
   type: ActionTypes.SWITCH_HOMEPAGE_LOADING_STATE,
 });
+
+export const clearHomepagePosts = () => ({
+  type: ActionTypes.CLEAR_HOMEPAGE_POSTS,
+});

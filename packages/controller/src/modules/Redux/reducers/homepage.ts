@@ -73,6 +73,8 @@ export const homePageReducer = (
       return { ...state, ...stateCopy };
     case ActionTypes.SWITCH_HOMEPAGE_LOADING_STATE:
       return { ...state, ...{ isLoading: true } };
+    case ActionTypes.CLEAR_HOMEPAGE_POSTS:
+      return { ...state, ...{ posts: [], page: 0 } };
     default:
       return state;
   }

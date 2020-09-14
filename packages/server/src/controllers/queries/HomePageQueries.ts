@@ -55,7 +55,7 @@ const getHomepagePostsByTop = async (
         GROUP BY comments.post_id 
     ) AS comments ON comments.post_id = posts.id
     ${whereQuery}
-    ORDER BY vote_count DESC
+    ORDER BY votes DESC
     LIMIT ${HOMEPAGE_POSTS_LIMIT} OFFSET ${page * HOMEPAGE_POSTS_LIMIT}`
   );
 };

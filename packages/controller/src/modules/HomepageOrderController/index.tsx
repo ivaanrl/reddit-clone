@@ -4,6 +4,7 @@ import { allActions } from "../Redux";
 interface Props {
   children: (data: {
     getPosts: (order: string, time: string, page: number) => void;
+    clearPosts: () => void;
   }) => JSX.Element;
 }
 
@@ -14,5 +15,9 @@ export const HomepageOrderController = (props: Props) => {
     dispatch(allActions.getHomepagePosts(order, time, page));
   };
 
-  return props.children({ getPosts });
+  const clearPosts = () => {
+    dispatch(allActions.clearHomepagePosts());
+  };
+
+  return props.children({ getPosts, clearPosts });
 };

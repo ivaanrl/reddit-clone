@@ -8,6 +8,7 @@ import {
   createSubredditCompletedAction,
   joinOrLeaveSubredditCompletedAction,
   switchSubredditLoadingState,
+  clearSubredditPosts,
 } from "../actions/subreddit";
 
 export function* watchGetSubreddit() {
@@ -20,6 +21,10 @@ export function* watchCreateSubreddit() {
 
 export function* watchJoinOrLeaveSubreddit() {
   yield takeEvery(ActionTypes.JOIN_LEAVE_SUBREDDIT, joinOrLeaveSubreddit);
+}
+
+export function* watchClearSubredditPosts() {
+  yield takeEvery(ActionTypes.CLEAR_SUBREDDIT_POSTS, clearSubredditPosts);
 }
 
 export function* getSubreddit(subInfo: {

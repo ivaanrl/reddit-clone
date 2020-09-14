@@ -75,3 +75,7 @@ export const removeSubredditErrors = () => ({
 export const switchSubredditLoadingState = () => ({
   type: ActionTypes.SWITCH_SUBREDDIT_LOADING_STATE,
 });
+
+export const clearSubredditPosts = () => ({
+  type: ActionTypes.CLEAR_SUBREDDIT_POSTS,
+});

@@ -9,6 +9,7 @@ interface Props {
       time: string,
       page: number
     ) => void;
+    clearPosts: () => void;
   }) => JSX.Element;
 }
 
@@ -24,5 +25,9 @@ export const SubredditOrderController = (props: Props) => {
     dispatch(allActions.getSubreddit(subName, order, time, page));
   };
 
-  return props.children({ getSubreddit });
+  const clearPosts = () => {
+    dispatch(allActions.clearSubredditPosts());
+  };
+
+  return props.children({ getSubreddit, clearPosts });
 };

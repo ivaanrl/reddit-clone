@@ -126,6 +126,8 @@ export const subredditReducer = (
       };
     case ActionTypes.SWITCH_SUBREDDIT_LOADING_STATE:
       return { ...state, ...{ isLoading: true } };
+    case ActionTypes.CLEAR_SUBREDDIT_POSTS:
+      return { ...state, ...{ posts: [], page: 0 } };
     default:
       return state;
   }

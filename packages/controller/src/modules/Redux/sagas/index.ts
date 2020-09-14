@@ -18,6 +18,7 @@ import {
   watchGetSubreddit,
   watchCreateSubreddit,
   watchJoinOrLeaveSubreddit,
+  watchClearSubredditPosts,
 } from "./subreddit.sagas";
 
 import {
@@ -32,7 +33,10 @@ import {
 
 import { watchGetSearchPreview } from "./search.sagas";
 
-import { watchGetHomepagePosts } from "./homepage.sagas";
+import {
+  watchGetHomepagePosts,
+  watchClearHomepagePosts,
+} from "./homepage.sagas";
 
 export const rootSaga = function* root() {
   yield all([
@@ -59,5 +63,7 @@ export const rootSaga = function* root() {
     fork(watchGetSearchPreview),
     fork(watchGetHomepagePosts),
     fork(watchCreateImagePost),
+    fork(watchClearHomepagePosts),
+    fork(watchClearSubredditPosts),
   ]);
 };

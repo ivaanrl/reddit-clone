@@ -5,9 +5,10 @@ import { ProfileOrderPostsBarController } from "@reddit-clone/controller";
 const ProfilePostsOrderBarConnector = () => {
   return (
     <ProfileOrderPostsBarController>
-      {({ getPosts }) => (
+      {({ getPosts, clearPosts }) => (
         <OrderBar
           getPostsWithUsername={getPosts}
+          clearPosts={clearPosts}
           defaultSort="new"
           reducer="profile"
         />

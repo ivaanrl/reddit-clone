@@ -3,6 +3,7 @@ import { takeEvery, call, put, takeLeading } from "redux-saga/effects";
 import superagent from "superagent";
 import { APIUrl } from "../../../requestInfo";
 import {
+  clearHomepagePosts,
   getHomepagePostsCompletedAction,
   getHomepagePostsFailed,
   switchHomepageLoadingStae,
@@ -10,6 +11,10 @@ import {
 
 export function* watchGetHomepagePosts() {
   yield takeLeading(ActionTypes.GET_HOMEPAGE_POSTS, getHomepagePosts);
+}
+
+export function* watchClearHomepagePosts() {
+  yield takeEvery(ActionTypes.CLEAR_HOMEPAGE_POSTS, clearHomepagePosts);
 }
 
 export function* getHomepagePosts(info: {

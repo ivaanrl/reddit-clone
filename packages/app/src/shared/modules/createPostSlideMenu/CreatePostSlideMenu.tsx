@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { RefObject, useRef } from "react";
 import Animated, {
   Transition,
   Transitioning,
@@ -70,7 +70,7 @@ const CreatePostSlideMenu = React.forwardRef(
 
     return (
       <Transitioning.View
-        ref={ref}
+        ref={ref as RefObject<TransitioningView>}
         transition={transition}
         style={{
           position: "absolute",

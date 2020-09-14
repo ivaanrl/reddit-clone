@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, RefObject } from "react";
 import {
   View,
   Text,
@@ -32,6 +32,7 @@ interface Props {
     page: number
   ) => void;
   getPostsHomepage?: (order: string, time: string, page: number) => void;
+  clearPosts: () => void;
   defaultSort: string;
   reducer: string;
 }
@@ -49,6 +50,7 @@ const OrderBar = (props: Props) => {
     getPostsWithUsername,
     defaultSort,
     reducer,
+    clearPosts,
   } = props;
 
   const [activeOption, setActiveOption] = useState<string>(defaultSort);
@@ -209,6 +211,7 @@ const OrderBar = (props: Props) => {
   }, [activeOption, defaultSort, route]);
 
   const handleSelectDropdownOption = (selectedOption: string) => {
+    if (selectedOption !== activeOption) clearPosts();
     setActiveOption(selectedOption);
     setDropdownOptionsVisible(false);
   };
@@ -240,7 +243,7 @@ const OrderBar = (props: Props) => {
               opacity: opacity,
               bottom: bottom,
             }}
-            ref={ref}
+            ref={ref as RefObject<TransitioningView>}
             transition={transition}
           >
             <Text style={styles.dropdownOptionTitle}>SORT POST BY</Text>

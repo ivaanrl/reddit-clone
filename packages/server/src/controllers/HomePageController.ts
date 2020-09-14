@@ -10,11 +10,13 @@ import { getHomepagePostsQuery } from "./queries/HomePageQueries";
 class HomePageController {
   @get("/getPosts")
   async getHomePagePosts(req: Request, res: Response) {
-    console.log("b");
     const currentUser = await findCurrentUser(req.user);
     const order = req.query.order as string;
     const sortTime = req.query.time as string;
     const page = req.query.page as string;
+    console.log("getting homepage posts, order:", order);
+    console.log("page: ", page);
+    console.log("time: ", sortTime);
 
     let posts;
     if (currentUser instanceof User) {

@@ -18,6 +18,7 @@ import {
   joinOrLeaveSubreddit,
   joinOrLeaveSubredditCompletedAction,
   removeSubredditErrors,
+  clearSubredditPosts,
 } from "./subreddit";
 
 import {
@@ -75,6 +76,7 @@ import {
   getHomepagePosts,
   getHomepagePostsCompletedAction,
   getHomepagePostsFailed,
+  clearHomepagePosts,
 } from "./homepage";
 
 export const allActions = {
@@ -139,6 +141,8 @@ export const allActions = {
   clearProfilePosts,
   updateHomepagePostVotes,
   createImagePost,
+  clearHomepagePosts,
+  clearSubredditPosts,
 };
 
 export * from "./types";

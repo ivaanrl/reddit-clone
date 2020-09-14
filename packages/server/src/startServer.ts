@@ -61,7 +61,7 @@ export const startServer = async () => {
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
     ); */
-    console.log("this is corssss");
+    //console.log("this is corssss");
     next();
   });
 
