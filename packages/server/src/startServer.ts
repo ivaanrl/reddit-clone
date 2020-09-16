@@ -22,10 +22,10 @@ export const startServer = async () => {
 
   const { cookieSecret } = keys();
 
-  //const httpsOptions = {
-  //  key: fs.readFileSync(path.resolve(__dirname, "localhost.key")),
-  //  cert: fs.readFileSync(path.resolve(__dirname, "localhost.crt")),
-  //};
+  const httpsOptions = {
+    key: fs.readFileSync(path.resolve(__dirname, "localhost.key")),
+    cert: fs.readFileSync(path.resolve(__dirname, "localhost.crt")),
+  };
 
   const whitelist = [
     "https://dev.mylocalsite.com:3000",
@@ -108,13 +108,15 @@ export const startServer = async () => {
   await initDB();
 
   let port = process.env.PORT || 5000;
+  /*
   app.listen(port, () => {
     console.log("listening", port);
   });
+  */
 
-  /*const httpsServer = https.createServer(httpsOptions, app);
+  const httpsServer = https.createServer(httpsOptions, app);
 
   httpsServer.listen(port, () => {
     console.log("Listening on port", port);
-  }); */
+  });
 };

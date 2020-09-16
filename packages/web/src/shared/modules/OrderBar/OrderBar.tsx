@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import "./OrderBar.scss";
 import { usePopper } from "react-popper";
@@ -14,6 +14,7 @@ interface Props {
     page: number
   ) => void;
   getPostsHomepage?: (order: string, time: string, page: number) => void;
+  clearPosts: () => void;
   defaultSort: string;
   reducer: string;
 }
@@ -26,6 +27,7 @@ const OrderBar = (props: Props) => {
     getPostsWithUsername,
     defaultSort,
     reducer,
+    clearPosts,
   } = props;
   const profilepage = useSelector((state: State) => state.profile.page);
 
@@ -34,6 +36,7 @@ const OrderBar = (props: Props) => {
   const subredditPage = useSelector((state: State) => state.subreddit.page);
 
   useEffect(() => {
+    clearPosts();
     const sortOrder = location.search.split("&")[0].split("=")[1];
     const timeSort =
       location.search.split("&").length > 1
@@ -47,7 +50,7 @@ const OrderBar = (props: Props) => {
     setTopTimeSort(timeSortFormatted.join(" "));
 
     if (getPostsHomepage) {
-      getPostsHomepage(activeOption, timeSort, homepagePage);
+      getPostsHomepage(sortOrder, timeSort, 0);
     } else if (getPostsWithUsername) {
       const username = location.pathname.split("/")[2];
       if (reducer === "profile")
@@ -55,9 +58,9 @@ const OrderBar = (props: Props) => {
       if (reducer === "subreddit")
         getPostsWithUsername(username, activeOption, timeSort, subredditPage);
     }
-  }, [location, defaultSort]);
+  }, [location, defaultSort, reducer, getPostsWithUsername, getPostsHomepage]);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (reducer === "profile" && profilepage === 0)
       window.removeEventListener("scroll", handleScroll);
     if (reducer === "homepage" && homepagePage === 0)
@@ -77,6 +80,7 @@ const OrderBar = (props: Props) => {
       setTopTimeSort(timeSortFormatted.join(" "));
 
       if (getPostsHomepage) {
+        console.log(homepagePage);
         getPostsHomepage(sortOrder, timeSort, homepagePage);
       } else if (getPostsWithUsername) {
         const username = location.pathname.split("/")[2];
@@ -87,7 +91,16 @@ const OrderBar = (props: Props) => {
       }
       window.removeEventListener("scroll", handleScroll);
     }
-  };
+  }, [
+    defaultSort,
+    location,
+    getPostsHomepage,
+    getPostsWithUsername,
+    homepagePage,
+    subredditPage,
+    profilepage,
+    reducer,
+  ]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);

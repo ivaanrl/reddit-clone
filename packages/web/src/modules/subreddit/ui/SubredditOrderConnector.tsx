@@ -4,11 +4,12 @@ import { SubredditOrderController } from "@reddit-clone/controller";
 const SubredditOrderConnector = () => {
   return (
     <SubredditOrderController>
-      {({ getSubreddit }) => (
+      {({ getSubreddit, clearPosts }) => (
         <OrderBar
           getPostsWithUsername={getSubreddit}
           defaultSort="hot"
           reducer="subreddit"
+          clearPosts={clearPosts}
         />
       )}
     </SubredditOrderController>

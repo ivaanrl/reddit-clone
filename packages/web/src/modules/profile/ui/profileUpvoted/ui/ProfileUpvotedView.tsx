@@ -21,7 +21,7 @@ const ProfileUpvotedView = () => {
               id,
               subreddit_name,
               title,
-              voteCount,
+              votes,
               user_vote,
               createdAt,
             } = upvotedPost;
@@ -30,7 +30,7 @@ const ProfileUpvotedView = () => {
                 id={id}
                 subredditName={subreddit_name}
                 title={title}
-                voteCount={voteCount}
+                voteCount={votes}
                 userVote={user_vote}
                 createdAt={createdAt}
                 index={index}

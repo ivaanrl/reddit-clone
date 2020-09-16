@@ -9,6 +9,7 @@ interface Props {
       time: string,
       page: number
     ) => void;
+    clearPosts: () => void;
   }) => JSX.Element;
 }
 
@@ -24,5 +25,9 @@ export const ProfileOrderDownvotedBarController = (props: Props) => {
     dispatch(allActions.getProfileDownvotedPosts(username, order, time, page));
   };
 
-  return props.children({ getDownvoted });
+  const clearPosts = () => {
+    dispatch(allActions.clearProfilePosts());
+  };
+
+  return props.children({ getDownvoted, clearPosts });
 };

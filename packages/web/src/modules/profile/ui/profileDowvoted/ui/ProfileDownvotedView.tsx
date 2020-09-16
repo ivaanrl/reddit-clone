@@ -21,7 +21,7 @@ const ProfileDownvotedView = () => {
               id,
               subreddit_name,
               title,
-              voteCount,
+              votes,
               user_vote,
               createdAt,
             } = downvotedPost;
@@ -30,7 +30,7 @@ const ProfileDownvotedView = () => {
                 id={id}
                 subredditName={subreddit_name}
                 title={title}
-                voteCount={voteCount}
+                voteCount={votes}
                 userVote={user_vote}
                 createdAt={createdAt}
                 index={index}

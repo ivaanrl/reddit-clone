@@ -10,6 +10,7 @@ const ProfileOrderCommentsBarConnector = () => {
           getPostsWithUsername={getComments}
           defaultSort="new"
           reducer="profile"
+          clearPosts={() => {}}
         />
       )}
     </ProfileOrderCommentsBarController>
