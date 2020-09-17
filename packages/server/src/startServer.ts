@@ -43,10 +43,8 @@ export const startServer = async () => {
   const corsOptions = {
     origin: function (origin: any, callback: any) {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
-        console.log(origin);
         callback(null, true);
       } else {
-        console.log(origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
@@ -64,7 +62,7 @@ export const startServer = async () => {
     database: "reddit",
   });
 
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.TS_NODE_DEV) {
     app.use(
       session({
         store: new (cpg(session))({ pool }),
