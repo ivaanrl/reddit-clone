@@ -18,6 +18,7 @@ class LoginController {
   @post("/signin")
   @use(passport.authenticate("local-signin"))
   async signinUser(req: Request, res: Response) {
+    console.log(req.user);
     if (req.user == null) {
       req.logOut();
       return res.status(501).json({ success: false, text: server_error });

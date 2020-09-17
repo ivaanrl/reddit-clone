@@ -14,9 +14,7 @@ class HomePageController {
     const order = req.query.order as string;
     const sortTime = req.query.time as string;
     const page = req.query.page as string;
-    console.log("getting homepage posts, order:", order);
-    console.log("page: ", page);
-    console.log("time: ", sortTime);
+    console.log(req.user);
 
     let posts;
     if (currentUser instanceof User) {

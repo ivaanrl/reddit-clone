@@ -55,15 +55,6 @@ export const startServer = async () => {
 
   app.use(cors(corsOptions));
   app.options("*", cors());
-  app.use(function (_req, _res, next) {
-    /*res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    ); */
-    //console.log("this is corssss");
-    next();
-  });
 
   app.use(express.json());
 

@@ -58,7 +58,8 @@ const OrderBar = (props: Props) => {
       if (reducer === "subreddit")
         getPostsWithUsername(username, activeOption, timeSort, subredditPage);
     }
-  }, [location, defaultSort, reducer, getPostsWithUsername, getPostsHomepage]);
+    //don't add pages or getPosts to dependencies array, causes infinite api calls.
+  }, [location, defaultSort, reducer]);
 
   const handleScroll = useCallback(() => {
     if (reducer === "profile" && profilepage === 0)
