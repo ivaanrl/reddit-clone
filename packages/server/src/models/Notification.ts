@@ -12,10 +12,12 @@ import { Comment } from "./Comment";
 
 export class Notification extends Model {
   public id!: string;
+  public author_id!: string;
   public reply_id!: string;
   public original_id!: string;
   public subreddit_name!: string;
   public user_id!: string;
+  public read!: boolean;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -42,6 +44,11 @@ Notification.init(
     user_id: {
       type: DataTypes.TEXT,
       allowNull: false,
+    },
+    read: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   { sequelize, tableName: "notifications" }

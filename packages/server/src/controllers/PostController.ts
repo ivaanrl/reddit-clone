@@ -17,6 +17,7 @@ import {
   handleCreateImagePost,
 } from "../helpers/post";
 import { getCommentsWithVotesQuery } from "./queries/PostQueries";
+import { Notification } from "../models/Notification";
 
 const {
   post_created_successfully,
@@ -292,7 +293,8 @@ class PostController {
   @post("/replyComment")
   @use(requireLogin)
   async replyComment(req: Request, res: Response) {
-    const { commentId, content } = req.body;
+    const { commentId, content, subreddit_name } = req.body;
+    console.log(req.body);
 
     const user = await findCurrentUser(req.user);
 
@@ -305,6 +307,7 @@ class PostController {
     if (user instanceof User && comment instanceof Comment) {
       try {
         const id = uniqid();
+        const notificationId = uniqid();
         const newComment = await user.createComment({
           id,
           path: `${comment.path}.${id}`,
@@ -313,6 +316,27 @@ class PostController {
           post_id: comment.post_id,
           content,
         });
+
+        if (comment.author_id !== user.id && newComment) {
+          const subreddit = await Post.findOne({
+            where: {
+              id: (comment.path as string).split(".")[0],
+            },
+          });
+
+          try {
+            await Notification.create({
+              id: notificationId,
+              reply_id: newComment.id,
+              original_id: comment.id,
+              subreddit_name: subreddit?.subreddit_name,
+              user_id: comment.author_id,
+              read: false,
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        }
 
         if (newComment) {
           return res
