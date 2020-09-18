@@ -5,6 +5,7 @@ export type authReducerState = {
   email: string;
   karma: number;
   userSubs: { name: string; adultContent: boolean }[];
+  unreadNotifications: number;
   message: {
     status: number;
     text: string;
@@ -17,6 +18,7 @@ export const authReducer = (
     email: "",
     karma: 0,
     userSubs: [],
+    unreadNotifications: 0,
     message: {
       status: 0,
       text: "",

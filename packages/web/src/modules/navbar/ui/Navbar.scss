@@ -335,6 +335,12 @@
   width: 16px;
 }
 
+.navbar-svg-filled {
+  @extend .navbar-svg;
+  margin-top: 3px;
+  fill: $highlight-color;
+}
+
 .navbar-svg-link {
   text-decoration: none;
   padding: 8px;
@@ -350,4 +356,17 @@
   width: 60%;
   max-width: 280px;
   margin-top: 5px;
+}
+
+.navbar-unread-badge {
+  position: absolute;
+  top: 0;
+  right: 4%;
+  margin-top: -7px;
+  background-color: $highlight-color;
+  @include theme-aware("color", "text-main");
+  font-size: 12px;
+  border-radius: 100%;
+  padding-right: 2px;
+  padding-left: 2px;
 }

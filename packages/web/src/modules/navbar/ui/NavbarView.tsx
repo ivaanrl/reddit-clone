@@ -216,22 +216,41 @@ const NavbarView = (props: Props) => {
           {user.username ? (
             <div className="navbar-right-icons">
               <div className="navbar-messages">
-                <a className="navbar-svg-link" href="/">
-                  <svg
-                    className="navbar-svg"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill={svgColor}
-                      d="M7.79,9.16,2.48,3.85A2.49,2.49,0,0,1,3.75,3.5h12.5a2.49,2.49,0,0,1,1.27.35L12.21,9.16A3.13,3.13,0,0,1,7.79,9.16Z"
-                    ></path>
-                    <path
-                      fill={svgColor}
-                      d="M13.09,10.31,18.4,5a2.47,2.47,0,0,1,.35,1.27v7.5a2.5,2.5,0,0,1-2.5,2.5H3.75a2.5,2.5,0,0,1-2.5-2.5V6.27A2.47,2.47,0,0,1,1.6,5l5.31,5.31a4.37,4.37,0,0,0,6.18,0Z"
-                    ></path>
-                  </svg>
-                </a>
+                {user.unreadNotifications > 0 ? (
+                  <div style={{ position: "relative" }}>
+                    <NavLink className="navbar-svg-link" to="/">
+                      <svg
+                        className="navbar-svg-filled"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M7.79,9.16,2.48,3.85A2.49,2.49,0,0,1,3.75,3.5h12.5a2.49,2.49,0,0,1,1.27.35L12.21,9.16A3.13,3.13,0,0,1,7.79,9.16Z"></path>
+                        <path d="M13.09,10.31,18.4,5a2.47,2.47,0,0,1,.35,1.27v7.5a2.5,2.5,0,0,1-2.5,2.5H3.75a2.5,2.5,0,0,1-2.5-2.5V6.27A2.47,2.47,0,0,1,1.6,5l5.31,5.31a4.37,4.37,0,0,0,6.18,0Z"></path>
+                      </svg>
+                    </NavLink>
+                    <div className="navbar-unread-badge">
+                      {" "}
+                      {user.unreadNotifications}{" "}
+                    </div>
+                  </div>
+                ) : (
+                  <a className="navbar-svg-link" href="/">
+                    <svg
+                      className="navbar-svg"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill={svgColor}
+                        d="M7.79,9.16,2.48,3.85A2.49,2.49,0,0,1,3.75,3.5h12.5a2.49,2.49,0,0,1,1.27.35L12.21,9.16A3.13,3.13,0,0,1,7.79,9.16Z"
+                      ></path>
+                      <path
+                        fill={svgColor}
+                        d="M13.09,10.31,18.4,5a2.47,2.47,0,0,1,.35,1.27v7.5a2.5,2.5,0,0,1-2.5,2.5H3.75a2.5,2.5,0,0,1-2.5-2.5V6.27A2.47,2.47,0,0,1,1.6,5l5.31,5.31a4.37,4.37,0,0,0,6.18,0Z"
+                      ></path>
+                    </svg>
+                  </a>
+                )}
               </div>
               <div className="navbar-create-post">
                 <a className="navbar-svg-link" href="/">

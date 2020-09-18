@@ -54,8 +54,13 @@ class LoginController {
       adultContent: boolean;
     }[] = [];
 
+    let unreadNotifications = 0;
+
     if (user instanceof User) {
       const userSubs = await user?.getSubreddits();
+      unreadNotifications = await user.countNotifications({
+        where: { read: false },
+      });
 
       userSubs.forEach((sub) => {
         userSubsArray.push({
@@ -73,6 +78,7 @@ class LoginController {
         email,
         karma,
         userSubs: userSubsArray,
+        unreadNotifications,
       },
     });
   }
@@ -104,6 +110,7 @@ class LoginController {
         username,
         email,
         karma,
+        unreadNotifications: 0,
       },
     });
   }
