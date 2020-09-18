@@ -16,6 +16,7 @@ import { Comment } from "./Comment";
 import { Subreddit } from "./Subreddit";
 import { User_Subreddit } from "./User_Subreddit";
 import { Vote } from "./Vote";
+import { Notification } from "./Notification";
 
 export class User extends Model {
   public id!: string;
@@ -114,4 +115,9 @@ User.belongsToMany(Subreddit, {
 Subreddit.belongsToMany(User, {
   through: User_Subreddit,
   foreignKey: "SubredditName",
+});
+User.hasMany(Notification, {
+  sourceKey: "id",
+  foreignKey: "user_id",
+  as: "notifications",
 });
