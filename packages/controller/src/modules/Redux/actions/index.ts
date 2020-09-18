@@ -79,6 +79,11 @@ import {
   clearHomepagePosts,
 } from "./homepage";
 
+import {
+  getNotifications,
+  getNotificationsCompletedAction,
+} from "./notifications";
+
 export const allActions = {
   signinUser,
   signupUser,
@@ -143,6 +148,8 @@ export const allActions = {
   createImagePost,
   clearHomepagePosts,
   clearSubredditPosts,
+  getNotifications,
+  getNotificationsCompletedAction,
 };
 
 export * from "./types";

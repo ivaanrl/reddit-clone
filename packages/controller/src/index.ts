@@ -37,3 +37,5 @@ export * from "./modules/HomepageOrderController";
 export * from "./modules/SubredditOrderController";
 export * from "./modules/SubredditDropdownController";
 export * from "./modules/CreatePostNavbarController";
+export * from "./modules/NotificationController";
+export * from "./modules/NotificationsController";

@@ -5,6 +5,10 @@ import { fullPostState, fullPostReducer } from "./post";
 import { profileReducerState, profileReducer } from "./profile";
 import { searchReducerState, searchReducer } from "./search";
 import { homepageReducerState, homePageReducer } from "./homepage";
+import {
+  notificationsReducer,
+  notificationsReducerState,
+} from "./notifications";
 
 export interface State {
   auth: authReducerState;
@@ -13,6 +17,7 @@ export interface State {
   profile: profileReducerState;
   search: searchReducerState;
   homepage: homepageReducerState;
+  notifications: notificationsReducerState;
 }
 
 export const rootReducer = combineReducers<State>({
@@ -22,4 +27,5 @@ export const rootReducer = combineReducers<State>({
   profile: profileReducer,
   search: searchReducer,
   homepage: homePageReducer,
+  notifications: notificationsReducer,
 });
