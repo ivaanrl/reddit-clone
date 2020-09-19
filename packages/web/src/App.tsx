@@ -11,6 +11,7 @@ import { allActions } from "@reddit-clone/controller";
 import FullPostConnector from "./modules/fullPost/FullPostConnector";
 import FlashMessageConnector from "./modules/flashMessage/FlashMessageConnector";
 import ProfileConnector from "./modules/profile/ProfileConnector";
+import NotificationsConnector from "./modules/notifications/NotificationsConnector";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,10 @@ const App = () => {
         <Route path="/r/:subredditName" component={SubredditConnector} />
         <Route path="/u/:username" component={ProfileConnector} />
         <Route path="/submit" component={CreatePostConnector} />
+        <Route
+          path="/notifications/:filter"
+          component={NotificationsConnector}
+        />
         <Route path="/" exact component={HomepageConnector} />
       </Switch>
       <FlashMessageConnector />

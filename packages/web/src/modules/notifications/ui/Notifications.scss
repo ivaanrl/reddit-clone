@@ -1,0 +1,23 @@
+@import "../../../color-palette";
+
+.filter-options-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.filter-option {
+  @include theme-aware("color", "text-muted");
+  padding: 20px;
+  border-bottom: 1px solid;
+  @include theme-aware("border-color", "color-line");
+}
+
+.filter-option-selected {
+  @extend .filter-option;
+  @include theme-aware("color", "text-main");
+  @include theme-aware("border-color", "highlight-selection");
+  font-weight: bold;
+}

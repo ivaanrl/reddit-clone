@@ -218,7 +218,10 @@ const NavbarView = (props: Props) => {
               <div className="navbar-messages">
                 {user.unreadNotifications > 0 ? (
                   <div style={{ position: "relative" }}>
-                    <NavLink className="navbar-svg-link" to="/">
+                    <NavLink
+                      className="navbar-svg-link"
+                      to="/notifications/unread"
+                    >
                       <svg
                         className="navbar-svg-filled"
                         viewBox="0 0 20 20"
@@ -234,7 +237,7 @@ const NavbarView = (props: Props) => {
                     </div>
                   </div>
                 ) : (
-                  <a className="navbar-svg-link" href="/">
+                  <NavLink className="navbar-svg-link" to="/notifications/all">
                     <svg
                       className="navbar-svg"
                       viewBox="0 0 20 20"
@@ -249,7 +252,7 @@ const NavbarView = (props: Props) => {
                         d="M13.09,10.31,18.4,5a2.47,2.47,0,0,1,.35,1.27v7.5a2.5,2.5,0,0,1-2.5,2.5H3.75a2.5,2.5,0,0,1-2.5-2.5V6.27A2.47,2.47,0,0,1,1.6,5l5.31,5.31a4.37,4.37,0,0,0,6.18,0Z"
                       ></path>
                     </svg>
-                  </a>
+                  </NavLink>
                 )}
               </div>
               <div className="navbar-create-post">
