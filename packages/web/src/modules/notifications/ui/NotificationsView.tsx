@@ -20,7 +20,7 @@ const NotificationsView = ({ getNotifications }: Props) => {
   }, [getNotifications, location]);
 
   return (
-    <div className="main-container">
+    <div className="notifications-main-container">
       <div className="filter-options-container">
         <NavLink
           className={
@@ -42,7 +42,13 @@ const NotificationsView = ({ getNotifications }: Props) => {
         </NavLink>
       </div>
       {notifications.map((notification, index) => {
-        return <NotificationConnector {...notification} key={index} />;
+        return (
+          <NotificationConnector
+            notificationInfo={notification}
+            key={index}
+            index={index}
+          />
+        );
       })}
     </div>
   );

@@ -23,8 +23,7 @@ export const getNotificationsRequest = (filter: string) => {
     response = superagent
       .agent()
       .withCredentials()
-      .post(APIUrl + "/auth/getNotifications")
-      .send(filter);
+      .get(APIUrl + "/user/getNotifications/" + filter);
   } catch (error) {
     response = error.response;
   }

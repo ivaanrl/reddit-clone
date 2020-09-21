@@ -1,18 +1,23 @@
 import { BaseAction, ActionTypes } from "../actions";
 import { vote } from "./helpers/vote";
-import { Post } from "./subreddit";
-import { Comment } from "./post";
 
 export interface Notification {
-  originalPost: Post | Comment;
-  reply: Comment;
   id: string;
+  reply_id: string;
+  original_id: string;
   author_id: string;
   subreddit_name: string;
   user_id: string;
   read: boolean;
   createdAt: string;
   updatedAt: string;
+  comment_content: string[];
+  type: string;
+  reply_author_username: string;
+  reply_created_at: string;
+  post_title: string;
+  votes_value: number;
+  user_vote: number;
 }
 
 export type notificationsReducerState = {

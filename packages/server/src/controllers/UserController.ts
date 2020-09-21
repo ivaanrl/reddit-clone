@@ -12,6 +12,7 @@ import {
   PROFILE_POSTS_LIMIT,
   PROFILE_VOTED_LIMIT,
   PROFILE_COMMENT_LIMIT,
+  getNotificationsQuery,
 } from "./queries/UserProfileQueries";
 
 @controller("/api/user")
@@ -183,5 +184,21 @@ class UserController {
       }
     }
     return res.status(501).json({ message: "server error" });
+  }
+
+  @get("/getNotifications/:filter")
+  @use(requireLogin)
+  async getNotifications(req: Request, res: Response) {
+    console.log("Getting notifications");
+    const { filter } = req.params;
+    const user = (await findCurrentUser(req.user)) as User;
+
+    try {
+      const notifications = await getNotificationsQuery(filter, user.id);
+      return res.json(notifications[0]);
+    } catch (error) {
+      console.log(error);
+      return res.json({ message: "error" });
+    }
   }
 }

@@ -1,0 +1,78 @@
+@import "../../../../color-palette";
+
+.notification-main-container {
+  @include theme-aware("background-color", "color-card");
+  padding: 10px;
+}
+
+.notification-title {
+  @include theme-aware("color", "text-main");
+  span {
+    color: $link-color-light;
+  }
+  margin-left: 15px;
+  font-size: 12px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.notification-reply-container {
+  @include theme-aware("background-color", "color-background");
+  width: 100%;
+  border: 1px solid;
+  @include theme-aware("border-color", "color-line");
+  .notification-from-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    span {
+      color: $highlight-color;
+    }
+
+    a {
+      color: $link-color-light;
+    }
+  }
+}
+
+.notification-reply-read-container {
+  @include theme-aware("background-color", "color-card");
+}
+
+.notification-content {
+  padding: 10px;
+  padding-top: 0;
+  padding-bottom: 0;
+  @include theme-aware("color", "text-main");
+}
+
+.notification-show-parent-button {
+  color: $link-color;
+  margin-left: 10px;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  font-weight: normal;
+}
+
+.notification-vote-and-content-container {
+  display: flex;
+}
+
+.notification-buttons-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.notification-button {
+  background-color: transparent;
+  border: none;
+  @include theme-aware("color", "text-muted");
+  padding-left: 10px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

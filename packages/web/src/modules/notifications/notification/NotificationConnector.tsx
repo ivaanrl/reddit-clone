@@ -3,10 +3,23 @@ import { Notification } from "@reddit-clone/controller/dist/modules/Redux/reduce
 import React from "react";
 import NotificationView from "./ui/NotificationView";
 
-const NotificationConnector = (notificationInfo: Notification) => {
+interface Props {
+  notificationInfo: Notification;
+  index: number;
+}
+
+const NotificationConnector = ({ notificationInfo, index }: Props) => {
   return (
     <NotificationController>
-      {() => <NotificationView notificationInfo={notificationInfo} />}
+      {({ sanitizeContent, formatDate, vote }) => (
+        <NotificationView
+          notificationInfo={notificationInfo}
+          formatDate={formatDate}
+          sanitizeContent={sanitizeContent}
+          index={index}
+          vote={vote}
+        />
+      )}
     </NotificationController>
   );
 };
