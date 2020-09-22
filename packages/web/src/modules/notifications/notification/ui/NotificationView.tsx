@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Notification.scss";
 import { Notification } from "@reddit-clone/controller/dist/modules/Redux/reducers/notifications";
 import { NavLink } from "react-router-dom";
@@ -25,15 +25,14 @@ const NotificationView = ({
 }: Props) => {
   const {
     id,
-    reply_id,
-    original_id,
-    author_id,
+    //reply_id,
+    //original_id,
+    //author_id,
     subreddit_name,
-    user_id,
+    //user_id,
     read,
-    createdAt,
-    updatedAt,
     comment_content,
+    reply_content,
     type,
     reply_author_username,
     reply_created_at,
@@ -41,8 +40,10 @@ const NotificationView = ({
     votes_value,
     user_vote,
   } = notificationInfo;
+  const [showParent, setShowParent] = useState<boolean>(false);
 
   const setAsRead = () => {};
+
   return (
     <div className="notification-main-container">
       <div className="notification-title">
@@ -62,7 +63,6 @@ const NotificationView = ({
             user_vote={user_vote}
           />
         </div>
-        <div className="notification-original-post-container"></div>
         <div
           className={
             read
@@ -74,25 +74,36 @@ const NotificationView = ({
           <div className="notification-from-container">
             <span>from</span>
             &nbsp;
-            <NavLink to={`u/${reply_author_username}`}>
+            <NavLink to={`/u/${reply_author_username}`}>
               u/{reply_author_username}
             </NavLink>
             &nbsp;
             <span>via</span>
             &nbsp;
-            <NavLink to={`r/${subreddit_name}`}>r/{subreddit_name}</NavLink>
+            <NavLink to={`/r/${subreddit_name}`}>r/{subreddit_name}</NavLink>
             &nbsp;
-            <span>sent {formatDate(createdAt)}</span>
+            <span>sent {formatDate(reply_created_at)}</span>
             {type === "comment" ? (
-              <button className="notification-show-parent-button">
-                Show Parent
+              <button
+                className="notification-show-parent-button"
+                onClick={() => setShowParent(!showParent)}
+              >
+                {showParent ? "Hide Parent" : "Show Parent"}
               </button>
             ) : null}
           </div>
+          {showParent ? (
+            <div className="notification-original-post-container">
+              <div
+                className="notification-original-post-content"
+                dangerouslySetInnerHTML={sanitizeContent(comment_content)}
+              ></div>
+            </div>
+          ) : null}
           <div className="notification-content-container">
             <div
               className="notification-content"
-              dangerouslySetInnerHTML={sanitizeContent(comment_content)}
+              dangerouslySetInnerHTML={sanitizeContent(reply_content)}
               title="notification-content"
             />
           </div>
