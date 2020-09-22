@@ -12,6 +12,7 @@ export interface Notification {
   createdAt: string;
   updatedAt: string;
   comment_content: string[];
+  reply_content: string[];
   type: string;
   reply_author_username: string;
   reply_created_at: string;

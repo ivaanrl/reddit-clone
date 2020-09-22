@@ -321,13 +321,14 @@ const getAllNotifications = async (userId: string) => {
       ELSE 'comment'
     END AS type,
     reply.author_username as reply_author_username, reply."createdAt" as reply_created_at,
-    reply.title as post_title, COALESCE(reply.votes_value,0) AS votes_value, COALESCE(reply.user_vote,0) AS user_vote
+    reply.content as reply_content,reply.title as post_title,
+    COALESCE(reply.votes_value,0) AS votes_value, COALESCE(reply.user_vote,0) AS user_vote
   FROM notifications
   LEFT JOIN (
     SELECT * FROM comments
     ) AS original_comment ON original_comment.id = notifications.original_id
     INNER JOIN (
-    SELECT comments.id,comments.author_username,comments."createdAt",posts.title,
+    SELECT comments.id,comments.author_username,comments."createdAt",posts.title,comments.content,
       SUM(votes.value) as votes_value, votes.post_id, user_vote.value AS user_vote
     FROM comments
     INNER JOIN posts ON posts.id = post_id
@@ -351,13 +352,14 @@ const getUnreadNotifications = async (userId: string) => {
       ELSE 'comment'
     END AS type,
     reply.author_username as reply_author_username, reply."createdAt" as reply_created_at,
-    reply.title as post_title, COALESCE(reply.votes_value,0) AS votes_value, COALESCE(reply.user_vote,0) AS user_vote
+    reply.content as reply_content,reply.title as post_title,
+    COALESCE(reply.votes_value,0) AS votes_value, COALESCE(reply.user_vote,0) AS user_vote
   FROM notifications
   LEFT JOIN (
     SELECT * FROM comments
     ) AS original_comment ON original_comment.id = notifications.original_id
     INNER JOIN (
-    SELECT comments.id,comments.author_username,comments."createdAt",posts.title,
+    SELECT comments.id,comments.author_username,comments."createdAt",posts.title,comments.content,
       SUM(votes.value) as votes_value, votes.post_id, user_vote.value AS user_vote
     FROM comments
     INNER JOIN posts ON posts.id = post_id
