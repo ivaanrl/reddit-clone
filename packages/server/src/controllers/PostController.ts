@@ -296,6 +296,7 @@ class PostController {
   async replyComment(req: Request, res: Response) {
     const { commentId, content, subreddit_name } = req.body;
     console.log(req.body);
+    console.log("aa");
 
     const user = await findCurrentUser(req.user);
 
@@ -345,9 +346,15 @@ class PostController {
             .json({ message: comment_saved, reply: newComment });
         }
       } catch (error) {
-        return res.status(501).json({ message: server_error });
+        return res.status(501).json({
+          message:
+            "There was an issue serving your request. Please try again later.",
+        });
       }
     }
-    return res.status(501).json({ message: server_error });
+    return res.status(501).json({
+      message:
+        "There was an issue serving your request. Please try again later.",
+    });
   }
 }

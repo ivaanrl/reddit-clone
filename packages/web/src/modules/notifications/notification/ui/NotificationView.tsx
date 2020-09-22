@@ -92,7 +92,12 @@ const NotificationView = ({
     >
       <div className="notification-title">
         {type === "post" ? "Post " : "Comment "} Reply:{" "}
-        <span>{post_title}</span>
+        <NavLink
+          to={`/r/${subreddit_name}/post/${post_id}`}
+          className="notification-post-title"
+        >
+          {post_title}
+        </NavLink>
       </div>
       <div className="notification-vote-and-content-container">
         <div className="notification-vote-container">

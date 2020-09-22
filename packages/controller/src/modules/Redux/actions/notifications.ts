@@ -49,3 +49,10 @@ export const changeNotificationStatusCompletedAction = (index: number) => ({
   type: ActionTypes.CHANGE_NOTIFICATION_STATUS_COMPLETED,
   payload: index,
 });
+
+export const changeNotificationStatusFailed = (error: {
+  message: { status: number; text: string };
+}) => ({
+  type: ActionTypes.CHANGE_NOTIFICATION_STATUS_FAILED,
+  payload: error,
+});

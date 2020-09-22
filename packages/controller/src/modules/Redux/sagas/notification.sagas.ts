@@ -4,6 +4,7 @@ import superagent from "superagent";
 import { APIUrl } from "../../../requestInfo";
 import {
   changeNotificationStatusCompletedAction,
+  changeNotificationStatusFailed,
   getNotificationsCompletedAction,
   replyCommentInNotificationCompletedAction,
   replyCommentInNotificationFailed,
@@ -38,8 +39,15 @@ export function* changeNotificationStatus(info: {
     );
     yield put(changeNotificationStatusCompletedAction(info.payload.index));
   } catch (error) {
-    //yield
-    console.log("errorrrrr");
+    console.log(error.response.body.message);
+    yield put(
+      changeNotificationStatusFailed({
+        message: {
+          status: error.response.status,
+          text: error.response.body.message,
+        },
+      })
+    );
   }
 }
 
@@ -67,7 +75,12 @@ export function* replyCommentInNotification(commentInfo: {
       })
     );
   } catch (error) {
-    yield put(replyCommentInNotificationFailed(error.response.body));
+    yield put(
+      replyCommentInNotificationFailed({
+        status: error.response.status,
+        text: error.response.body.message,
+      })
+    );
   }
 }
 

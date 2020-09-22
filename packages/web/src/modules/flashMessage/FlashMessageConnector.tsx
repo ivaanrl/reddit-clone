@@ -8,6 +8,8 @@ const FlashMessageConnector = () => {
   const post = useSelector((state: State) => state.fullPost);
   const subreddit = useSelector((state: State) => state.subreddit);
   const profile = useSelector((state: State) => state.profile);
+  const notifications = useSelector((state: State) => state.notifications);
+  console.log(notifications.message);
   return (
     <FlashMessageController>
       {({ removeError }) => (
@@ -41,6 +43,14 @@ const FlashMessageConnector = () => {
               message={profile.message.text}
               status={profile.message.status}
               name={"profile"}
+              removeError={removeError}
+            />
+          ) : null}
+          {notifications.message.text ? (
+            <FlashMessageView
+              message={notifications.message.text}
+              status={notifications.message.status}
+              name={"notification"}
               removeError={removeError}
             />
           ) : null}
