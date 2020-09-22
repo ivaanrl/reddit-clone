@@ -1,42 +1,7 @@
+import { Post } from "../../../shared/interfaces/post";
+import { subredditState } from "../../../shared/types/subreddit";
 import { BaseAction, ActionTypes } from "../actions";
 import { vote } from "./helpers/vote";
-
-export interface Post {
-  id: string;
-  author_id: string;
-  author_username: string;
-  title: string;
-  content: string[] | null;
-  createdAt: string;
-  updatedAt: string;
-  subreddit_name: string;
-  votes: string;
-  user_vote: number;
-  comment_count: number;
-  link: string | null;
-  type: string;
-}
-
-export type subredditState = {
-  name: string;
-  owner_id: string;
-  topics: string[];
-  description: string;
-  adultContent: boolean;
-  joined: number;
-  isUserJoined: boolean;
-  createdAt: string;
-  updatedAt: string;
-  mods: string[];
-  posts: Post[];
-  message: {
-    status: number;
-    text: string;
-  };
-  page: number;
-  isLoading: boolean;
-  hasMorePosts: boolean;
-};
 
 export const subredditReducer = (
   state: subredditState = {

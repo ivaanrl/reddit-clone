@@ -1,16 +1,5 @@
+import { authReducerState } from "../../../shared/types/auth";
 import { BaseAction, ActionTypes } from "../actions";
-
-export type authReducerState = {
-  username: string;
-  email: string;
-  karma: number;
-  userSubs: { name: string; adultContent: boolean }[];
-  unreadNotifications: number;
-  message: {
-    status: number;
-    text: string;
-  };
-};
 
 export const authReducer = (
   state: authReducerState = {

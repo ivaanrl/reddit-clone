@@ -39,3 +39,5 @@ export * from "./modules/SubredditDropdownController";
 export * from "./modules/CreatePostNavbarController";
 export * from "./modules/NotificationController";
 export * from "./modules/NotificationsController";
+export * from "./shared/interfaces";
+export * from "./shared/types";

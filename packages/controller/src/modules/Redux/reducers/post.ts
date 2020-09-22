@@ -1,41 +1,9 @@
+import { fullPostState } from "../../../shared/types/fullPost";
 import { BaseAction, ActionTypes } from "../actions";
 import { insertIntoTree } from "./helpers/post/insertIntoTree";
 import { voteCommentInTree } from "./helpers/post/voteCommentInTree";
 import { vote } from "./helpers/vote";
-
-export interface Comment {
-  path: string[];
-  id: string;
-  author_id: string;
-  author_username: string;
-  content: string[];
-  post_id?: string;
-  comment_id?: string;
-  createdAt: string;
-  updatedAt: string;
-  voteValue: number;
-  user_vote: number;
-  replies: Comment[];
-}
-
-export interface fullPostState {
-  id: string;
-  author_id: string;
-  title: string;
-  content: string[];
-  createdAt: string;
-  updatedAt: string;
-  subreddit_name: string;
-  votes: number;
-  author_username: string;
-  user_vote: number;
-  comments: Comment[];
-
-  message: {
-    status: number;
-    text: string;
-  };
-}
+import { Comment } from "../../../shared/interfaces/comment";
 
 export const fullPostReducer = (
   state: fullPostState = {

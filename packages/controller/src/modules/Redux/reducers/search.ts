@@ -1,12 +1,5 @@
+import { searchReducerState } from "../../../shared/types/search";
 import { BaseAction, ActionTypes } from "../actions";
-
-export type searchReducerState = {
-  searchPreviewResults: {
-    name: string;
-    adultContent: boolean;
-    memberCount: number;
-  }[];
-};
 
 export const searchReducer = (
   state: searchReducerState = {

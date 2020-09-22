@@ -1,19 +1,10 @@
+import { type } from "os";
+import { Post } from "../../../shared/interfaces/post";
+import { homepageReducerState } from "../../../shared/types/homepage";
 import { BaseAction, ActionTypes } from "../actions";
 import { insertIntoTree } from "./helpers/post/insertIntoTree";
 import { voteCommentInTree } from "./helpers/post/voteCommentInTree";
 import { vote } from "./helpers/vote";
-import { Post } from "./subreddit";
-
-export interface homepageReducerState {
-  posts: Post[];
-  message: {
-    status: number;
-    text: string;
-  };
-  page: number;
-  isLoading: boolean;
-  hasMorePosts: boolean;
-}
 
 export const homePageReducer = (
   state: homepageReducerState = {
