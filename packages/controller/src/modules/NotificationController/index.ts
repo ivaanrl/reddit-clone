@@ -9,6 +9,7 @@ interface Props {
     formatDate: (date: string) => string;
     vote: (path: string[], voteValue: number) => void;
     comment: (postId: string, content: string[]) => void;
+    changeReadStatus: (id: string, index: number) => void;
   }) => JSX.Element;
 }
 
@@ -23,5 +24,15 @@ export const NotificationController = (props: Props) => {
     dispatch(allActions.replyCommentInNotification({ commentId, content }));
   };
 
-  return props.children({ vote, sanitizeContent, formatDate, comment });
+  const changeReadStatus = (id: string, index: number) => {
+    dispatch(allActions.changeNotificationStatus({ id, index }));
+  };
+
+  return props.children({
+    vote,
+    sanitizeContent,
+    formatDate,
+    comment,
+    changeReadStatus,
+  });
 };

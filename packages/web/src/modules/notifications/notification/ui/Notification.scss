@@ -56,6 +56,10 @@
 }
 
 .notification-reply-read-container {
+  @extend .notification-reply-container;
+  span {
+    @include theme-aware("color", "text-muted");
+  }
   @include theme-aware("background-color", "color-card");
 }
 

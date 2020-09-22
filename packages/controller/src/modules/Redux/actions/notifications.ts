@@ -36,3 +36,16 @@ export const replyCommentInNotificationFailed = (error: {
   type: ActionTypes.REPLY_COMMENT_IN_NOTIFICATION_FAILED,
   payload: error,
 });
+
+export const changeNotificationStatus = (notificationInfo: {
+  id: string;
+  index: number;
+}) => ({
+  type: ActionTypes.CHANGE_NOTIFICATION_STATUS,
+  payload: notificationInfo,
+});
+
+export const changeNotificationStatusCompletedAction = (index: number) => ({
+  type: ActionTypes.CHANGE_NOTIFICATION_STATUS_COMPLETED,
+  payload: index,
+});

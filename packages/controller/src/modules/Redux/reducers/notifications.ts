@@ -12,6 +12,11 @@ export const notificationsReducer = (
   switch (action.type) {
     case ActionTypes.GET_NOTIFICATIONS_COMPLETED:
       return { ...state, ...{ notifications: action.payload } };
+    case ActionTypes.CHANGE_NOTIFICATION_STATUS_COMPLETED:
+      const index = action.payload;
+      stateCopy.notifications[index].read = !stateCopy.notifications[index]
+        .read;
+      return { ...state, ...stateCopy };
     default:
       return state;
   }

@@ -38,7 +38,11 @@ import {
   watchClearHomepagePosts,
 } from "./homepage.sagas";
 
-import { watchGetNotifications } from "./notification.sagas";
+import {
+  watchGetNotifications,
+  watchChangeNotificationStatus,
+  watchReplyCommentInNotification,
+} from "./notification.sagas";
 
 export const rootSaga = function* root() {
   yield all([
@@ -68,5 +72,7 @@ export const rootSaga = function* root() {
     fork(watchClearHomepagePosts),
     fork(watchClearSubredditPosts),
     fork(watchGetNotifications),
+    fork(watchChangeNotificationStatus),
+    fork(watchReplyCommentInNotification),
   ]);
 };

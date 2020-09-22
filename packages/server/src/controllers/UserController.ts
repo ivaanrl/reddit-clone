@@ -14,6 +14,7 @@ import {
   PROFILE_COMMENT_LIMIT,
   getNotificationsQuery,
 } from "./queries/UserProfileQueries";
+import { Notification } from "../models/Notification";
 
 @controller("/api/user")
 class UserController {
@@ -174,8 +175,6 @@ class UserController {
 
         const hasMore =
           userCommentsWithParentComment[0].length === PROFILE_COMMENT_LIMIT;
-
-        console.log(userCommentsWithParentComment[0]);
         return res
           .status(201)
           .json({ comments: userCommentsWithParentComment[0], hasMore });
@@ -191,7 +190,6 @@ class UserController {
   async getNotifications(req: Request, res: Response) {
     const { filter } = req.params;
     const user = (await findCurrentUser(req.user)) as User;
-
     try {
       const notifications = await getNotificationsQuery(filter, user.id);
       return res.json(notifications[0]);
@@ -199,5 +197,30 @@ class UserController {
       console.log(error);
       return res.json({ message: "error" });
     }
+  }
+
+  @post("/changeNotificationStatus")
+  @use(requireLogin)
+  async changeNotificationStatus(req: Request, res: Response) {
+    const { id } = req.body;
+
+    const user = (await findCurrentUser(req.user)) as User;
+    const notification = await Notification.findOne({ where: { id } });
+    if (user instanceof User && notification instanceof Notification) {
+      try {
+        await notification.update({
+          read: !notification.read,
+        });
+        return res.status(204).json({ success: { message: "" } });
+      } catch (error) {
+        return res
+          .status(501)
+          .json({ error: { message: "Server internal error" } });
+      }
+    }
+
+    return res
+      .status(501)
+      .json({ error: { message: "Server internal error" } });
   }
 }

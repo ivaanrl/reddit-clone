@@ -17,6 +17,7 @@ interface Props {
   index: number;
   vote: (path: string[], voteValue: number) => void;
   comment: (postId: string, content: string[]) => void;
+  changeReadStatus: (id: string, index: number) => void;
 }
 
 const NotificationView = ({
@@ -26,6 +27,7 @@ const NotificationView = ({
   vote,
   index,
   comment,
+  changeReadStatus,
 }: Props) => {
   const {
     id,
@@ -77,10 +79,17 @@ const NotificationView = ({
     ]);
   };
 
-  const setAsRead = () => {};
+  const handleChangeStatus = () => {
+    changeReadStatus(id, index);
+  };
 
   return (
-    <div className="notification-main-container">
+    <div
+      className="notification-main-container"
+      onClick={() => {
+        if (!read) handleChangeStatus();
+      }}
+    >
       <div className="notification-title">
         {type === "post" ? "Post " : "Comment "} Reply:{" "}
         <span>{post_title}</span>
@@ -104,7 +113,6 @@ const NotificationView = ({
               ? "notification-reply-read-container"
               : "notification-reply-container"
           }
-          onClick={setAsRead}
         >
           <div className="notification-from-container">
             <span>from</span>
@@ -152,7 +160,12 @@ const NotificationView = ({
               Original Post
             </button>
             {read ? (
-              <button className="notification-button">Mark Unread</button>
+              <button
+                className="notification-button"
+                onClick={handleChangeStatus}
+              >
+                Mark Unread
+              </button>
             ) : null}
             <button
               className="notification-button"

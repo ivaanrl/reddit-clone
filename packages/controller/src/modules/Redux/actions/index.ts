@@ -85,6 +85,8 @@ import {
   replyCommentInNotificationFailed,
   replyCommentInNotificationCompletedAction,
   replyCommentInNotification,
+  changeNotificationStatusCompletedAction,
+  changeNotificationStatus,
 } from "./notifications";
 
 export const allActions = {
@@ -156,6 +158,8 @@ export const allActions = {
   replyCommentInNotificationFailed,
   replyCommentInNotificationCompletedAction,
   replyCommentInNotification,
+  changeNotificationStatusCompletedAction,
+  changeNotificationStatus,
 };
 
 export * from "./types";

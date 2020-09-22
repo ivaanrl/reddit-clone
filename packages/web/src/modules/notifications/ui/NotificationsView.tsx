@@ -14,10 +14,10 @@ const NotificationsView = ({ getNotifications }: Props) => {
   const [activeOption, setActiveOption] = useState<string>("unread");
 
   useEffect(() => {
-    getNotifications("unread");
+    getNotifications(activeOption);
     setActiveOption(location.pathname.split("/")[2]);
     console.log(location.pathname.split("/"));
-  }, [getNotifications, location]);
+  }, [getNotifications, location, activeOption]);
 
   return (
     <div className="notifications-main-container">
