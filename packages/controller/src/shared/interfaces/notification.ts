@@ -16,4 +16,6 @@ export interface Notification {
   post_title: string;
   votes_value: number;
   user_vote: number;
+  reply_path: string;
+  post_id: string;
 }

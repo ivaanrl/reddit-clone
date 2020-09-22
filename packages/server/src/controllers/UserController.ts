@@ -189,7 +189,6 @@ class UserController {
   @get("/getNotifications/:filter")
   @use(requireLogin)
   async getNotifications(req: Request, res: Response) {
-    console.log("Getting notifications");
     const { filter } = req.params;
     const user = (await findCurrentUser(req.user)) as User;
 

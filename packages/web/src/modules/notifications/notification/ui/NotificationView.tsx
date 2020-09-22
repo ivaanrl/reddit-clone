@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Notification.scss";
 import { Notification } from "@reddit-clone/controller";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import Vote from "../../../posts/vote/Vote";
 
 interface Props {
@@ -39,7 +39,10 @@ const NotificationView = ({
     post_title,
     votes_value,
     user_vote,
+    post_id,
+    reply_path,
   } = notificationInfo;
+  const history = useHistory();
   const [showParent, setShowParent] = useState<boolean>(false);
 
   const setAsRead = () => {};
@@ -58,7 +61,7 @@ const NotificationView = ({
             votes={votes_value}
             showCount={false}
             child={false}
-            reducer={"notification"}
+            path={reply_path.split(".")}
             voteComment={vote}
             user_vote={user_vote}
           />
@@ -108,7 +111,14 @@ const NotificationView = ({
             />
           </div>
           <div className="notification-buttons-container">
-            <button className="notification-button">Original Post</button>
+            <button
+              className="notification-button"
+              onClick={() =>
+                history.push(`/r/${subreddit_name}/post/${post_id}`)
+              }
+            >
+              Original Post
+            </button>
             {read ? (
               <button className="notification-button">Mark Unread</button>
             ) : null}
