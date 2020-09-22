@@ -20,7 +20,7 @@ export const NotificationController = (props: Props) => {
   };
 
   const comment = (commentId: string, content: string[]) => {
-    dispatch(allActions.replyComment({ commentId, content }));
+    dispatch(allActions.replyCommentInNotification({ commentId, content }));
   };
 
   return props.children({ vote, sanitizeContent, formatDate, comment });

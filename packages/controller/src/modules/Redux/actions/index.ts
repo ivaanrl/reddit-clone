@@ -82,6 +82,9 @@ import {
 import {
   getNotifications,
   getNotificationsCompletedAction,
+  replyCommentInNotificationFailed,
+  replyCommentInNotificationCompletedAction,
+  replyCommentInNotification,
 } from "./notifications";
 
 export const allActions = {
@@ -150,6 +153,9 @@ export const allActions = {
   clearSubredditPosts,
   getNotifications,
   getNotificationsCompletedAction,
+  replyCommentInNotificationFailed,
+  replyCommentInNotificationCompletedAction,
+  replyCommentInNotification,
 };
 
 export * from "./types";

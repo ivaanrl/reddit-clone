@@ -3,6 +3,8 @@ import "./Notification.scss";
 import { Notification } from "@reddit-clone/controller";
 import { NavLink, useHistory } from "react-router-dom";
 import Vote from "../../../posts/vote/Vote";
+import TextEditor from "../../../../shared/TextEditor";
+import { HTMLSerializer } from "../../../../shared/HTMLSerializer";
 
 interface Props {
   notificationInfo: Notification;
@@ -14,6 +16,7 @@ interface Props {
   };
   index: number;
   vote: (path: string[], voteValue: number) => void;
+  comment: (postId: string, content: string[]) => void;
 }
 
 const NotificationView = ({
@@ -22,10 +25,11 @@ const NotificationView = ({
   sanitizeContent,
   vote,
   index,
+  comment,
 }: Props) => {
   const {
     id,
-    //reply_id,
+    reply_id,
     //original_id,
     //author_id,
     subreddit_name,
@@ -44,6 +48,34 @@ const NotificationView = ({
   } = notificationInfo;
   const history = useHistory();
   const [showParent, setShowParent] = useState<boolean>(false);
+
+  const [showTextEditor, setShowTextEditor] = useState<boolean>(false);
+  const [textEditor, setTextEditor] = useState<any>([
+    {
+      type: "paragraph",
+      children: [{ text: "" }],
+    },
+  ]);
+  const handleComment = () => {
+    if (textEditor[0].children[0].text === "") return;
+    const serialized: string[][] = [];
+    textEditor.forEach((node: Node) => {
+      serialized.push(HTMLSerializer(node));
+    });
+
+    const formatted = serialized.map((arr) => {
+      return arr.join("||");
+    });
+
+    comment(reply_id, formatted);
+    setShowTextEditor(false);
+    setTextEditor([
+      {
+        type: "paragraph",
+        children: [{ text: "" }],
+      },
+    ]);
+  };
 
   const setAsRead = () => {};
 
@@ -122,8 +154,25 @@ const NotificationView = ({
             {read ? (
               <button className="notification-button">Mark Unread</button>
             ) : null}
-            <button className="notification-button">Reply</button>
+            <button
+              className="notification-button"
+              onClick={() => setShowTextEditor(!showTextEditor)}
+            >
+              Reply
+            </button>
           </div>
+          {showTextEditor ? (
+            <div className="notification-comment-text-editor-container">
+              <TextEditor
+                value={textEditor}
+                setValue={setTextEditor}
+                topBar={false}
+                placeholder="What are your thoughts?"
+                comment={handleComment}
+                cancel={setShowTextEditor}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

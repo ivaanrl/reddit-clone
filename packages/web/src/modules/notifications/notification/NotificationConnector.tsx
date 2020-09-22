@@ -11,13 +11,14 @@ interface Props {
 const NotificationConnector = ({ notificationInfo, index }: Props) => {
   return (
     <NotificationController>
-      {({ sanitizeContent, formatDate, vote }) => (
+      {({ sanitizeContent, formatDate, vote, comment }) => (
         <NotificationView
           notificationInfo={notificationInfo}
           formatDate={formatDate}
           sanitizeContent={sanitizeContent}
           index={index}
           vote={vote}
+          comment={comment}
         />
       )}
     </NotificationController>
