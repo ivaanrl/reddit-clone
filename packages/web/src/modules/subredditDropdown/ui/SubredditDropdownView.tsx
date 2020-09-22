@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/aria-role */
 import React, { useEffect, useState } from "react";
 import "./SubredditDropdown.scss";
 import { useSelector } from "react-redux";

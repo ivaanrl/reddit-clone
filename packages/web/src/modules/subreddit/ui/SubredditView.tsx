@@ -73,6 +73,7 @@ const SubredditView = (props: Props) => {
         </button>
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUserJoined, name]);
 
   return (

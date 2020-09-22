@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/aria-role */
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import "./OrderBar.scss";
@@ -59,6 +60,7 @@ const OrderBar = (props: Props) => {
         getPostsWithUsername(username, activeOption, timeSort, subredditPage);
     }
     //don't add pages or getPosts to dependencies array, causes infinite api calls.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, defaultSort, reducer]);
 
   const handleScroll = useCallback(() => {

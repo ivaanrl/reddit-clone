@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/aria-role */
 import React, { useState } from "react";
 import "./ProfileComment.scss";
 import { NavLink } from "react-router-dom";

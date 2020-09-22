@@ -26,6 +26,7 @@ const ProfileSectionBarView = (props: Props) => {
     clearReducer();
     const section = location.pathname.split("/")[3];
     setActiveSection(section);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   return (

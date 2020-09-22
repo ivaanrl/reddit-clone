@@ -4,8 +4,6 @@ import { Comment } from "@reddit-clone/controller";
 import Vote from "../../../../posts/vote/Vote";
 import { HTMLSerializer } from "../../../../../shared/HTMLSerializer";
 import TextEditor from "../../../../../shared/TextEditor";
-import { useSelector } from "react-redux";
-import { State } from "@reddit-clone/controller";
 
 interface Props {
   commentInfo: Comment;
