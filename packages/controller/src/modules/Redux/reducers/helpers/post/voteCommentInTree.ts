@@ -1,4 +1,4 @@
-import { Comment } from "../../post";
+import { Comment } from "../../../../../shared/interfaces/comment";
 import { vote } from "../vote";
 
 export const voteCommentInTree = (

@@ -10,7 +10,7 @@ import {
   signinUserFailed,
   signoutUserCompletedAction,
 } from "../actions/auth";
-import { authReducerState } from "../reducers/auth";
+import { authReducerState } from "../../../shared/types";
 
 export function* watchUserSingin() {
   yield takeEvery(ActionTypes.SIGNIN_USER, signinUser);

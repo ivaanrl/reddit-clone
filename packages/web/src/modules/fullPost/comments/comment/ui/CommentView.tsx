@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Comment.scss";
-import { Comment } from "@reddit-clone/controller/dist/modules/Redux/reducers/post";
+import { Comment } from "@reddit-clone/controller";
 import Vote from "../../../../posts/vote/Vote";
 import { HTMLSerializer } from "../../../../../shared/HTMLSerializer";
 import TextEditor from "../../../../../shared/TextEditor";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Notification.scss";
-import { Notification } from "@reddit-clone/controller/dist/modules/Redux/reducers/notifications";
+import { Notification } from "@reddit-clone/controller";
 import { NavLink } from "react-router-dom";
 import Vote from "../../../posts/vote/Vote";
 

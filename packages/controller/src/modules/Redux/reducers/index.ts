@@ -1,14 +1,20 @@
 import { combineReducers } from "redux";
-import { authReducer, authReducerState } from "./auth";
-import { subredditState, subredditReducer } from "./subreddit";
-import { fullPostState, fullPostReducer } from "./post";
-import { profileReducerState, profileReducer } from "./profile";
-import { searchReducerState, searchReducer } from "./search";
-import { homepageReducerState, homePageReducer } from "./homepage";
+import { authReducer } from "./auth";
+import { subredditReducer } from "./subreddit";
+import { fullPostReducer } from "./post";
+import { profileReducer } from "./profile";
+import { searchReducer } from "./search";
+import { homePageReducer } from "./homepage";
+import { notificationsReducer } from "./notifications";
 import {
-  notificationsReducer,
+  authReducerState,
+  fullPostState,
+  homepageReducerState,
   notificationsReducerState,
-} from "./notifications";
+  profileReducerState,
+  searchReducerState,
+  subredditState,
+} from "../../../shared/types";
 
 export interface State {
   auth: authReducerState;

@@ -1,4 +1,4 @@
-import { Notification } from "../reducers/notifications";
+import { Notification } from "../../../shared/interfaces/notification";
 import { ActionTypes } from "./types";
 
 export const getNotifications = (filter: string) => ({

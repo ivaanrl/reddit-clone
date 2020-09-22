@@ -1,5 +1,5 @@
 import { NotificationController } from "@reddit-clone/controller";
-import { Notification } from "@reddit-clone/controller/dist/modules/Redux/reducers/notifications";
+import { Notification } from "@reddit-clone/controller";
 import React from "react";
 import NotificationView from "./ui/NotificationView";
 

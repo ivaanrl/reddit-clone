@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import CommentConnector from "../comment/CommentConnector";
-import { Comment } from "@reddit-clone/controller/dist/modules/Redux/reducers/post";
+import { Comment } from "@reddit-clone/controller";
 
 const CommentsView = () => {
   const postComments = useSelector((state: State) => state.fullPost);

@@ -1,4 +1,4 @@
-import { Post } from "../../../shared/interfaces/post";
+import { Post } from "../../../shared/interfaces";
 import { subredditState } from "../../../shared/types/subreddit";
 import { BaseAction, ActionTypes } from "../actions";
 import { vote } from "./helpers/vote";

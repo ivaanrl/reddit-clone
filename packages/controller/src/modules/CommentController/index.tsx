@@ -13,7 +13,7 @@ interface Props {
   }) => JSX.Element;
 }
 
-const CommentController = (props: Props) => {
+export const CommentController = (props: Props) => {
   const dispatch = useDispatch();
 
   const vote = (path: string[], voteValue: number) => {
@@ -26,5 +26,3 @@ const CommentController = (props: Props) => {
 
   return props.children({ vote, sanitizeContent, formatDate, comment });
 };
-
-export default CommentController;

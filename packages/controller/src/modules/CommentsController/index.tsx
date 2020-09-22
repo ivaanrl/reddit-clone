@@ -4,8 +4,6 @@ interface Props {
   children: (data: {}) => JSX.Element;
 }
 
-const CommentsController = (props: Props) => {
+export const CommentsController = (props: Props) => {
   return props.children({});
 };
-
-export default CommentsController;

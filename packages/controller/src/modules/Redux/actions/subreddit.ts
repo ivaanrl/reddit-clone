@@ -1,5 +1,5 @@
+import { Post } from "../../../shared/interfaces";
 import { ActionTypes } from "./types";
-import { Post } from "../reducers/subreddit";
 
 export const getSubreddit = (
   subName: string,

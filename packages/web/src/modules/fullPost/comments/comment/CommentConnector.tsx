@@ -1,8 +1,6 @@
 import React from "react";
-import CommentController from "@reddit-clone/controller/dist/modules/CommentController";
 import CommentView from "./ui/CommentView";
-import { Comment } from "@reddit-clone/controller/dist/modules/Redux/reducers/post";
-
+import { Comment, CommentController } from "@reddit-clone/controller";
 interface Props {
   commentInfo: Comment;
   index: number;

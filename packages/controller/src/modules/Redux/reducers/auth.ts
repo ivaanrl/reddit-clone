@@ -1,4 +1,4 @@
-import { authReducerState } from "../../../shared/types/auth";
+import { authReducerState } from "../../../shared/types";
 import { BaseAction, ActionTypes } from "../actions";
 
 export const authReducer = (
