@@ -220,7 +220,7 @@ class PostController {
           }
         }
         try {
-          const postVotes = await post.getVotes();
+          const postVotes: Vote[] = await post.getVotes();
           postVotes.forEach((vote) => {
             voteValue += vote.value;
           });
