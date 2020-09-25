@@ -1,4 +1,5 @@
 import { type } from "os";
+import { post } from "superagent";
 import { Post } from "../../../shared/interfaces/post";
 import { homepageReducerState } from "../../../shared/types/homepage";
 import { BaseAction, ActionTypes } from "../actions";
@@ -66,6 +67,20 @@ export const homePageReducer = (
       return { ...state, ...{ isLoading: true } };
     case ActionTypes.CLEAR_HOMEPAGE_POSTS:
       return { ...state, ...{ posts: [], page: 0 } };
+    case ActionTypes.SAVE_HOME_POST_COMPLETED:
+      const postToSave = stateCopy.posts[action.payload.index];
+      postToSave.saved = !postToSave.saved;
+      return { ...state, ...stateCopy };
+    case ActionTypes.SAVE_HOME_POST_FAILED:
+      return {
+        ...state,
+        ...{
+          message: {
+            status: action.payload.status,
+            text: action.payload.text,
+          },
+        },
+      };
     default:
       return state;
   }

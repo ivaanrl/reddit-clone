@@ -26,6 +26,7 @@ interface Props {
   reducer: string;
   vote: (id: string, voteValue: number, index: number, reducer: string) => void;
   showSubredditName: boolean;
+  save: (id: string, reducer: string, index: number) => void;
 }
 
 const PostView = (props: Props) => {
@@ -52,6 +53,7 @@ const PostView = (props: Props) => {
     vote,
     showSubredditName,
     reducer,
+    save,
   } = props;
 
   const handlePostClick = (
@@ -67,6 +69,10 @@ const PostView = (props: Props) => {
     }
 
     history.push(`/r/${subreddit_name}/post/${id}`);
+  };
+
+  const handleSavePost = () => {
+    save(id, reducer, index);
   };
 
   return (
@@ -150,7 +156,10 @@ const PostView = (props: Props) => {
               {comment_count} comments
             </div>
           </NavLink>
-          <div className="save bottom-bar-container not-navigate-to-full-post">
+          <div
+            className="save bottom-bar-container not-navigate-to-full-post"
+            onClick={handleSavePost}
+          >
             <i className="fa fa-bookmark bottom-bar-icon not-navigate-to-full-post" />
             <div className="text not-navigate-to-full-post">Save</div>
           </div>

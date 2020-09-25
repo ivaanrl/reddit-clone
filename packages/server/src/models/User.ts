@@ -57,6 +57,13 @@ export class User extends Model {
   public creatNotifications!: HasManyCreateAssociationMixin<Notification>;
   public readonly notifications?: Notification[];
 
+  public getSaved_PostS!: HasManyGetAssociationsMixin<Saved_Post>;
+  public addSaved_Post!: HasManyAddAssociationMixin<Saved_Post, number>;
+  public hasSaved_Post!: HasManyHasAssociationMixin<Saved_Post, number>;
+  public countSaved_Posts!: HasManyCountAssociationsMixin;
+  public createSaved_Post!: HasManyCreateAssociationMixin<Saved_Post>;
+  public readonly saved_posts?: Saved_Post[];
+
   public joinSubreddit!: BelongsToManyCreateAssociationMixin<Subreddit>;
   public getSubreddits!: BelongsToManyGetAssociationsMixin<Subreddit>;
 
@@ -66,6 +73,7 @@ export class User extends Model {
     votes: Association<User, Vote>;
     subreddits: Association<User, Subreddit>;
     notifications: Association<User, Notification>;
+    saved_posts: Association<User, Saved_Post>;
   };
 }
 

@@ -12,4 +12,5 @@ export interface Post {
   comment_count: number;
   link: string | null;
   type: string;
+  saved: boolean;
 }

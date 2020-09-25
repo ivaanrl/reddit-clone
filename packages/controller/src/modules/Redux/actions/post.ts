@@ -129,3 +129,55 @@ export const voteCommentCompletedAction = (commentInfo: {
 export const removeFullPostErrors = () => ({
   type: ActionTypes.REMOVE_FULL_POST_ERRORS,
 });
+
+export const savePost = (postInfo: {
+  postId: string;
+  reducer: string;
+  index: number;
+}) => ({
+  type: ActionTypes.SAVE_POST,
+  payload: postInfo,
+});
+
+export const saveHomePostCompletedAction = (postInfo: { index: number }) => ({
+  type: ActionTypes.SAVE_HOME_POST_COMPLETED,
+  payload: postInfo,
+});
+
+export const saveHomePostFailed = (error: {
+  text: string;
+  status: number;
+}) => ({
+  type: ActionTypes.SAVE_HOME_POST_FAILED,
+  payload: error,
+});
+
+export const saveSubredditPostCompletedAction = (postInfo: {
+  index: number;
+}) => ({
+  type: ActionTypes.SAVE_SUBREDDIT_POST_COMPLETED,
+  payload: postInfo,
+});
+
+export const saveSubredditPostFailed = (error: {
+  text: string;
+  status: number;
+}) => ({
+  type: ActionTypes.SAVE_SUBREDDIT_POST_FAILED,
+  payload: error,
+});
+
+export const saveProfilePostCompletedAction = (postInfo: {
+  index: number;
+}) => ({
+  type: ActionTypes.SAVE_PROFILE_POST_COMPLETED,
+  payload: postInfo,
+});
+
+export const saveProfilePostFailed = (error: {
+  text: string;
+  status: number;
+}) => ({
+  type: ActionTypes.SAVE_PROFILE_POST_FAILED,
+  payload: error,
+});

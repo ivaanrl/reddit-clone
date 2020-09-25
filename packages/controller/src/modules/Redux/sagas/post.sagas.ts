@@ -10,6 +10,12 @@ import {
   replyCommentCompletedAction,
   voteCommentCompletedAction,
   updateHomepagePostVotes,
+  saveSubredditPostCompletedAction,
+  saveHomePostCompletedAction,
+  saveSubredditPostFailed,
+  saveHomePostFailed,
+  saveProfilePostFailed,
+  saveProfilePostCompletedAction,
 } from "../actions/post";
 import { updateProfilePostVotes } from "../actions/profile";
 
@@ -43,6 +49,10 @@ export function* watchReplyComment() {
 
 export function* watchVoteComment() {
   yield takeEvery(ActionTypes.VOTE_COMMENT, voteComment);
+}
+
+export function* watchSavePost() {
+  yield takeEvery(ActionTypes.SAVE_POST, savePost);
 }
 
 export function* createPost(post: {
@@ -128,6 +138,74 @@ export function* votePost(postInfo: {
     }
   } catch (error) {
     console.log(error);
+  }
+}
+
+export function* savePost(postInfo: {
+  type: string;
+  payload: {
+    postId: string;
+    index: number;
+    reducer: string;
+  };
+}) {
+  const { reducer, postId, index } = postInfo.payload;
+  try {
+    const response = yield call(savePostRequest, postId);
+    switch (reducer) {
+      case "subreddit":
+        yield put(
+          saveSubredditPostCompletedAction({
+            index,
+          })
+        );
+        break;
+      case "homepage":
+        yield put(
+          saveHomePostCompletedAction({
+            index,
+          })
+        );
+        break;
+      case "profile":
+        yield put(
+          saveProfilePostCompletedAction({
+            index,
+          })
+        );
+        break;
+      default:
+        break;
+    }
+  } catch (error) {
+    switch (reducer) {
+      case "subreddit":
+        yield put(
+          saveSubredditPostFailed({
+            text: error.response.body.message,
+            status: error.response.status,
+          })
+        );
+        break;
+      case "homepage":
+        yield put(
+          saveHomePostFailed({
+            text: error.response.body.message,
+            status: error.response.status,
+          })
+        );
+        break;
+      case "profile":
+        yield put(
+          saveProfilePostFailed({
+            text: error.response.body.message,
+            status: error.response.status,
+          })
+        );
+        break;
+      default:
+        break;
+    }
   }
 }
 
@@ -330,6 +408,21 @@ export const votePostRequest = ({
       .withCredentials()
       .post(APIUrl + "/post/vote/")
       .send({ voteValue, postId, reducer });
+  } catch (error) {
+    response = error.response;
+  }
+
+  return response;
+};
+
+export const savePostRequest = (postId: string) => {
+  let response;
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      .post(APIUrl + "/post/savePost/")
+      .send({ postId });
   } catch (error) {
     response = error.response;
   }

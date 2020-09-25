@@ -183,6 +183,20 @@ export const profileReducer = (
     case ActionTypes.SWITCH_PROFILE_LOADING_STATE:
       //const loadingState = stateCopy.isLoading;
       return { ...state, ...{ isLoading: true } };
+    case ActionTypes.SAVE_PROFILE_POST_COMPLETED:
+      const postToSave = stateCopy.posts[action.payload.index];
+      postToSave.saved = !postToSave.saved;
+      return { ...state, ...stateCopy };
+    case ActionTypes.SAVE_PROFILE_POST_FAILED:
+      return {
+        ...state,
+        ...{
+          message: {
+            status: action.payload.status,
+            text: action.payload.text,
+          },
+        },
+      };
     default:
       return state;
   }

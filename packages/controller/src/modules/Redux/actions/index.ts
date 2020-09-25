@@ -38,6 +38,11 @@ import {
   removeFullPostErrors,
   updateHomepagePostVotes,
   createImagePost,
+  savePost,
+  saveHomePostFailed,
+  saveSubredditPostFailed,
+  saveHomePostCompletedAction,
+  saveSubredditPostCompletedAction,
 } from "./post";
 
 import {
@@ -160,6 +165,11 @@ export const allActions = {
   replyCommentInNotification,
   changeNotificationStatusCompletedAction,
   changeNotificationStatus,
+  savePost,
+  saveHomePostFailed,
+  saveSubredditPostFailed,
+  saveHomePostCompletedAction,
+  saveSubredditPostCompletedAction,
 };
 
 export * from "./types";

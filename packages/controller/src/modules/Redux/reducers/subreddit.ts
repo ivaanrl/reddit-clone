@@ -93,6 +93,20 @@ export const subredditReducer = (
       return { ...state, ...{ isLoading: true } };
     case ActionTypes.CLEAR_SUBREDDIT_POSTS:
       return { ...state, ...{ posts: [], page: 0 } };
+    case ActionTypes.SAVE_SUBREDDIT_POST_COMPLETED:
+      const postToSave = stateCopy.posts[action.payload.index];
+      postToSave.saved = !postToSave.saved;
+      return { ...state, ...stateCopy };
+    case ActionTypes.SAVE_SUBREDDIT_POST_FAILED:
+      return {
+        ...state,
+        ...{
+          message: {
+            status: action.payload.status,
+            text: action.payload.text,
+          },
+        },
+      };
     default:
       return state;
   }

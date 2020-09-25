@@ -26,7 +26,7 @@ export interface Props {
 const PostConnector = (props: Props) => {
   return (
     <PostController>
-      {({ sanitizeContent, formatDate, vote }) => (
+      {({ sanitizeContent, formatDate, vote, save }) => (
         <PostView
           postInfo={props.postInfo}
           formatDate={formatDate}
@@ -34,6 +34,7 @@ const PostConnector = (props: Props) => {
           vote={vote}
           showSubredditName={props.showSubredditName}
           reducer={props.reducer}
+          save={save}
         />
       )}
     </PostController>

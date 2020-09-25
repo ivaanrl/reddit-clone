@@ -355,4 +355,31 @@ class PostController {
         "There was an issue serving your request. Please try again later.",
     });
   }
+
+  @post("/savePost")
+  @use(requireLogin)
+  async savePost(req: Request, res: Response) {
+    const { postId } = req.body;
+    const user = await findCurrentUser(req.user);
+
+    if (user instanceof User) {
+      try {
+        const saved_post = await user.createSaved_Post({ post_id: postId });
+        if (saved_post) {
+          return res.status(204).json({ message: "Saved Successfully." });
+        }
+      } catch (error) {
+        console.log(error);
+        return res.status(501).json({
+          message:
+            "There was an issue serving your request. Please try again later.",
+        });
+      }
+    }
+
+    return res.status(501).json({
+      message:
+        "There was an issue serving your request. Please try again later.",
+    });
+  }
 }
