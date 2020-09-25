@@ -73,7 +73,11 @@ SELECT posts.id, posts.author_id, posts.author_username, posts.title,
           posts.content, posts."createdAt", posts."updatedAt", posts.subreddit_name,
           posts.link, posts.type, COALESCE(vote_count,0) as votes,
           COALESCE(user_vote,0) as user_vote,
-          COALESCE(comment_count,0) as comment_count
+          COALESCE(comment_count,0) as comment_count,
+          CASE 
+              WHEN  saved_posts.id IS NOT NULL then true
+              ELSE false
+			    END as saved
     FROM posts
     LEFT JOIN (
       SELECT votes.post_id, SUM(votes.value) as vote_count
@@ -99,6 +103,10 @@ const getSubredditPostsByHot = async (
       FROM comments
       GROUP BY comments.post_id
     ) AS comments ON comments.post_id = posts.id
+    LEFT JOIN (
+      SELECT * FROM saved_posts
+      WHERE user_id= '${userId}'
+    ) AS saved_posts ON saved_posts.post_id = posts.id
     WHERE subreddit_name='${subredditName}' 
     ORDER BY SIGN(COALESCE(vote_count,0)) DESC, (NOW() - posts."createdAt") / CASE
                                                                             COALESCE(vote_count,0) + 1 
@@ -140,6 +148,10 @@ const getSubredditPostsByNew = async (
       FROM comments
       GROUP BY comments.post_id
     ) AS comments ON comments.post_id = posts.id
+    LEFT JOIN (
+      SELECT * FROM saved_posts
+      WHERE user_id= '${userId}'
+    ) AS saved_posts ON saved_posts.post_id = posts.id
     WHERE subreddit_name='${subredditName}' 
     ORDER BY posts."createdAt" DESC
     LIMIT ${SUBREDDIT_POSTS_LIMIT} OFFSET ${
@@ -179,6 +191,10 @@ const getSubredditPostsByTop = async (
       FROM comments
       GROUP BY comments.post_id
     ) AS comments ON comments.post_id = posts.id
+    LEFT JOIN (
+      SELECT * FROM saved_posts
+      WHERE user_id= '${userId}'
+    ) AS saved_posts ON saved_posts.post_id = posts.id
     ${whereQuery} subreddit_name='${subredditName}' 
     ORDER BY vote_count DESC
     LIMIT ${SUBREDDIT_POSTS_LIMIT} OFFSET ${

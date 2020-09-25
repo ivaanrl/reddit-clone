@@ -18,6 +18,7 @@ export interface Props {
     comment_count: number;
     link: string | null;
     type: string;
+    saved: boolean;
   };
   reducer: string;
   showSubredditName: boolean;

@@ -24,7 +24,11 @@ export const HOMEPAGE_POSTS_LIMIT = 15;
 const GET_HOMEPAGE_POSTS_INITIAL_TEXT = `
 SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content, posts.link, posts.type,
             posts."createdAt", posts."updatedAt", posts.subreddit_name, COALESCE(votes.vote_count,0) AS votes,
-            COALESCE(user_vote.value,0) AS user_vote, COALESCE(comments.comment_count,0) AS comment_count
+            COALESCE(user_vote.value,0) AS user_vote, COALESCE(comments.comment_count,0) AS comment_count,
+            CASE 
+              WHEN  saved_posts.id IS NOT NULL then true
+              ELSE false
+			      END as saved
     FROM posts
     LEFT JOIN (
     SELECT votes.post_id, SUM(votes.value) as vote_count
@@ -54,6 +58,10 @@ const getHomepagePostsByTop = async (
         FROM comments
         GROUP BY comments.post_id 
     ) AS comments ON comments.post_id = posts.id
+    LEFT JOIN (
+      SELECT * FROM saved_posts
+      WHERE user_id= '${id}'
+    ) AS saved_posts ON saved_posts.post_id = posts.id
     ${whereQuery}
     ORDER BY votes DESC
     LIMIT ${HOMEPAGE_POSTS_LIMIT} OFFSET ${page * HOMEPAGE_POSTS_LIMIT}`
@@ -68,7 +76,11 @@ const getHomepagePostsByNew = async (
   return await sequelize.query(
     `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content, posts.link, posts.type,
             posts."createdAt", posts."updatedAt", posts.subreddit_name, COALESCE(votes.vote_count,0) AS votes,
-            COALESCE(user_vote.value,0) AS user_vote, COALESCE(comments.comment_count,0) AS comment_count
+            COALESCE(user_vote.value,0) AS user_vote, COALESCE(comments.comment_count,0) AS comment_count,
+            CASE 
+              WHEN  saved_posts.id IS NOT NULL then true
+              ELSE false
+			      END as saved
     FROM posts
     LEFT JOIN (
     SELECT votes.post_id, SUM(votes.value) as vote_count
@@ -88,6 +100,10 @@ const getHomepagePostsByNew = async (
         FROM comments
         GROUP BY comments.post_id 
     ) AS comments ON comments.post_id = posts.id
+    LEFT JOIN (
+      SELECT * FROM saved_posts
+      WHERE user_id= '${id}'
+    ) AS saved_posts ON saved_posts.post_id = posts.id
     ORDER BY posts."createdAt" DESC
     LIMIT ${HOMEPAGE_POSTS_LIMIT} OFFSET ${page * HOMEPAGE_POSTS_LIMIT}`
   );
@@ -101,7 +117,11 @@ const getHomepagePostsByHot = async (
   return await sequelize.query(
     `SELECT posts.id, posts.author_id, posts.author_username, posts.title, posts.content,posts.link, posts.type,
             posts."createdAt", posts."updatedAt", posts.subreddit_name, COALESCE(votes.vote_count,0) AS votes,
-            COALESCE(user_vote.value,0) AS user_vote, COALESCE(comments.comment_count,0) AS comment_count
+            COALESCE(user_vote.value,0) AS user_vote, COALESCE(comments.comment_count,0) AS comment_count,
+            CASE 
+              WHEN  saved_posts.id IS NOT NULL then true
+              ELSE false
+			      END as saved
     FROM posts
     LEFT JOIN (
     SELECT votes.post_id, SUM(votes.value) as vote_count
@@ -121,6 +141,10 @@ const getHomepagePostsByHot = async (
         FROM comments
         GROUP BY comments.post_id 
     ) AS comments ON comments.post_id = posts.id
+    LEFT JOIN (
+      SELECT * FROM saved_posts
+      WHERE user_id= '${id}'
+    ) AS saved_posts ON saved_posts.post_id = posts.id
     ORDER BY SIGN(COALESCE(vote_count,0)) DESC, (NOW() - posts."createdAt") / CASE 
                                                                               COALESCE(vote_count,0) + 1 
                                                                               WHEN 0 THEN -1 

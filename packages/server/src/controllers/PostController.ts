@@ -18,6 +18,7 @@ import {
 } from "../helpers/post";
 import { getCommentsWithVotesQuery } from "./queries/PostQueries";
 import { Notification } from "../models/Notification";
+import { Saved_Post } from "../models/Saved_Post";
 
 const {
   post_created_successfully,
@@ -364,12 +365,23 @@ class PostController {
 
     if (user instanceof User) {
       try {
+        const isSaved = await Saved_Post.findOne({
+          where: {
+            user_id: user.id,
+            post_id: postId,
+          },
+        });
+
+        if (isSaved) {
+          await isSaved.destroy();
+          return res.status(204).json({ message: "Post unsaved successfully" });
+        }
+
         const saved_post = await user.createSaved_Post({ post_id: postId });
         if (saved_post) {
           return res.status(204).json({ message: "Saved Successfully." });
         }
       } catch (error) {
-        console.log(error);
         return res.status(501).json({
           message:
             "There was an issue serving your request. Please try again later.",

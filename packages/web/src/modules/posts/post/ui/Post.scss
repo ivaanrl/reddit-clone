@@ -97,6 +97,10 @@
   flex-direction: row;
   @include theme-aware("color", "text-muted");
   font-size: 12px;
+
+  .post-saved {
+    color: $post-saved-color;
+  }
 }
 
 .bottom-bar-icon {

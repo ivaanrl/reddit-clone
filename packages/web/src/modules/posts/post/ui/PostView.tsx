@@ -22,6 +22,7 @@ interface Props {
     comment_count: number;
     link: string | null;
     type: string;
+    saved: boolean;
   };
   reducer: string;
   vote: (id: string, voteValue: number, index: number, reducer: string) => void;
@@ -43,6 +44,7 @@ const PostView = (props: Props) => {
     comment_count,
     type,
     link,
+    saved,
   } = props.postInfo;
 
   const history = useHistory();
@@ -160,7 +162,11 @@ const PostView = (props: Props) => {
             className="save bottom-bar-container not-navigate-to-full-post"
             onClick={handleSavePost}
           >
-            <i className="fa fa-bookmark bottom-bar-icon not-navigate-to-full-post" />
+            <i
+              className={`fa fa-bookmark bottom-bar-icon not-navigate-to-full-post ${
+                saved ? "post-saved" : ""
+              }`}
+            />
             <div className="text not-navigate-to-full-post">Save</div>
           </div>
         </div>
