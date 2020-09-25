@@ -17,6 +17,7 @@ import { Subreddit } from "./Subreddit";
 import { User_Subreddit } from "./User_Subreddit";
 import { Vote } from "./Vote";
 import { Notification } from "./Notification";
+import { Saved_Post } from "./Saved_Post";
 
 export class User extends Model {
   public id!: string;
@@ -128,4 +129,8 @@ User.hasMany(Notification, {
   sourceKey: "id",
   foreignKey: "user_id",
   as: "notifications",
+});
+User.hasMany(Saved_Post, {
+  sourceKey: "id",
+  foreignKey: "user_id",
 });
