@@ -295,8 +295,6 @@ class PostController {
   @use(requireLogin)
   async replyComment(req: Request, res: Response) {
     const { commentId, content, subreddit_name } = req.body;
-    console.log(req.body);
-    console.log("aa");
 
     const user = await findCurrentUser(req.user);
 
