@@ -37,7 +37,17 @@ export const authReducer = (
     case ActionTypes.SIGNIN_USER_FAILED:
       return { ...state, ...action.payload };
     case ActionTypes.SIGN_OUT_USER:
-      return { ...action.payload };
+      return {
+        username: "",
+        email: "",
+        karma: 0,
+        userSubs: [],
+        unreadNotifications: 0,
+        message: {
+          status: 0,
+          text: "",
+        },
+      };
     case ActionTypes.REMOVE_AUTH_ERRORS:
       return {
         ...state,
