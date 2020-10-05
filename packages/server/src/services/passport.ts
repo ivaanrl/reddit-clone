@@ -1,7 +1,7 @@
 import passport from "passport";
 import { keys } from "../../config/keys";
 import { User } from "../models/User";
-import LocalSt from "passport-local";
+import * as LocalSt from "passport-local";
 import { compare, hash } from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { authResponseMessages } from "../controllers/responseMessages/auth";

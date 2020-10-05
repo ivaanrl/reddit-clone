@@ -1,1 +1,1 @@
-web: ts-node packages/server/src/index.ts
+web: node packages/server/dist/src/index.ts

@@ -13,9 +13,9 @@ import { AppRouter } from "./AppRouter";
 import { initDB } from "../config/initDB";
 import cpg from "connect-pg-simple";
 import { Pool } from "pg";
-import https from "https";
-import fs from "fs";
-import path from "path";
+import * as https from "https";
+import * as fs from "fs";
+import * as path from "path";
 
 export const startServer = async () => {
   const app = express();

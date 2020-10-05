@@ -4,8 +4,7 @@
     "packages/*"
   ],
   "scripts": {
-    "heroku-prebuild": "cd packages/server",
-    "start": " ts-node src/index.ts"
+    "heroku-prebuild": "cd packages/server && yarn build"
   },
   "engines": {
     "node": "12.x"
@@ -18,6 +17,8 @@
     "**/react-native-typescript-transformer",
     "**/react-native-typescript-transformer/**",
     "**/metro-bundler-config-yarn-workspaces",
-    "**/metro-bundler-config-yarn-workspaces/**"
+    "**/metro-bundler-config-yarn-workspaces/**",
+    "**react-native",
+    "**react-native**"
   ]
 }
