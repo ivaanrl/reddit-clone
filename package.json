@@ -4,7 +4,7 @@
     "packages/*"
   ],
   "scripts": {
-    "heroku-prebuild": "cd packages/server && tsc"
+    "heroku-prebuild": "cd packages/server"
   },
   "engines": {
     "node": "12.x"
