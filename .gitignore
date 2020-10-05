@@ -19,3 +19,4 @@ dev.ts
 *.pem
 *.cert
 *.crt
+build
