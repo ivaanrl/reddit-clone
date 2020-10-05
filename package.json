@@ -4,7 +4,8 @@
     "packages/*"
   ],
   "scripts": {
-    "heroku-prebuild": "cd packages/server"
+    "heroku-prebuild": "cd packages/server",
+    "heroku-postbuild": "cd packages/server && yarn build"
   },
   "engines": {
     "node": "12.x"
