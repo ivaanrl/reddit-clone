@@ -22,11 +22,6 @@ export const startServer = async () => {
 
   const { cookieSecret } = keys();
 
-  const httpsOptions = {
-    key: fs.readFileSync(path.resolve(__dirname, "localhost.key")),
-    cert: fs.readFileSync(path.resolve(__dirname, "localhost.crt")),
-  };
-
   const whitelist = [
     "https://dev.mylocalsite.com:3000",
     "http://localhost",
@@ -97,15 +92,19 @@ export const startServer = async () => {
   await initDB();
 
   let port = process.env.PORT || 5000;
-  /*
-  app.listen(port, () => {
-    console.log("listening", port);
-  });
-  */
 
-  const httpsServer = https.createServer(httpsOptions, app);
-
-  httpsServer.listen(port, () => {
-    console.log("Listening on port", port);
-  });
+  if (process.env.TS_NODE_DEV) {
+    const httpsOptions = {
+      key: fs.readFileSync(path.resolve(__dirname, "localhost.key")),
+      cert: fs.readFileSync(path.resolve(__dirname, "localhost.crt")),
+    };
+    const httpsServer = https.createServer(httpsOptions, app);
+    httpsServer.listen(port, () => {
+      console.log("Listening on port", port);
+    });
+  } else {
+    app.listen(port, () => {
+      console.log("listening", port);
+    });
+  }
 };
