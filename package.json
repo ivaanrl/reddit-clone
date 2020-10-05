@@ -3,6 +3,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "heroku-prebuild": "cd packages/server"
+  },
   "nohoist": [
     "**/react-native",
     "**/react-native/**",
