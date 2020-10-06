@@ -25,15 +25,6 @@ export const startServer = async () => {
   const whitelist = [
     "https://dev.mylocalsite.com:3000",
     "https://awesome-reddit-clone.netlify.app/",
-    "http://localhost",
-    "http://localhost:19001/",
-    "http://192.168.0.45:19006/",
-    "http://192.168.0.33",
-    "https://192.168.0.33",
-    "exp://192.168.0.45:19000",
-    "http://localhost:19002/",
-    /\.localhost\$/,
-    /[^]*/,
   ];
 
   const corsOptions = {
@@ -41,6 +32,7 @@ export const startServer = async () => {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
         callback(null, true);
       } else {
+        console.log(origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
