@@ -24,7 +24,7 @@ export const startServer = async () => {
 
   const whitelist = [
     "https://dev.mylocalsite.com:3000",
-    "https://awesome-reddit-clone.netlify.app/",
+    "https://awesome-reddit-clone.netlify.app",
   ];
 
   const corsOptions = {
