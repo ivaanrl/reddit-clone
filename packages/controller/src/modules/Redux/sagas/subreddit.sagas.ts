@@ -1,7 +1,7 @@
 import { ActionTypes } from "../actions";
 import { takeEvery, call, put, takeLeading } from "redux-saga/effects";
 import superagent from "superagent";
-import { APIUrl } from "../../../requestInfo";
+import APIUrl from "../../../requestInfo";
 import {
   getSubredditCompletedAction,
   getSubredditFailed,

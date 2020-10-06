@@ -1,5 +1,5 @@
 import superagent from "superagent";
-import { APIUrl } from "../../requestInfo";
+import APIUrl from "../../requestInfo";
 
 interface Props {
   children: (data: {

@@ -1,5 +1,5 @@
 import superagent from "superagent";
-import { APIUrl } from "../../requestInfo";
+import APIUrl from "../../requestInfo";
 import { useDispatch } from "react-redux";
 import { allActions } from "../Redux";
 
