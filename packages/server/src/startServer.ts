@@ -24,6 +24,7 @@ export const startServer = async () => {
 
   const whitelist = [
     "https://dev.mylocalsite.com:3000",
+    "https://awesome-reddit-clone.netlify.app/",
     "http://localhost",
     "http://localhost:19001/",
     "http://192.168.0.45:19006/",
