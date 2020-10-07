@@ -64,9 +64,10 @@ export const startServer = async () => {
       })
     );
   } else {
+    console.log("NOT DEVVVV");
     app.use(
       session({
-        store: new (cpg(session))({}),
+        store: new (cpg(session))({ pool }),
         secret: cookieSecret,
         resave: false,
         saveUninitialized: false,
