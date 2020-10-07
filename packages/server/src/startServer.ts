@@ -83,7 +83,7 @@ export const startServer = async () => {
 
   app.use(AppRouter.getInstance());
 
-  await initDB(); //initialize necessary tables if not created.
+  await initDB(); //initialize necessary tables if not created
 
   let port = process.env.PORT || 5000;
 
