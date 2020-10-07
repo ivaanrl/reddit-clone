@@ -8,6 +8,7 @@ export const requireLogin = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log(req.user);
   if (!req.user) {
     return res.status(401).json({
       success: false,
