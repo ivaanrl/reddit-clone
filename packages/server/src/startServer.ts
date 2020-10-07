@@ -66,6 +66,7 @@ export const startServer = async () => {
   } else {
     app.use(
       session({
+        store: new (cpg(session))({}),
         secret: cookieSecret,
         resave: false,
         saveUninitialized: false,
