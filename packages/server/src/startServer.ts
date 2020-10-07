@@ -45,7 +45,6 @@ export const startServer = async () => {
   app.use(express.json());
 
   if (process.env.TS_NODE_DEV) {
-    console.log("DEVVV");
     const pool = new Pool({
       user: "ivanrl",
       password: "73442332",
@@ -65,7 +64,6 @@ export const startServer = async () => {
       })
     );
   } else {
-    console.log("NOT DEVVVV");
     app.use(
       session({
         store: new (cpg(session))({ conString: process.env.DATABASE_URL }),
@@ -85,7 +83,7 @@ export const startServer = async () => {
 
   app.use(AppRouter.getInstance());
 
-  await initDB();
+  await initDB(); //initialize necessary tables if not created.
 
   let port = process.env.PORT || 5000;
 
