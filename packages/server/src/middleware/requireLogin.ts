@@ -9,7 +9,7 @@ export const requireLogin = (
   next: NextFunction
 ) => {
   console.log(req.user);
-  console.log((req as any).passport.user);
+  console.log(req);
   if (!req.user) {
     return res.status(401).json({
       success: false,
