@@ -16,6 +16,7 @@ import { Pool } from "pg";
 import * as https from "https";
 import * as fs from "fs";
 import * as path from "path";
+import { Console } from "console";
 
 export const startServer = async () => {
   const app = express();
@@ -44,13 +45,14 @@ export const startServer = async () => {
 
   app.use(express.json());
 
-  const pool = new Pool({
-    user: "ivanrl",
-    password: "73442332",
-    database: "reddit",
-  });
-
   if (process.env.TS_NODE_DEV) {
+    console.log("DEVVV");
+    const pool = new Pool({
+      user: "ivanrl",
+      password: "73442332",
+      database: "reddit",
+    });
+
     app.use(
       session({
         store: new (cpg(session))({ pool }),
@@ -65,9 +67,14 @@ export const startServer = async () => {
     );
   } else {
     console.log("NOT DEVVVV");
+    const pool = new Pool({
+      user: "ivanrl",
+      password: "73442332",
+      database: "reddit",
+    });
     app.use(
       session({
-        store: new (cpg(session))({ pool }),
+        store: new (cpg(session))({ conString: process.env.DATABASE_URL }),
         secret: cookieSecret,
         resave: false,
         saveUninitialized: false,
