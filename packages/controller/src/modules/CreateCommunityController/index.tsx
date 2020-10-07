@@ -1,5 +1,7 @@
+import { useDispatch } from "react-redux";
 import superagent from "superagent";
 import APIUrl from "../../requestInfo";
+import { allActions } from "../Redux";
 
 interface Props {
   children: (data: {
@@ -8,12 +10,13 @@ interface Props {
       communityTopics: string[];
       description: string;
       adultContent: boolean;
-    }) => Promise<superagent.Response>;
+    }) => void; //Promise<superagent.Response>;
   }) => JSX.Element;
 }
 
 export const CreateCommunityController = (props: Props) => {
-  const submit = async (values: {
+  const dispatch = useDispatch();
+  /* const submit = async (values: {
     name: string;
     communityTopics: string[];
     description: string;
@@ -30,6 +33,14 @@ export const CreateCommunityController = (props: Props) => {
       response = error.response;
     }
     return response;
+  };*/
+  const submit = (values: {
+    name: string;
+    communityTopics: string[];
+    description: string;
+    adultContent: boolean;
+  }) => {
+    dispatch(allActions.createSubreddit(values));
   };
 
   return props.children({ submit });

@@ -66,7 +66,15 @@ export const subredditReducer = (
         message: { status, text },
       };
     case ActionTypes.CREATE_SUBREDDIT_COMPLETED:
-      return { ...state, ...action.payload };
+      return {
+        ...state,
+        ...{
+          message: {
+            status: action.payload.status,
+            text: action.payload.text,
+          },
+        },
+      };
     case ActionTypes.UPDATE_POST_VOTES:
       const { index, value } = action.payload;
       const postToEdit = stateCopy.posts[index];

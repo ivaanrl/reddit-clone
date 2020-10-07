@@ -105,7 +105,12 @@ export function* createSubreddit(subInfo: {
   try {
     const subResponse = yield call(createSubredditRequest, subInfo.payload);
 
-    yield put(createSubredditCompletedAction(subResponse));
+    yield put(
+      createSubredditCompletedAction({
+        status: subResponse.status,
+        text: subResponse.body.message,
+      })
+    );
   } catch (error) {
     console.log("NEED TO HANDLE ERROR!");
   }

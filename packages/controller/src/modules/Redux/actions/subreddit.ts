@@ -44,18 +44,12 @@ export const createSubreddit = (subreddit: {
   payload: subreddit,
 });
 
-export const createSubredditCompletedAction = (subreddit: {
-  name: string;
-  owner_id: string;
-  topics: string[];
-  description: string;
-  adultContent: boolean;
-  joined: number;
-  createdAt: string;
-  mods: string[];
+export const createSubredditCompletedAction = (message: {
+  status: number;
+  text: string;
 }) => ({
   type: ActionTypes.CREATE_SUBREDDIT_COMPLETED,
-  payload: subreddit,
+  payload: message,
 });
 
 export const joinOrLeaveSubreddit = (subName: string) => ({

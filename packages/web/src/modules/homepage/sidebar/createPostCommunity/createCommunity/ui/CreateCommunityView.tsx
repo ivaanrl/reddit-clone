@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./CreateCommunity.scss";
 import { useFormik } from "formik";
 import {
@@ -6,23 +6,26 @@ import {
   createCommunityFormValidationSchema,
 } from "@reddit-clone/common";
 import Select from "react-select";
-import superagent from "superagent";
-import { useDispatch } from "react-redux";
-import { allActions } from "@reddit-clone/controller";
-
+import { useDispatch, useSelector } from "react-redux";
+import { allActions, State } from "@reddit-clone/controller";
+import { useHistory } from "react-router-dom";
 interface Props {
   submit: (values: {
     name: string;
     communityTopics: string[];
     description: string;
     adultContent: boolean;
-  }) => Promise<superagent.Response>;
+  }) => void;
   closeForm: () => void;
 }
 
 const CreateCommunityView = (props: Props) => {
   const dispatch = useDispatch();
   const { closeForm } = props;
+  const subredditMessage = useSelector(
+    (state: State) => state.subreddit.message.text
+  );
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -53,6 +56,13 @@ const CreateCommunityView = (props: Props) => {
     touched,
     setFieldValue,
   } = formik;
+
+  useEffect(() => {
+    if (subredditMessage === "Subreddit created successfully") {
+      closeForm();
+      history.push(`/r/${values.name}`);
+    }
+  }, [subredditMessage, history, closeForm, values.name]);
 
   const handleSubmit = async (values: {
     name: string;
