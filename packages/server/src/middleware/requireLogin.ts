@@ -8,7 +8,7 @@ export const requireLogin = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req); //delete these
+  console.log(req.session); //delete these
   if (!req.user) {
     return res.status(401).json({
       success: false,
