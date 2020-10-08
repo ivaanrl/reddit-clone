@@ -30,6 +30,7 @@ export const startServer = async () => {
   const corsOptions = {
     origin: function (origin: any, callback: any) {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
+        console.log("accepted by cors:", origin);
         callback(null, true);
       } else {
         console.log(origin);
@@ -64,6 +65,7 @@ export const startServer = async () => {
       })
     );
   } else {
+    console.log("PRODUCTIONN");
     app.use(
       session({
         store: new (cpg(session))({ conString: process.env.DATABASE_URL }),
