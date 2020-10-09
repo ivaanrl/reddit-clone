@@ -42,7 +42,7 @@ export const startServer = async () => {
 
   app.use(cors(corsOptions));
   app.options("*", cors());
-  app.set("trust proxy", 1);
+  app.set("trust proxy", 1); // As indicate by Sammy's reponse in https://stackoverflow.com/questions/44039069/express-session-secure-cookies-not-working
 
   app.use(express.json());
 
@@ -55,7 +55,7 @@ export const startServer = async () => {
 
     app.use(
       session({
-        store: new (require("connect-pg-simple")(session))({ pool }),
+        store: new (cpg(session))({ pool }),
         secret: cookieSecret,
         resave: false,
         saveUninitialized: false,
@@ -69,7 +69,7 @@ export const startServer = async () => {
     console.log("PRODUCTIONN");
     app.use(
       session({
-        store: new (require("connect-pg-simple")(session))({
+        store: new (cpg(session))({
           conString: process.env.DATABASE_URL,
         }),
         secret: cookieSecret,
