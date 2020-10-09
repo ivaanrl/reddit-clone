@@ -42,6 +42,7 @@ export const startServer = async () => {
 
   app.use(cors(corsOptions));
   app.options("*", cors());
+  app.set("trust proxy", 1);
 
   app.use(express.json());
 
