@@ -11,7 +11,7 @@ import "./controllers/SearchController";
 import "./controllers/HomePageController";
 import { AppRouter } from "./AppRouter";
 import { initDB } from "../config/initDB";
-//import cpg from "connect-pg-simple";
+import cpg from "connect-pg-simple";
 import { Pool } from "pg";
 import * as https from "https";
 import * as fs from "fs";
@@ -54,7 +54,7 @@ export const startServer = async () => {
 
     app.use(
       session({
-        store: new (require('connect-pg-simple')(session))({ pool }),
+        store: new (require("connect-pg-simple")(session))({ pool }),
         secret: cookieSecret,
         resave: false,
         saveUninitialized: false,
@@ -68,7 +68,9 @@ export const startServer = async () => {
     console.log("PRODUCTIONN");
     app.use(
       session({
-        store: new (require('connect-pg-simple')(session))({ conString: process.env.DATABASE_URL }),
+        store: new (require("connect-pg-simple")(session))({
+          conString: process.env.DATABASE_URL,
+        }),
         secret: cookieSecret,
         resave: false,
         saveUninitialized: false,
@@ -81,7 +83,7 @@ export const startServer = async () => {
   }
 
   app.use(passport.initialize());
-  app.use(passport.session());
+  //app.use(passport.session());
 
   app.use(AppRouter.getInstance());
 
