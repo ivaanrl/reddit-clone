@@ -137,6 +137,17 @@ const NavbarView = (props: Props) => {
     deleteUserFromLocalStorage();
   };
 
+  const switchForm = () => {
+    if(showSigninForm){
+      setShowSigninForm(false);
+      setShowSignupForm(true);
+    } else {
+      
+      setShowSignupForm(false);
+      setShowSigninForm(true);
+    }
+  }
+
   return (
     <React.Fragment>
       <div className="navbar-container">
@@ -497,10 +508,10 @@ const NavbarView = (props: Props) => {
         </div>
       </div>
       {showSignupForm ? (
-        <SignupFormConnector closeForm={closeSignupForm} />
+        <SignupFormConnector closeForm={closeSignupForm} switchForm={switchForm} />
       ) : null}
       {showSigninForm ? (
-        <SigninFormConnector closeForm={closeSigninForm} />
+        <SigninFormConnector closeForm={closeSigninForm} switchForm={switchForm} />
       ) : null}
     </React.Fragment>
   );

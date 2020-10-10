@@ -4,9 +4,10 @@ import SignupFormView from "./ui/SignupFormView";
 
 interface Props {
   closeForm: () => void;
+  switchForm: () => void;
 }
 
-const SignupFormConnector = ({ closeForm }: Props) => {
+const SignupFormConnector = ({ closeForm, switchForm }: Props) => {
   return (
     <SignupController>
       {({ checkEmailAvailability, submitForm }) => (
@@ -14,6 +15,7 @@ const SignupFormConnector = ({ closeForm }: Props) => {
           checkEmailAvailability={checkEmailAvailability}
           closeForm={closeForm}
           submitForm={submitForm}
+          switchForm={switchForm}
         />
       )}
     </SignupController>

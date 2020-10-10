@@ -17,6 +17,8 @@ interface Props {
     password: string;
     username: string;
   }) => void;
+  switchForm: () => void;
+
 }
 
 const EmailForm = (props: {
@@ -30,8 +32,9 @@ const EmailForm = (props: {
     eventOrPath: string | React.ChangeEvent<any>
   ) => void | ((eventOrTextValue: string | React.ChangeEvent<any>) => void);
   handleBlur: (eventOrString: any) => void | ((e: any) => void);
+  switchForm: () => void;
 }) => {
-  const { errors, touched, handleChange, handleBlur } = props;
+  const { errors, touched, handleChange, handleBlur,switchForm } = props;
 
   return (
     <div className="input-container">
@@ -61,9 +64,9 @@ const EmailForm = (props: {
 
       <div className="already-reddit">
         Already a Redditor?{" "}
-        <a href="/" className="login-link">
+        <span className="login-link" onClick={switchForm} >
           LOG IN
-        </a>
+        </span>
       </div>
 
       <div className="agreement">
@@ -166,7 +169,7 @@ ChooseSubredditForm.validationSchema = {};
 const steps = [EmailForm, UsernamePasswordForm, ChooseSubredditForm];
 
 const SignupFormView = (props: Props) => {
-  const { closeForm, checkEmailAvailability, submitForm } = props;
+  const { closeForm, checkEmailAvailability, submitForm, switchForm } = props;
   const user = useSelector((state: State) => state.auth);
 
   const [step, setStep] = useState<number>(0);
@@ -255,6 +258,7 @@ const SignupFormView = (props: Props) => {
             handleChange={formik.handleChange}
             handlePrevStep={handlePrevStep}
             handleBlur={formik.handleBlur}
+            switchForm={switchForm}
           />
         </form>
         <button

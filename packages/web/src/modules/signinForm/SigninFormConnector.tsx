@@ -4,13 +4,15 @@ import SigninFormView from "./ui/SigninFormView";
 
 interface Props {
   closeForm: () => void;
+  switchForm: () => void;
+
 }
 
-const SigninFormConnector = (props: Props) => {
+const SigninFormConnector = ({closeForm,switchForm}: Props) => {
   return (
     <SigninController>
       {({ signin }) => (
-        <SigninFormView closeForm={props.closeForm} signin={signin} />
+        <SigninFormView closeForm={closeForm} signin={signin} switchForm={switchForm} />
       )}
     </SigninController>
   );

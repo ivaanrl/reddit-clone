@@ -8,10 +8,12 @@ import { usernamePasswordValidationSchema } from "@reddit-clone/common";
 interface Props {
   closeForm: () => void;
   signin: (values: { username: string; password: string }) => void;
+  switchForm: () => void;
+
 }
 
 const SigninFormView = (props: Props) => {
-  const { closeForm, signin } = props;
+  const { closeForm, signin, switchForm } = props;
   const user = useSelector((state: State) => state.auth);
 
   const formik = useFormik({
@@ -108,7 +110,7 @@ const SigninFormView = (props: Props) => {
               </small>
 
               <small>
-                New to reddit? <span className="signup-span">SIGN UP</span>
+                New to reddit? <span className="signup-span" onClick={switchForm} >SIGN UP</span>
               </small>
             </div>
           </div>
