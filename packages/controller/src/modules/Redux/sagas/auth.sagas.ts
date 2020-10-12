@@ -11,6 +11,7 @@ import {
   signoutUserCompletedAction,
 } from "../actions/auth";
 import { authReducerState } from "../../../shared/types";
+import { clearHomepagePosts, getHomepagePosts } from "../actions/homepage";
 
 export function* watchUserSingin() {
   yield takeEvery(ActionTypes.SIGNIN_USER, signinUser);
@@ -35,6 +36,8 @@ export function* signinUser(userInfo: {
     const userResponse = yield call(signinRequest, userInfo.payload);
 
     yield put(signinUserCompletedAction(userResponse.body.user));
+    yield put(clearHomepagePosts());
+    yield put(getHomepagePosts('hot', 'all_time', 0));
     saveUserToLocalStorage(userResponse.body.user);
   } catch (error) {
     //Sign in failed
