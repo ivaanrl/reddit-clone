@@ -122,6 +122,7 @@ const uploadFile = async (buffer: any, name: string, type: any) => {
     ContentType: type.mime,
     Key: `${name}.${type.ext}`,
   };
+  console.log('ws: ', keys().AWS_BUCKET === '');
   return await s3.upload(params).promise();
 };
 
@@ -140,6 +141,9 @@ export const handleCreateImagePost = async (
     const { title, subName } = fields;
     const postType = fields.type;
     const sub = await getSubreddit(subName[0]);
+    console.log('title: ', title);
+    console.log('subName: ', subName);
+    console.log('postType: ', postType);
 
     if (sub instanceof Subreddit) {
       let imageLink: string;
@@ -150,6 +154,7 @@ export const handleCreateImagePost = async (
         const timestamp = Date.now().toString();
         const fileName = `folder/${timestamp}-lg`;
         const data = await uploadFile(buffer, fileName, type);
+        console.log('data: ', data);
         imageLink = data.Location;
 
         res = await createImagePost(
