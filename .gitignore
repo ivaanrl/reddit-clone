@@ -19,3 +19,4 @@ ssl
 *.cert
 *.crt
 build
+.vscode
