@@ -35,7 +35,7 @@ export const sanitizeContent = (content: string[] | null) => {
     return { __html: sanitizeHTML(""), sanitizeOptions };
   }
   const contentWithoutBars = content.map((line) => {
-    return line.split("||");
+    return line.split("||").join('');
   });
 
   return {

@@ -79,6 +79,10 @@
   max-height: 300px;
   overflow-y: hidden;
   width: 100%;
+
+  p {
+    display: inline;
+  }
 }
 
 .content:before {
