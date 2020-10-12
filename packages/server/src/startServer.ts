@@ -33,6 +33,7 @@ export const startServer = async () => {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
         callback(null, true);
       } else {
+        console.log('NOT ALLOWED BY CORS');
         callback(new Error("Not allowed by CORS"));
       }
     },
