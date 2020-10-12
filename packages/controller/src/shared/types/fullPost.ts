@@ -11,8 +11,9 @@ export interface fullPostState {
   votes: number;
   author_username: string;
   user_vote: number;
+  type: string;
+  link: string |null;
   comments: Comment[];
-
   message: {
     status: number;
     text: string;

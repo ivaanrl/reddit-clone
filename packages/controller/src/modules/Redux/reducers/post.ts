@@ -18,6 +18,8 @@ export const fullPostReducer = (
     author_username: "",
     user_vote: 0,
     comments: [],
+    type:'',
+    link:null,
     message: {
       status: 0,
       text: "",
