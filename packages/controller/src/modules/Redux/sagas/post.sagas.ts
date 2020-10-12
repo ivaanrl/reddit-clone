@@ -367,7 +367,7 @@ export const createImagePostRequest = (post: {
       .withCredentials()
       //Need to be commented out so browser can add boundary
       //.set("Content-Type", "multipart/form-data")
-      .post("http://localhost:5000/api/post/createImagePost")
+      .post(APIUrl + "/post/createImagePost")
       .field("subName", subName)
       .field("title", title)
       .field("type", type)
