@@ -7,6 +7,7 @@ import Vote from "../../posts/vote/Vote";
 import TextEditor from "../../../shared/TextEditor";
 import { HTMLSerializer } from "../../../shared/HTMLSerializer";
 import CommentsConnector from "../comments/CommentsConnector";
+import { ReactTinyLink } from "react-tiny-link";
 
 interface Props {
   getFullPost: (postId: string) => void;
@@ -32,6 +33,8 @@ const FullPostView = (props: Props) => {
     subreddit_name,
     votes,
     user_vote,
+    type,
+    link,
   } = post;
 
   const [textEditor, setTextEditor] = useState<any>([
@@ -91,10 +94,24 @@ const FullPostView = (props: Props) => {
             ) : null}
           </div>
           <div className="title">{title}</div>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={sanitizeContent(content)}
-          />
+          {type === "post" ? (
+            <div
+              className="content"
+              dangerouslySetInnerHTML={sanitizeContent(content)}
+            />
+          ) : null}
+          {type === "link" ? (
+            <ReactTinyLink
+              cardSize="small"
+              showGraphic={true}
+              maxLine={2}
+              minLine={1}
+              url={link}
+            />
+          ) : null}
+          {type === "image" && link ? (
+            <img src={link} alt={"image for " + title} className="post-image" />
+          ) : null}
           <div className="bottom-bar" title="bottom-bar">
             <div className="comments bottom-bar-container">
               <i className="fa fa-comment  bottom-bar-icon" />
@@ -104,6 +121,18 @@ const FullPostView = (props: Props) => {
               <i className="fa fa-bookmark bottom-bar-icon" />
               <div className="text">Save</div>
             </div>
+            {user.username === author_username ? (
+              <React.Fragment>
+                <div className="delete bottom-bar-container">
+                  <i className="fa fa-pencil bottom-bar-icon" />
+                  <div className="text">Edit</div>
+                </div>
+                <div className="delete bottom-bar-container">
+                  <i className="fa fa-trash bottom-bar-icon" />
+                  <div className="text">Delete</div>
+                </div>
+              </React.Fragment>
+            ) : null}
           </div>
         </div>
       </div>

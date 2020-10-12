@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Comment.scss";
-import { Comment } from "@reddit-clone/controller";
+import { Comment, State } from "@reddit-clone/controller";
 import Vote from "../../../../posts/vote/Vote";
 import { HTMLSerializer } from "../../../../../shared/HTMLSerializer";
 import TextEditor from "../../../../../shared/TextEditor";
+import { useSelector } from "react-redux";
 
 interface Props {
   commentInfo: Comment;
@@ -38,6 +39,7 @@ const CommentView = (props: Props) => {
     replies,
   } = commentInfo;
 
+  const user = useSelector((state: State) => state.auth);
   const [showComment, setShowComment] = useState(true);
   const [textEditor, setTextEditor] = useState<any>([
     {
@@ -132,6 +134,16 @@ const CommentView = (props: Props) => {
               <div className="save bottom-bar-container">
                 <div className="text">Save</div>
               </div>
+              {user.username === author_username ? (
+              <React.Fragment>
+                <div className="delete bottom-bar-container">
+                  <div className="text">Edit</div>
+                </div>
+                <div className="delete bottom-bar-container">
+                  <div className="text">Delete</div>
+                </div>
+              </React.Fragment>
+            ) : null}
             </div>
             {process.env.NODE_ENV !== "test" && showTextEditor ? (
               <div className="editor-sideline-container">
