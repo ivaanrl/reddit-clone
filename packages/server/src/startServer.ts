@@ -25,15 +25,14 @@ export const startServer = async () => {
   const whitelist = [
     "https://dev.mylocalsite.com:3000",
     "https://awesome-reddit-clone.netlify.app",
+    "https://localhost:3000"
   ];
 
   const corsOptions = {
     origin: function (origin: any, callback: any) {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
-        console.log("accepted by cors:", origin);
         callback(null, true);
       } else {
-        console.log(origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
@@ -62,11 +61,11 @@ export const startServer = async () => {
         cookie: {
           maxAge: 30 * 24 * 60 * 60 * 1000,
           sameSite: "none",
+          secure:true
         },
       })
     );
   } else {
-    console.log("PRODUCTIONN");
     app.use(
       session({
         store: new (cpg(session))({
