@@ -270,6 +270,8 @@ class PostController {
           updatedAt,
           subreddit_name,
           author_username,
+          type, 
+          link
         } = post;
 
         return res.status(201).json({
@@ -284,6 +286,8 @@ class PostController {
           votes: voteValue,
           user_vote,
           comments: postsWithChildren,
+          type, 
+          link
         });
       }
     } catch (error) {
