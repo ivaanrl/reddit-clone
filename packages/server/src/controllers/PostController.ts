@@ -436,4 +436,39 @@ class PostController {
       .status(501)
       .json({ message: "There was an error deleting the post." });
   }
+
+  @del("/deleteComment/:commentId")
+  @use(requireLogin)
+  async deleteComment(req: Request, res: Response) {
+    const commentId = req.params.commentId;
+    try {
+      const comment = await Comment.findOne({ where: { id: commentId } });
+      if (
+        comment instanceof Comment &&
+        (req.user as {
+          id: string;
+          username: string;
+          karma: number;
+          email: string;
+        }).id === comment.author_id
+      ) {
+        comment.update({
+          content: ["<p>[deleted]</p>"],
+          author_username: "[deleted]",
+          author_id: null,
+        });
+
+        return res.status(201).json({ message: "Post deleted successfully" });
+      }
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(501)
+        .json({ message: "There was an error deleting the post." });
+    }
+
+    return res
+      .status(501)
+      .json({ message: "There was an error deleting the post." });
+  }
 }

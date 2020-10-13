@@ -201,8 +201,9 @@ export const deleteComment = (path: string[], commentId: string) => ({
   payload: { path, commentId },
 });
 
-export const deleteCommentCompletedAction = () => ({
+export const deleteCommentCompletedAction = (path: string[]) => ({
   type: ActionTypes.DELETE_COMMENT_COMPLETED_ACTION,
+  payload: path,
 });
 
 export const deleteCommentFailed = (error: {

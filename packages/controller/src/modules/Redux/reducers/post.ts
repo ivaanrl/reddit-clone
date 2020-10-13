@@ -4,6 +4,7 @@ import { insertIntoTree } from "./helpers/post/insertIntoTree";
 import { voteCommentInTree } from "./helpers/post/voteCommentInTree";
 import { vote } from "./helpers/vote";
 import { Comment } from "../../../shared/interfaces/comment";
+import { deleteCommentInTree } from "./helpers/post/deleteCommentInTree";
 
 export const fullPostReducer = (
   state: fullPostState = {
@@ -117,6 +118,19 @@ export const fullPostReducer = (
           message: { status: action.payload.status, text: action.payload.text },
         },
       };
+    case ActionTypes.DELETE_COMMENT_COMPLETED_ACTION:
+      const stateWithDeletedComment = { ...state };
+      const deletedComment: { path: string[] } = { path: action.payload };
+
+      const commentTreeWithDelete = deleteCommentInTree(
+        deletedComment,
+        stateWithDeletedComment.comments,
+        2
+      );
+
+      stateWithDeletedComment.comments = commentTreeWithDelete;
+
+      return { ...state, ...stateWithDeletedComment };
     default:
       return state;
   }

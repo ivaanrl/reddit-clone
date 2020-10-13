@@ -141,7 +141,10 @@ const CommentView = (props: Props) => {
                   <div className="delete bottom-bar-container">
                     <div className="text">Edit</div>
                   </div>
-                  <div className="delete bottom-bar-container">
+                  <div
+                    className="delete bottom-bar-container"
+                    onClick={() => deleteComment(path, id)}
+                  >
                     <div className="text">Delete</div>
                   </div>
                 </React.Fragment>

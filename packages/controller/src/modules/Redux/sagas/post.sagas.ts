@@ -18,6 +18,7 @@ import {
   saveProfilePostCompletedAction,
   deletePostCompletedAction,
   deletePostFailed,
+  deleteCommentCompletedAction,
 } from "../actions/post";
 import { updateProfilePostVotes } from "../actions/profile";
 
@@ -290,7 +291,6 @@ export function* deletePost(post: { type: string; payload: string }) {
       yield put(deletePostCompletedAction());
     }
   } catch (error) {
-    console.log(error);
     yield put(
       deletePostFailed({
         text: error.response.body.message,
@@ -300,10 +300,18 @@ export function* deletePost(post: { type: string; payload: string }) {
   }
 }
 
-export function* deleteComment(comment: { type: string; payload: string }) {
+export function* deleteComment(comment: {
+  type: string;
+  payload: { path: string[]; commentId: string };
+}) {
   try {
-    yield call(deletePostRequest, comment.payload);
-    yield put(deletePostCompletedAction());
+    const deleteCommentResponse = yield call(
+      deleteCommentRequest,
+      comment.payload.commentId
+    );
+    if (deleteCommentResponse.status === 201) {
+      yield put(deleteCommentCompletedAction(comment.payload.path));
+    }
   } catch (error) {
     yield put(
       deletePostFailed({
@@ -330,10 +338,18 @@ export const deletePostRequest = (postId: string) => {
 };
 
 export const deleteCommentRequest = (commentId: string) => {
-  superagent
-    .agent()
-    .withCredentials()
-    .delete(APIUrl + "/post/deleteComment/" + commentId);
+  let response;
+
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      .delete(APIUrl + "/post/deleteComment/" + commentId);
+  } catch (error) {
+    response = error;
+  }
+
+  return response;
 };
 
 export const voteCommentRequest = (commentInfo: {

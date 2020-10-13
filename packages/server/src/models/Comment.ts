@@ -52,7 +52,7 @@ Comment.init(
     },
     author_id: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     author_username: {
       type: DataTypes.STRING,
