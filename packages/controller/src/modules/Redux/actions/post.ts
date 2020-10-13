@@ -181,3 +181,34 @@ export const saveProfilePostFailed = (error: {
   type: ActionTypes.SAVE_PROFILE_POST_FAILED,
   payload: error,
 });
+
+export const deletePost = (postId: string) => ({
+  type: ActionTypes.DELETE_POST,
+  payload: postId,
+});
+
+export const deletePostCompletedAction = () => ({
+  type: ActionTypes.DELETE_POST_COMPLETED_ACTION,
+});
+
+export const deletePostFailed = (error: { text: string; status: number }) => ({
+  type: ActionTypes.DELETE_POST_FAILED,
+  payload: error,
+});
+
+export const deleteComment = (path: string[], commentId: string) => ({
+  type: ActionTypes.DELETE_COMMENT,
+  payload: { path, commentId },
+});
+
+export const deleteCommentCompletedAction = () => ({
+  type: ActionTypes.DELETE_COMMENT_COMPLETED_ACTION,
+});
+
+export const deleteCommentFailed = (error: {
+  text: string;
+  status: number;
+}) => ({
+  type: ActionTypes.DELETE_COMMENT_FAILED,
+  payload: error,
+});

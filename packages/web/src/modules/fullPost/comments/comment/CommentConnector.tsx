@@ -10,7 +10,7 @@ const CommentConnector = (props: Props) => {
   const { commentInfo, index } = props;
   return (
     <CommentController>
-      {({ sanitizeContent, formatDate, vote, comment }) => (
+      {({ sanitizeContent, formatDate, vote, comment, deleteComment }) => (
         <CommentView
           comment={comment}
           vote={vote}
@@ -20,6 +20,7 @@ const CommentConnector = (props: Props) => {
           commentInfo={commentInfo}
           child={false}
           depth={0}
+          deleteComment={deleteComment}
         />
       )}
     </CommentController>

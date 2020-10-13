@@ -18,8 +18,8 @@ export const fullPostReducer = (
     author_username: "",
     user_vote: 0,
     comments: [],
-    type:'',
-    link:null,
+    type: "",
+    link: null,
     message: {
       status: 0,
       text: "",
@@ -86,6 +86,35 @@ export const fullPostReducer = (
             status: 0,
             text: "",
           },
+        },
+      };
+    case ActionTypes.DELETE_POST_COMPLETED_ACTION:
+      return {
+        ...state,
+        ...{
+          message: {
+            status: 204,
+            text: "Post deleted successfully",
+          },
+          content: ["[deleted]"],
+          author_id: "",
+          author_username: "[deleted]",
+          link: null,
+          type: "post",
+        },
+      };
+    case ActionTypes.DELETE_POST_FAILED:
+      return {
+        ...state,
+        ...{
+          message: { status: action.payload.status, text: action.payload.text },
+        },
+      };
+    case ActionTypes.DELETE_COMMENT_FAILED:
+      return {
+        ...state,
+        ...{
+          message: { status: action.payload.status, text: action.payload.text },
         },
       };
     default:

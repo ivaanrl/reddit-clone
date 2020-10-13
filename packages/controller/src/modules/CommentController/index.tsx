@@ -10,6 +10,7 @@ interface Props {
     formatDate: (date: string) => string;
     vote: (path: string[], voteValue: number) => void;
     comment: (postId: string, content: string[]) => void;
+    deleteComment: (path: string[], commentId: string) => void;
   }) => JSX.Element;
 }
 
@@ -24,5 +25,15 @@ export const CommentController = (props: Props) => {
     dispatch(allActions.replyComment({ commentId, content }));
   };
 
-  return props.children({ vote, sanitizeContent, formatDate, comment });
+  const deleteComment = (path: string[], commentId: string) => {
+    dispatch(allActions.deleteComment(path, commentId));
+  };
+
+  return props.children({
+    vote,
+    sanitizeContent,
+    formatDate,
+    comment,
+    deleteComment,
+  });
 };

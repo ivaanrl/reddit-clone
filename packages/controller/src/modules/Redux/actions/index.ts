@@ -43,6 +43,12 @@ import {
   saveSubredditPostFailed,
   saveHomePostCompletedAction,
   saveSubredditPostCompletedAction,
+  deletePostFailed,
+  deletePostCompletedAction,
+  deleteComment,
+  deleteCommentCompletedAction,
+  deleteCommentFailed,
+  deletePost,
 } from "./post";
 
 import {
@@ -170,6 +176,12 @@ export const allActions = {
   saveSubredditPostFailed,
   saveHomePostCompletedAction,
   saveSubredditPostCompletedAction,
+  deletePostFailed,
+  deletePostCompletedAction,
+  deleteComment,
+  deleteCommentCompletedAction,
+  deleteCommentFailed,
+  deletePost,
 };
 
 export * from "./types";

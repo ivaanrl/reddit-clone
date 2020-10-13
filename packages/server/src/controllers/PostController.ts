@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { get, controller, use, post } from "./decorators";
+import { get, controller, use, post, del } from "./decorators";
 import "../services/passport";
 import { User } from "../models/User";
 import { Subreddit } from "../models/Subreddit";
@@ -19,6 +19,8 @@ import {
 import { getCommentsWithVotesQuery } from "./queries/PostQueries";
 import { Notification } from "../models/Notification";
 import { Saved_Post } from "../models/Saved_Post";
+import { requireSameUser } from "../middleware/requireSameUser";
+import { String } from "aws-sdk/clients/cloudhsm";
 
 const {
   post_created_successfully,
@@ -270,8 +272,8 @@ class PostController {
           updatedAt,
           subreddit_name,
           author_username,
-          type, 
-          link
+          type,
+          link,
         } = post;
 
         return res.status(201).json({
@@ -286,8 +288,8 @@ class PostController {
           votes: voteValue,
           user_vote,
           comments: postsWithChildren,
-          type, 
-          link
+          type,
+          link,
         });
       }
     } catch (error) {
@@ -397,5 +399,41 @@ class PostController {
       message:
         "There was an issue serving your request. Please try again later.",
     });
+  }
+
+  @del("/deletePost/:postId")
+  @use(requireLogin)
+  async deletePost(req: Request, res: Response) {
+    const postId = req.params.postId;
+    try {
+      const post = await Post.findOne({ where: { id: postId } });
+      if (
+        post instanceof Post &&
+        (req.user as {
+          id: string;
+          username: string;
+          karma: number;
+          email: string;
+        }).id === post.author_id
+      ) {
+        post.update({
+          content: ["<p>[deleted]</p>"],
+          author_username: "[deleted]",
+          author_id: null,
+          link: null,
+          type: "post",
+        });
+
+        return res.status(201).json({ message: "Post deleted successfully" });
+      }
+    } catch (error) {
+      return res
+        .status(501)
+        .json({ message: "There was an error deleting the post." });
+    }
+
+    return res
+      .status(501)
+      .json({ message: "There was an error deleting the post." });
   }
 }

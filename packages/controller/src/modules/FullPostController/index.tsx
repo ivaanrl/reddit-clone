@@ -10,6 +10,7 @@ interface Props {
     formatDate: (date: string) => string;
     vote: (id: string, voteValue: number) => void;
     comment: (postId: string, content: string[]) => void;
+    deletePost: (postId: string) => void;
   }) => JSX.Element;
 }
 
@@ -27,11 +28,16 @@ export const FullPostController = (props: Props) => {
     dispatch(allActions.commentFullPost({ postId, content }));
   };
 
+  const deletePost = (postId: string) => {
+    dispatch(allActions.deletePost(postId));
+  };
+
   return props.children({
     getFullPost,
     vote,
     sanitizeContent,
     formatDate,
     comment,
+    deletePost,
   });
 };

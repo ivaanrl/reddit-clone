@@ -16,6 +16,8 @@ import {
   saveHomePostFailed,
   saveProfilePostFailed,
   saveProfilePostCompletedAction,
+  deletePostCompletedAction,
+  deletePostFailed,
 } from "../actions/post";
 import { updateProfilePostVotes } from "../actions/profile";
 
@@ -53,6 +55,14 @@ export function* watchVoteComment() {
 
 export function* watchSavePost() {
   yield takeEvery(ActionTypes.SAVE_POST, savePost);
+}
+
+export function* watchDeletePost() {
+  yield takeEvery(ActionTypes.DELETE_POST, deletePost);
+}
+
+export function* watchDeleteComment() {
+  yield takeEvery(ActionTypes.DELETE_COMMENT, deleteComment);
 }
 
 export function* createPost(post: {
@@ -272,6 +282,59 @@ export function* voteComment(comment: {
     }
   } catch (error) {}
 }
+
+export function* deletePost(post: { type: string; payload: string }) {
+  try {
+    const deletePostResponse = yield call(deletePostRequest, post.payload);
+    if (deletePostResponse.status === 201) {
+      yield put(deletePostCompletedAction());
+    }
+  } catch (error) {
+    console.log(error);
+    yield put(
+      deletePostFailed({
+        text: error.response.body.message,
+        status: error.response.status,
+      })
+    );
+  }
+}
+
+export function* deleteComment(comment: { type: string; payload: string }) {
+  try {
+    yield call(deletePostRequest, comment.payload);
+    yield put(deletePostCompletedAction());
+  } catch (error) {
+    yield put(
+      deletePostFailed({
+        text: error.response.body.message,
+        status: error.response.status,
+      })
+    );
+  }
+}
+
+export const deletePostRequest = (postId: string) => {
+  let response;
+
+  try {
+    response = superagent
+      .agent()
+      .withCredentials()
+      .delete(APIUrl + "/post/deletePost/" + postId);
+  } catch (error) {
+    response = error;
+  }
+
+  return response;
+};
+
+export const deleteCommentRequest = (commentId: string) => {
+  superagent
+    .agent()
+    .withCredentials()
+    .delete(APIUrl + "/post/deleteComment/" + commentId);
+};
 
 export const voteCommentRequest = (commentInfo: {
   path: string[];

@@ -15,6 +15,7 @@ interface Props {
   vote: (path: string[], voteValue: number) => void;
   comment: (postId: string, content: string[]) => void;
   child: boolean;
+  deleteComment: (path: string[], commentId: string) => void;
 }
 
 const CommentView = (props: Props) => {
@@ -27,6 +28,7 @@ const CommentView = (props: Props) => {
     comment,
     child,
     depth,
+    deleteComment,
   } = props;
   const {
     path,
@@ -135,15 +137,15 @@ const CommentView = (props: Props) => {
                 <div className="text">Save</div>
               </div>
               {user.username === author_username ? (
-              <React.Fragment>
-                <div className="delete bottom-bar-container">
-                  <div className="text">Edit</div>
-                </div>
-                <div className="delete bottom-bar-container">
-                  <div className="text">Delete</div>
-                </div>
-              </React.Fragment>
-            ) : null}
+                <React.Fragment>
+                  <div className="delete bottom-bar-container">
+                    <div className="text">Edit</div>
+                  </div>
+                  <div className="delete bottom-bar-container">
+                    <div className="text">Delete</div>
+                  </div>
+                </React.Fragment>
+              ) : null}
             </div>
             {process.env.NODE_ENV !== "test" && showTextEditor ? (
               <div className="editor-sideline-container">
@@ -174,6 +176,7 @@ const CommentView = (props: Props) => {
                     commentInfo={reply}
                     child={true}
                     depth={depth + 1}
+                    deleteComment={deleteComment}
                   />
                 );
               } else {

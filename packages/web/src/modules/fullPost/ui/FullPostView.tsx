@@ -15,11 +15,19 @@ interface Props {
   formatDate: (date: string) => string;
   vote: (id: string, voteValue: number) => void;
   comment: (postId: string, content: string[]) => void;
+  deletePost: (postId: string) => void;
 }
 
 const FullPostView = (props: Props) => {
   const location = useLocation();
-  const { getFullPost, sanitizeContent, formatDate, vote, comment } = props;
+  const {
+    getFullPost,
+    sanitizeContent,
+    formatDate,
+    vote,
+    comment,
+    deletePost,
+  } = props;
   const user = useSelector((state: State) => state.auth);
   const post = useSelector((state: State) => state.fullPost);
 
@@ -127,7 +135,10 @@ const FullPostView = (props: Props) => {
                   <i className="fa fa-pencil bottom-bar-icon" />
                   <div className="text">Edit</div>
                 </div>
-                <div className="delete bottom-bar-container">
+                <div
+                  className="delete bottom-bar-container"
+                  onClick={() => deletePost(id)}
+                >
                   <i className="fa fa-trash bottom-bar-icon" />
                   <div className="text">Delete</div>
                 </div>
