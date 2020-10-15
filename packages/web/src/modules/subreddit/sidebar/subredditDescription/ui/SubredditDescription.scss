@@ -4,6 +4,8 @@
 .sub-description {
   @include theme-aware("color", "text-main");
   font-size: 14px;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .member-count {
