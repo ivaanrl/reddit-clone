@@ -4,12 +4,12 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { State } from "@reddit-clone/controller";
 import { usernamePasswordValidationSchema } from "@reddit-clone/common";
+import { O_DIRECTORY } from "constants";
 
 interface Props {
   closeForm: () => void;
   signin: (values: { username: string; password: string }) => void;
   switchForm: () => void;
-
 }
 
 const SigninFormView = (props: Props) => {
@@ -72,7 +72,9 @@ const SigninFormView = (props: Props) => {
                 placeholder="USERNAME"
                 onChange={handleChange}
                 value={values.username}
-                className={errors.username ? "input-error" : ""}
+                className={
+                  errors.username && touched.username ? "input-error" : ""
+                }
                 onBlur={handleBlur}
               />
               {errors.username && touched.username ? (
@@ -89,7 +91,9 @@ const SigninFormView = (props: Props) => {
                 onChange={handleChange}
                 value={values.password}
                 onBlur={handleBlur}
-                className={errors.password ? "input-error" : ""}
+                className={
+                  errors.password && touched.password ? "input-error" : ""
+                }
               />
               {errors.password && touched.password ? (
                 <div className="error-message">{errors.password}</div>
@@ -110,7 +114,10 @@ const SigninFormView = (props: Props) => {
               </small>
 
               <small>
-                New to reddit? <span className="signup-span" onClick={switchForm} >SIGN UP</span>
+                New to reddit?{" "}
+                <span className="signup-span" onClick={switchForm}>
+                  SIGN UP
+                </span>
               </small>
             </div>
           </div>

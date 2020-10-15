@@ -16,7 +16,7 @@
   z-index: 200;
   height: 650px;
   width: 850px;
-  background-color: #ffffff;
+  @include theme-aware("background-color", "color-card");
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -38,7 +38,7 @@
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
-  color: map-get($map: map-get($map: $themes, $key: dark), $key: color-card);
+  @include theme-aware("color", "text-main");
   margin-bottom: 10px;
 }
 
@@ -50,7 +50,7 @@
 
 .agreement {
   font-size: 12px;
-  color: map-get($map: map-get($map: $themes, $key: dark), $key: color-card);
+  @include theme-aware("color", "text-main");
 }
 
 .submit-button {
@@ -80,6 +80,7 @@
   font-size: 12px;
   margin-top: 8px;
   margin-bottom: 20px;
+  @include theme-aware("color", "text-main");
 }
 
 .login-link {
@@ -245,6 +246,7 @@ form {
   cursor: pointer;
   border: none;
 
+  @include theme-aware("background-color", "color-card");
   &:active {
     background-color: inherit;
     border: none;
