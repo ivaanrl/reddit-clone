@@ -1,9 +1,16 @@
 @import "../../../color-palette";
+@import "../../../mquery";
 
 .create-post-container {
   box-sizing: border-box;
   padding: 24px;
-  width: 45%;
+  width: 90%;
+  @include mquery(960) {
+    width: 60%;
+  }
+  @include mquery(1200) {
+    width: 45%;
+  }
 }
 
 .create-post-main-title {

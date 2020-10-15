@@ -1,4 +1,5 @@
 @import "../../../../../color-palette";
+@import "../../../../../mquery";
 
 .create-post-navbar-container {
   @include theme-aware("background-color", "color-card");

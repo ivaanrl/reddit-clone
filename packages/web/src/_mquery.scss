@@ -35,5 +35,9 @@
     @media (min-width: 700px) {
       @content;
     }
+  } @else if $size == 500 {
+    @media (min-width: 500px) {
+      @content;
+    }
   }
 }
